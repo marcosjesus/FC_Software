@@ -1,0 +1,18 @@
+unit uClassUser;
+
+interface
+
+
+	Fid_user : integer;
+	Flastname : string;
+	Fmiddle_name : string;
+	Ffirst_name: string;
+	Femail: string;
+	Fcomputername : string;
+	Fphone_number : string;
+	Fcreate_date: string;
+
+
+implementation
+
+end.

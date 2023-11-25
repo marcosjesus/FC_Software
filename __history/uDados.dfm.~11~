@@ -1,0 +1,70 @@
+object Dados: TDados
+  OldCreateOrder = False
+  OnCreate = DataModuleCreate
+  Height = 438
+  Width = 538
+  object FDManager: TFDManager
+    FormatOptions.AssignedValues = [fvMapRules]
+    FormatOptions.OwnMapRules = True
+    FormatOptions.MapRules = <>
+    Active = True
+    Left = 448
+    Top = 81
+  end
+  object FDGUIxWaitCursor: TFDGUIxWaitCursor
+    Provider = 'Forms'
+    Left = 248
+    Top = 34
+  end
+  object FDPhysMSSQLDriverLink: TFDPhysMSSQLDriverLink
+    Left = 136
+    Top = 161
+  end
+  object sqlMensagem: TFDQuery
+    Connection = FDConnection
+    Left = 48
+    Top = 280
+  end
+  object FDSQLiteSecurity: TFDSQLiteSecurity
+    DriverLink = FDPhysSQLiteDriverLink
+    ToPassword = '1234'
+    Left = 392
+    Top = 256
+  end
+  object FDConnection: TFDConnection
+    Params.Strings = (
+      'SERVER=DESKTOP-99M8LEG'
+      'User_Name=bi_banco'
+      'Password=bi12345banco'
+      'ApplicationName=FloorofColumbus'
+      'DATABASE=FLOORDB'
+      'MARS=yes'
+      'DriverID=MSSQL')
+    LoginPrompt = False
+    Left = 440
+    Top = 176
+  end
+  object FDPhysSQLiteDriverLink: TFDPhysSQLiteDriverLink
+    DriverID = 'SQLite'
+    VendorLib = 
+      'C:\Users\aluga.com\Documents\RAD Studio\Projects\CashFlow\sqlite' +
+      '3.dll'
+    Left = 320
+    Top = 96
+  end
+  object SqlAux: TFDQuery
+    Connection = FDConnection
+    Left = 288
+    Top = 208
+  end
+  object sqlAux2: TFDQuery
+    Connection = FDConnection
+    Left = 200
+    Top = 288
+  end
+  object sqlSaldo: TFDQuery
+    Connection = FDConnection
+    Left = 192
+    Top = 80
+  end
+end

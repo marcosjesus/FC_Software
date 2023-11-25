@@ -1,0 +1,447 @@
+unit uDados;
+
+interface
+
+uses
+  MensFun, System.DateUtils, Data.SqlTimSt,
+  System.SysUtils, System.Classes, FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf, FireDAC.Stan.Def,
+  FireDAC.Phys, FireDAC.VCLUI.Wait, FireDAC.Stan.Pool, FireDAC.Stan.Async,
+  Data.DB, FireDAC.Comp.Client, FireDAC.Phys.ODBCBase, FireDAC.Phys.MSSQL,
+  FireDAC.Comp.UI, FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf,
+  FireDAC.DApt, FireDAC.Comp.DataSet, FireDAC.Stan.ExprFuncs,
+  FireDAC.Phys.SQLite, IniFiles,  Vcl.Forms, Vcl.Dialogs, uFunctions;
+
+type
+  TDados = class(TDataModule)
+    FDManager: TFDManager;
+    FDGUIxWaitCursor: TFDGUIxWaitCursor;
+    FDPhysMSSQLDriverLink: TFDPhysMSSQLDriverLink;
+    sqlMensagem: TFDQuery;
+    FDSQLiteSecurity: TFDSQLiteSecurity;
+    FDConnection: TFDConnection;
+    FDPhysSQLiteDriverLink: TFDPhysSQLiteDriverLink;
+    SqlAux: TFDQuery;
+    sqlAux2: TFDQuery;
+    sqlSaldo: TFDQuery;
+    procedure DataModuleCreate(Sender: TObject);
+  private
+    Arq : TIniFile;
+    procedure AtualizaSaldo(idxBanco : Integer);
+
+    { Private declarations }
+  public
+    { Public declarations }
+
+
+
+    varRegiao    : String;
+    varBanco     : String;
+    varUsuario   : String;
+    varIDSaldoAtual : Integer;
+    varSaldoAtual   : Double;
+
+    varID_USER, varID_Language, varID_Bank : Integer;
+    varLinha, varTotalLinha : Integer;
+    varLogado : Boolean;
+    varCaminhoExtratoBanco, varCaminhoBackup : Array of String;
+    function GetComando(ObjetoQuery: TFDQuery; bMostra: Boolean = false): String;
+    function RetornaMensagem(varDescription: String): String;
+    procedure ConectarNoBanco;
+    function CheckBank : Integer;
+    function BuscaID_Bank(ID_UserBank: Integer): Integer;
+    procedure BuscaCaminhodoArquivo;
+    function BuscaDados : Boolean;
+    function Connection: TFDConnection;
+    procedure CadastraCategoria(varFavorecido, varCategoria,
+      varSubCategoria: String; CentroDeCusto : String='');
+    function RetornaIDCentrodeCusto(varCentroDeCusto, varCategoria : String) : Integer;
+
+    procedure SaldoAtual(idxBanco : Integer);
+
+  end;
+
+
+
+var
+  Dados: TDados;
+
+
+
+implementation
+
+{%CLASSGROUP 'Vcl.Controls.TControl'}
+
+{$R *.dfm}
+
+
+Function TDados.GetComando(ObjetoQuery: TFDQuery; bMostra : Boolean) : String;
+var
+ i        : Integer;
+ strQuery : String;
+ sGetComando : String;
+ Lista : TStringList;
+begin
+
+  strQuery := UpperCase(ObjetoQuery.SQL.Text);
+
+  For  i := 0 to ObjetoQuery.Params.Count - 1 do
+    strQuery := StrTran(strQuery,':' + UpperCase(ObjetoQuery.Params[i].Name), QuotedStr(ObjetoQuery.Params[i].Value) );
+
+   strQuery :=  StrTran(StrTran(strQuery, ''#$D#$A'', ' '), ''#$D#$A'', '');
+
+  {
+  sGetComando := ExisteRegistroComValor('PARAMETROS', 'VL_PARAM', 'NM_PARAM = ''GETCOMANDONATELA'' ');
+
+  if (sGetComando = 'S') or (sGetComando = '') Then
+     MostrarScriptnaTela := True;
+
+  if not MostrarScriptnaTela Then
+     LogWriter(GUsuario, strQuery, Tela)
+  else
+  }
+  if bMostra  then
+     ShowMessage(strQuery);
+
+  Lista := TStringList.Create;
+  Try
+    Lista.Clear;
+    Lista.Add(strQuery);
+    Lista.SaveToFile('c:\BiBanco\GetComando.sql');
+  Finally
+    FreeAndNil(Lista);
+  End;
+
+  result := strQuery;
+
+end;
+
+
+
+function TDados.CheckBank: Integer;
+begin
+   sqlAux.Close;
+   sqlAux.SQL.Clear;
+   SqlAux.SQL.Add('SELECT  COUNT(1) AS QUANTIDADE from TBUSERBANK WHERE ID_USER = :ID_USER');
+   SqlAux.Params.ParamByName('ID_USER').AsInteger := varID_USER;
+   SqlAux.Open;
+   Result := SqlAux.FieldByName('QUANTIDADE').AsInteger
+end;
+
+procedure TDados.BuscaCaminhodoArquivo;
+var
+ I : Integer;
+begin
+
+  sqlAux.Close;
+  sqlAux.SQL.Clear;
+  sqlAux.SQL.Add('Select ID_BANK, PATH From TBUSERBANK Where ID_USER = :ID_USER');
+  sqlAux.Params.ParamByName('ID_USER').AsInteger :=  varID_User;
+  sqlAux.Open;
+  if not sqlAux.IsEmpty  then
+  begin
+     sqlAux.First;
+     SetLength(varCaminhoExtratoBanco, sqlAux.RecordCount);
+     SetLength(varCaminhoBackup, sqlAux.RecordCount);
+     i := 0;
+     while not sqlAux.Eof do
+     begin
+        varCaminhoExtratoBanco[i] := SqlAux.FieldByName('ID_BANK').AsString + ';' + SqlAux.FieldByName('PATH').AsString + '\';
+        varCaminhoBackup[i]       := SqlAux.FieldByName('ID_BANK').AsString + ';' + SqlAux.FieldByName('PATH').AsString + '\BACKUP\';
+        inc(i);
+        sqlAux.Next;
+     end;
+
+  end;
+  sqlAux.Close;
+end;
+
+function TDados.BuscaDados: Boolean;
+begin
+  sqlAux.Close;
+  sqlAux.SQL.Clear;
+  sqlAux.SQL.Add('Select ID  From TBTRANSACAO  WHERE ID_USER = :ID_USER limit  1 ');
+  sqlAux.Params.ParamByName('ID_USER').AsInteger :=  varID_USER;
+  sqlAux.Open;
+  Result := not sqlAux.IsEmpty;
+end;
+
+function TDados.BuscaID_Bank(ID_UserBank: Integer): Integer;
+var
+  varRetorno : Integer;
+begin
+  varRetorno := -1;
+
+  sqlAux.Close;
+  sqlAux.SQL.Clear;
+  sqlAux.SQL.Add('Select ID_Bank From TBUSERBANK Where ID_USERBANK = :ID_USERBANK');
+  sqlAux.Params.ParamByName('ID_USERBANK').AsInteger :=  ID_UserBank;
+  sqlAux.Open;
+  varRetorno := sqlAux.FieldByName('ID_Bank').AsInteger;
+
+  Result := varRetorno;
+end;
+
+
+
+procedure TDados.ConectarNoBanco;
+begin
+
+  if varBanco = '1' then        //SQLServer
+  begin
+
+
+  if not FDConnection.Connected then
+  begin
+
+    FDConnection.Close;
+    FDConnection.Params.Clear;
+    FDConnection.Params.Add('SERVER=DESKTOP-99M8LEG');
+    FDConnection.Params.Add('User_Name=bi_banco');
+    FDConnection.Params.Add('Password=bi12345banco');
+    FDConnection.Params.Add('ApplicationName=BI_BANCO');
+    FDConnection.Params.Add('DATABASE=DBTESTE');
+    FDConnection.Params.Add('MARS=yes');
+    FDConnection.Params.Add('DriverID=MSSQL');
+    FDConnection.Open;
+  end;
+  end
+  else if varBanco = '2' then   // SQLite
+  begin
+     if not FDConnection.Connected  then
+     begin
+
+         FDConnection.Close;
+         FDConnection.DriverName := 'SQLITE';
+         FDConnection.Params.Values['Database'] := ExtractFilePath(Application.ExeName)+'dbcashflow.db';
+
+         if FDSQLiteSecurity.CheckEncryption = '<unencrypted>' then
+           FDConnection.Params.Values['Password'] := '';
+
+         try
+          FDConnection.Open;
+         except
+
+          on E: EDatabaseError do
+             Mens_MensErro(E.ClassName+' error raised, with message : '+E.Message);
+
+         end;
+     end;
+
+  end;
+
+
+end;
+
+procedure TDados.DataModuleCreate(Sender: TObject);
+begin
+   Arq       := TIniFile.Create(ExtractFilePath(Application.ExeName)+'conexao.ini');
+   varBanco  := Arq.ReadString('BANCO','VENDOR', '');
+   varRegiao := Arq.ReadString('REGIAO','FORMATDATE', '');
+   Arq.Free;
+   varLogado := False;
+   ConectarNoBanco;
+end;
+
+
+function TDados.Connection: TFDConnection;
+begin
+  System.TMonitor.Enter(FDConnection);
+  try
+    Result := FDConnection;
+  finally
+    System.TMonitor.Exit(FDConnection);
+  end;
+end;
+
+
+
+function TDados.RetornaIDCentrodeCusto(varCentroDeCusto, varCategoria: String): Integer;
+begin
+   sqlAux2.Close;
+   sqlAux2.SQL.Clear;
+   sqlAux2.SQL.Add('Select ID_CENTRODECUSTO From CENTRODECUSTO Where CENTRODECUSTO = :CENTRODECUSTO AND CATEGORIA = :CATEGORIA AND ID_USER = :ID_USER');
+   sqlAux2.params.ParamByName('CENTRODECUSTO').AsString := varCentroDeCusto;
+   sqlAux2.params.ParamByName('CATEGORIA').AsString := varCategoria;
+   sqlAux2.params.ParamByName('ID_USER').AsInteger := varID_USER;
+
+   sqlAux2.Open;
+   Result := sqlAux2.FieldByName('ID_CENTRODECUSTO').AsInteger;
+
+end;
+
+function TDados.RetornaMensagem(varDescription : String) : String;
+begin
+    if varID_Language = 0 then
+     varID_Language := 1;
+
+    //ConectarNoBanco;
+
+    sqlMensagem.Close;
+    sqlMensagem.SQL.Clear;
+    sqlMensagem.SQL.Add('SELECT DESCRIPTION_MESSAGE FROM TBMESSAGE where ID_LANGUAGE = :ID_LANGUAGE and DESCRIPTION_TYPE = :DESCRIPTION_TYPE' );
+    sqlMensagem.Params.ParamByName('ID_LANGUAGE').AsInteger      := varID_Language;
+    sqlMensagem.Params.ParamByName('DESCRIPTION_TYPE').AsString :=  varDescription;
+    sqlMensagem.Open;
+    if not sqlMensagem.IsEmpty then
+      Result := Trim(sqlMensagem.FieldByName('DESCRIPTION_MESSAGE').AsString)
+    else Result := 'None';
+end;
+
+
+procedure TDados.SaldoAtual(idxBanco: Integer);
+var
+  varSaldoOK : Boolean;
+  I : Integer;
+  varDataAtual : TDateTime;
+begin
+
+  varSaldoOK := False;
+  I := 0;
+
+
+  while not varSaldoOK do
+  begin
+
+      sqlSaldo.Close;
+      sqlSaldo.SQL.Clear;
+      sqlSaldo.SQL.Add('Select T.id,');
+      sqlSaldo.SQL.Add('T.Favorecido,');
+      sqlSaldo.SQL.Add('T.Categoria,');
+      sqlSaldo.SQL.Add('T.Valor');
+      sqlSaldo.SQL.Add('From  TBTRANSACAO T ');
+      sqlSaldo.SQL.Add('Where T.modo = ''S'' ');
+      sqlSaldo.SQL.Add(' &WHERE1 ');
+      sqlSaldo.SQL.Add(' &WHERE2 ');
+      sqlSaldo.SQL.Add(' &WHERE3 ');
+
+      sqlSaldo.MacroByName( 'WHERE1' ).AsRaw := 'AND T.DATATRANSACAO BETWEEN ' + QuotedStr(FormatDateTime('yyyy-mm-dd', IncDay(Now, -I))) +
+      ' and ' +  QuotedStr(FormatDateTime('yyyy-mm-dd', IncDay(Now, -I)));
+
+      sqlSaldo.MacroByName( 'WHERE2' ).AsRaw := ' AND  T.ID_USER = ' + IntToStr(Dados.varID_USER);
+
+      if ((idxBanco <> 0) and (idxBanco <> -1)) then
+        sqlSaldo.MacroByName( 'WHERE3' ).AsRaw := ' AND T.ID_USERBANK = ' + IntToStr(idxBanco);
+
+      sqlSaldo.Open;
+      if sqlSaldo.IsEmpty then
+      begin
+          Inc(I);
+      end
+      else
+      begin
+         varSaldoOK := True;
+         if I > 0 then
+         begin
+           varDataAtual := Now;
+           sqlAux.Close;
+           sqlAux.SQL.Clear;
+           sqlAux.SQL.Add('Insert Into TBTransacao (ID_USER, ID_BANKING, Tipo, DataTransacao, Favorecido, Categoria, Valor, CentroDeCusto,ID_USERBANK, MODO, FORECAST) Values ( ');
+           sqlAux.SQL.Add(':ID_USER, :ID_BANKING, :Tipo, :DataTransacao, :Favorecido, :Categoria, :Valor, :CentroDeCusto,:ID_USERBANK, :MODO, :FORECAST) ');
+           sqlAux.Params.ParamByName('ID_USER').AsInteger      := Dados.varID_USER;
+           sqlAux.Params.ParamByName('ID_BANKING').AsInteger   := Dados.varID_Bank;
+           sqlAux.Params.ParamByName('Tipo').AsString          := consTipoIncome;
+           sqlAux.Params.ParamByName('DataTransacao').asDate   := varDataAtual;
+           sqlAux.Params.ParamByName('Favorecido').AsString    := Trim(sqlSaldo.FieldByName('Favorecido').AsString);
+           sqlAux.Params.ParamByName('Categoria').AsString     := Trim(sqlSaldo.FieldByName('Categoria').AsString);
+           sqlAux.Params.ParamByName('Valor').AsFloat          := sqlSaldo.FieldByName('valor').AsFloat;
+           sqlAux.Params.ParamByName('CentroDeCusto').AsString := 'BALANCE';
+           sqlAux.Params.ParamByName('ID_USERBANK').AsInteger  := idxBanco;
+           sqlAux.Params.ParamByName('MODO').AsString          := 'S';  // I - Importado - M - Manual - S - Saldo Inicial
+           sqlAux.Params.ParamByName('FORECAST').AsInteger     := 0;  // I - Importado - M - Manual - S - Saldo Inicial
+
+           Try
+              sqlAux.ExecSQL;
+           except
+              on E : Exception do
+                Mens_MensErro(E.ClassName+' error raised, with message : '+E.Message);
+           end;
+
+              sqlSaldo.Close;
+              sqlSaldo.SQL.Clear;
+              sqlSaldo.SQL.Add('Select T.id,');
+              sqlSaldo.SQL.Add('T.Valor');
+              sqlSaldo.SQL.Add('From  TBTRANSACAO T ');
+              sqlSaldo.SQL.Add('Where T.modo = ''S'' ');
+              sqlSaldo.SQL.Add(' &WHERE1 ');
+              sqlSaldo.SQL.Add(' &WHERE2 ');
+              sqlSaldo.SQL.Add(' &WHERE3 ');
+
+              sqlSaldo.MacroByName( 'WHERE1' ).AsRaw := 'AND T.DATATRANSACAO BETWEEN ' + QuotedStr(FormatDateTime('yyyy-mm-dd', Now)) +
+              ' and ' +  QuotedStr(FormatDateTime('yyyy-mm-dd', Now));
+
+              sqlSaldo.MacroByName( 'WHERE2' ).AsRaw := ' AND  T.ID_USER = ' + IntToStr(Dados.varID_USER);
+
+              if ((idxBanco <> 0) and (idxBanco <> -1)) then
+                sqlSaldo.MacroByName( 'WHERE3' ).AsRaw := ' AND T.ID_USERBANK = ' + IntToStr(idxBanco);
+
+              sqlSaldo.Open;
+
+         end;
+
+      end;
+
+  end;
+
+  varIDSaldoAtual := sqlSaldo.FieldByName('id').AsInteger;
+  varSaldoAtual   := sqlSaldo.FieldByName('valor').AsFloat;
+  AtualizaSaldo(idxBanco);
+end;
+
+procedure  TDados.AtualizaSaldo(idxBanco : Integer);
+begin
+  SqlAux.Close;
+  SqlAux.SQL.Clear;
+  SqlAux.SQL.Add('Update TBUSERBANK ');
+  SqlAux.SQL.Add('Set SALDO_INICIAL = :SALDO_INICIAL ');
+  SqlAux.SQL.Add('Where ID_USER = :ID_USER ');
+  SqlAux.SQL.Add('and  ID_USERBANK = :ID_USERBANK ');
+
+  SqlAux.Params.ParamByName('ID_USER').AsInteger     :=  Dados.varID_USER;
+  SqlAux.Params.ParamByName('ID_USERBANK').AsInteger :=  idxBanco;
+  SqlAux.Params.ParamByName('SALDO_INICIAL').AsFloat :=  varSaldoAtual;
+
+  Try
+    sqlAux.ExecSQL;
+  except
+    on E : Exception do
+      Mens_MensErro(E.ClassName+' error raised, with message : '+E.Message);
+  end;
+end;
+
+procedure TDados.CadastraCategoria(varFavorecido,varCategoria, varSubCategoria :String; CentroDeCusto : String);
+begin
+
+    sqlAux.Close;
+    sqlAux.SQL.Clear;
+    if CentroDeCusto = '' then
+    begin
+      sqlAux.SQL.Add('Insert Into TBCATEGORIA ( Favorecido, Categoria, SubCategoria, ID_Language, ID_USER )');
+      sqlAux.SQL.Add(' Values ( :Favorecido, :Categoria, :SubCategoria, :ID_Language, :ID_USER )');
+    end
+    else
+    begin
+      sqlAux.SQL.Add('Insert Into TBCATEGORIA ( Favorecido, Categoria, SubCategoria, ID_Language, ID_USER, ID_CENTRODECUSTO )');
+      sqlAux.SQL.Add(' Values ( :Favorecido, :Categoria, :SubCategoria, :ID_Language, :ID_USER, :ID_CENTRODECUSTO )');
+      sqlAux.Params.ParamByName('ID_CENTRODECUSTO').AsInteger := RetornaIDCentrodeCusto(CentroDeCusto, varCategoria);
+
+    end;
+    sqlAux.Params.ParamByName('Favorecido').AsString   := varFavorecido;
+    sqlAux.Params.ParamByName('SubCategoria').AsString := varSubCategoria;
+    sqlAux.Params.ParamByName('Categoria').AsString    := varCategoria;
+    sqlAux.Params.ParamByName('ID_Language').AsInteger := varID_Language;
+    sqlAux.Params.ParamByName('ID_USER').AsInteger     := varID_USER;
+
+
+    Try
+       sqlAux.ExecSQL;
+    except
+      on E : Exception do
+         ShowMessage(E.ClassName+' error raised, with message : '+E.Message);
+    end;
+
+end;
+
+
+
+end.

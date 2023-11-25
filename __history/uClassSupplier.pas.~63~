@@ -1,0 +1,487 @@
+unit uClassSupplier;
+
+interface
+
+uses uDados, uClassUser, Messages, MensFun, System.DateUtils, Data.SqlTimSt,
+  System.SysUtils, System.Classes, IniFiles,  Vcl.Forms, Vcl.Dialogs, uFunctions,
+  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  FireDAC.Comp.DataSet, FireDAC.Comp.Client,  Data.DB;
+
+
+Type
+  TSupplier = class
+    private
+       Fid_supplier         : Integer;
+       Fadd_date            : string;
+       Fupd_date            : string;
+       Fnamebusiness        : string;
+       Ftradiningname       : string;
+       Fcountry             : string;
+       Fstatee              : string;
+       Faddress1            : string;
+       Faddress2            : string;
+       Fphonenumber         : string;
+       Fzipcode             : string;
+       Findustry            : string;
+       Fproduct_service     : string;
+       Fcontactname1        : string;
+       Fcontactemail1       : string;
+       Fcontactposition1    : string;
+       Fcontactphonenumber1 : string;
+       Fcontactname2        : string;
+       Fcontactemail2       : string;
+       Fcontactposition2    : string;
+       Fcontactphonenumber2 : string;
+       Fwebsite             : string;
+       Fadditioninfo        : string;
+       Fid_user             : integer;
+       FUser                : TUser;
+
+    procedure setFid_supplier(const Value: integer);
+    procedure setFadditioninfo(const Value: string);
+    procedure setFaddress1(const Value: string);
+    procedure setFaddress2(const Value: string);
+    procedure setFcontactemail1(const Value: string);
+    procedure setFcontactemail2(const Value: string);
+    procedure setFcontactname1(const Value: string);
+    procedure setFcontactname2(const Value: string);
+    procedure setFcontactphonenumber1(const Value: string);
+    procedure setFcontactphonenumber2(const Value: string);
+    procedure setFcontactposition1(const Value: string);
+    procedure setFcontactposition2(const Value: string);
+    procedure setFcountry(const Value: string);
+    procedure setFindustry(const Value: string);
+    procedure setFnamebusiness(const Value: string);
+    procedure setFphonenumber(const Value: string);
+    procedure setFproduct_service(const Value: string);
+    procedure setFstatee(const Value: string);
+    procedure setFtradiningname(const Value: string);
+    procedure setFwebsite(const Value: string);
+    procedure setFzipcode(const Value: string);
+    procedure setFid_user(const Value: integer);
+    procedure setFadd_date(const Value: string);
+    procedure setFupd_date(const Value: string);
+   public
+       property id_supplier         : integer read Fid_supplier        write setFid_supplier;
+       property add_date            : string read Fadd_date            write setFadd_date;
+       property upd_date            : string read Fupd_date            write setFupd_date;
+       property namebusiness        : string read Fnamebusiness        write setFnamebusiness;
+       property tradiningname       : string read Ftradiningname       write setFtradiningname;
+       property country             : string read Fcountry             write setFcountry;
+       property statee              : string read Fstatee              write setFstatee;
+       property address1            : string read Faddress1            write setFaddress1;
+       property address2            : string read Faddress2            write setFaddress2;
+       property phonenumber         : string read Fphonenumber         write setFphonenumber;
+       property zipcode             : string read Fzipcode             write setFzipcode;
+       property industry            : string read Findustry            write setFindustry;
+       property product_service     : string read Fproduct_service     write setFproduct_service;
+       property contactname1        : string read Fcontactname1        write setFcontactname1;
+       property contactemail1       : string read Fcontactemail1       write setFcontactemail1;
+       property contactposition1    : string read Fcontactposition1    write setFcontactposition1;
+       property contactphonenumber1 : string read Fcontactphonenumber1 write setFcontactphonenumber1;
+       property contactname2        : string read Fcontactname2        write setFcontactname2;
+       property contactemail2       : string read Fcontactemail2       write setFcontactemail2;
+       property contactposition2    : string read Fcontactposition2    write setFcontactposition2;
+       property contactphonenumber2 : string read Fcontactphonenumber2 write setFcontactphonenumber2;
+       property website             : string read Fwebsite             write setFwebsite;
+       property additioninfo        : string read Fadditioninfo        write setFadditioninfo;
+       property id_user             : integer read Fid_user            write setFid_user;
+       property User                : TUser read FUser;
+
+       Constructor Create;
+       procedure SearchSupplier(varID_Supplier : Integer);
+       procedure UpdateSupplier;
+       procedure SaveSupplier;
+       procedure DeleteSupplier;
+  end;
+
+
+
+implementation
+
+{ TSupplie }
+
+constructor TSupplier.Create;
+begin
+    id_supplier         := 0;
+    add_date            := '';
+    upd_date            := '';
+    namebusiness        := '';
+    tradiningname       := '';
+    country             := '';
+    statee              := '';
+    address1            := '';
+    address2            := '';
+    phonenumber         := '';
+    zipcode             := '';
+    industry            := '';
+    product_service     := '';
+    contactname1        := '';
+    contactemail1       := '';
+    contactposition1    := '';
+    contactphonenumber1 := '';
+    contactname2        := '';
+    contactemail2       := '';
+    contactposition2    := '';
+    contactphonenumber2 := '';
+    website             := '';
+    additioninfo        := '';
+    id_user             := 0;
+    FUser               := TUser.Create;
+end;
+
+
+procedure TSupplier.DeleteSupplier;
+var
+ sqlDados : TFDQuery;
+begin
+  with Dados do
+  begin
+       sqlDados := TFDQuery.Create(Nil);
+    Try
+        sqlDados.Connection := FDConnection;
+        sqlDados.SQL.Clear;
+        sqlDados.SQL.Add('Delete from TBSUPPLIER where id_supplier = :id_supplier ');
+        sqlDados.Params.ParamByName('id_supplier').AsInteger := id_supplier;
+        Try
+           sqlDados.ExecSQL;
+
+        except
+            on E: EDatabaseError do
+              Mens_MensErro(E.ClassName+' error raised, with message : '+E.Message);
+        end;
+    Finally
+      FreeAndNil(sqlDados);
+    End;
+  end;
+
+end;
+
+procedure TSupplier.SaveSupplier;
+var
+ sqlDados : TFDQuery;
+begin
+
+  with Dados do
+  begin
+    sqlDados := TFDQuery.Create(Nil);
+    Try
+        sqlDados.Connection := FDConnection;
+        sqlDados.SQL.Clear;
+        sqlDados.SQL.Add('Insert into TBSUPPLIER (');
+        sqlDados.SQL.Add('id_supplier');
+        sqlDados.SQL.Add(',add_date');
+        sqlDados.SQL.Add(',namebusiness');
+        sqlDados.SQL.Add(',tradiningname');
+        sqlDados.SQL.Add(',country');
+        sqlDados.SQL.Add(',statee ');
+        sqlDados.SQL.Add(',address1');
+        sqlDados.SQL.Add(',address2 ');
+        sqlDados.SQL.Add(',phonenumber');
+        sqlDados.SQL.Add(',zipcode ');
+        sqlDados.SQL.Add(',industry');
+        sqlDados.SQL.Add(',product_service');
+        sqlDados.SQL.Add(',contactname1');
+        sqlDados.SQL.Add(',contactemail1');
+        sqlDados.SQL.Add(',contactposition1');
+        sqlDados.SQL.Add(',contactphonenumber1');
+        sqlDados.SQL.Add(',contactname2 ');
+        sqlDados.SQL.Add(',contactemail2 ');
+        sqlDados.SQL.Add(',contactposition2');
+        sqlDados.SQL.Add(',contactphonenumber2 ');
+        sqlDados.SQL.Add(',website');
+        sqlDados.SQL.Add(',id_user');
+        sqlDados.SQL.Add(',additioninfo )');
+        sqlDados.SQL.Add(' Values (');
+        sqlDados.SQL.Add( IntToStr(id_supplier) + ',' );
+        sqlDados.SQL.Add( QuotedStr(FormatDateTime('mm/dd/yyyy hh:mm:ss', now)) +  ',' );
+        sqlDados.SQL.Add( QuotedStr(namebusiness) +  ',' );
+        sqlDados.SQL.Add( QuotedStr(tradiningname) +  ',' );
+        sqlDados.SQL.Add( QuotedStr(country)  +  ',' );
+        sqlDados.SQL.Add( QuotedStr(statee) +  ',' );
+        sqlDados.SQL.Add( QuotedStr(address1) +  ',' );
+        sqlDados.SQL.Add( QuotedStr(address2) +  ',' );
+        sqlDados.SQL.Add( QuotedStr(phonenumber) +  ',' );
+        sqlDados.SQL.Add( QuotedStr(zipcode) +  ',' );
+        sqlDados.SQL.Add( QuotedStr(industry)  +  ',' );
+        sqlDados.SQL.Add( QuotedStr(product_service) +  ',' );
+        sqlDados.SQL.Add( QuotedStr(contactname1) +  ',' );
+        sqlDados.SQL.Add( QuotedStr(contactemail1) +  ',' );
+        sqlDados.SQL.Add( QuotedStr(contactposition1) +  ',' );
+        sqlDados.SQL.Add( QuotedStr(contactphonenumber1) +  ',' );
+        sqlDados.SQL.Add( QuotedStr(contactname2) +  ',' );
+        sqlDados.SQL.Add( QuotedStr(contactemail2) +  ',' );
+        sqlDados.SQL.Add( QuotedStr(contactposition2) +  ',' );
+        sqlDados.SQL.Add( QuotedStr(contactphonenumber2) +  ',' );
+        sqlDados.SQL.Add( QuotedStr(website) +  ',' );
+        sqlDados.SQL.Add( IntToStr(id_user) +  ',' );
+        sqlDados.SQL.Add( QuotedStr(additioninfo)  +  ')' );
+
+        Try
+           sqlDados.ExecSQL;
+
+        except
+            on E: EDatabaseError do
+              Mens_MensErro(E.ClassName+' error raised, with message : '+E.Message);
+
+        end;
+    Finally
+      FreeAndNil(sqlDados);
+    End;
+  end;
+
+end;
+
+procedure TSupplier.SearchSupplier(varID_Supplier: Integer);
+var
+  sqlDados : TFDQuery;
+begin
+
+   with Dados do
+   begin
+       sqlDados := TFDQuery.Create(Nil);
+       sqlDados.Connection := FDConnection;
+       Try
+        sqlDados.SQL.Clear;
+        sqlDados.SQL.Add('Select * From TBSUPPLIER Where id_supplier = :id_supplier');
+        sqlDados.Params.ParamByName('id_supplier').AsInteger := varID_Supplier;
+        sqlDados.Open;
+        if not sqlDados.IsEmpty  then
+        begin
+          id_supplier         := sqlDados.FieldByName('id_supplier').AsInteger;
+          add_date            := sqlDados.FieldByName('add_date').ASString;
+          upd_date            := sqlDados.FieldByName('upd_time').ASString;
+          namebusiness        := sqlDados.FieldByName('namebusiness').ASString;
+          tradiningname       := sqlDados.FieldByName('tradiningname').ASString;
+          country             := sqlDados.FieldByName('country').ASString;
+          statee              := sqlDados.FieldByName('statee').ASString;
+          address1            := sqlDados.FieldByName('address1').ASString;
+          address2            := sqlDados.FieldByName('address2').ASString;
+          phonenumber         := sqlDados.FieldByName('phonenumber').ASString;
+          zipcode             := sqlDados.FieldByName('zipcode').ASString;
+          industry            := sqlDados.FieldByName('industry').ASString;
+          product_service     := sqlDados.FieldByName('product_service').ASString;
+          contactname1        := sqlDados.FieldByName('contactname1').ASString;
+          contactemail1       := sqlDados.FieldByName('contactemail1').ASString;
+          contactposition1    := sqlDados.FieldByName('contactposition1').ASString;
+          contactphonenumber1 := sqlDados.FieldByName('contactphonenumber1').ASString;
+          contactname2        := sqlDados.FieldByName('contactname2').ASString;
+          contactemail2       := sqlDados.FieldByName('contactemail2').ASString;
+          contactposition2    := sqlDados.FieldByName('contactposition2').ASString;
+          contactphonenumber2 := sqlDados.FieldByName('contactphonenumber2').ASString;
+          website             := sqlDados.FieldByName('website').ASString;
+          additioninfo        := sqlDados.FieldByName('additioninfo').ASString;
+          id_user             := sqlDados.FieldByName('id_user').AsInteger;
+          User.Search(id_user);
+
+        end;
+          sqlDados.Close;
+       Finally
+         FreeAndNil(sqlDados);
+       End;
+   end;
+end;
+
+
+
+
+procedure TSupplier.UpdateSupplier;
+var
+  sqlDados : TFDQuery;
+begin
+
+   with Dados do
+   begin
+       sqlDados := TFDQuery.Create(Nil);
+       sqlDados.Connection := FDConnection;
+       Try
+        sqlDados.SQL.Clear;
+        sqlDados.SQL.Add('Update TBSUPPLIER ');
+        sqlDados.SQL.Add(' Set  ');
+        sqlDados.SQL.Add(' upd_date = :upd_date');
+        sqlDados.SQL.Add(',namebusiness = :namebusiness ');
+        sqlDados.SQL.Add(',tradiningname = :tradiningname');
+        sqlDados.SQL.Add(',country = :country');
+        sqlDados.SQL.Add(',statee = :statee');
+        sqlDados.SQL.Add(',address1 = :address1');
+        sqlDados.SQL.Add(',address2 = :address2');
+        sqlDados.SQL.Add(',phonenumber = :phonenumber');
+        sqlDados.SQL.Add(',zipcode = :zipcode');
+        sqlDados.SQL.Add(',industry = :industry');
+        sqlDados.SQL.Add(',product_service = :product_service');
+        sqlDados.SQL.Add(',contactname1 = :contactname1');
+        sqlDados.SQL.Add(',contactemail1 = :contactemail1');
+        sqlDados.SQL.Add(',contactposition1 = :contactposition1');
+        sqlDados.SQL.Add(',contactphonenumber1 = :contactphonenumber1');
+        sqlDados.SQL.Add(',contactname2 = :contactname2');
+        sqlDados.SQL.Add(',contactemail2 = :contactemail2');
+        sqlDados.SQL.Add(',contactposition2 = :contactposition2');
+        sqlDados.SQL.Add(',contactphonenumber2 = :contactphonenumber2');
+        sqlDados.SQL.Add(',website = :website');
+        sqlDados.SQL.Add(',additioninfo = :additioninfo ');
+        sqlDados.SQL.Add(',ID_USER = :ID_USER ');
+
+        sqlDados.SQL.Add(' Where ID_SUPPLIER = :id_supplier ');
+        sqlDados.Params.ParamByName('id_supplier').AsInteger        := id_supplier;
+        sqlDados.Params.ParamByName('upd_date').AsString             := FormatDateTime('mm/dd/yyyy hh:mm:ss', now);
+        sqlDados.Params.ParamByName('namebusiness').AsString        := namebusiness;
+        sqlDados.Params.ParamByName('tradiningname').AsString       := tradiningname;
+        sqlDados.Params.ParamByName('country').AsString             := country;
+        sqlDados.Params.ParamByName('statee').AsString              := statee;
+        sqlDados.Params.ParamByName('address1').AsString            := address1;
+        sqlDados.Params.ParamByName('address2').AsString            := address2;
+        sqlDados.Params.ParamByName('phonenumber').AsString         := phonenumber;
+        sqlDados.Params.ParamByName('zipcode').AsString             := zipcode;
+        sqlDados.Params.ParamByName('industry').AsString            := industry;
+        sqlDados.Params.ParamByName('product_service').AsString     := product_service;
+        sqlDados.Params.ParamByName('contactname1').AsString        := contactname1;
+        sqlDados.Params.ParamByName('contactemail1').AsString       := contactemail1;
+        sqlDados.Params.ParamByName('contactposition1').AsString    := contactposition1;
+        sqlDados.Params.ParamByName('contactphonenumber1').AsString := contactphonenumber1;
+        sqlDados.Params.ParamByName('contactname2').AsString        := contactname2;
+        sqlDados.Params.ParamByName('contactemail2').AsString       := contactemail2;
+        sqlDados.Params.ParamByName('contactposition2').AsString    := contactposition2;
+        sqlDados.Params.ParamByName('contactphonenumber2').AsString := contactphonenumber2;
+        sqlDados.Params.ParamByName('website').AsString             := website;
+        sqlDados.Params.ParamByName('additioninfo').AsString        := additioninfo;
+        sqlDados.Params.ParamByName('ID_USER').AsInteger            := id_user;
+
+        Try
+           sqlDados.ExecSQL;
+
+        except
+            on E: EDatabaseError do
+              Mens_MensErro(E.ClassName+' error raised, with message : '+E.Message);
+
+        end;
+       Finally
+         FreeAndNil(sqlDados);
+       End;
+   end;
+end;
+
+
+procedure TSupplier.setFadditioninfo(const Value: string);
+begin
+  Fadditioninfo := Value;
+end;
+
+procedure TSupplier.setFaddress1(const Value: string);
+begin
+  Faddress1 := Value;
+end;
+
+procedure TSupplier.setFaddress2(const Value: string);
+begin
+  Faddress2 := Value;
+end;
+
+procedure TSupplier.setFadd_date(const Value: string);
+begin
+  Fadd_date := Value;
+end;
+
+procedure TSupplier.setFcontactemail1(const Value: string);
+begin
+  Fcontactemail1 := Value;
+end;
+
+procedure TSupplier.setFcontactemail2(const Value: string);
+begin
+  Fcontactemail2 := Value;
+end;
+
+procedure TSupplier.setFcontactname1(const Value: string);
+begin
+  Fcontactname1 := Value;
+end;
+
+procedure TSupplier.setFcontactname2(const Value: string);
+begin
+  Fcontactname2 := Value;
+end;
+
+procedure TSupplier.setFcontactphonenumber1(const Value: string);
+begin
+  Fcontactphonenumber1 := Value;
+end;
+
+procedure TSupplier.setFcontactphonenumber2(const Value: string);
+begin
+  Fcontactphonenumber2 := Value;
+end;
+
+procedure TSupplier.setFcontactposition1(const Value: string);
+begin
+  Fcontactposition1 := Value;
+end;
+
+procedure TSupplier.setFcontactposition2(const Value: string);
+begin
+  Fcontactposition2 := Value;
+end;
+
+procedure TSupplier.setFcountry(const Value: string);
+begin
+  Fcountry := Value;
+end;
+
+procedure TSupplier.setFid_supplier(const Value: integer);
+begin
+  Fid_supplier := Value;
+end;
+
+procedure TSupplier.setFid_user(const Value: integer);
+begin
+  Fid_user := Value;
+end;
+
+procedure TSupplier.setFindustry(const Value: string);
+begin
+  Findustry := Value;
+end;
+
+procedure TSupplier.setFnamebusiness(const Value: string);
+begin
+  Fnamebusiness := Value;
+end;
+
+procedure TSupplier.setFphonenumber(const Value: string);
+begin
+  Fphonenumber := Value;
+end;
+
+procedure TSupplier.setFproduct_service(const Value: string);
+begin
+  Fproduct_service := Value;
+end;
+
+
+
+procedure TSupplier.setFstatee(const Value: string);
+begin
+  Fstatee := Value;
+end;
+
+procedure TSupplier.setFtradiningname(const Value: string);
+begin
+  Ftradiningname := Value;
+end;
+
+procedure TSupplier.setFupd_date(const Value: string);
+begin
+  Fupd_date := Value;
+end;
+
+procedure TSupplier.setFwebsite(const Value: string);
+begin
+  Fwebsite := Value;
+end;
+
+procedure TSupplier.setFzipcode(const Value: string);
+begin
+  Fzipcode := Value;
+end;
+
+end.

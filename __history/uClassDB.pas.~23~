@@ -1,0 +1,59 @@
+unit uClassDB;
+
+interface
+
+uses uDados,  Messages,MensFun, System.DateUtils, Data.SqlTimSt,
+  System.SysUtils, System.Classes, IniFiles,  Vcl.Forms, Vcl.Dialogs, uFunctions,
+  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  FireDAC.Comp.DataSet, FireDAC.Comp.Client;
+
+
+type
+   TDBNextKey = class
+     private
+       FKey : integer;
+       procedure setFKey(const Value : integer);
+     protected
+
+     public
+       property Key : integer read FKey write setFKey;
+       Constructor Create(varTableName : String);
+   end;
+
+implementation
+
+{ TDBNextKey }
+
+
+
+constructor TDBNextKey.Create(varTableName: String);
+var
+   SQL : TFDQuery;
+begin
+
+   with Dados do
+   begin
+       SQL := TFDQuery.Create(Nil);
+       Try
+
+         SQL.Connection := Dados.FDConnection;
+         SQL.Close;
+         SQL.SQL.Clear;
+         SQL.SQL.Add('Select Value + 1  From TBKEYS where TABLENAME =' + QuotedStr( varTableName ) );
+         SQL.Open;
+
+         Key := SQL.FieldByName('Value').AsInteger;
+
+       Finally
+         FreeAndNil(SQL);
+       End;
+   end;
+end;
+
+procedure TDBNextKey.setFKey(const Value: integer);
+begin
+   FKey := value;
+end;
+
+end.

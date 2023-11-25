@@ -1,0 +1,13 @@
+
+
+# ignore all .dcu files
+
+*.dcu
+
+# ignore all .exe files
+
+*.exe
+
+# ignore all .zip files
+
+*.zip

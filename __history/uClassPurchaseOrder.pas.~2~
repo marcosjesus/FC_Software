@@ -1,0 +1,38 @@
+unit uClassPurchaseOrder;
+
+interface
+
+
+uses uDMConectDB, uClassDBGenerics, uClassProduct, uClassCompany, uClassCustomer, uClassSalesProcess, Messages, MensFun, System.DateUtils, Data.SqlTimSt,
+  System.SysUtils, System.Classes, IniFiles,  Vcl.Forms, Vcl.Dialogs, uFunctions,
+  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  FireDAC.Comp.DataSet, FireDAC.Comp.Client,  Data.DB,  Generics.Collections;
+
+
+Type
+  TPurchase = class
+    private
+      Fid_requestorder : integer;
+      Fid_company      : integer;
+      Fid_contractor   : integer;
+      Freq_date        : TdateTime;
+      Ftablename       : string;
+      Fid_process      : integer;
+      Fid_user         : integer;
+      Fid_supplier     : integer;
+      Fid_product      : integer;
+      Fcountneed       : double;
+      Festimatedcost   : double;
+      Fdate_ordered    : tdatetime;
+      Fadd_date        : tdatetime;
+      Fupd_date        : tdatetime;
+
+    public
+
+  end;
+
+
+implementation
+
+end.

@@ -1,0 +1,132 @@
+unit uClassUser;
+
+interface
+
+uses uDados, Messages, MensFun, System.DateUtils, Data.SqlTimSt,
+  System.SysUtils, System.Classes, IniFiles,  Vcl.Forms, Vcl.Dialogs, uFunctions,
+  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  FireDAC.Comp.DataSet, FireDAC.Comp.Client,  Data.DB;
+
+
+Type
+    TUser = class
+     private
+      Fid_user : integer;
+      Flastname : string;
+      Fmiddle_name : string;
+      Ffirst_name: string;
+      Femail: string;
+      Fcomputername : string;
+      Fphone_number : string;
+    procedure setFcomputername(const Value: string);
+    procedure setFemail(const Value: string);
+    procedure setFfirst_name(const Value: string);
+    procedure setFid_user(const Value: integer);
+    procedure setFlastname(const Value: string);
+    procedure setFmiddle_name(const Value: string);
+    procedure setFphone_number(const Value: string);
+
+    public
+     property id_user:      integer read Fid_user     write setFid_user;
+     property lastname:     string read Flastname     write setFlastname;
+     property middlename:   string read Fmiddle_name  write setFmiddle_name;
+     property firstname:    string read Ffirst_name   write setFfirst_name;
+     property email:        string read Femail        write setFemail;
+     property computername: string read Fcomputername write setFcomputername;
+     property phonenumber:  string read Fphone_number write setFphone_number;
+
+     constructor Create;
+
+     procedure Search(varID_User : Integer);
+
+
+  end;
+
+
+implementation
+
+{ TUser }
+
+constructor TUser.Create;
+begin
+  id_user      := 0;
+  lastname     := '';
+  middlename   := '';
+  firstname    := '';
+  email        := '';
+  computername := '';
+  phonenumber  := '';
+end;
+
+procedure TUser.Search(varID_User: Integer);
+var
+  sqlDados : TFDQuery;
+begin
+
+   with Dados do
+   begin
+       sqlDados := TFDQuery.Create(Nil);
+       sqlDados.Connection := FDConnection;
+       Try
+        sqlDados.SQL.Clear;
+        sqlDados.SQL.Add('Select * From TBUSER Where id_user = :id_user');
+        sqlDados.Params.ParamByName('id_user').AsInteger := varID_User;
+        sqlDados.Open;
+        if not sqlDados.IsEmpty  then
+        begin
+
+          id_user      := sqlDados.FieldByName('id_user').AsInteger;
+          lastname     := sqlDados.FieldByName('lastname').ASString;
+          middlename   := sqlDados.FieldByName('middle_name').ASString;
+          firstname    := sqlDados.FieldByName('first_name').ASString;
+          email        := sqlDados.FieldByName('email').ASString;
+          computername := sqlDados.FieldByName('computername').ASString;
+          phonenumber  := sqlDados.FieldByName('phone_number').ASString;
+
+        end;
+          sqlDados.Close;
+       Finally
+         FreeAndNil(sqlDados);
+       End;
+   end;
+
+
+end;
+
+procedure TUser.setFcomputername(const Value: string);
+begin
+  Fcomputername := Value;
+end;
+
+procedure TUser.setFemail(const Value: string);
+begin
+  Femail := Value;
+end;
+
+procedure TUser.setFfirst_name(const Value: string);
+begin
+  Ffirst_name := Value;
+end;
+
+procedure TUser.setFid_user(const Value: integer);
+begin
+  Fid_user := Value;
+end;
+
+procedure TUser.setFlastname(const Value: string);
+begin
+  Flastname := Value;
+end;
+
+procedure TUser.setFmiddle_name(const Value: string);
+begin
+  Fmiddle_name := Value;
+end;
+
+procedure TUser.setFphone_number(const Value: string);
+begin
+  Fphone_number := Value;
+end;
+
+end.
