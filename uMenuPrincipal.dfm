@@ -1595,6 +1595,7 @@ object frmMenuPrincipal: TfrmMenuPrincipal
     TabOrder = 0
     TabStop = False
     object dxRibbonTabAdmin: TdxRibbonTab
+      Active = True
       Caption = 'Admin'
       Groups = <
         item
@@ -1616,7 +1617,6 @@ object frmMenuPrincipal: TfrmMenuPrincipal
       Index = 1
     end
     object dxRibbonTabTransactions: TdxRibbonTab
-      Active = True
       Caption = 'Transactions'
       Groups = <
         item

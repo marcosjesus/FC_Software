@@ -1711,7 +1711,7 @@ object frmMenuPrincipal: TfrmMenuPrincipal
     ImageOptions.Images = cxSmallImages
     ImageOptions.LargeImages = cxLargeImages
     PopupMenuLinks = <>
-    UseSystemFont = True
+    UseSystemFont = False
     Left = 472
     Top = 256
     DockControlHeights = (
@@ -1804,6 +1804,11 @@ object frmMenuPrincipal: TfrmMenuPrincipal
       FloatTop = 8
       FloatClientWidth = 0
       FloatClientHeight = 0
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Segoe UI'
+      Font.Style = []
       Images = cxLargeImages
       ItemLinks = <
         item
@@ -1820,7 +1825,7 @@ object frmMenuPrincipal: TfrmMenuPrincipal
         end>
       OneOnRow = False
       Row = 0
-      UseOwnFont = False
+      UseOwnFont = True
       Visible = True
       WholeRow = False
     end
@@ -1854,6 +1859,11 @@ object frmMenuPrincipal: TfrmMenuPrincipal
       FloatTop = 8
       FloatClientWidth = 0
       FloatClientHeight = 0
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Segoe UI'
+      Font.Style = []
       Images = cxLargeImages
       ItemLinks = <
         item
@@ -1874,7 +1884,7 @@ object frmMenuPrincipal: TfrmMenuPrincipal
         end>
       OneOnRow = False
       Row = 0
-      UseOwnFont = False
+      UseOwnFont = True
       Visible = True
       WholeRow = False
     end
@@ -1993,6 +2003,7 @@ object frmMenuPrincipal: TfrmMenuPrincipal
       Hint = 'Invoice'
       Visible = ivAlways
       LargeImageIndex = 54
+      OnClick = dxBarLargeButtonInvoiceClick
       Width = 100
     end
     object dxBarLargeButtonSROrders: TdxBarLargeButton
