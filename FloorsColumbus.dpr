@@ -32,7 +32,8 @@ uses
   ufrmViewCart in 'ufrmViewCart.pas' {frmViewCart},
   uFrmRoom in 'uFrmRoom.pas' {frmRoom},
   ufrmCustomerLP in 'ufrmCustomerLP.pas' {frmCustomerLP},
-  ufrmRequestOrder in 'ufrmRequestOrder.pas' {frmRequestOrder};
+  ufrmRequestOrder in 'ufrmRequestOrder.pas' {frmRequestOrder},
+  ufrmFollowUP in 'ufrmFollowUP.pas' {frmFollowUP};
 
 {$R *.res}
 

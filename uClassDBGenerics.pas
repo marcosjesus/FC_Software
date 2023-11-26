@@ -649,7 +649,7 @@ begin
         sqlDados.Close;
         sqlDados.SQL.Clear;
         sqlDados.SQL.Add('SELECT C.ID_COMPANY,  C.ID_CONTRACTORS, C.NAME AS VENDORNAME, C.COMISSION, P.NAME AS POSITION ');
-        sqlDados.SQL.Add('FROM TBCONTRACTORS C ');
+        sqlDados.SQL.Add('FROM TBCONTRACTORS C WITH (NOLOCK) ');
         sqlDados.SQL.Add('LEFT OUTER JOIN TBPOSITION P ON P.ID_POSITION = C.ID_POSITION ');
         sqlDados.SQL.Add('WHERE  C.ID_MAIN_USER = :ID_USER');
 
@@ -668,7 +668,7 @@ begin
 
            Company.id_company :=  sqlDados.FieldByName('ID_COMPANY').AsInteger;
 
-           Company.Search(sqlDados.FieldByName('ID_COMPANY').AsInteger);
+//           Company.Search(sqlDados.FieldByName('ID_COMPANY').AsInteger);
         end;
 
        Finally

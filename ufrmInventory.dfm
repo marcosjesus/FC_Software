@@ -16,6 +16,7 @@ object frmInventory: TfrmInventory
   Visible = True
   WindowState = wsMaximized
   OnClose = FormClose
+  OnCloseQuery = FormCloseQuery
   OnKeyDown = FormKeyDown
   PixelsPerInch = 96
   TextHeight = 13
@@ -32,7 +33,6 @@ object frmInventory: TfrmInventory
     Font.Style = []
     ParentFont = False
     TabOrder = 0
-    ExplicitWidth = 1271
     object Label6: TLabel
       Left = 116
       Top = 269
@@ -269,7 +269,6 @@ object frmInventory: TfrmInventory
       Align = alTop
       Caption = 'Filter'
       TabOrder = 6
-      ExplicitWidth = 1269
       object Label1: TLabel
         Left = 40
         Top = 7
@@ -424,7 +423,6 @@ object frmInventory: TfrmInventory
       Font.Style = []
       ParentFont = False
       TabOrder = 7
-      ExplicitWidth = 1269
       object Label11: TLabel
         Left = 414
         Top = 20
@@ -664,8 +662,8 @@ object frmInventory: TfrmInventory
         ParentFont = False
       end
       object lblRoom: TLabel
-        Left = 840
-        Top = 32
+        Left = 847
+        Top = 51
         Width = 4
         Height = 13
         Caption = '-'
@@ -732,8 +730,8 @@ object frmInventory: TfrmInventory
         Stretch = True
       end
       object btnViewCart: TcxButton
-        Left = 741
-        Top = 6
+        Left = 751
+        Top = 70
         Width = 89
         Height = 66
         Hint = 'View Cart'
@@ -888,8 +886,8 @@ object frmInventory: TfrmInventory
         OnClick = btnViewCartClick
       end
       object btnRoom: TcxButton
-        Left = 836
-        Top = 6
+        Left = 844
+        Top = 70
         Width = 89
         Height = 66
         Hint = 'Rooms'
@@ -1091,8 +1089,8 @@ object frmInventory: TfrmInventory
       Width = 100
     end
     object btnCart: TcxButton
-      Left = 742
-      Top = 127
+      Left = 752
+      Top = 189
       Width = 89
       Height = 66
       Hint = 'Cart'
@@ -1632,8 +1630,8 @@ object frmInventory: TfrmInventory
       OnClick = btnCartClick
     end
     object btnCleanCart: TcxButton
-      Left = 837
-      Top = 126
+      Left = 845
+      Top = 189
       Width = 89
       Height = 66
       Hint = 'Empty Cart'
@@ -1948,8 +1946,8 @@ object frmInventory: TfrmInventory
       OnClick = btnCleanCartClick
     end
     object ButCancelar: TcxButton
-      Left = 930
-      Top = 126
+      Left = 938
+      Top = 189
       Width = 89
       Height = 66
       Hint = 'Exit (Alt + C)'
@@ -2061,7 +2059,6 @@ object frmInventory: TfrmInventory
     Font.Style = []
     ParentFont = False
     TabOrder = 1
-    ExplicitWidth = 1271
     object cxGrid1: TcxGrid
       Left = 1
       Top = 1
@@ -2075,7 +2072,6 @@ object frmInventory: TfrmInventory
       Font.Style = []
       ParentFont = False
       TabOrder = 0
-      ExplicitWidth = 1269
       object cxGrid1DBBandedTableView1: TcxGridDBBandedTableView
         OnDblClick = cxGrid1DBBandedTableView1DblClick
         Navigator.Buttons.CustomButtons = <>
@@ -2105,7 +2101,6 @@ object frmInventory: TfrmInventory
     Height = 5
     AlignSplitter = salTop
     Control = pnlTop
-    ExplicitWidth = 1271
   end
   object sqlInventoty: TFDQuery
     Connection = DBDados.FDConnection

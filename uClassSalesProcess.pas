@@ -291,9 +291,6 @@ begin
     sqlDados := TFDQuery.Create(Nil);
     Try
 
-
-
-
         sqlDados.Connection := FDConnection;
         sqlDados.Close;
         sqlDados.SQL.Clear;
@@ -1130,7 +1127,6 @@ begin
         sqlDados.SQL.Add(',id_user = :id_user');
         sqlDados.SQL.Add(',upd_date = :upd_date');
         sqlDados.SQL.Add(',dif_totalarea = :dif_totalarea');
-
         sqlDados.SQL.Add(' Where tablename = :tablename and id_process = :id_process  and id_process_item = :id_process_item ');
         sqlDados.Params.ParamByName('tablename').AsString            := tablename;
         sqlDados.Params.ParamByName('id_process').AsInteger          := id_process;

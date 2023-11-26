@@ -108,8 +108,6 @@ type
     cxGrid1DBTableView1COLOR: TcxGridDBColumn;
     cxGrid1DBTableView1COLOR_NAME: TcxGridDBColumn;
     cxGrid1DBTableView1QTY: TcxGridDBColumn;
-    cxGrid1DBTableView1COST_VALUE: TcxGridDBColumn;
-    cxGrid1DBTableView1CostValuePerFeet: TcxGridDBColumn;
     cxGrid1DBTableView1AreaSquareFeetPerBox: TcxGridDBColumn;
     cxGrid1DBTableView1TotalAreaSquareFeet: TcxGridDBColumn;
     cxGrid1DBTableView1LOC_SECTION: TcxGridDBColumn;

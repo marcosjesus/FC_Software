@@ -342,7 +342,7 @@ begin
 
   if not Assigned(frmInventory) then
     frmInventory := TfrmInventory.Create(Self);
-    frmInventory.Caption := 'Inventory';
+    frmInventory.Caption := 'Estimates';
     frmInventory.Show;
 
     frmInventory.Visible := True;

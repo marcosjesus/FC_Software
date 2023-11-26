@@ -47,7 +47,7 @@ object frmProduct: TfrmProduct
     Font.Style = []
     ParentFont = False
     TabOrder = 0
-    Properties.ActivePage = cxTabSheetForm
+    Properties.ActivePage = cxTabSheetList
     Properties.CustomButtons.Buttons = <>
     OnChange = cxPageControlChange
     ClientRectBottom = 669
@@ -144,15 +144,6 @@ object frmProduct: TfrmProduct
           object cxGrid1DBTableView1TotalAreaSquareFeet: TcxGridDBColumn
             Caption = 'Total Quantity'
             DataBinding.FieldName = 'TotalAreaSquareFeet'
-            Width = 100
-          end
-          object cxGrid1DBTableView1COST_VALUE: TcxGridDBColumn
-            Caption = 'Price U$'
-            DataBinding.FieldName = 'COST_VALUE'
-          end
-          object cxGrid1DBTableView1CostValuePerFeet: TcxGridDBColumn
-            Caption = 'Price per Feet U$'
-            DataBinding.FieldName = 'CostValuePerFeet'
             Width = 100
           end
         end

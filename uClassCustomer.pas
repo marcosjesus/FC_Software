@@ -202,7 +202,7 @@ begin
         sqlDados.SQL.Clear;
         sqlDados.SQL.Add('Select id_customer, id_company, add_date, upd_date, last_name, middle_name, first_name, email,');
         sqlDados.SQL.Add(' phone1, phone2, addition_information, id_user, id_contractors, folder, typeperson');
-        sqlDados.SQL.Add(' From TBCUSTOMER Where id_customer = :id_customer');
+        sqlDados.SQL.Add(' From TBCUSTOMER WITH (NOLOCK) Where id_customer = :id_customer');
         sqlDados.Params.ParamByName('id_customer').AsInteger := varID_Customer;
         sqlDados.Open;
         if not sqlDados.IsEmpty  then
@@ -223,7 +223,7 @@ begin
           folder.pasta        := sqlDados.FieldByName('folder').AsString;
           typeperson          := sqlDados.FieldByName('typeperson').AsString;
           User.Search(id_user);
-          Company.Search(sqlDados.FieldByName('Id_Company').AsInteger);
+//          Company.Search(sqlDados.FieldByName('Id_Company').AsInteger);
 
            Try
               sqlAddress.SQL.Clear;

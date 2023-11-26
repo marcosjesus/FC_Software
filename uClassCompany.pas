@@ -210,7 +210,7 @@ begin
         sqlDados.SQL.Add('Select id_company, tax_id, add_date, upd_date, companyname, TRADINGNAME,  ');
         sqlDados.SQL.Add('companyowner, country, st, city, address1, phonenumber, zipcode,');
         sqlDados.SQL.Add('email,EstimateDays, id_user, tax');
-        sqlDados.SQL.Add(' From TBCOMPANY Where id_company = :id_company');
+        sqlDados.SQL.Add(' From TBCOMPANY WITH (NOLOCK) Where id_company = :id_company');
         sqlDados.Params.ParamByName('id_company').AsInteger := varID_Company;
         sqlDados.Open;
         if not sqlDados.IsEmpty  then

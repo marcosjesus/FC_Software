@@ -32,7 +32,7 @@ object frmCreateAccount: TfrmCreateAccount
     Font.Style = []
     ParentFont = False
     TabOrder = 0
-    Properties.ActivePage = cxTabSheet1List
+    Properties.ActivePage = cxTabSheetForm
     Properties.CustomButtons.Buttons = <>
     ClientRectBottom = 474
     ClientRectLeft = 4
@@ -776,8 +776,6 @@ object frmCreateAccount: TfrmCreateAccount
             Font.Style = []
             ParentFont = False
             TabOrder = 0
-            ExplicitLeft = 6
-            ExplicitTop = 122
           end
           object Panel3: TPanel
             Left = 1
@@ -793,8 +791,6 @@ object frmCreateAccount: TfrmCreateAccount
             Font.Style = []
             ParentFont = False
             TabOrder = 1
-            ExplicitLeft = 6
-            ExplicitTop = 239
           end
           object Panel4: TPanel
             Left = 1
@@ -810,7 +806,6 @@ object frmCreateAccount: TfrmCreateAccount
             Font.Style = []
             ParentFont = False
             TabOrder = 2
-            ExplicitLeft = 6
           end
           object cmbCompany: TcxLookupComboBox
             Left = 16
@@ -836,8 +831,6 @@ object frmCreateAccount: TfrmCreateAccount
       Font.Style = []
       ImageIndex = 2
       ParentFont = False
-      ExplicitLeft = 3
-      ExplicitTop = 25
       object Panel5: TPanel
         Left = 0
         Top = 0
@@ -854,9 +847,6 @@ object frmCreateAccount: TfrmCreateAccount
         ParentBackground = False
         ParentFont = False
         TabOrder = 0
-        ExplicitLeft = 64
-        ExplicitTop = 120
-        ExplicitWidth = 185
       end
       object Panel6: TPanel
         Left = 0
@@ -866,9 +856,6 @@ object frmCreateAccount: TfrmCreateAccount
         Align = alBottom
         BevelOuter = bvNone
         TabOrder = 1
-        ExplicitLeft = -1
-        ExplicitTop = 339
-        ExplicitWidth = 668
         object ButSalvar: TcxButton
           Left = 368
           Top = 1
@@ -1025,7 +1012,6 @@ object frmCreateAccount: TfrmCreateAccount
         Font.Style = []
         ParentFont = False
         TabOrder = 2
-        ExplicitTop = 47
       end
     end
   end
