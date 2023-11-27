@@ -3,7 +3,6 @@ unit uFrmCustomer;
 interface
 
 uses
-  uSetupFolder,
   uClassDBGenerics,
   uClassCustomer,
   MensFun,
@@ -179,8 +178,7 @@ type
     { Private declarations }
     varOption : char;  // I = Insert / U = Update
     varNewKey : Integer;
-    Customer  : TCustomer;
-  //  Pasta     : TFolder;
+    Customer : TCustomer;
     procedure LimpaEdits;
     function Check : Boolean;
     procedure SetVendor;
@@ -293,31 +291,9 @@ begin
       Customer.AdditionInformation  := memObservacao.Lines.Text;
       Customer.Company.id_company   := cxLookupComboBoxCompany.EditValue;
       Customer.id_contractors       := cxLookupComboBoxVendor.EditValue;
-
-      GenerateFolder('NP', IntToStr(varNewKey));
-      Customer.folder.pasta := Folder_Documents + '\NP_' + ZeroLeft(IntToStr(varNewKey),7);
-      {
-      Customer.folder.pasta         := 'NP_' + ZeroLeft(IntToStr(varNewKey),7);
+      Customer.folder.pasta         := ZeroLeft(IntToStr(varNewKey),7);
       Customer.folder.CreateFolder;
-
-      Customer.folder.subpasta      := 'Quotation';
-      Customer.folder.CreateSubPasta;
-
-      Customer.folder.subpasta      := 'Order';
-      Customer.folder.CreateSubPasta;
-
-      Customer.folder.subpasta      := 'Invoice';
-      Customer.folder.CreateSubPasta;
-
-      Customer.folder.subpasta      := 'Service';
-      Customer.folder.CreateSubPasta;
-       }
-
       Customer.typeperson           := 'N'; // Natural Person
-
-
-
-
 
       if varOption = 'I' then
         Customer.Save

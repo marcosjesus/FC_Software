@@ -1,0 +1,620 @@
+%PDF-1.2
+1 0 obj <<
+/CreationDate(D:20231127172551)
+/Creator(FortesReport Community Edition v4.0.0.1 \251 Copyright © 1999-2021 Fortes Informática)
+>> endobj
+2 0 obj <<
+/Type/Catalog
+/Pages 3 0 R
+>> endobj
+5 0 obj <<
+/Type/Page
+/Parent 3 0 R
+/Resources 4 0 R
+/MediaBox [ 0 0 595.5 842.25 ]
+/Contents 6 0 R
+>> endobj
+6 0 obj <<
+/Length 7 0 R
+>>
+stream
+q
+28.5 678 538.5 135.75 re
+W n
+Q
+q
+28.5 678 538.5 135.75 re
+W n
+q
+0 0 0 rg
+BT
+/F1 14 Tf
+32.25 795.75 Td
+(Order Nº :) Tj
+ET
+Q
+0.75 w
+0 J
+[] 0 d
+0 0 0 RG
+1 1 1 rg
+30.75 785.25 m 
+564 785.25 l 
+b
+q
+0 0 0 rg
+BT
+/F1 10 Tf
+120 798 Td
+(2) Tj
+ET
+Q
+Q
+q
+28.5 663.75 538.5 14.25 re
+W n
+Q
+q
+28.5 663.75 538.5 14.25 re
+W n
+q
+0 0 0 rg
+BT
+/F2 10 Tf
+42 668.25 Td
+(Company) Tj
+ET
+Q
+q
+0 0 0 rg
+BT
+/F2 10 Tf
+348 668.25 Td
+(Customer) Tj
+ET
+Q
+Q
+q
+28.5 555 538.5 108.75 re
+W n
+Q
+q
+28.5 555 538.5 108.75 re
+W n
+q
+0 0 0 rg
+BT
+/F1 8 Tf
+41.25 654.75 Td
+(THE FLOOR OF COLUMBUS) Tj
+ET
+Q
+q
+0 0 0 rg
+BT
+/F1 8 Tf
+41.25 652.5 Td
+() Tj
+ET
+Q
+q
+0 0 0 rg
+BT
+/F1 8 Tf
+41.25 642 Td
+() Tj
+ET
+Q
+q
+0 0 0 rg
+BT
+/F1 8 Tf
+137.25 642 Td
+() Tj
+ET
+Q
+q
+0 0 0 rg
+BT
+/F1 8 Tf
+41.25 630.75 Td
+() Tj
+ET
+Q
+q
+0 0 0 rg
+BT
+/F1 8 Tf
+347.25 652.5 Td
+(CLIENTE DO RENATO,FIRSTNAME DO CLIENTE) Tj
+ET
+Q
+q
+0 0 0 rg
+BT
+/F1 8 Tf
+347.25 644.25 Td
+(RUA ABC 333) Tj
+ET
+Q
+q
+0 0 0 rg
+BT
+/F1 8 Tf
+347.25 633.75 Td
+(COLUMBUS) Tj
+ET
+Q
+q
+0 0 0 rg
+BT
+/F1 8 Tf
+449.25 642 Td
+() Tj
+ET
+Q
+q
+0 0 0 rg
+BT
+/F1 8 Tf
+347.25 630.75 Td
+() Tj
+ET
+Q
+q
+0 0 0 rg
+BT
+/F2 10 Tf
+32.25 560.25 Td
+(Item) Tj
+ET
+Q
+q
+0 0 0 rg
+BT
+/F2 10 Tf
+71.25 561 Td
+(Product) Tj
+ET
+Q
+q
+0 0 0 rg
+BT
+/F2 10 Tf
+201.75 560.25 Td
+(Total Area \(SQFeet\)) Tj
+ET
+Q
+q
+0 0 0 rg
+BT
+/F2 10 Tf
+323.25 560.25 Td
+(Rate) Tj
+ET
+Q
+q
+0 0 0 rg
+BT
+/F2 10 Tf
+394.5 560.25 Td
+(Amount) Tj
+ET
+Q
+q
+0 0 0 rg
+BT
+/F2 10 Tf
+480.75 560.25 Td
+(Taxble) Tj
+ET
+Q
+q
+0 0 0 rg
+BT
+/F2 10 Tf
+539.25 560.25 Td
+(Total) Tj
+ET
+Q
+0.75 w
+0 J
+[] 0 d
+0 0 0 RG
+1 1 1 rg
+30.75 557.25 m 
+564 557.25 l 
+b
+q
+0 0 0 rg
+BT
+/F2 8 Tf
+392.25 587.25 Td
+(Sales Rep) Tj
+ET
+Q
+q
+0 0 0 rg
+BT
+/F1 6 Tf
+393.75 575.25 Td
+(BILL JENKIS) Tj
+ET
+Q
+q
+0 0 0 rg
+BT
+/F2 8 Tf
+39.75 609.75 Td
+(Comments or Special Instructions:) Tj
+ET
+Q
+q
+0 0 0 rg
+BT
+/F1 8 Tf
+189 618 Td
+() Tj
+ET
+Q
+q
+0 0 0 rg
+BT
+/F2 8 Tf
+125.25 587.25 Td
+(P.O Number) Tj
+ET
+Q
+q
+0 0 0 rg
+BT
+/F2 8 Tf
+197.25 587.25 Td
+(Pick-up Date) Tj
+ET
+Q
+q
+0 0 0 rg
+BT
+/F2 8 Tf
+257.25 587.25 Td
+(Pick-up Via) Tj
+ET
+Q
+q
+0 0 0 rg
+BT
+/F2 8 Tf
+322.5 587.25 Td
+(F.O.B Point) Tj
+ET
+Q
+q
+0 0 0 rg
+BT
+/F1 6 Tf
+125.25 581.25 Td
+() Tj
+ET
+Q
+q
+0 0 0 rg
+BT
+/F1 8 Tf
+39.75 599.25 Td
+(Dining Room) Tj
+ET
+Q
+q
+0 0 0 rg
+BT
+/F1 8 Tf
+449.25 622.5 Td
+(GA) Tj
+ET
+Q
+q
+0 0 0 rg
+BT
+/F1 8 Tf
+137.25 630.75 Td
+() Tj
+ET
+Q
+Q
+q
+28.5 542.25 538.5 12.75 re
+W n
+Q
+q
+28.5 542.25 538.5 12.75 re
+W n
+q
+0 0 0 rg
+BT
+/F1 8 Tf
+41.25 546 Td
+(2) Tj
+ET
+Q
+q
+0 0 0 rg
+BT
+/F1 8 Tf
+71.25 546 Td
+(BUILDERS CHOICE BUILDERS CHOICE THORMWOOD THORMWOOD) Tj
+ET
+Q
+q
+0 0 0 rg
+BT
+/F1 8 Tf
+266.25 546 Td
+(142.62) Tj
+ET
+Q
+q
+0 0 0 rg
+BT
+/F1 8 Tf
+337.5 546 Td
+(2) Tj
+ET
+Q
+q
+0 0 0 rg
+BT
+/F1 8 Tf
+403.5 546 Td
+(285.24) Tj
+ET
+Q
+q
+0 0 0 rg
+BT
+/F1 8 Tf
+495.75 546 Td
+(Y) Tj
+ET
+Q
+q
+0 0 0 rg
+BT
+/F1 8 Tf
+535.5 546 Td
+(285.24) Tj
+ET
+Q
+Q
+q
+28.5 462.75 538.5 79.5 re
+W n
+Q
+q
+28.5 462.75 538.5 79.5 re
+W n
+q
+0 0 0 rg
+BT
+/F1 8 Tf
+535.5 529.5 Td
+(285.24) Tj
+ET
+Q
+q
+0 0 0 rg
+BT
+/F1 8 Tf
+540 516 Td
+(25.67) Tj
+ET
+Q
+q
+0 0 0 rg
+BT
+/F1 8 Tf
+419.25 529.5 Td
+(SubTotal) Tj
+ET
+Q
+q
+0 0 0 rg
+BT
+/F1 8 Tf
+438 514.5 Td
+(Tax) Tj
+ET
+Q
+q
+0 0 0 rg
+BT
+/F1 8 Tf
+419.25 500.25 Td
+(Shipping) Tj
+ET
+Q
+q
+0 0 0 rg
+BT
+/F1 8 Tf
+419.25 486 Td
+(Discount) Tj
+ET
+Q
+q
+0 0 0 rg
+BT
+/F2 8 Tf
+431.25 470.25 Td
+(Total) Tj
+ET
+Q
+q
+0 0 0 rg
+BT
+/F1 8 Tf
+544.5 500.25 Td
+(0.00) Tj
+ET
+Q
+q
+0 0 0 rg
+BT
+/F1 8 Tf
+544.5 485.25 Td
+(0.00) Tj
+ET
+Q
+q
+0 0 0 rg
+BT
+/F1 8 Tf
+535.5 470.25 Td
+(310.91) Tj
+ET
+Q
+Q
+q
+28.5 28.5 538.5 54 re
+W n
+Q
+q
+28.5 28.5 538.5 54 re
+W n
+q
+0 0 0 rg
+BT
+/F1 10 Tf
+63 69 Td
+(11/27/2023) Tj
+ET
+Q
+q
+0 0 0 rg
+BT
+/F2 10 Tf
+32.25 69 Td
+(Date) Tj
+ET
+Q
+Q
+endstream
+endobj
+7 0 obj
+3988
+endobj
+8 0 obj <<
+/Type/Font/Subtype/TrueType/Name/F1/BaseFont/Arial
+/FirstChar 30
+/LastChar 255
+/Widths [
+750 750 278 278 355 556 556 889 667 191 333 333 389 584 278 333 278 278 
+556 556 556 556 556 556 556 556 556 556 278 278 584 584 584 556 1015 667 
+667 722 722 667 611 778 722 278 500 667 556 833 722 778 667 778 722 667 
+611 722 667 944 667 667 611 278 278 278 469 556 333 556 556 500 556 556 
+278 556 556 222 222 500 222 833 556 556 556 556 333 500 278 556 500 722 
+500 500 500 334 260 334 584 750 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 278 333 556 556 556 556 260 556 333 737 370 556 584 333 
+737 552 400 549 333 333 333 576 537 333 333 333 365 556 834 834 834 611 
+667 667 667 667 667 667 1000 722 667 667 667 667 278 278 278 278 722 722 
+778 778 778 778 778 584 778 722 722 722 722 667 667 611 556 556 556 556 
+556 556 889 500 556 556 556 556 278 278 278 278 556 556 556 556 556 556 
+556 549 611 556 556 556 556 500 556 500 
+]
+/FontDescriptor 10 0 R
+/Encoding/WinAnsiEncoding
+>> endobj
+10 0 obj <<
+/Type/FontDescriptor
+/FontName/Arial
+/Flags 32
+/FontBBox [ -665 -325 2000 1040 ]
+/MissingWidth 0
+/StemV 73
+/StemH 73
+/ItalicAngle 0
+/CapHeight 500
+/XHeight 250
+/Ascent 905
+/Descent 212
+/Leading 117
+/MaxWidth 2665
+/AvgWidth 441
+>> endobj
+9 0 obj <<
+/Type/Font/Subtype/TrueType/Name/F2/BaseFont/Arial,Bold
+/FirstChar 30
+/LastChar 255
+/Widths [
+750 750 278 333 474 556 556 889 722 238 333 333 389 584 278 333 278 278 
+556 556 556 556 556 556 556 556 556 556 333 333 584 584 584 611 975 722 
+722 722 722 667 611 778 722 278 556 722 611 833 722 778 667 778 722 667 
+611 722 667 944 667 667 611 333 278 333 584 556 333 556 611 556 611 556 
+333 611 611 278 278 556 278 889 611 611 611 611 389 556 333 611 556 778 
+556 556 500 389 280 389 584 750 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 278 333 556 556 556 556 280 556 333 737 370 556 584 333 
+737 552 400 549 333 333 333 576 556 333 333 333 365 556 834 834 834 611 
+722 722 722 722 722 722 1000 722 667 667 667 667 278 278 278 278 722 722 
+778 778 778 778 778 584 778 722 722 722 722 667 667 611 556 556 556 556 
+556 556 889 556 556 556 556 556 278 278 278 278 611 611 611 611 611 611 
+611 549 611 611 611 611 611 556 611 556 
+]
+/FontDescriptor 10 0 R
+/Encoding/WinAnsiEncoding
+>> endobj
+10 0 obj <<
+/Type/FontDescriptor
+/FontName/Arial,Bold
+/Flags 32
+/FontBBox [ -628 -376 2000 1056 ]
+/MissingWidth 0
+/StemV 73
+/StemH 73
+/ItalicAngle 0
+/CapHeight 500
+/XHeight 250
+/Ascent 905
+/Descent 212
+/Leading 117
+/MaxWidth 2628
+/AvgWidth 479
+>> endobj
+4 0 obj <<
+/ProcSet [ /PDF/Text/ImageB ]
+/Font <<
+/F1 8 0 R
+/F2 9 0 R
+>>
+/XObject <<
+>>
+>> endobj
+3 0 obj <<
+/Type/Pages
+/Count 1
+/MediaBox [ 0 0 595.5 842.25 ]
+/Kids [ 5 0 R ]
+>> endobj
+xref
+0 11
+0000000000 65535 f
+0000000010 00000 n
+0000000163 00000 n
+0000007125 00000 n
+0000007018 00000 n
+0000000215 00000 n
+0000000332 00000 n
+0000004378 00000 n
+0000004401 00000 n
+0000005705 00000 n
+0000006747 00000 n
+trailer
+<<
+/Size 11
+/Root 2 0 R
+/Info 1 0 R
+>>
+startxref
+7220
+%%EOF

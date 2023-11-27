@@ -3,7 +3,6 @@ unit uFrmCustomer;
 interface
 
 uses
-  uSetupFolder,
   uClassDBGenerics,
   uClassCustomer,
   MensFun,
@@ -294,9 +293,6 @@ begin
       Customer.Company.id_company   := cxLookupComboBoxCompany.EditValue;
       Customer.id_contractors       := cxLookupComboBoxVendor.EditValue;
 
-      GenerateFolder('NP', IntToStr(varNewKey));
-      Customer.folder.pasta := Folder_Documents + '\NP_' + ZeroLeft(IntToStr(varNewKey),7);
-      {
       Customer.folder.pasta         := 'NP_' + ZeroLeft(IntToStr(varNewKey),7);
       Customer.folder.CreateFolder;
 
@@ -311,7 +307,7 @@ begin
 
       Customer.folder.subpasta      := 'Service';
       Customer.folder.CreateSubPasta;
-       }
+
 
       Customer.typeperson           := 'N'; // Natural Person
 

@@ -264,8 +264,8 @@ object frmEstimate: TfrmEstimate
       OnClick = ButExcluirClick
     end
     object ButImprimir: TcxButton
-      Left = 118
-      Top = 2
+      Left = 114
+      Top = 0
       Width = 36
       Height = 33
       Hint = 'Visualizar Impress'#227'o (Alt+I)'

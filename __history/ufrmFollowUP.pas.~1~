@@ -24,7 +24,7 @@ uses
   FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.DataSet,
   FireDAC.Comp.Client, cxGridLevel, cxClasses, cxGridCustomView,
   cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid,
-  Vcl.ExtCtrls, cxMemo, Vcl.Menus, Vcl.StdCtrls, cxButtons;
+  Vcl.ExtCtrls, cxMemo;
 
 type
   TfrmFollowUP = class(TForm)
@@ -46,12 +46,6 @@ type
     cxGrid1DBTableView1COMMENTS: TcxGridDBColumn;
     cxGrid1DBTableView1ADD_DATE: TcxGridDBColumn;
     cxGrid1DBTableView1ID_USER: TcxGridDBColumn;
-    ButCancelar: TcxButton;
-    Label50: TLabel;
-    Label51: TLabel;
-    lblCustomer: TLabel;
-    lblOrder: TLabel;
-    procedure ButCancelarClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -66,10 +60,5 @@ implementation
 {$R *.dfm}
 
 uses uDMConectDB;
-
-procedure TfrmFollowUP.ButCancelarClick(Sender: TObject);
-begin
-  Close;
-end;
 
 end.

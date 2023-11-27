@@ -294,8 +294,7 @@ begin
       Customer.Company.id_company   := cxLookupComboBoxCompany.EditValue;
       Customer.id_contractors       := cxLookupComboBoxVendor.EditValue;
 
-      GenerateFolder('NP', IntToStr(varNewKey));
-      Customer.folder.pasta := Folder_Documents + '\NP_' + ZeroLeft(IntToStr(varNewKey),7);
+      GenerateFolder('NP', varNewKey);
       {
       Customer.folder.pasta         := 'NP_' + ZeroLeft(IntToStr(varNewKey),7);
       Customer.folder.CreateFolder;

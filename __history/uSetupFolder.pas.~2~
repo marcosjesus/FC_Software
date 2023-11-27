@@ -1,0 +1,43 @@
+unit uSetupFolder;
+
+interface
+
+Uses
+  uClassDBGenerics,
+  uFunctions,
+  StrUtils ,
+  System.SysUtils;
+
+var
+  Folder : TFolder;
+
+implementation
+
+
+procedure GenereteFolder(varID : String);
+begin
+  Folder := TFolder.Create;
+  Try
+      Folder.pasta         := 'NP_' + ZeroLeft(IntToStr(varID),7);
+      Folder.CreateFolder;
+
+      Folder.subpasta      := 'Quotation';
+      Folder.CreateSubPasta;
+
+      Folder.subpasta      := 'Order';
+      Folder.CreateSubPasta;
+
+      Folder.subpasta      := 'Invoice';
+      Folder.CreateSubPasta;
+
+      Folder.subpasta      := 'Service';
+      Folder.CreateSubPasta;
+
+
+  Finally
+
+  End;
+
+end;
+
+end.

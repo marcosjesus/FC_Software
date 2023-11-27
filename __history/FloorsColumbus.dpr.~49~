@@ -33,8 +33,7 @@ uses
   uFrmRoom in 'uFrmRoom.pas' {frmRoom},
   ufrmCustomerLP in 'ufrmCustomerLP.pas' {frmCustomerLP},
   ufrmRequestOrder in 'ufrmRequestOrder.pas' {frmRequestOrder},
-  ufrmFollowUP in 'ufrmFollowUP.pas' {frmFollowUP},
-  uSetupFolder in 'uSetupFolder.pas';
+  ufrmFollowUP in 'ufrmFollowUP.pas' {frmFollowUP};
 
 {$R *.res}
 

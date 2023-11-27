@@ -15,13 +15,13 @@ Type
   TFolder = class
     private
 
-    Fpasta    : string;
-    Fsubpasta : string;
+      Fpasta : string;
+      Fsubpasta : string;
     procedure setFpasta(const Value: string);
     procedure setFsubpasta(const Value: string);
     public
-    property pasta: string read Fpasta write setFpasta;
-    property subpasta : string read Fsubpasta write setFsubpasta;
+     property pasta: string read Fpasta write setFpasta;
+     property subpasta : string read Fsubpasta write setFsubpasta;
 
      procedure CreateFolder;
      procedure CreateSubPasta;
@@ -715,9 +715,16 @@ begin
 
    if not DirExists(  ExtractFilePath(Application.ExeName) +  varMainFolder  ) then
    begin
-        ForceDirectories ( ExtractFilePath(Application.ExeName) +  varMainFolder );
+       if not ForceDirectories ( ExtractFilePath(Application.ExeName) +  varMainFolder ) then
+        Exit;
    end;
 
+
+   if not DirExists(  ExtractFilePath(Application.ExeName) +  varMainFolder + '\' + pasta  ) then
+   begin
+       if not ForceDirectories ( ExtractFilePath(Application.ExeName) +  varMainFolder + '\' + pasta ) then
+        Exit;
+   end;
 end;
 
 procedure TFolder.CreateSubPasta;
@@ -728,7 +735,8 @@ begin
 
     if not DirExists(  ExtractFilePath(Application.ExeName) +  varMainFolder + '\' + subpasta  ) then
    begin
-        ForceDirectories ( ExtractFilePath(Application.ExeName) +  varMainFolder + '\' + subpasta  );
+       if not ForceDirectories ( ExtractFilePath(Application.ExeName) +  varMainFolder + '\' + subpasta  ) then
+        Exit;
    end;
 end;
 

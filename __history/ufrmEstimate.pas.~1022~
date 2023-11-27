@@ -868,12 +868,12 @@ end;
 procedure TfrmEstimate.ButImprimirClick(Sender: TObject);
 begin
    Process := TSalesProcess.Create(Self);
-   Process.Search(TBHeader, sqlProcessID_PROCESS.AsInteger);
-   SetParametros(edtCliente, TipoCustomerCompany);
-   edtCliente.SetValue('C.ID_CUSTOMER = ' + IntToStr(Process.Customer.Id_customer));
-
-   Report.Preview;
-
+   Try
+     Process.Search(TBHeader, sqlProcessID_PROCESS);
+     Report.Preview;
+   Finally
+     FreeAndNil(Process);
+   End;
 end;
 
 procedure TfrmEstimate.ButItensOnOff(S: String);
@@ -1047,7 +1047,6 @@ begin
 
    if ((edtCliente.bs_KeyValues.Count <> 0) and (edtCliente.Text <> '')) then
    begin
-
      if TBHeader = ESTIMATE_HEADER then
        varArquivo := varLocal + Process.Customer.folder.pasta + '\' + Folder_Quotation + '\Quotation_' + sqlProcessID_PROCESS.AsString + '.PDF'
      else if TBHeader = ORDER_HEADER then
@@ -1055,12 +1054,10 @@ begin
      else if TBHeader = ORDER_HEADER then
          varArquivo := varLocal + Process.Customer.folder.pasta + '\' + Folder_Invoice + '\Invoice_' + sqlProcessID_PROCESS.AsString + '.PDF'
    end
-
    else  varArquivo := varLocal +  varTemp + '\Temp_' + sqlProcessID_PROCESS.AsString + '.PDF';
 
    Report.SaveToFile(varArquivo);
-   if Assigned(Process) then
-     FreeAndNil(Process);
+
   // EnviarEmail
 end;
 
@@ -1417,7 +1414,6 @@ begin
        edtCity.Text         := sqlProcessCITY.AsString;
        edtST.Text           := sqlProcessST.AsString;
    end;
-
    edtPONumber.Text := sqlProcessPONUMBER.AsString;
 
    AtualizaGradeItem;

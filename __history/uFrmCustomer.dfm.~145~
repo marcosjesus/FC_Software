@@ -752,6 +752,7 @@ object FrmCustomer: TFrmCustomer
               ParentFont = False
               TabOrder = 1
               RootLevelOptions.DetailTabsPosition = dtpTop
+              ExplicitTop = 33
               object cxTableViewAddress: TcxGridDBTableView
                 Navigator.Buttons.ConfirmDelete = True
                 Navigator.Buttons.CustomButtons = <>

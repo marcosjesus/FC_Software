@@ -3,7 +3,6 @@ unit ufrmCustomerLP;
 interface
 
 uses
-  uSetupFolder,
   uClassDBGenerics,
   uClassCustomer,
   MensFun,
@@ -518,25 +517,8 @@ begin
       Customer.AdditionInformation  := memObservacao.Lines.Text;
       Customer.Company.id_company   := cxLookupComboBoxCompany.EditValue;
       Customer.id_contractors       := cxLookupComboBoxVendor.EditValue;
-      GenerateFolder('LP', IntToStr(varNewKey));
-      Customer.folder.pasta := Folder_Documents + '\LP_' + ZeroLeft(IntToStr(varNewKey),7);
-     {
-      Customer.folder.pasta         := 'LP_' + ZeroLeft(IntToStr(varNewKey),7);
+      Customer.folder.pasta         := ZeroLeft(IntToStr(varNewKey),7);
       Customer.folder.CreateFolder;
-
-      Customer.folder.subpasta      := 'Quotation';
-      Customer.folder.CreateSubPasta;
-
-      Customer.folder.subpasta      := 'Order';
-      Customer.folder.CreateSubPasta;
-
-      Customer.folder.subpasta      := 'Invoice';
-      Customer.folder.CreateSubPasta;
-
-      Customer.folder.subpasta      := 'Service';
-      Customer.folder.CreateSubPasta;
-      }
-
       Customer.typeperson           := 'L'; // Legal Person
 
       if varOption = 'I' then

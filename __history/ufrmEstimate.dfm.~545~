@@ -264,8 +264,8 @@ object frmEstimate: TfrmEstimate
       OnClick = ButExcluirClick
     end
     object ButImprimir: TcxButton
-      Left = 118
-      Top = 2
+      Left = 114
+      Top = 0
       Width = 36
       Height = 33
       Hint = 'Visualizar Impress'#227'o (Alt+I)'
@@ -6668,7 +6668,6 @@ object frmEstimate: TfrmEstimate
     Top = 601
   end
   object RLPreviewSetup1: TRLPreviewSetup
-    OnSend = RLPreviewSetup1Send
     Left = 990
     Top = 552
   end

@@ -519,7 +519,6 @@ begin
       Customer.Company.id_company   := cxLookupComboBoxCompany.EditValue;
       Customer.id_contractors       := cxLookupComboBoxVendor.EditValue;
       GenerateFolder('LP', IntToStr(varNewKey));
-      Customer.folder.pasta := Folder_Documents + '\LP_' + ZeroLeft(IntToStr(varNewKey),7);
      {
       Customer.folder.pasta         := 'LP_' + ZeroLeft(IntToStr(varNewKey),7);
       Customer.folder.CreateFolder;
