@@ -2285,7 +2285,7 @@ begin
           Item.width          := edtweidth.Value;
           Item.height         := edtheight.Value;
 
-          if ((UpperCase(edtProduto.bs_KeyValues[1]) <> 'CARPET') AND  (UpperCase(edtProduto.bs_KeyValues[1]) <> 'VINYL')) then
+          if ((UpperCase(edtProduto.bs_KeyValues[1]) <> 'CARPET') AND (UpperCase(edtProduto.bs_KeyValues[1]) <> 'VINYL')) then
           begin
             if UpperCase(edtProduto.bs_KeyValues[24])  = 'PRODUCT'  Then
             begin

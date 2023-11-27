@@ -53,6 +53,15 @@ object frmAccessControl: TfrmAccessControl
       OnClick = cxLookupComboBoxPositionClick
       Width = 315
     end
+    object Button1: TButton
+      Left = 512
+      Top = 16
+      Width = 75
+      Height = 25
+      Caption = 'Button1'
+      TabOrder = 1
+      OnClick = Button1Click
+    end
   end
   object Panel2: TPanel
     Left = 0
@@ -92,8 +101,6 @@ object frmAccessControl: TfrmAccessControl
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 2
-    ExplicitLeft = -1
-    ExplicitTop = 339
     object ButSalvar: TcxButton
       Left = 281
       Top = 0
@@ -361,5 +368,15 @@ object frmAccessControl: TfrmAccessControl
     Connection = DBDados.FDConnection
     Left = 488
     Top = 99
+  end
+  object sqlAux2: TFDQuery
+    Connection = DBDados.FDConnection
+    Left = 488
+    Top = 187
+  end
+  object sqlAux3: TFDQuery
+    Connection = DBDados.FDConnection
+    Left = 400
+    Top = 115
   end
 end

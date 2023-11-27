@@ -533,7 +533,6 @@ type
     RLReport1: TRLReport;
     RLBand10: TRLBand;
     RLBand11: TRLBand;
-    RLLabel1: TRLLabel;
     RLLabel26: TRLLabel;
     RLLabel27: TRLLabel;
     RLLabel28: TRLLabel;
@@ -543,7 +542,6 @@ type
     sqlServiceCITY: TStringField;
     sqlServiceCOUNTY: TStringField;
     sqlServiceSTATEE: TStringField;
-    RLDBText31: TRLDBText;
     RLDBText32: TRLDBText;
     RLDBText33: TRLDBText;
     RLDBText34: TRLDBText;
@@ -582,6 +580,12 @@ type
     RLDBText40: TRLDBText;
     RLLabel34: TRLLabel;
     RLDBText41: TRLDBText;
+    RLDBText31: TRLDBText;
+    RLLabel1: TRLLabel;
+    RLLabel35: TRLLabel;
+    RLDBText42: TRLDBText;
+    RLDBText43: TRLDBText;
+    RLLabel36: TRLLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure spbCleanCustomerClick(Sender: TObject);
@@ -1059,16 +1063,20 @@ end;
 
 procedure TfrmEstimate.AtualizaGradeItem;
 begin
+  if not Assigned(Process) then exit;
+
   sqlProcessItem.Close;
-  sqlProcessItem.Params.ParamByName('ID_PROCESS').AsInteger := varNewKey;
+  sqlProcessItem.Params.ParamByName('ID_PROCESS').AsInteger := Process.id_process;
   sqlProcessItem.Params.ParamByName('TABLENAME').AsString   := TBItem;
   sqlProcessItem.Open;
 end;
 
 procedure TfrmEstimate.AtualizTerms;
 begin
+  if not Assigned(Process) then exit;
+
   sqlTerms.Close;
-  sqlTerms.Params.ParamByName('ID_PROCESS').AsInteger := sqlProcessItemID_PROCESS.AsInteger;
+  sqlTerms.Params.ParamByName('ID_PROCESS').AsInteger := Process.id_process;
   sqlTerms.Params.ParamByName('TABLENAME').AsString   := TBHeader;
   sqlTerms.Open;
 end;
@@ -1330,6 +1338,7 @@ begin
    varOption                         := 'U';
    cxPageEstimate.ActivePage         := cxTabEstimateForm;
    cxPageForm2.ActivePage            := cxTabSheetItems;
+
    lblProcessID.Caption              := ZeroLeft(sqlProcessID_PROCESS.AsString,7);
    cxLookupComboBoxCompany.EditValue := sqlProcessID_COMPANY.AsString;
    Contractor.Search(sqlProcessID_USER.AsInteger);
@@ -1374,10 +1383,7 @@ begin
    end;
    edtPONumber.Text := sqlProcessPONUMBER.AsString;
 
-   sqlProcessItem.Close;
-   sqlProcessItem.Params.ParamByName('ID_PROCESS').AsInteger := sqlProcessID_PROCESS.AsInteger;
-   sqlProcessItem.Params.ParamByName('TABLENAME').AsString   := TBItem;
-   sqlProcessItem.Open;
+   AtualizaGradeItem;
 
    cxLookupComboBoxPrincing.EditValue := sqlProcessItemID_PRICELIST.AsInteger;
 
@@ -1466,7 +1472,11 @@ begin
   Page.ActivePage := cxTabSheetEdit;
 
   Item := TSalesProcessItem.Create(Self);
-  Item.SearchProductByItem(TBItem, sqlProcessID_PROCESS.AsInteger , sqlProcessItemID_PROCESS_ITEM.AsInteger);
+  item.id_process      := Process.id_process;
+  Item.tablename       := Process.tablename;
+  item.id_process_item := sqlProcessItemID_PROCESS_ITEM.AsInteger;
+
+  //Item.SearchProductByItem(TBItem, sqlProcessID_PROCESS.AsInteger , sqlProcessItemID_PROCESS_ITEM.AsInteger);
 
   varOptionItem := 'U';
   SetaConsultaProduto(sqlProcessItemID_PRODUCT.AsString);
@@ -1524,7 +1534,6 @@ begin
   End;
 
   sqlTerms.Close;
-  AtualizTerms;
   Initialize;
 
 
@@ -1584,12 +1593,10 @@ begin
   varOptionItem := 'I';
   Page.ActivePage := cxTabSheetEdit;
 
-  varNextKey                := TDBNextKey.Create(TBHeader);
+  varNextKey      := TDBNextKey.Create(TBItem);
   Try
-    varNewKeyItem               := varNextKey.Key;
-    lblProcessID.caption    := ZeroLeft(IntToStr(varNewKey),7);
-    varNextKey.UpdateKey(varNewKey, TBItem); // atualiza a nova chave no banco
-    varNewKeyItem := 0;
+    varNewKeyItem := varNextKey.Key;
+    varNextKey.UpdateKey(varNewKeyItem, TBItem); // atualiza a nova chave no bancO
   finally
     FreeAndNil(varNextKey);
   End;
@@ -1804,7 +1811,7 @@ var
 begin
 
   Try
-     if varOptionItem = 'I' then
+  {   if varOptionItem = 'I' then
      begin
         Inc(varNewKeyItem);
         Item.id_process  := varNewKey;
@@ -1815,8 +1822,12 @@ begin
         Item.id_process  := sqlProcessItemID_PROCESS.AsInteger;
         varNewKey        := sqlProcessItemID_PROCESS.AsInteger;
      end;
+
+
      Item.tablename        := TBItem;
      Item.id_process_item  := varNewKeyItem;
+ }
+
      Item.id_pricelist     := cxLookupComboBoxPrincing.EditValue;
      Item.id_product       := edtProduto.bs_KeyValue;
      for i := 0 to chklistRoom.Items.Count -1 do
@@ -1862,8 +1873,8 @@ begin
 
    Process.Contractors.id_contractor := edtSalesRep.bs_KeyValue;
 
-   if ((edtCliente.Text <> '') and (edtCliente.bs_KeyValues.Count > 0 )) then
-    Process.Customer.Search(edtCliente.bs_KeyValue);
+//   if ((edtCliente.Text <> '') and (edtCliente.bs_KeyValues.Count > 0 )) then
+//    Process.Customer.Search(edtCliente.bs_KeyValue);
 
    Process.dt_process                := cxDateProcess.Date;
    Process.dt_process_valid          := cxDateProcessValid.Date;
@@ -2519,8 +2530,6 @@ procedure TfrmEstimate.FormCreate(Sender: TObject);
 begin
 
    Contractor := TVendor.Create;
-
-
    if DBDados.varReturnCompanies <> 'Company not Found' then
     begin
       TBCOMPANY.Close;
@@ -2536,7 +2545,6 @@ begin
 
    TBRoom.Close;
    TBRoom.Open;
-
 
    chklistRoom.Clear;
    TBRoom.First;
@@ -2767,12 +2775,13 @@ begin
   cxLookupComboBoxPrincing.Clear;
   cxLookupComboBoxPrincing.ItemIndex := -1;
 
-  varNewKeyItem := 0;
+  varNewKeyItem      := 0;
   cxDateProcess.Date := Date;
 
   Contractor.Search(DBDados.varID_USER);
   SetParametros(edtCliente,  TipoCustomerCompany);
   varFiltroCompanyPadrao := edtCliente.bs_Filter;
+
   if Contractor.id_contractor <> 0 then
   begin
     cxDateProcessValid.Date := Date + Contractor.Company.estimateDays;

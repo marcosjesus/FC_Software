@@ -427,16 +427,18 @@ end;
 
 procedure TfrmInventory.btnCleanCartClick(Sender: TObject);
 begin
+
+  if not Assigned(Carrinho) then Exit;
+
   if Carrinho.ItensNF.Count > 0  then
   begin
-
      If Mens_MensConf('Do you really want to empty the Cart?') = mrOk then
      begin
         if Assigned(Carrinho) then
            FreeAndNil(Carrinho);
 
         if Assigned(Item) then
-             FreeAndNil(Item);
+           FreeAndNil(Item);
 
         Carrinho  := TSalesProcess.Create(Self);
         Item      := TSalesProcessItem.Create(Self);
@@ -451,7 +453,7 @@ begin
         finally
           lblRoom.Caption     := '';
           CleanScreen;
-          varSelectProduct := False
+          varSelectProduct    := False
         End;
      end;
 
@@ -737,6 +739,7 @@ end;
 
 procedure TfrmInventory.edtheightExit(Sender: TObject);
 begin
+  
   if not sqlInventoty.IsEmpty then
   begin
       if (lblProductID.Caption <> '0') then
@@ -824,10 +827,11 @@ begin
 end;
 
 procedure TfrmInventory.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
-
 var
   buttonSelected: integer;
 begin
+  if not Assigned(Carrinho) then Exit;
+
   if  (Carrinho.ItensNF.Count > 0) then
   begin
      If Mens_MensConf('The Cart is not empty. Do you really want to close the window?') <> mrOk then

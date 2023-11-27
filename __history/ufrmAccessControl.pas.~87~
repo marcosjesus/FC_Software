@@ -62,6 +62,9 @@ type
     sqlPositionMenuID_MENU: TIntegerField;
     sqlPositionMenuADD_DATE: TSQLTimeStampField;
     sqlAux: TFDQuery;
+    Button1: TButton;
+    sqlAux2: TFDQuery;
+    sqlAux3: TFDQuery;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure ButCancelarClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -69,6 +72,7 @@ type
     procedure cxLookupComboBoxPositionClick(Sender: TObject);
     procedure ButSalvarClick(Sender: TObject);
     procedure chklistMenuClick(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
   private
     procedure Delete(varID_Position, varID_Menu: Integer);
     procedure Insert(varID_Position, varID_Menu: Integer);
@@ -124,6 +128,84 @@ begin
     end;
 
     Mens_MensInf( 'Updated with Success' );
+end;
+
+procedure TfrmAccessControl.Button1Click(Sender: TObject);
+var
+ Insert, Dados : WideString;
+ I : Integer;
+ Lista : TStringList;
+begin
+  Lista := TStringList.Create;
+  Try
+  sqlAux.Close;
+  sqlAux.SQL.Clear;
+  sqlAux.SQL.Add('SELECT o.name, o.object_id FROM SYS.ALL_OBJECTS o ');
+  sqlAux.SQL.Add('WHERE o.TYPE_DESC = ''USER_TABLE'' AND SCHEMA_ID = 1 ');
+  sqlAux.SQL.Add('order by o.name ');
+  sqlAux.Open;
+  sqlAux.First;
+  Lista.Clear;
+  while not sqlAux.Eof do
+  begin
+       sqlAux2.Close;
+       sqlAux2.SQL.Clear;
+       sqlAux2.SQL.Add('Select name from sys.all_columns ');
+       sqlAux2.SQL.Add('where object_id = :object_id order by column_id');
+       sqlAux2.Params.ParamByName('object_id').AsInteger := sqlAux.FieldByName('object_id').AsInteger;
+       sqlAux2.Open;
+       sqlAux2.First;
+       Insert := ' Insert Into ' + sqlAux.FieldByName('name').AsString;
+       Insert := Insert + '(';
+       while not sqlAux2.Eof do
+       begin
+          Insert := Insert + sqlAux2.FieldByName('name').AsString  + ',';
+          sqlAux2.Next;
+       end;
+       Insert := Copy(Insert, 1, Length(Insert)-1);
+       Insert := Insert + ')';
+
+       sqlAux3.Close;
+       sqlAux3.SQL.Clear;
+       sqlAux3.SQL.Add('Select * From ' + sqlAux.FieldByName('name').AsString + ' order by 1');
+       sqlAux3.Open;
+       sqlAux3.First;
+       if not sqlAux3.IsEmpty then
+       begin
+          while Not sqlAux3.Eof do
+          begin
+              Dados := ' Values ( ';
+              for I := 0 to sqlAux3.FieldCount - 1  do
+              begin
+
+                if sqlAux3.Fields.Fields[I].DataType in [ftString] then
+                  Dados := Dados + QuotedStr(sqlAux3.Fields.Fields[I].AsString)  + ','
+                else if  sqlAux3.Fields.Fields[I].DataType in [ftDateTime, ftTimeStamp] then
+                   Dados := Dados + QuotedStr(FormatDateTime('mm/dd/yyyy hh:mm:ss',sqlAux3.Fields.Fields[I].AsDateTime))  + ','
+                else if  sqlAux3.Fields.Fields[I].DataType in [ftDate] then
+                 Dados := Dados + QuotedStr(FormatDateTime('mm/dd/yyyy',sqlAux3.Fields.Fields[I].AsDateTime))  + ','
+                else  Dados := Dados + sqlAux3.Fields.Fields[I].AsString  + ','
+
+              end;
+                Dados := Copy(Dados, 1, Length(Dados)-1);
+                Dados := Dados + ')';
+
+                Lista.Add(Insert);
+                Lista.Add(Dados);
+
+                sqlAux3.Next;
+          end;
+          Lista.Add('GO');
+
+       end;
+
+       sqlAux.Next;
+  end;
+
+  Lista.SaveToFile('c:\temp\Dados.sql');
+  Finally
+      FreeAndNil(Lista);
+  End;
 end;
 
 procedure TfrmAccessControl.Insert(varID_Position, varID_Menu : Integer);
@@ -188,8 +270,6 @@ begin
       Menu := PMenuRec(chklistMenu.Items.Objects[I]);
       chklistMenu.Checked[i] := sqlPositionMenu.Locate( 'ID_MENU', Menu.ID_MENU );
    end;
-
-
 end;
 
 procedure TfrmAccessControl.FormClose(Sender: TObject;

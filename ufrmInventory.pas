@@ -749,21 +749,24 @@ begin
           Item.width           := edtweidth.Value;
           Item.height          := edtheight.Value;
 
-          if cmbProduct.ItemIndex = 0 then
+          if ((UpperCase(sqlInventoty.Fields[1].AsString) <> 'CARPET') AND (UpperCase(sqlInventoty.Fields[1].AsString) <> 'VINYL')) Then
           begin
-              if EdtQty.Text = '0' then
+              if cmbProduct.ItemIndex = 0 then
               begin
-                EdtQty.Text        := FormatFloat('0.00',  (  Item.width * Item.height ) / sqlInventoty.Fields[9].AsFloat  );
-                edttotalarea.value := Item.width * Item.height;
-                varTempAreaTotal   := edttotalarea.Value;
-              end
-              else
-              begin
-                edttotalarea.Value := EdtQty.Value * edtAreaSquareFeetPerBox.Value;
+                  if EdtQty.Text = '0' then
+                  begin
+                    EdtQty.Text        := FormatFloat('0.00',  (  Item.width * Item.height ) / sqlInventoty.Fields[9].AsFloat  );
+                    edttotalarea.value := Item.width * Item.height;
+                    varTempAreaTotal   := edttotalarea.Value;
+                  end
+                  else
+                  begin
+                    edttotalarea.Value := EdtQty.Value * edtAreaSquareFeetPerBox.Value;
+                  end;
+                  lblTax.Caption      := FormatFloat('0.00',(((edttotalarea.Value *  sqlInventoty.Fields[7].AsFloat) / 100) *  SalesRep.Company.Tax));
+                  item.tax            := StrToFloat(lblTax.Caption);
               end;
-              lblTax.Caption      := FormatFloat('0.00',(((edttotalarea.Value *  sqlInventoty.Fields[7].AsFloat) / 100) *  SalesRep.Company.Tax));
-              item.tax            := StrToFloat(lblTax.Caption);
-          end;
+          end else  edttotalarea.value := Item.width * Item.height;
 
           if cmbProduct.ItemIndex = 0 then
           begin

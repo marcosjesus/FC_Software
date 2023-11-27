@@ -315,6 +315,8 @@ var
 begin
   if sqlInventoty.IsEmpty then Exit;
 
+  if not Assigned(Carrinho) then Exit;
+
 
   if edttotalarea.Value < varTempAreaTotal then
   begin
@@ -425,16 +427,18 @@ end;
 
 procedure TfrmInventory.btnCleanCartClick(Sender: TObject);
 begin
+
+  if not Assigned(Carrinho) then Exit;
+
   if Carrinho.ItensNF.Count > 0  then
   begin
-
      If Mens_MensConf('Do you really want to empty the Cart?') = mrOk then
      begin
         if Assigned(Carrinho) then
            FreeAndNil(Carrinho);
 
         if Assigned(Item) then
-             FreeAndNil(Item);
+           FreeAndNil(Item);
 
         Carrinho  := TSalesProcess.Create(Self);
         Item      := TSalesProcessItem.Create(Self);
@@ -449,7 +453,7 @@ begin
         finally
           lblRoom.Caption     := '';
           CleanScreen;
-          varSelectProduct := False
+          varSelectProduct    := False
         End;
      end;
 
@@ -735,6 +739,7 @@ end;
 
 procedure TfrmInventory.edtheightExit(Sender: TObject);
 begin
+  
   if not sqlInventoty.IsEmpty then
   begin
       if (lblProductID.Caption <> '0') then
@@ -744,6 +749,8 @@ begin
           Item.width           := edtweidth.Value;
           Item.height          := edtheight.Value;
 
+          if ((UpperCase(sqlInventoty.Fields[1].AsString) <> 'CARPET') AND (UpperCase(sqlInventoty.Fields[1].AsString) <> 'VINYL')) Then
+          begin
           if cmbProduct.ItemIndex = 0 then
           begin
               if EdtQty.Text = '0' then
@@ -758,7 +765,7 @@ begin
               end;
               lblTax.Caption      := FormatFloat('0.00',(((edttotalarea.Value *  sqlInventoty.Fields[7].AsFloat) / 100) *  SalesRep.Company.Tax));
               item.tax            := StrToFloat(lblTax.Caption);
-          end;
+          end else  edttotalarea.value := Item.width * Item.height;
 
           if cmbProduct.ItemIndex = 0 then
           begin
@@ -822,10 +829,11 @@ begin
 end;
 
 procedure TfrmInventory.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
-
 var
   buttonSelected: integer;
 begin
+  if not Assigned(Carrinho) then Exit;
+
   if  (Carrinho.ItensNF.Count > 0) then
   begin
      If Mens_MensConf('The Cart is not empty. Do you really want to close the window?') <> mrOk then

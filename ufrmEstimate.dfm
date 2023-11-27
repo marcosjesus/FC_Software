@@ -567,7 +567,7 @@ object frmEstimate: TfrmEstimate
     Font.Style = []
     ParentFont = False
     TabOrder = 1
-    Properties.ActivePage = cxTabEstimateReports
+    Properties.ActivePage = cxTabEstimateForm
     Properties.CustomButtons.Buttons = <>
     ClientRectBottom = 684
     ClientRectLeft = 4
@@ -582,6 +582,10 @@ object frmEstimate: TfrmEstimate
       Font.Style = []
       ImageIndex = 0
       ParentFont = False
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object cxGrid2: TcxGrid
         Left = 0
         Top = 0
@@ -739,7 +743,7 @@ object frmEstimate: TfrmEstimate
         Font.Style = []
         ParentFont = False
         TabOrder = 1
-        Properties.ActivePage = cxTabSheetService
+        Properties.ActivePage = cxTabSheetItems
         Properties.CustomButtons.Buttons = <>
         OnChange = cxPageForm2Change
         ClientRectBottom = 656
@@ -2524,6 +2528,10 @@ object frmEstimate: TfrmEstimate
               Font.Style = []
               ImageIndex = 1
               ParentFont = False
+              ExplicitLeft = 0
+              ExplicitTop = 0
+              ExplicitWidth = 0
+              ExplicitHeight = 0
               object pnlLateral: TPanel
                 Left = 713
                 Top = 0
@@ -3893,8 +3901,6 @@ object frmEstimate: TfrmEstimate
       Font.Style = []
       ImageIndex = 2
       ParentFont = False
-      ExplicitLeft = 20
-      ExplicitTop = 56
       object pnlRelatorio: TPanel
         Left = 24
         Top = 36

@@ -50,7 +50,17 @@ object frmAccessControl: TfrmAccessControl
         end>
       Properties.ListSource = dsPosition
       TabOrder = 0
+      OnClick = cxLookupComboBoxPositionClick
       Width = 315
+    end
+    object Button1: TButton
+      Left = 512
+      Top = 16
+      Width = 75
+      Height = 25
+      Caption = 'Button1'
+      TabOrder = 1
+      OnClick = Button1Click
     end
   end
   object Panel2: TPanel
@@ -66,10 +76,6 @@ object frmAccessControl: TfrmAccessControl
     Font.Style = []
     ParentFont = False
     TabOrder = 1
-    ExplicitLeft = 304
-    ExplicitTop = 112
-    ExplicitWidth = 185
-    ExplicitHeight = 41
     object chklistMenu: TCheckListBox
       Left = 1
       Top = 1
@@ -79,16 +85,12 @@ object frmAccessControl: TfrmAccessControl
       Columns = 3
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
-      Font.Height = -11
+      Font.Height = -13
       Font.Name = 'Tahoma'
       Font.Style = []
-      ItemHeight = 13
       ParentFont = False
       TabOrder = 0
-      ExplicitLeft = -21
-      ExplicitTop = 27
-      ExplicitWidth = 689
-      ExplicitHeight = 97
+      OnClick = chklistMenuClick
     end
   end
   object Panel27: TPanel
@@ -99,8 +101,6 @@ object frmAccessControl: TfrmAccessControl
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 2
-    ExplicitLeft = -200
-    ExplicitWidth = 868
     object ButSalvar: TcxButton
       Left = 281
       Top = 0
@@ -172,6 +172,7 @@ object frmAccessControl: TfrmAccessControl
       Font.Name = 'Tahoma'
       Font.Style = []
       ParentFont = False
+      OnClick = ButSalvarClick
     end
     object ButCancelar: TcxButton
       Left = 323
@@ -247,8 +248,8 @@ object frmAccessControl: TfrmAccessControl
     Connection = DBDados.FDConnection
     SQL.Strings = (
       'SELECT * FROM TBPOSITION ORDER BY NAME')
-    Left = 472
-    Top = 184
+    Left = 560
+    Top = 200
     object sqlPositionID_POSITION: TIntegerField
       FieldName = 'ID_POSITION'
       Origin = 'ID_POSITION'
@@ -281,13 +282,13 @@ object frmAccessControl: TfrmAccessControl
   end
   object dsPosition: TDataSource
     DataSet = sqlPosition
-    Left = 528
-    Top = 184
+    Left = 552
+    Top = 136
   end
   object sqlMenu: TFDQuery
     Connection = DBDados.FDConnection
     SQL.Strings = (
-      'select * from TBMENU order by 1')
+      'select * from TBMENU order by  menus, Screens ')
     Left = 208
     Top = 147
     object sqlMenuID_MENU: TFDAutoIncField
@@ -330,8 +331,8 @@ object frmAccessControl: TfrmAccessControl
     Connection = DBDados.FDConnection
     SQL.Strings = (
       'SELECT * FROM TBPOSITION_ACCESS WHERE ID_POSITION = :ID_POSITION')
-    Left = 376
-    Top = 107
+    Left = 352
+    Top = 155
     ParamData = <
       item
         Name = 'ID_POSITION'
@@ -360,7 +361,17 @@ object frmAccessControl: TfrmAccessControl
   end
   object dsPositionMenu: TDataSource
     DataSet = sqlPositionMenu
-    Left = 408
-    Top = 171
+    Left = 360
+    Top = 211
+  end
+  object sqlAux: TFDQuery
+    Connection = DBDados.FDConnection
+    Left = 488
+    Top = 99
+  end
+  object sqlAux2: TFDQuery
+    Connection = DBDados.FDConnection
+    Left = 488
+    Top = 187
   end
 end
