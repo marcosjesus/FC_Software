@@ -1,0 +1,65 @@
+USE [FLOORDB]
+GO
+
+/****** Object:  Trigger [dbo].[INSERT_INVENTORY]    Script Date: 11/27/2023 6:20:59 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+
+
+CREATE TRIGGER [dbo].[INSERT_INVENTORY] ON [dbo].[TBPRODUCT]
+AFTER INSERT
+AS
+BEGIN
+SET NOCOUNT ON;
+
+DECLARE @ID_SUPPLIER INT;
+DECLARE @ID_PRODUCT INT;
+DECLARE @QTY FLOAT;
+DECLARE @TOTALAREA FLOAT;
+DECLARE @PRICE NUMERIC(15,2);
+DECLARE @TOTALPRICE NUMERIC(15,2);
+DECLARE @ID_USER INT;
+DECLARE @TAXBLE CHAR(1);
+
+SET @ID_SUPPLIER = (SELECT ID_SUPPLIER FROM inserted)
+SET @ID_PRODUCT = (SELECT ID_PRODUCT FROM inserted)
+SET @QTY = (SELECT QTY FROM inserted)
+SET @TOTALAREA = (SELECT TotalAreaSquareFeet FROM inserted) -- AREA POR CAIXA. FALTA FAZER AREA POR ROLO(CARPET)
+SET @PRICE = (SELECT COST_VALUE FROM inserted)
+SET @TOTALPRICE = (@TOTALAREA * @PRICE)
+SET @ID_USER = (SELECT ID_USER FROM inserted)
+SET @TAXBLE = (SELECT TAXBLE FROM inserted)
+
+   IF @TAXBLE = 'Y'
+   BEGIN
+
+      INSERT INTO TBINVENTORY (  ID_PRODUCT
+	                            ,ID_SUPPLIER
+	                            ,QTY
+								,TOTALAREA
+								,PRICE
+								,TOTALPRICE
+								,DT_MOVIMENT
+								,ID_USER)
+	 VALUES                  ( 
+	                            @ID_PRODUCT
+							   ,@ID_SUPPLIER
+	                           ,@QTY 
+							   ,@TOTALAREA
+							   ,@PRICE
+							   ,(@TOTALAREA * @PRICE)
+							   ,GETDATE()
+							   ,@ID_USER
+							   )
+  END
+END
+
+
+GO
+
+

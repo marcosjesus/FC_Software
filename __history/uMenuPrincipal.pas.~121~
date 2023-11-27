@@ -672,7 +672,7 @@ var
 begin
 
    DBDados.varReturnCompanies :=  DBDados.CompanyFilter;
-   dxRibbon.ShowTabGroups := False;
+
    FDQueryTSIS_Menu.Close;
    FDQueryTSIS_Menu.Params.ParamByName('ID_POSITION').AsInteger := DBDados.varID_POSITION;
    FDQueryTSIS_Menu.Open;

@@ -711,7 +711,7 @@ begin
         sqlDados.Params.ParamByName('zipcode').AsString              := zipcode;
         sqlDados.Params.ParamByName('st').AsString                   := st;
         sqlDados.Params.ParamByName('city').AsString                 := city;
-        sqlDados.Params.ParamByName('county').AsString               := county;
+        sqlDados.Params.ParamByName('county').AsString               := '';
         sqlDados.Params.ParamByName('ponumber').AsString             := ponumber ;
         sqlDados.Params.ParamByName('comments').AsString             := comments;
         sqlDados.Params.ParamByName('subtotal').AsFloat              := subtotal;

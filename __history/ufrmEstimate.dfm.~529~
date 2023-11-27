@@ -567,7 +567,7 @@ object frmEstimate: TfrmEstimate
     Font.Style = []
     ParentFont = False
     TabOrder = 1
-    Properties.ActivePage = cxTabEstimateReports
+    Properties.ActivePage = cxTabEstimateList
     Properties.CustomButtons.Buttons = <>
     ClientRectBottom = 684
     ClientRectLeft = 4
@@ -739,7 +739,7 @@ object frmEstimate: TfrmEstimate
         Font.Style = []
         ParentFont = False
         TabOrder = 1
-        Properties.ActivePage = cxTabSheetService
+        Properties.ActivePage = cxTabSheetItems
         Properties.CustomButtons.Buttons = <>
         OnChange = cxPageForm2Change
         ClientRectBottom = 656
@@ -4959,12 +4959,6 @@ object frmEstimate: TfrmEstimate
             Width = 718
             Height = 51
             BandType = btHeader
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clBlack
-            Font.Height = -13
-            Font.Name = 'Arial'
-            Font.Style = []
-            ParentFont = False
             object RLLabel30: TRLLabel
               Left = 279
               Top = 16
@@ -4974,34 +4968,6 @@ object frmEstimate: TfrmEstimate
               Font.Charset = DEFAULT_CHARSET
               Font.Color = clBlack
               Font.Height = -19
-              Font.Name = 'Arial'
-              Font.Style = [fsBold]
-              ParentFont = False
-            end
-            object RLDBText31: TRLDBText
-              Left = 578
-              Top = 31
-              Width = 119
-              Height = 14
-              DataField = 'SERVICE_START_DATE'
-              DataSource = dsHeader
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clBlack
-              Font.Height = -11
-              Font.Name = 'Arial'
-              Font.Style = []
-              ParentFont = False
-              Text = ''
-            end
-            object RLLabel1: TRLLabel
-              Left = 578
-              Top = 13
-              Width = 33
-              Height = 16
-              Caption = 'Date'
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clBlack
-              Font.Height = -13
               Font.Name = 'Arial'
               Font.Style = [fsBold]
               ParentFont = False
@@ -5019,9 +4985,22 @@ object frmEstimate: TfrmEstimate
             Font.Name = 'Arial'
             Font.Style = []
             ParentFont = False
-            object RLLabel26: TRLLabel
-              Left = 581
+            object RLLabel1: TRLLabel
+              Left = 24
               Top = 16
+              Width = 33
+              Height = 16
+              Caption = 'Date'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clBlack
+              Font.Height = -13
+              Font.Name = 'Arial'
+              Font.Style = [fsBold]
+              ParentFont = False
+            end
+            object RLLabel26: TRLLabel
+              Left = 580
+              Top = 17
               Width = 75
               Height = 16
               Caption = 'Request By'
@@ -5033,7 +5012,7 @@ object frmEstimate: TfrmEstimate
               ParentFont = False
             end
             object RLLabel27: TRLLabel
-              Left = 391
+              Left = 390
               Top = 16
               Width = 65
               Height = 16
@@ -5046,8 +5025,8 @@ object frmEstimate: TfrmEstimate
               ParentFont = False
             end
             object RLLabel28: TRLLabel
-              Left = 169
-              Top = 16
+              Left = 170
+              Top = 17
               Width = 107
               Height = 16
               Caption = 'Installation Date'
@@ -5071,12 +5050,27 @@ object frmEstimate: TfrmEstimate
               Font.Style = [fsBold]
               ParentFont = False
             end
-            object RLDBText32: TRLDBText
-              Left = 581
+            object RLDBText31: TRLDBText
+              Left = 24
               Top = 34
-              Width = 81
+              Width = 119
               Height = 14
-              DataField = 'VENDOR_NAME'
+              DataField = 'SERVICE_START_DATE'
+              DataSource = dsHeader
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clBlack
+              Font.Height = -11
+              Font.Name = 'Arial'
+              Font.Style = []
+              ParentFont = False
+              Text = ''
+            end
+            object RLDBText32: TRLDBText
+              Left = 580
+              Top = 35
+              Width = 93
+              Height = 14
+              DataField = 'INSTALLER_NAME'
               DataSource = dsHeader
               Font.Charset = DEFAULT_CHARSET
               Font.Color = clBlack
@@ -5087,7 +5081,7 @@ object frmEstimate: TfrmEstimate
               Text = ''
             end
             object RLDBText33: TRLDBText
-              Left = 392
+              Left = 390
               Top = 34
               Width = 104
               Height = 14
@@ -5206,34 +5200,6 @@ object frmEstimate: TfrmEstimate
               ParentFont = False
               Text = ''
             end
-            object RLLabel35: TRLLabel
-              Left = 25
-              Top = 16
-              Width = 55
-              Height = 16
-              Caption = 'Installer'
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clBlack
-              Font.Height = -13
-              Font.Name = 'Arial'
-              Font.Style = [fsBold]
-              ParentFont = False
-            end
-            object RLDBText42: TRLDBText
-              Left = 24
-              Top = 34
-              Width = 93
-              Height = 14
-              DataField = 'INSTALLER_NAME'
-              DataSource = dsHeader
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clBlack
-              Font.Height = -11
-              Font.Name = 'Arial'
-              Font.Style = []
-              ParentFont = False
-              Text = ''
-            end
           end
           object RLBand12: TRLBand
             Left = 38
@@ -5273,8 +5239,8 @@ object frmEstimate: TfrmEstimate
               Font.Style = []
               ParentFont = False
               object RLDBText37: TRLDBText
-                Left = 5
-                Top = 11
+                Left = 10
+                Top = 10
                 Width = 94
                 Height = 14
                 DataField = 'ITEM_CATEGORY'
@@ -5301,7 +5267,7 @@ object frmEstimate: TfrmEstimate
               Font.Style = []
               ParentFont = False
               object RLLabel31: TRLLabel
-                Left = 33
+                Left = 45
                 Top = 4
                 Width = 53
                 Height = 16
@@ -5314,7 +5280,7 @@ object frmEstimate: TfrmEstimate
                 ParentFont = False
               end
               object RLLabel32: TRLLabel
-                Left = 526
+                Left = 450
                 Top = 4
                 Width = 41
                 Height = 16
@@ -5327,7 +5293,7 @@ object frmEstimate: TfrmEstimate
                 ParentFont = False
               end
               object RLLabel33: TRLLabel
-                Left = 575
+                Left = 527
                 Top = 4
                 Width = 45
                 Height = 16
@@ -5357,7 +5323,7 @@ object frmEstimate: TfrmEstimate
               Left = 0
               Top = 52
               Width = 718
-              Height = 35
+              Height = 24
               Font.Charset = DEFAULT_CHARSET
               Font.Color = clBlack
               Font.Height = -13
@@ -5365,102 +5331,71 @@ object frmEstimate: TfrmEstimate
               Font.Style = []
               ParentFont = False
               object RLDBText38: TRLDBText
-                Left = 33
+                Left = 43
                 Top = 3
-                Width = 114
-                Height = 14
+                Width = 148
+                Height = 16
                 DataField = 'ITEM_PRODUCT_NAME'
                 DataSource = dsHeader
                 Font.Charset = DEFAULT_CHARSET
                 Font.Color = clBlack
-                Font.Height = -11
+                Font.Height = -13
                 Font.Name = 'Arial'
                 Font.Style = []
                 ParentFont = False
                 Text = ''
               end
               object RLDBText39: TRLDBText
-                Left = 504
+                Left = 451
                 Top = 3
-                Width = 63
-                Height = 14
-                Alignment = taRightJustify
+                Width = 82
+                Height = 16
                 DataField = 'ITEM_WIDTH'
                 DataSource = dsHeader
                 Font.Charset = DEFAULT_CHARSET
                 Font.Color = clBlack
-                Font.Height = -11
+                Font.Height = -13
                 Font.Name = 'Arial'
                 Font.Style = []
                 ParentFont = False
                 Text = ''
               end
               object RLDBText40: TRLDBText
-                Left = 553
+                Left = 547
                 Top = 3
-                Width = 67
-                Height = 14
-                Alignment = taRightJustify
+                Width = 88
+                Height = 16
                 DataField = 'ITEM_HEIGHT'
                 DataSource = dsHeader
                 Font.Charset = DEFAULT_CHARSET
                 Font.Color = clBlack
-                Font.Height = -11
+                Font.Height = -13
                 Font.Name = 'Arial'
                 Font.Style = []
                 ParentFont = False
                 Text = ''
               end
               object RLDBText41: TRLDBText
-                Left = 662
+                Left = 619
                 Top = 3
-                Width = 53
-                Height = 14
-                Alignment = taRightJustify
+                Width = 67
+                Height = 16
                 DataField = 'ITEM_QTY'
                 DataSource = dsHeader
                 Font.Charset = DEFAULT_CHARSET
                 Font.Color = clBlack
-                Font.Height = -11
+                Font.Height = -13
                 Font.Name = 'Arial'
                 Font.Style = []
                 ParentFont = False
                 Text = ''
-              end
-              object RLDBText43: TRLDBText
-                Left = 73
-                Top = 19
-                Width = 62
-                Height = 14
-                DataField = 'ITEM_ROOM'
-                DataSource = dsHeader
-                Font.Charset = DEFAULT_CHARSET
-                Font.Color = clBlack
-                Font.Height = -11
-                Font.Name = 'Arial'
-                Font.Style = []
-                ParentFont = False
-                Text = ''
-              end
-              object RLLabel36: TRLLabel
-                Left = 33
-                Top = 19
-                Width = 35
-                Height = 14
-                Caption = 'Room'
-                Font.Charset = DEFAULT_CHARSET
-                Font.Color = clBlack
-                Font.Height = -11
-                Font.Name = 'Arial'
-                Font.Style = [fsBold]
-                ParentFont = False
               end
             end
             object RLBand16: TRLBand
               Left = 0
-              Top = 87
+              Top = 76
               Width = 718
-              Height = 24
+              Height = 44
               BandType = btSummary
               Font.Charset = DEFAULT_CHARSET
               Font.Color = clBlack
@@ -6263,9 +6198,7 @@ object frmEstimate: TfrmEstimate
       '           S.ADD_DATE AS SERVICE_START_DATE,'
       #9'   IR.NAME AS INSTALLER_NAME'
       'FROM TBPROCESS_ITEM I'
-      
-        'inner join TBPROCESS H on H.ID_PROCESS = i.ID_PROCESS  AND I.TAB' +
-        'LENAME =  '#39'TBORDER_ITEM'#39
+      'inner join TBPROCESS H on H.ID_PROCESS = i.ID_PROCESS '
       'INNER JOIN TBCOMPANY C ON C.ID_COMPANY = H.ID_COMPANY'
       
         'INNER JOIN TBPRODUCT P ON P.ID_PRODUCT = I.ID_PRODUCT AND P.TYPE' +
@@ -6339,9 +6272,7 @@ object frmEstimate: TfrmEstimate
       '           S.ADD_DATE AS SERVICE_START_DATE,'
       #9'   IR.NAME AS INSTALLER_NAME'
       'FROM TBPROCESS_ITEM I'
-      
-        'inner join TBPROCESS H on H.ID_PROCESS = i.ID_PROCESS  AND I.TAB' +
-        'LENAME =  '#39'TBORDER_ITEM'#39
+      'inner join TBPROCESS H on H.ID_PROCESS = i.ID_PROCESS '
       'INNER JOIN TBCOMPANY C ON C.ID_COMPANY = H.ID_COMPANY'
       
         'INNER JOIN TBPRODUCT P ON P.ID_PRODUCT = I.ID_PRODUCT AND P.TYPE' +

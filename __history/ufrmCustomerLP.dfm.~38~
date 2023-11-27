@@ -34,7 +34,7 @@ object frmCustomerLP: TfrmCustomerLP
     Font.Style = []
     ParentFont = False
     TabOrder = 0
-    Properties.ActivePage = cxTabSheetList
+    Properties.ActivePage = cxTabSheetForm
     Properties.CustomButtons.Buttons = <>
     ClientRectBottom = 457
     ClientRectLeft = 4
@@ -213,8 +213,6 @@ object frmCustomerLP: TfrmCustomerLP
               ParentFont = False
               TabOrder = 1
               RootLevelOptions.DetailTabsPosition = dtpTop
-              ExplicitLeft = -3
-              ExplicitTop = 3
               object cxTableViewAddress: TcxGridDBTableView
                 Navigator.Buttons.ConfirmDelete = True
                 Navigator.Buttons.CustomButtons = <>
@@ -272,7 +270,6 @@ object frmCustomerLP: TfrmCustomerLP
                 object cxTableViewAddressCOUNTY: TcxGridDBColumn
                   Caption = 'County'
                   DataBinding.FieldName = 'COUNTY'
-                  Width = 150
                 end
                 object cxTableViewAddressCITY: TcxGridDBColumn
                   Caption = 'City'

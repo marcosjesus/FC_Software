@@ -752,6 +752,7 @@ object FrmCustomer: TFrmCustomer
               ParentFont = False
               TabOrder = 1
               RootLevelOptions.DetailTabsPosition = dtpTop
+              ExplicitTop = 33
               object cxTableViewAddress: TcxGridDBTableView
                 Navigator.Buttons.ConfirmDelete = True
                 Navigator.Buttons.CustomButtons = <>
@@ -805,6 +806,11 @@ object FrmCustomer: TFrmCustomer
                   Caption = 'ZipCode'
                   DataBinding.FieldName = 'ZIPCODE'
                   Width = 100
+                end
+                object cxTableViewAddressCOUNTY: TcxGridDBColumn
+                  Caption = 'County'
+                  DataBinding.FieldName = 'COUNTY'
+                  Width = 150
                 end
                 object cxTableViewAddressCITY: TcxGridDBColumn
                   Caption = 'City'
@@ -1106,8 +1112,8 @@ object FrmCustomer: TFrmCustomer
       'WHERE C.TYPEPERSON = :TYPEPERSON'
       '&WHERE1'
       '&WHERE2')
-    Left = 612
-    Top = 248
+    Left = 780
+    Top = 432
     ParamData = <
       item
         Name = 'TYPEPERSON'
@@ -1191,8 +1197,8 @@ object FrmCustomer: TFrmCustomer
   end
   object dsGrid: TDataSource
     DataSet = sqlGrid
-    Left = 628
-    Top = 304
+    Left = 692
+    Top = 416
   end
   object sqlAddress: TFDQuery
     AfterEdit = sqlAddressAfterEdit
@@ -1200,8 +1206,8 @@ object FrmCustomer: TFrmCustomer
     Connection = DBDados.FDConnection
     SQL.Strings = (
       'SELECT * FROM TBADDRESS Where ID_CUSTOMER = :ID_CUSTOMER')
-    Left = 335
-    Top = 333
+    Left = 231
+    Top = 405
     ParamData = <
       item
         Name = 'ID_CUSTOMER'
@@ -1270,7 +1276,7 @@ object FrmCustomer: TFrmCustomer
   object dsAddress: TDataSource
     DataSet = sqlAddress
     Left = 319
-    Top = 397
+    Top = 437
   end
   object TBCOMPANY: TFDTable
     Filtered = True

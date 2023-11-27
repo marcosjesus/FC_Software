@@ -158,7 +158,6 @@ type
     sqlVendorADD_DATE: TDateField;
     sqlVendorUPD_DATE: TDateField;
     sqlVendorID_COMPANY: TIntegerField;
-    cxTableViewAddressCOUNTY: TcxGridDBColumn;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure ButNovoClick(Sender: TObject);
     procedure sqlAddressAfterEdit(DataSet: TDataSet);

@@ -6263,9 +6263,7 @@ object frmEstimate: TfrmEstimate
       '           S.ADD_DATE AS SERVICE_START_DATE,'
       #9'   IR.NAME AS INSTALLER_NAME'
       'FROM TBPROCESS_ITEM I'
-      
-        'inner join TBPROCESS H on H.ID_PROCESS = i.ID_PROCESS  AND I.TAB' +
-        'LENAME =  '#39'TBORDER_ITEM'#39
+      'inner join TBPROCESS H on H.ID_PROCESS = i.ID_PROCESS '
       'INNER JOIN TBCOMPANY C ON C.ID_COMPANY = H.ID_COMPANY'
       
         'INNER JOIN TBPRODUCT P ON P.ID_PRODUCT = I.ID_PRODUCT AND P.TYPE' +
@@ -6339,9 +6337,7 @@ object frmEstimate: TfrmEstimate
       '           S.ADD_DATE AS SERVICE_START_DATE,'
       #9'   IR.NAME AS INSTALLER_NAME'
       'FROM TBPROCESS_ITEM I'
-      
-        'inner join TBPROCESS H on H.ID_PROCESS = i.ID_PROCESS  AND I.TAB' +
-        'LENAME =  '#39'TBORDER_ITEM'#39
+      'inner join TBPROCESS H on H.ID_PROCESS = i.ID_PROCESS '
       'INNER JOIN TBCOMPANY C ON C.ID_COMPANY = H.ID_COMPANY'
       
         'INNER JOIN TBPRODUCT P ON P.ID_PRODUCT = I.ID_PRODUCT AND P.TYPE' +

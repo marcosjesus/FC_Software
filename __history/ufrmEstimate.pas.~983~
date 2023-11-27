@@ -533,6 +533,7 @@ type
     RLReport1: TRLReport;
     RLBand10: TRLBand;
     RLBand11: TRLBand;
+    RLLabel1: TRLLabel;
     RLLabel26: TRLLabel;
     RLLabel27: TRLLabel;
     RLLabel28: TRLLabel;
@@ -542,6 +543,7 @@ type
     sqlServiceCITY: TStringField;
     sqlServiceCOUNTY: TStringField;
     sqlServiceSTATEE: TStringField;
+    RLDBText31: TRLDBText;
     RLDBText32: TRLDBText;
     RLDBText33: TRLDBText;
     RLDBText34: TRLDBText;
@@ -580,12 +582,6 @@ type
     RLDBText40: TRLDBText;
     RLLabel34: TRLLabel;
     RLDBText41: TRLDBText;
-    RLDBText31: TRLDBText;
-    RLLabel1: TRLLabel;
-    RLLabel35: TRLLabel;
-    RLDBText42: TRLDBText;
-    RLDBText43: TRLDBText;
-    RLLabel36: TRLLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure spbCleanCustomerClick(Sender: TObject);

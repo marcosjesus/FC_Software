@@ -479,8 +479,16 @@ object frmSupplier: TfrmSupplier
                 Width = 719
                 Height = 327
                 Align = alClient
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -11
+                Font.Name = 'MS Sans Serif'
+                Font.Style = [fsBold]
+                ParentFont = False
                 TabOrder = 1
                 RootLevelOptions.DetailTabsPosition = dtpTop
+                ExplicitLeft = 2
+                ExplicitTop = -3
                 object cxTableViewAddress: TcxGridDBTableView
                   Navigator.Buttons.ConfirmDelete = True
                   Navigator.Buttons.CustomButtons = <>
@@ -534,6 +542,11 @@ object frmSupplier: TfrmSupplier
                     Caption = 'ZipCode'
                     DataBinding.FieldName = 'ZIPCODE'
                     Width = 95
+                  end
+                  object cxTableViewAddressCOUNTY: TcxGridDBColumn
+                    Caption = 'County'
+                    DataBinding.FieldName = 'COUNTY'
+                    Width = 150
                   end
                   object cxTableViewAddressCITY: TcxGridDBColumn
                     Caption = 'City'
@@ -1410,6 +1423,11 @@ object frmSupplier: TfrmSupplier
     object sqlAddressupd_date: TSQLTimeStampField
       FieldName = 'upd_date'
       Origin = 'upd_date'
+    end
+    object sqlAddressCOUNTY: TStringField
+      FieldName = 'COUNTY'
+      Origin = 'COUNTY'
+      Size = 80
     end
   end
   object sqlContact: TFDQuery

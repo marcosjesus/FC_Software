@@ -153,8 +153,6 @@ type
     cxGrid1DBTableView1PHONE1: TcxGridDBColumn;
     cxGrid1DBTableView1PHONE2: TcxGridDBColumn;
     cxGrid1DBTableView1EMAIL: TcxGridDBColumn;
-    sqlAddressCOUNTY: TStringField;
-    cxTableViewAddressCOUNTY: TcxGridDBColumn;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure ButNovoClick(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);

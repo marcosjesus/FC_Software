@@ -584,8 +584,6 @@ type
     RLLabel1: TRLLabel;
     RLLabel35: TRLLabel;
     RLDBText42: TRLDBText;
-    RLDBText43: TRLDBText;
-    RLLabel36: TRLLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure spbCleanCustomerClick(Sender: TObject);

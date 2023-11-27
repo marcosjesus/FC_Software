@@ -1,9 +1,9 @@
-object frmCustomerLP: TfrmCustomerLP
+object frmSupplier: TfrmSupplier
   Left = 0
   Top = 0
-  Caption = 'Customer Legal Person'
-  ClientHeight = 536
-  ClientWidth = 981
+  Caption = 'Manufacture'
+  ClientHeight = 634
+  ClientWidth = 1239
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -24,8 +24,8 @@ object frmCustomerLP: TfrmCustomerLP
   object cxPageControl: TcxPageControl
     Left = 0
     Top = 0
-    Width = 981
-    Height = 461
+    Width = 1239
+    Height = 559
     Align = alClient
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -34,39 +34,27 @@ object frmCustomerLP: TfrmCustomerLP
     Font.Style = []
     ParentFont = False
     TabOrder = 0
-    Properties.ActivePage = cxTabSheetList
+    Properties.ActivePage = cxTabSheetForm
     Properties.CustomButtons.Buttons = <>
-    ClientRectBottom = 457
+    OnChange = cxPageControlChange
+    ClientRectBottom = 555
     ClientRectLeft = 4
-    ClientRectRight = 977
+    ClientRectRight = 1235
     ClientRectTop = 24
     object cxTabSheetList: TcxTabSheet
-      Caption = 'Customer'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'Tahoma'
-      Font.Style = []
+      Caption = 'Manufacture'
       ImageIndex = 0
-      ParentFont = False
       object cxGrid1: TcxGrid
         Left = 0
         Top = 0
-        Width = 973
-        Height = 433
+        Width = 1231
+        Height = 531
         Align = alClient
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -11
-        Font.Name = 'Tahoma'
-        Font.Style = []
-        ParentFont = False
         TabOrder = 0
         object cxGrid1DBTableView1: TcxGridDBTableView
           OnDblClick = cxGrid1DBTableView1DblClick
           Navigator.Buttons.CustomButtons = <>
           DataController.DataSource = dsGrid
-          DataController.KeyFieldNames = 'ID_CUSTOMER'
           DataController.Summary.DefaultGroupSummaryItems = <>
           DataController.Summary.FooterSummaryItems = <>
           DataController.Summary.SummaryGroups = <>
@@ -75,35 +63,55 @@ object frmCustomerLP: TfrmCustomerLP
           OptionsData.Inserting = False
           OptionsView.GroupByBox = False
           OptionsView.Indicator = True
-          object cxGrid1DBTableView1ID_CUSTOMER: TcxGridDBColumn
-            Caption = 'ID'
-            DataBinding.FieldName = 'ID_CUSTOMER'
-            Width = 60
-          end
-          object cxGrid1DBTableView1COMPANYNAME: TcxGridDBColumn
-            Caption = 'Company'
-            DataBinding.FieldName = 'COMPANYNAME'
-            Width = 148
-          end
-          object cxGrid1DBTableView1LAST_NAME: TcxGridDBColumn
-            Caption = 'Organization'
-            DataBinding.FieldName = 'LAST_NAME'
+          object cxGrid1DBTableView1NAMEBUSINESS: TcxGridDBColumn
+            Caption = 'Manufacture Name'
+            DataBinding.FieldName = 'NAMEBUSINESS'
             Width = 200
           end
-          object cxGrid1DBTableView1EMAIL: TcxGridDBColumn
-            Caption = 'E-mail'
-            DataBinding.FieldName = 'EMAIL'
-            Width = 300
+          object cxGrid1DBTableView1TRADININGNAME: TcxGridDBColumn
+            Caption = 'Trading Name'
+            DataBinding.FieldName = 'TRADININGNAME'
+            Width = 150
+          end
+          object cxGrid1DBTableView1ADDRESS1: TcxGridDBColumn
+            Caption = 'Address'
+            DataBinding.FieldName = 'ADDRESS1'
+            Width = 120
+          end
+          object cxGrid1DBTableView1CITY: TcxGridDBColumn
+            Caption = 'City'
+            DataBinding.FieldName = 'CITY'
+            Width = 100
+          end
+          object cxGrid1DBTableView1STATEE: TcxGridDBColumn
+            Caption = 'ST'
+            DataBinding.FieldName = 'STATEE'
+            Width = 30
+          end
+          object cxGrid1DBTableView1NAME: TcxGridDBColumn
+            Caption = 'Contact'
+            DataBinding.FieldName = 'NAME'
+            Width = 150
+          end
+          object cxGrid1DBTableView1POSITION: TcxGridDBColumn
+            Caption = 'Position'
+            DataBinding.FieldName = 'POSITION'
+            Width = 150
           end
           object cxGrid1DBTableView1PHONE1: TcxGridDBColumn
-            Caption = 'Phone1 #'
+            Caption = 'Phone#1'
             DataBinding.FieldName = 'PHONE1'
             Width = 100
           end
           object cxGrid1DBTableView1PHONE2: TcxGridDBColumn
-            Caption = 'Phone2 #'
+            Caption = 'Phone#2'
             DataBinding.FieldName = 'PHONE2'
             Width = 100
+          end
+          object cxGrid1DBTableView1EMAIL: TcxGridDBColumn
+            Caption = 'E-mail'
+            DataBinding.FieldName = 'EMAIL'
+            Width = 200
           end
         end
         object cxGrid1Level1: TcxGridLevel
@@ -114,431 +122,448 @@ object frmCustomerLP: TfrmCustomerLP
     object cxTabSheetForm: TcxTabSheet
       Caption = 'Registration Form'
       ImageIndex = 1
-      object Panel1: TPanel
-        Tag = -2
+      object PanFundo: TPanel
         Left = 0
         Top = 0
-        Width = 973
-        Height = 27
-        Align = alTop
-        Alignment = taLeftJustify
-        BevelInner = bvLowered
-        Caption = '     ID'
-        Font.Charset = ANSI_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -11
-        Font.Name = 'Arial'
-        Font.Style = [fsBold]
-        ParentFont = False
-        TabOrder = 0
-        object Label1: TLabel
-          Left = 317
-          Top = 7
-          Width = 559
-          Height = 14
-          Caption = 
-            'Please fill out this form as completely and accurantely as possi' +
-            'ble so thatt you can contact them later.'
-        end
-      end
-      object PgCPrincipal: TcxPageControl
-        Tag = -1
-        Left = 0
-        Top = 27
-        Width = 973
-        Height = 406
+        Width = 1231
+        Height = 531
         Align = alClient
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -11
-        Font.Name = 'MS Sans Serif'
-        Font.Style = [fsBold]
-        ParentFont = False
-        TabOrder = 1
-        Properties.ActivePage = TbSFicha
-        Properties.CustomButtons.Buttons = <>
-        LookAndFeel.Kind = lfOffice11
-        LookAndFeel.NativeStyle = False
-        LookAndFeel.SkinName = 'Office2007Blue'
-        ClientRectBottom = 400
-        ClientRectLeft = 3
-        ClientRectRight = 967
-        ClientRectTop = 26
-        object TbSFicha: TcxTabSheet
-          Caption = 'Registration Form'
+        BevelInner = bvLowered
+        BevelOuter = bvNone
+        BevelWidth = 2
+        TabOrder = 0
+        object PanTitulo: TPanel
+          Left = 2
+          Top = 2
+          Width = 1227
+          Height = 2
+          Align = alTop
+          BevelWidth = 2
+          TabOrder = 1
+          Visible = False
+          object ImaBarraSup: TImage
+            Left = 2
+            Top = 2
+            Width = 1223
+            Height = 0
+            Align = alClient
+            ExplicitWidth = 827
+          end
+          object LabCadTit: TLabel
+            Left = 166
+            Top = 22
+            Width = 103
+            Height = 24
+            Caption = 'LabCadTit'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWhite
+            Font.Height = -21
+            Font.Name = 'Arial'
+            Font.Style = [fsBold]
+            ParentFont = False
+            Transparent = True
+          end
+          object EdiDatabaseName: TEdit
+            Left = 500
+            Top = 28
+            Width = 121
+            Height = 21
+            TabOrder = 0
+            Text = 'EdiDatabaseName'
+            Visible = False
+          end
+        end
+        object Panel1: TPanel
+          Tag = -2
+          Left = 2
+          Top = 4
+          Width = 1227
+          Height = 27
+          Align = alTop
+          Alignment = taLeftJustify
+          BevelInner = bvLowered
+          Caption = '     ID'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 0
+          object Label1: TLabel
+            Left = 317
+            Top = 7
+            Width = 559
+            Height = 14
+            Caption = 
+              'Please fill out this form as completely and accurantely as possi' +
+              'ble so thatt you can contact them later.'
+          end
+        end
+        object CBXTipo1Int: TComboBox
+          Left = 204
+          Top = 304
+          Width = 145
+          Height = 21
+          Style = csDropDownList
+          TabOrder = 2
+          Visible = False
+        end
+        object CBXTipo2Int: TComboBox
+          Left = 400
+          Top = 360
+          Width = 145
+          Height = 21
+          Style = csDropDownList
+          TabOrder = 3
+          Visible = False
+        end
+        object PgCPrincipal: TcxPageControl
+          Tag = -1
+          Left = 2
+          Top = 31
+          Width = 1227
+          Height = 498
+          Align = alClient
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
           Font.Name = 'MS Sans Serif'
           Font.Style = [fsBold]
-          ImageIndex = 0
           ParentFont = False
-          object Panel3: TPanel
-            Left = 0
-            Top = 225
-            Width = 569
-            Height = 149
-            Align = alLeft
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -11
-            Font.Name = 'MS Sans Serif'
-            Font.Style = [fsBold]
-            ParentFont = False
-            TabOrder = 0
-            object cxPageControl2: TcxPageControl
-              Left = 1
-              Top = 1
-              Width = 567
-              Height = 147
-              Align = alClient
+          TabOrder = 4
+          Properties.ActivePage = TbSFicha
+          Properties.CustomButtons.Buttons = <>
+          LookAndFeel.Kind = lfOffice11
+          LookAndFeel.NativeStyle = False
+          LookAndFeel.SkinName = 'Office2007Blue'
+          ClientRectBottom = 492
+          ClientRectLeft = 3
+          ClientRectRight = 1221
+          ClientRectTop = 26
+          object TbSFicha: TcxTabSheet
+            Caption = 'Registration Form'
+            ImageIndex = 0
+            object Panel2: TPanel
+              Left = 0
+              Top = 0
+              Width = 1218
+              Height = 137
+              Align = alTop
               TabOrder = 0
-              Properties.CustomButtons.Buttons = <>
-              ClientRectBottom = 143
-              ClientRectLeft = 4
-              ClientRectRight = 563
-              ClientRectTop = 4
-            end
-            object cxGridAddress: TcxGrid
-              Left = 1
-              Top = 1
-              Width = 567
-              Height = 147
-              Align = alClient
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -11
-              Font.Name = 'MS Sans Serif'
-              Font.Style = [fsBold]
-              ParentFont = False
-              TabOrder = 1
-              RootLevelOptions.DetailTabsPosition = dtpTop
-              ExplicitLeft = -3
-              ExplicitTop = 3
-              object cxTableViewAddress: TcxGridDBTableView
-                Navigator.Buttons.ConfirmDelete = True
-                Navigator.Buttons.CustomButtons = <>
-                Navigator.Buttons.First.Hint = 'Primeiro'
-                Navigator.Buttons.PriorPage.Visible = False
-                Navigator.Buttons.Prior.Hint = 'Anterior'
-                Navigator.Buttons.Next.Hint = 'Pr'#243'ximo'
-                Navigator.Buttons.NextPage.Visible = False
-                Navigator.Buttons.Last.Hint = #218'ltimo'
-                Navigator.Buttons.Insert.Hint = 'Inserir registro'
-                Navigator.Buttons.Append.Visible = False
-                Navigator.Buttons.Delete.Hint = 'Excluir'
-                Navigator.Buttons.Edit.Hint = 'Alterar'
-                Navigator.Buttons.Post.Hint = 'Salvar'
-                Navigator.Buttons.Cancel.Hint = 'Cancelar'
-                Navigator.Buttons.Refresh.Hint = 'Atualizar'
-                Navigator.Buttons.SaveBookmark.Visible = False
-                Navigator.Buttons.GotoBookmark.Visible = False
-                Navigator.Buttons.Filter.Hint = 'Filtro'
-                Navigator.InfoPanel.DisplayMask = '[RecordIndex] de [RecordCount]'
-                Navigator.InfoPanel.Visible = True
-                Navigator.Visible = True
-                DataController.DataSource = dsAddress
-                DataController.Filter.Active = True
-                DataController.KeyFieldNames = 'ID_ADDRESS'
-                DataController.Summary.DefaultGroupSummaryItems = <>
-                DataController.Summary.FooterSummaryItems = <>
-                DataController.Summary.SummaryGroups = <>
-                DateTimeHandling.IgnoreTimeForFiltering = True
-                DateTimeHandling.MonthFormat = 'mmm'
-                DateTimeHandling.YearFormat = 'yy'
-                DateTimeHandling.DateFormat = 'dd/mm/yyyy'
-                DateTimeHandling.HourFormat = 'hh:nn:ss'
-                FilterRow.InfoText = 'Filter here'
-                FilterRow.Visible = True
-                NewItemRow.InfoText = 'Add New Address'
-                NewItemRow.Visible = True
-                OptionsCustomize.ColumnsQuickCustomization = True
-                OptionsData.Appending = True
-                OptionsSelection.InvertSelect = False
-                OptionsSelection.MultiSelect = True
-                OptionsSelection.CellMultiSelect = True
-                OptionsView.NoDataToDisplayInfoText = '<No Data>'
-                OptionsView.Indicator = True
-                object cxTableViewAddressADDRESS1: TcxGridDBColumn
-                  Caption = 'Address'
-                  DataBinding.FieldName = 'ADDRESS1'
-                  Width = 400
-                end
-                object cxTableViewAddressZIPCODE: TcxGridDBColumn
-                  Caption = 'ZipCode'
-                  DataBinding.FieldName = 'ZIPCODE'
-                  Width = 100
-                end
-                object cxTableViewAddressCOUNTY: TcxGridDBColumn
-                  Caption = 'County'
-                  DataBinding.FieldName = 'COUNTY'
-                  Width = 150
-                end
-                object cxTableViewAddressCITY: TcxGridDBColumn
-                  Caption = 'City'
-                  DataBinding.FieldName = 'CITY'
-                  Width = 200
-                end
-                object cxTableViewAddressSTATEE: TcxGridDBColumn
-                  Caption = 'ST'
-                  DataBinding.FieldName = 'STATEE'
-                  Width = 100
-                end
-              end
-              object cxGridLevelAddress: TcxGridLevel
-                Caption = 'Addresses'
-                GridView = cxTableViewAddress
-              end
-            end
-          end
-          object Panel2: TPanel
-            Left = 0
-            Top = 0
-            Width = 964
-            Height = 225
-            Align = alTop
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -11
-            Font.Name = 'MS Sans Serif'
-            Font.Style = [fsBold]
-            ParentFont = False
-            TabOrder = 1
-            object Panel1010: TPanel
-              Tag = -1
-              Left = 109
-              Top = 161
-              Width = 894
-              Height = 61
-              Alignment = taLeftJustify
-              BevelInner = bvLowered
-              Caption = ' Addition Information'
-              Font.Charset = ANSI_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -11
-              Font.Name = 'Arial'
-              Font.Style = [fsBold]
-              ParentFont = False
-              TabOrder = 1
-              object memObservacao: TMemo
+              object Panel200: TPanel
                 Tag = -1
-                Left = 126
-                Top = 5
-                Width = 755
-                Height = 48
-                CharCase = ecUpperCase
-                MaxLength = 400
-                TabOrder = 0
-              end
-            end
-            object Panel4: TPanel
-              Tag = -1
-              Left = 109
-              Top = 2
-              Width = 894
-              Height = 33
-              Alignment = taLeftJustify
-              BevelInner = bvLowered
-              Font.Charset = ANSI_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -11
-              Font.Name = 'Arial'
-              Font.Style = [fsBold]
-              ParentFont = False
-              TabOrder = 0
-              object Label9: TLabel
-                Left = 18
-                Top = 9
-                Width = 52
-                Height = 14
-                Caption = 'Company'
-              end
-              object Label10: TLabel
-                Left = 475
-                Top = 9
-                Width = 54
-                Height = 14
-                Caption = 'Sales Rep'
-              end
-              object cxLookupComboBoxCompany: TcxLookupComboBox
-                Left = 126
-                Top = 6
-                Properties.KeyFieldNames = 'ID_COMPANY'
-                Properties.ListColumns = <
-                  item
-                    FieldName = 'COMPANYNAME'
-                  end>
-                Properties.ListSource = DsCompany
-                TabOrder = 0
-                OnClick = cxLookupComboBoxCompanyClick
-                Width = 300
-              end
-              object cxLookupComboBoxVendor: TcxLookupComboBox
-                Left = 581
-                Top = 8
-                Properties.KeyFieldNames = 'ID_CONTRACTORS'
-                Properties.ListColumns = <
-                  item
-                    FieldName = 'NAME'
-                  end>
-                Properties.ListSource = dsVendor
-                TabOrder = 1
-                Width = 300
-              end
-            end
-            object cxPageControl1: TcxPageControl
-              Left = 109
-              Top = 36
-              Width = 916
-              Height = 120
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -11
-              Font.Name = 'MS Sans Serif'
-              Font.Style = [fsBold]
-              ParentFont = False
-              TabOrder = 2
-              Properties.ActivePage = cxTabSheet1
-              Properties.CustomButtons.Buttons = <>
-              ClientRectBottom = 116
-              ClientRectLeft = 4
-              ClientRectRight = 912
-              ClientRectTop = 24
-              object cxTabSheet1: TcxTabSheet
-                Caption = 'Legal Person'
-                Font.Charset = DEFAULT_CHARSET
+                Left = 1
+                Top = 2
+                Width = 718
+                Height = 30
+                Alignment = taLeftJustify
+                BevelInner = bvLowered
+                Font.Charset = ANSI_CHARSET
                 Font.Color = clWindowText
                 Font.Height = -11
-                Font.Name = 'MS Sans Serif'
+                Font.Name = 'Arial'
                 Font.Style = [fsBold]
-                ImageIndex = 0
                 ParentFont = False
-                object Panel200: TPanel
+                TabOrder = 0
+                object Label2: TLabel
+                  Left = 49
+                  Top = 8
+                  Width = 69
+                  Height = 14
+                  Caption = 'Manufacture'
+                end
+                object edtBusiness: TEdit
+                  Left = 122
+                  Top = 5
+                  Width = 589
+                  Height = 22
+                  CharCase = ecUpperCase
+                  MaxLength = 100
+                  TabOrder = 0
+                end
+              end
+              object Panel600: TPanel
+                Tag = -1
+                Left = 724
+                Top = 68
+                Width = 490
+                Height = 60
+                Alignment = taLeftJustify
+                BevelInner = bvLowered
+                Font.Charset = ANSI_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -11
+                Font.Name = 'Arial'
+                Font.Style = [fsBold]
+                ParentFont = False
+                TabOrder = 1
+                object Label5: TLabel
+                  Left = 8
+                  Top = 24
+                  Width = 100
+                  Height = 14
+                  Caption = 'Products/ Service:'
+                end
+                object MemoProductService: TMemo
                   Tag = -1
-                  Left = 3
-                  Top = 3
-                  Width = 894
-                  Height = 87
-                  Alignment = taLeftJustify
-                  BevelInner = bvLowered
+                  Left = 114
+                  Top = 8
+                  Width = 370
+                  Height = 48
+                  CharCase = ecUpperCase
                   Font.Charset = ANSI_CHARSET
                   Font.Color = clWindowText
                   Font.Height = -11
                   Font.Name = 'Arial'
                   Font.Style = [fsBold]
+                  MaxLength = 4000
                   ParentFont = False
                   TabOrder = 0
-                  object Label2: TLabel
-                    Left = 16
-                    Top = 8
-                    Width = 69
-                    Height = 14
-                    Caption = 'Organization'
-                    Font.Charset = ANSI_CHARSET
-                    Font.Color = clWindowText
-                    Font.Height = -11
-                    Font.Name = 'Arial'
-                    Font.Style = [fsBold]
-                    ParentFont = False
-                  end
-                  object Label6: TLabel
-                    Left = 475
-                    Top = 9
-                    Width = 50
-                    Height = 14
-                    Caption = 'Phone #1'
-                  end
-                  object Label7: TLabel
-                    Left = 475
-                    Top = 34
-                    Width = 50
-                    Height = 14
-                    Caption = 'Phone #2'
-                  end
-                  object Label8: TLabel
-                    Left = 20
-                    Top = 36
-                    Width = 33
-                    Height = 14
-                    Caption = 'E-mail'
-                    Font.Charset = ANSI_CHARSET
-                    Font.Color = clWindowText
-                    Font.Height = -11
-                    Font.Name = 'Arial'
-                    Font.Style = [fsBold]
-                    ParentFont = False
-                  end
-                  object edtOrganization: TEdit
-                    Left = 126
-                    Top = 8
-                    Width = 300
-                    Height = 22
-                    CharCase = ecUpperCase
-                    Font.Charset = ANSI_CHARSET
-                    Font.Color = clWindowText
-                    Font.Height = -11
-                    Font.Name = 'Arial'
-                    Font.Style = [fsBold]
-                    MaxLength = 30
-                    ParentFont = False
-                    TabOrder = 0
-                  end
-                  object edtEmail: TEdit
-                    Left = 126
-                    Top = 36
-                    Width = 300
-                    Height = 22
-                    Font.Charset = ANSI_CHARSET
-                    Font.Color = clWindowText
-                    Font.Height = -11
-                    Font.Name = 'Arial'
-                    Font.Style = [fsBold]
-                    MaxLength = 100
-                    ParentFont = False
-                    TabOrder = 1
-                  end
-                  object edtPhone1: TMaskEdit
-                    Left = 584
-                    Top = 8
-                    Width = 297
-                    Height = 22
-                    EditMask = '!\(999\)000-0000;1;_'
-                    MaxLength = 13
-                    TabOrder = 2
-                    Text = '(   )   -    '
-                  end
-                  object edtPhone2: TMaskEdit
-                    Left = 581
-                    Top = 34
-                    Width = 300
-                    Height = 22
-                    EditMask = '!\(999\)000-0000;1;_'
-                    MaxLength = 13
-                    TabOrder = 3
-                    Text = '(   )   -    '
-                  end
+                end
+              end
+              object Panel1000: TPanel
+                Tag = -1
+                Left = 723
+                Top = 3
+                Width = 490
+                Height = 30
+                Alignment = taLeftJustify
+                BevelInner = bvLowered
+                Font.Charset = ANSI_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -11
+                Font.Name = 'Arial'
+                Font.Style = [fsBold]
+                ParentFont = False
+                TabOrder = 2
+                object Label6: TLabel
+                  Left = 9
+                  Top = 7
+                  Width = 45
+                  Height = 14
+                  Caption = 'WebSite'
+                end
+                object edtWebSite: TEdit
+                  Left = 115
+                  Top = 4
+                  Width = 370
+                  Height = 22
+                  CharCase = ecUpperCase
+                  MaxLength = 100
+                  TabOrder = 0
+                end
+              end
+              object Panel1010: TPanel
+                Tag = -1
+                Left = -3
+                Top = 68
+                Width = 724
+                Height = 60
+                Alignment = taLeftJustify
+                BevelInner = bvLowered
+                Font.Charset = ANSI_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -11
+                Font.Name = 'Arial'
+                Font.Style = [fsBold]
+                ParentFont = False
+                TabOrder = 3
+                object Label7: TLabel
+                  Left = 52
+                  Top = 24
+                  Width = 70
+                  Height = 14
+                  Caption = 'Addition Info'
+                end
+                object memObservacao: TMemo
+                  Tag = -1
+                  Left = 128
+                  Top = 8
+                  Width = 589
+                  Height = 48
+                  CharCase = ecUpperCase
+                  MaxLength = 4000
+                  TabOrder = 0
+                end
+              end
+              object Panel5: TPanel
+                Tag = -1
+                Left = 0
+                Top = 35
+                Width = 721
+                Height = 30
+                Alignment = taLeftJustify
+                BevelInner = bvLowered
+                Font.Charset = ANSI_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -11
+                Font.Name = 'Arial'
+                Font.Style = [fsBold]
+                ParentFont = False
+                TabOrder = 4
+                object Label3: TLabel
+                  Left = 44
+                  Top = 8
+                  Width = 75
+                  Height = 14
+                  Caption = 'Trading Name'
+                end
+                object edtTradingName: TEdit
+                  Left = 125
+                  Top = 5
+                  Width = 589
+                  Height = 22
+                  CharCase = ecUpperCase
+                  MaxLength = 50
+                  TabOrder = 0
+                end
+              end
+              object Panel6: TPanel
+                Tag = -1
+                Left = 723
+                Top = 35
+                Width = 490
+                Height = 30
+                Alignment = taLeftJustify
+                BevelInner = bvLowered
+                Font.Charset = ANSI_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -11
+                Font.Name = 'Arial'
+                Font.Style = [fsBold]
+                ParentFont = False
+                TabOrder = 5
+                object Label4: TLabel
+                  Left = 9
+                  Top = 8
+                  Width = 46
+                  Height = 14
+                  Caption = 'Industry'
+                end
+                object cbxIndustry: TcxComboBox
+                  Left = 115
+                  Top = 4
+                  Properties.Items.Strings = (
+                    'Manufacturing'
+                    'Furniture and Home Furnishings Stores')
+                  Properties.MaxLength = 50
+                  TabOrder = 0
+                  Width = 370
                 end
               end
             end
-          end
-          object Panel5: TPanel
-            Left = 569
-            Top = 225
-            Width = 395
-            Height = 149
-            Align = alClient
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -11
-            Font.Name = 'MS Sans Serif'
-            Font.Style = [fsBold]
-            ParentFont = False
-            TabOrder = 2
-            object cxGrid2: TcxGrid
-              Left = 1
-              Top = 1
-              Width = 393
-              Height = 147
+            object Panel3: TPanel
+              Left = 0
+              Top = 137
+              Width = 721
+              Height = 329
+              Align = alLeft
+              TabOrder = 1
+              object cxPageControl2: TcxPageControl
+                Left = 1
+                Top = 1
+                Width = 719
+                Height = 327
+                Align = alClient
+                TabOrder = 0
+                Properties.CustomButtons.Buttons = <>
+                ClientRectBottom = 323
+                ClientRectLeft = 4
+                ClientRectRight = 715
+                ClientRectTop = 4
+              end
+              object cxGridAddress: TcxGrid
+                Left = 1
+                Top = 1
+                Width = 719
+                Height = 327
+                Align = alClient
+                TabOrder = 1
+                RootLevelOptions.DetailTabsPosition = dtpTop
+                object cxTableViewAddress: TcxGridDBTableView
+                  Navigator.Buttons.ConfirmDelete = True
+                  Navigator.Buttons.CustomButtons = <>
+                  Navigator.Buttons.First.Hint = 'Primeiro'
+                  Navigator.Buttons.PriorPage.Visible = False
+                  Navigator.Buttons.Prior.Hint = 'Anterior'
+                  Navigator.Buttons.Next.Hint = 'Pr'#243'ximo'
+                  Navigator.Buttons.NextPage.Visible = False
+                  Navigator.Buttons.Last.Hint = #218'ltimo'
+                  Navigator.Buttons.Insert.Hint = 'Inserir registro'
+                  Navigator.Buttons.Append.Visible = False
+                  Navigator.Buttons.Delete.Hint = 'Excluir'
+                  Navigator.Buttons.Edit.Hint = 'Alterar'
+                  Navigator.Buttons.Post.Hint = 'Salvar'
+                  Navigator.Buttons.Cancel.Hint = 'Cancelar'
+                  Navigator.Buttons.Refresh.Hint = 'Atualizar'
+                  Navigator.Buttons.SaveBookmark.Visible = False
+                  Navigator.Buttons.GotoBookmark.Visible = False
+                  Navigator.Buttons.Filter.Hint = 'Filtro'
+                  Navigator.InfoPanel.DisplayMask = '[RecordIndex] de [RecordCount]'
+                  Navigator.InfoPanel.Visible = True
+                  Navigator.Visible = True
+                  DataController.DataSource = dsAddress
+                  DataController.Filter.Active = True
+                  DataController.KeyFieldNames = 'ID_ADDRESS'
+                  DataController.Summary.DefaultGroupSummaryItems = <>
+                  DataController.Summary.FooterSummaryItems = <>
+                  DataController.Summary.SummaryGroups = <>
+                  DateTimeHandling.IgnoreTimeForFiltering = True
+                  DateTimeHandling.MonthFormat = 'mmm'
+                  DateTimeHandling.YearFormat = 'yy'
+                  DateTimeHandling.DateFormat = 'dd/mm/yyyy'
+                  DateTimeHandling.HourFormat = 'hh:nn:ss'
+                  FilterRow.InfoText = 'Filter here'
+                  FilterRow.Visible = True
+                  NewItemRow.InfoText = 'Add New Address'
+                  NewItemRow.Visible = True
+                  OptionsCustomize.ColumnsQuickCustomization = True
+                  OptionsData.Appending = True
+                  OptionsSelection.InvertSelect = False
+                  OptionsSelection.MultiSelect = True
+                  OptionsSelection.CellMultiSelect = True
+                  OptionsView.NoDataToDisplayInfoText = '<No Data>'
+                  OptionsView.Indicator = True
+                  object cxTableViewAddressADDRESS1: TcxGridDBColumn
+                    Caption = 'Address'
+                    DataBinding.FieldName = 'ADDRESS1'
+                    Width = 341
+                  end
+                  object cxTableViewAddressZIPCODE: TcxGridDBColumn
+                    Caption = 'ZipCode'
+                    DataBinding.FieldName = 'ZIPCODE'
+                    Width = 95
+                  end
+                  object cxTableViewAddressCITY: TcxGridDBColumn
+                    Caption = 'City'
+                    DataBinding.FieldName = 'CITY'
+                    Width = 200
+                  end
+                  object cxTableViewAddressSTATEE: TcxGridDBColumn
+                    Caption = 'ST'
+                    DataBinding.FieldName = 'STATEE'
+                    Width = 49
+                  end
+                end
+                object cxGridLevelAddress: TcxGridLevel
+                  Caption = 'Addresses'
+                  GridView = cxTableViewAddress
+                end
+              end
+            end
+            object cxSplitter1: TcxSplitter
+              Left = 721
+              Top = 137
+              Width = 6
+              Height = 329
+              Control = Panel3
+            end
+            object Panel4: TPanel
+              Left = 727
+              Top = 137
+              Width = 491
+              Height = 329
               Align = alClient
               Font.Charset = DEFAULT_CHARSET
               Font.Color = clWindowText
@@ -546,81 +571,95 @@ object frmCustomerLP: TfrmCustomerLP
               Font.Name = 'MS Sans Serif'
               Font.Style = [fsBold]
               ParentFont = False
-              TabOrder = 0
-              RootLevelOptions.DetailTabsPosition = dtpTop
-              object cxGridDBTableView1: TcxGridDBTableView
-                Navigator.Buttons.ConfirmDelete = True
-                Navigator.Buttons.CustomButtons = <>
-                Navigator.Buttons.First.Hint = 'Primeiro'
-                Navigator.Buttons.PriorPage.Visible = False
-                Navigator.Buttons.Prior.Hint = 'Anterior'
-                Navigator.Buttons.Next.Hint = 'Pr'#243'ximo'
-                Navigator.Buttons.NextPage.Visible = False
-                Navigator.Buttons.Last.Hint = #218'ltimo'
-                Navigator.Buttons.Insert.Hint = 'Inserir registro'
-                Navigator.Buttons.Append.Visible = False
-                Navigator.Buttons.Delete.Hint = 'Excluir'
-                Navigator.Buttons.Edit.Hint = 'Alterar'
-                Navigator.Buttons.Post.Hint = 'Salvar'
-                Navigator.Buttons.Cancel.Hint = 'Cancelar'
-                Navigator.Buttons.Refresh.Hint = 'Atualizar'
-                Navigator.Buttons.SaveBookmark.Visible = False
-                Navigator.Buttons.GotoBookmark.Visible = False
-                Navigator.Buttons.Filter.Hint = 'Filtro'
-                Navigator.InfoPanel.DisplayMask = '[RecordIndex] de [RecordCount]'
-                Navigator.InfoPanel.Visible = True
-                Navigator.Visible = True
-                DataController.DataSource = dsContact
-                DataController.Filter.Active = True
-                DataController.KeyFieldNames = 'ID_CONTACT'
-                DataController.Summary.DefaultGroupSummaryItems = <>
-                DataController.Summary.FooterSummaryItems = <>
-                DataController.Summary.SummaryGroups = <>
-                DateTimeHandling.IgnoreTimeForFiltering = True
-                DateTimeHandling.MonthFormat = 'mmm'
-                DateTimeHandling.YearFormat = 'yy'
-                DateTimeHandling.DateFormat = 'dd/mm/yyyy'
-                DateTimeHandling.HourFormat = 'hh:nn:ss'
-                FilterRow.InfoText = 'Filter here'
-                FilterRow.Visible = True
-                NewItemRow.InfoText = 'Add New Contact'
-                NewItemRow.Visible = True
-                OptionsCustomize.ColumnsQuickCustomization = True
-                OptionsData.Appending = True
-                OptionsSelection.InvertSelect = False
-                OptionsSelection.MultiSelect = True
-                OptionsSelection.CellMultiSelect = True
-                OptionsView.NoDataToDisplayInfoText = '<No Data>'
-                OptionsView.Indicator = True
-                object cxGridDBTableView1NAME: TcxGridDBColumn
-                  Caption = 'Name'
-                  DataBinding.FieldName = 'NAME'
-                  Width = 200
+              TabOrder = 3
+              object cxGrid2: TcxGrid
+                Left = 1
+                Top = 1
+                Width = 489
+                Height = 327
+                Align = alClient
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -11
+                Font.Name = 'MS Sans Serif'
+                Font.Style = [fsBold]
+                ParentFont = False
+                TabOrder = 0
+                RootLevelOptions.DetailTabsPosition = dtpTop
+                object cxGridDBTableView1: TcxGridDBTableView
+                  Navigator.Buttons.ConfirmDelete = True
+                  Navigator.Buttons.CustomButtons = <>
+                  Navigator.Buttons.First.Hint = 'Primeiro'
+                  Navigator.Buttons.PriorPage.Visible = False
+                  Navigator.Buttons.Prior.Hint = 'Anterior'
+                  Navigator.Buttons.Next.Hint = 'Pr'#243'ximo'
+                  Navigator.Buttons.NextPage.Visible = False
+                  Navigator.Buttons.Last.Hint = #218'ltimo'
+                  Navigator.Buttons.Insert.Hint = 'Inserir registro'
+                  Navigator.Buttons.Append.Visible = False
+                  Navigator.Buttons.Delete.Hint = 'Excluir'
+                  Navigator.Buttons.Edit.Hint = 'Alterar'
+                  Navigator.Buttons.Post.Hint = 'Salvar'
+                  Navigator.Buttons.Cancel.Hint = 'Cancelar'
+                  Navigator.Buttons.Refresh.Hint = 'Atualizar'
+                  Navigator.Buttons.SaveBookmark.Visible = False
+                  Navigator.Buttons.GotoBookmark.Visible = False
+                  Navigator.Buttons.Filter.Hint = 'Filtro'
+                  Navigator.InfoPanel.DisplayMask = '[RecordIndex] de [RecordCount]'
+                  Navigator.InfoPanel.Visible = True
+                  Navigator.Visible = True
+                  DataController.DataSource = dsContact
+                  DataController.Filter.Active = True
+                  DataController.KeyFieldNames = 'ID_CONTACT'
+                  DataController.Summary.DefaultGroupSummaryItems = <>
+                  DataController.Summary.FooterSummaryItems = <>
+                  DataController.Summary.SummaryGroups = <>
+                  DateTimeHandling.IgnoreTimeForFiltering = True
+                  DateTimeHandling.MonthFormat = 'mmm'
+                  DateTimeHandling.YearFormat = 'yy'
+                  DateTimeHandling.DateFormat = 'dd/mm/yyyy'
+                  DateTimeHandling.HourFormat = 'hh:nn:ss'
+                  FilterRow.InfoText = 'Filter here'
+                  FilterRow.Visible = True
+                  NewItemRow.InfoText = 'Add New Contact'
+                  NewItemRow.Visible = True
+                  OptionsCustomize.ColumnsQuickCustomization = True
+                  OptionsData.Appending = True
+                  OptionsSelection.InvertSelect = False
+                  OptionsSelection.MultiSelect = True
+                  OptionsSelection.CellMultiSelect = True
+                  OptionsView.NoDataToDisplayInfoText = '<No Data>'
+                  OptionsView.Indicator = True
+                  object cxGridDBTableView1NAME: TcxGridDBColumn
+                    Caption = 'Name'
+                    DataBinding.FieldName = 'NAME'
+                    Width = 200
+                  end
+                  object cxGridDBTableView1POSITION: TcxGridDBColumn
+                    Caption = 'Position'
+                    DataBinding.FieldName = 'POSITION'
+                    Width = 200
+                  end
+                  object cxGridDBTableView1PHONE1: TcxGridDBColumn
+                    Caption = 'Phone1 #'
+                    DataBinding.FieldName = 'PHONE1'
+                    Width = 110
+                  end
+                  object cxGridDBTableView1PHONE2: TcxGridDBColumn
+                    Caption = 'Phone2 #'
+                    DataBinding.FieldName = 'PHONE2'
+                    Width = 110
+                  end
+                  object cxGridDBTableView1EMAIL: TcxGridDBColumn
+                    Caption = 'E-mail'
+                    DataBinding.FieldName = 'EMAIL'
+                    Width = 200
+                  end
                 end
-                object cxGridDBTableView1POSITION: TcxGridDBColumn
-                  Caption = 'Position'
-                  DataBinding.FieldName = 'POSITION'
-                  Width = 200
+                object cxGridLevel1: TcxGridLevel
+                  Caption = 'Contacts'
+                  GridView = cxGridDBTableView1
                 end
-                object cxGridDBTableView1PHONE1: TcxGridDBColumn
-                  Caption = 'Phone1 #'
-                  DataBinding.FieldName = 'PHONE1'
-                  Width = 110
-                end
-                object cxGridDBTableView1PHONE2: TcxGridDBColumn
-                  Caption = 'Phone2 #'
-                  DataBinding.FieldName = 'PHONE2'
-                  Width = 110
-                end
-                object cxGridDBTableView1EMAIL: TcxGridDBColumn
-                  Caption = 'E-mail'
-                  DataBinding.FieldName = 'EMAIL'
-                  Width = 200
-                end
-              end
-              object cxGridLevel1: TcxGridLevel
-                Caption = 'Contacts'
-                GridView = cxGridDBTableView1
               end
             end
           end
@@ -628,55 +667,16 @@ object frmCustomerLP: TfrmCustomerLP
       end
     end
   end
-  object StatusBar1: TStatusBar
-    Left = 0
-    Top = 517
-    Width = 981
-    Height = 19
-    Panels = <
-      item
-        Text = 'User'
-        Width = 300
-      end
-      item
-        Text = 'Date created'
-        Width = 300
-      end
-      item
-        Text = 'Date modified'
-        Width = 300
-      end>
-  end
-  object StatusBar: TdxStatusBar
-    Left = 0
-    Top = 497
-    Width = 981
-    Height = 20
-    Panels = <
-      item
-        PanelStyleClassName = 'TdxStatusBarTextPanelStyle'
-        Width = 400
-      end>
-    PaintStyle = stpsOffice11
-    LookAndFeel.Kind = lfOffice11
-    LookAndFeel.NativeStyle = True
-    LookAndFeel.SkinName = 'Office2007Blue'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'MS Sans Serif'
-    Font.Style = []
-  end
   object Panel27: TPanel
     Left = 0
-    Top = 461
-    Width = 981
+    Top = 559
+    Width = 1239
     Height = 36
     Align = alBottom
     BevelOuter = bvNone
-    TabOrder = 3
+    TabOrder = 1
     object ButNovo: TcxButton
-      Left = 2
+      Left = 1
       Top = 2
       Width = 36
       Height = 33
@@ -976,7 +976,7 @@ object frmCustomerLP: TfrmCustomerLP
     end
     object ButSalvar: TcxButton
       Left = 281
-      Top = 1
+      Top = 2
       Width = 36
       Height = 33
       Hint = 'Salvar ( Alt + S )'
@@ -1042,8 +1042,8 @@ object frmCustomerLP: TfrmCustomerLP
       OnClick = ButSalvarClick
     end
     object ButCancelar: TcxButton
-      Left = 323
-      Top = 0
+      Left = 322
+      Top = 2
       Width = 36
       Height = 33
       Hint = 'Cancelar (Alt + C)'
@@ -1183,20 +1183,178 @@ object frmCustomerLP: TfrmCustomerLP
       Font.Name = 'MS Sans Serif'
       Font.Style = [fsBold]
       ParentFont = False
+      OnClick = ButImprimirClick
     end
+  end
+  object StatusBar: TdxStatusBar
+    Left = 0
+    Top = 614
+    Width = 1239
+    Height = 20
+    Panels = <
+      item
+        PanelStyleClassName = 'TdxStatusBarTextPanelStyle'
+        Width = 400
+      end>
+    PaintStyle = stpsOffice11
+    LookAndFeel.Kind = lfOffice11
+    LookAndFeel.NativeStyle = True
+    LookAndFeel.SkinName = 'Office2007Blue'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+  end
+  object StatusBar1: TStatusBar
+    Left = 0
+    Top = 595
+    Width = 1239
+    Height = 19
+    Panels = <
+      item
+        Text = 'User'
+        Width = 300
+      end
+      item
+        Text = 'Date created'
+        Width = 300
+      end
+      item
+        Text = 'Date modified'
+        Width = 300
+      end>
+  end
+  object TimerPerfil: TTimer
+    Enabled = False
+    Interval = 100
+    Left = 482
+    Top = 65522
+  end
+  object sqlGrid: TFDQuery
+    AfterScroll = sqlGridAfterScroll
+    Connection = DBDados.FDConnection
+    SQL.Strings = (
+      'SELECT   '
+      '  S.ID_SUPPLIER,'
+      '  S.NAMEBUSINESS ,'
+      '  S.TRADININGNAME,'
+      '  S.ID_USER,'
+      '  S.add_date,'
+      '  S.upd_date,'
+      '  A.ADDRESS1,'
+      '  A.CITY,'
+      '  A.STATEE,  '
+      '  C.NAME,'
+      '  C.POSITION, '
+      '  C.PHONE1,'
+      '  C.PHONE2,'
+      '  C.EMAIL'
+      'FROM  TBSUPPLIER S'
+      'LEFT OUTER join TBADDRESS A ON A.ID_SUPPLIER = S.ID_SUPPLIER'
+      
+        'LEFT OUTER JOIN TBCONTACT C ON C.ID_SUPPLIER = A.ID_SUPPLIER AND' +
+        ' C.ID_ADDRESS = A.ID_ADDRESS')
+    Left = 676
+    Top = 362
+    object sqlGridID_SUPPLIER: TIntegerField
+      FieldName = 'ID_SUPPLIER'
+      Origin = 'ID_SUPPLIER'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object sqlGridNAMEBUSINESS: TStringField
+      FieldName = 'NAMEBUSINESS'
+      Origin = 'NAMEBUSINESS'
+      Size = 100
+    end
+    object sqlGridTRADININGNAME: TStringField
+      FieldName = 'TRADININGNAME'
+      Origin = 'TRADININGNAME'
+      Size = 50
+    end
+    object sqlGridADDRESS1: TStringField
+      FieldName = 'ADDRESS1'
+      Origin = 'ADDRESS1'
+      Size = 400
+    end
+    object sqlGridCITY: TStringField
+      FieldName = 'CITY'
+      Origin = 'CITY'
+      Size = 50
+    end
+    object sqlGridSTATEE: TStringField
+      FieldName = 'STATEE'
+      Origin = 'STATEE'
+      Size = 2
+    end
+    object sqlGridNAME: TStringField
+      FieldName = 'NAME'
+      Origin = 'NAME'
+      Size = 60
+    end
+    object sqlGridPOSITION: TStringField
+      FieldName = 'POSITION'
+      Origin = '[POSITION]'
+      Size = 50
+    end
+    object sqlGridPHONE1: TStringField
+      FieldName = 'PHONE1'
+      Origin = 'PHONE1'
+      Size = 15
+    end
+    object sqlGridPHONE2: TStringField
+      FieldName = 'PHONE2'
+      Origin = 'PHONE2'
+      Size = 15
+    end
+    object sqlGridEMAIL: TStringField
+      FieldName = 'EMAIL'
+      Origin = 'EMAIL'
+      Size = 100
+    end
+    object sqlGridID_USER: TIntegerField
+      FieldName = 'ID_USER'
+      Origin = 'ID_USER'
+    end
+    object sqlGridadd_date: TSQLTimeStampField
+      FieldName = 'add_date'
+      Origin = 'add_date'
+    end
+    object sqlGridupd_date: TSQLTimeStampField
+      FieldName = 'upd_date'
+      Origin = 'upd_date'
+    end
+  end
+  object dsGrid: TDataSource
+    DataSet = sqlGrid
+    Left = 628
+    Top = 360
+  end
+  object SaveDialog: TSaveDialog
+    DefaultExt = '*.xlsx'
+    Filter = 'Arquivos Excel|*.xlsx'
+    Left = 486
+    Top = 184
+  end
+  object dsAddress: TDataSource
+    DataSet = sqlAddress
+    Left = 391
+    Top = 357
   end
   object sqlAddress: TFDQuery
     AfterEdit = sqlAddressAfterEdit
+    BeforePost = sqlAddressBeforePost
     AfterScroll = sqlAddressAfterScroll
     OnNewRecord = sqlAddressNewRecord
     Connection = DBDados.FDConnection
     SQL.Strings = (
-      'SELECT * FROM TBADDRESS Where ID_CUSTOMER = :ID_CUSTOMER')
-    Left = 327
-    Top = 277
+      'SELECT * FROM TBADDRESS Where ID_SUPPLIER = :ID_SUPPLIER ')
+    Left = 447
+    Top = 349
     ParamData = <
       item
-        Name = 'ID_CUSTOMER'
+        Name = 'ID_SUPPLIER'
         DataType = ftInteger
         ADDataType = dtInt32
         ParamType = ptInput
@@ -1253,307 +1411,6 @@ object frmCustomerLP: TfrmCustomerLP
       FieldName = 'upd_date'
       Origin = 'upd_date'
     end
-    object sqlAddressCOUNTY: TStringField
-      FieldName = 'COUNTY'
-      Origin = 'COUNTY'
-      Size = 80
-    end
-  end
-  object dsAddress: TDataSource
-    DataSet = sqlAddress
-    Left = 319
-    Top = 397
-  end
-  object sqlGrid: TFDQuery
-    Connection = DBDados.FDConnection
-    SQL.Strings = (
-      'SELECT C.ID_CUSTOMER,'
-      'C.LAST_NAME,'
-      'C.FIRST_NAME,'
-      'C.EMAIL,'
-      'C.PHONE1,'
-      'C.PHONE2,'
-      'C.ID_USER,'
-      'C.ADD_DATE,'
-      'C.UPD_DATE,'
-      'C.ID_COMPANY,'
-      'Y.COMPANYNAME,'
-      'U.LASTNAME,'
-      'C.TYPEPERSON'
-      'FROM TBCUSTOMER C'
-      'INNER JOIN TBCOMPANY Y ON Y.ID_COMPANY = C.ID_COMPANY'
-      'INNER JOIN TBUSER U ON U.ID_USER = C.ID_USER'
-      'WHERE C.TYPEPERSON = :TYPEPERSON'
-      '&WHERE1'
-      '&WHERE2'
-      '')
-    Left = 588
-    Top = 304
-    ParamData = <
-      item
-        Name = 'TYPEPERSON'
-        DataType = ftString
-        ADDataType = dtAnsiString
-        ParamType = ptInput
-      end>
-    MacroData = <
-      item
-        Value = Null
-        Name = 'WHERE1'
-        DataType = mdIdentifier
-      end
-      item
-        Value = Null
-        Name = 'WHERE2'
-        DataType = mdIdentifier
-      end>
-    object sqlGridID_CUSTOMER: TIntegerField
-      FieldName = 'ID_CUSTOMER'
-      Origin = 'ID_CUSTOMER'
-      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
-      Required = True
-    end
-    object sqlGridLAST_NAME: TStringField
-      FieldName = 'LAST_NAME'
-      Origin = 'LAST_NAME'
-      Size = 30
-    end
-    object sqlGridFIRST_NAME: TStringField
-      FieldName = 'FIRST_NAME'
-      Origin = 'FIRST_NAME'
-      Size = 30
-    end
-    object sqlGridEMAIL: TStringField
-      FieldName = 'EMAIL'
-      Origin = 'EMAIL'
-      Size = 100
-    end
-    object sqlGridPHONE1: TStringField
-      FieldName = 'PHONE1'
-      Origin = 'PHONE1'
-      Size = 15
-    end
-    object sqlGridPHONE2: TStringField
-      FieldName = 'PHONE2'
-      Origin = 'PHONE2'
-      Size = 15
-    end
-    object sqlGridID_USER: TIntegerField
-      FieldName = 'ID_USER'
-      Origin = 'ID_USER'
-    end
-    object sqlGridADD_DATE: TSQLTimeStampField
-      FieldName = 'ADD_DATE'
-      Origin = 'ADD_DATE'
-    end
-    object sqlGridUPD_DATE: TSQLTimeStampField
-      FieldName = 'UPD_DATE'
-      Origin = 'UPD_DATE'
-    end
-    object sqlGridID_COMPANY: TIntegerField
-      FieldName = 'ID_COMPANY'
-      Origin = 'ID_COMPANY'
-    end
-    object sqlGridLASTNAME: TStringField
-      FieldName = 'LASTNAME'
-      Origin = 'LASTNAME'
-    end
-    object sqlGridCOMPANYNAME: TStringField
-      FieldName = 'COMPANYNAME'
-      Origin = 'COMPANYNAME'
-      Size = 100
-    end
-    object sqlGridTYPEPERSON: TStringField
-      FieldName = 'TYPEPERSON'
-      Origin = 'TYPEPERSON'
-      FixedChar = True
-      Size = 1
-    end
-  end
-  object DsCompany: TDataSource
-    DataSet = TBCOMPANY
-    Left = 599
-    Top = 421
-  end
-  object TBCOMPANY: TFDTable
-    Filtered = True
-    IndexFieldNames = 'ID_COMPANY'
-    Connection = DBDados.FDConnection
-    UpdateOptions.UpdateTableName = 'TBCOMPANY'
-    TableName = 'TBCOMPANY'
-    Left = 479
-    Top = 357
-    object TBCOMPANYID_COMPANY: TIntegerField
-      FieldName = 'ID_COMPANY'
-      Origin = 'ID_COMPANY'
-      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
-      Required = True
-    end
-    object TBCOMPANYTAX_ID: TStringField
-      FieldName = 'TAX_ID'
-      Origin = 'TAX_ID'
-    end
-    object TBCOMPANYCOMPANYNAME: TStringField
-      FieldName = 'COMPANYNAME'
-      Origin = 'COMPANYNAME'
-      Size = 100
-    end
-    object TBCOMPANYTRADINGNAME: TStringField
-      FieldName = 'TRADINGNAME'
-      Origin = 'TRADINGNAME'
-      Size = 50
-    end
-    object TBCOMPANYCOMPANYOWNER: TStringField
-      FieldName = 'COMPANYOWNER'
-      Origin = 'COMPANYOWNER'
-      Size = 100
-    end
-    object TBCOMPANYPHONENUMBER: TStringField
-      FieldName = 'PHONENUMBER'
-      Origin = 'PHONENUMBER'
-      Size = 15
-    end
-    object TBCOMPANYEMAIL: TStringField
-      FieldName = 'EMAIL'
-      Origin = 'EMAIL'
-      Size = 100
-    end
-    object TBCOMPANYADDRESS1: TStringField
-      FieldName = 'ADDRESS1'
-      Origin = 'ADDRESS1'
-      Size = 100
-    end
-    object TBCOMPANYCOUNTRY: TStringField
-      FieldName = 'COUNTRY'
-      Origin = 'COUNTRY'
-      Size = 30
-    end
-    object TBCOMPANYST: TStringField
-      FieldName = 'ST'
-      Origin = 'ST'
-      Size = 2
-    end
-    object TBCOMPANYCITY: TStringField
-      FieldName = 'CITY'
-      Origin = 'CITY'
-      Size = 40
-    end
-    object TBCOMPANYZIPCODE: TStringField
-      FieldName = 'ZIPCODE'
-      Origin = 'ZIPCODE'
-      Size = 10
-    end
-    object TBCOMPANYID_USER: TIntegerField
-      FieldName = 'ID_USER'
-      Origin = 'ID_USER'
-    end
-    object TBCOMPANYADD_DATE: TSQLTimeStampField
-      FieldName = 'ADD_DATE'
-      Origin = 'ADD_DATE'
-    end
-    object TBCOMPANYUPD_DATE: TSQLTimeStampField
-      FieldName = 'UPD_DATE'
-      Origin = 'UPD_DATE'
-    end
-    object TBCOMPANYESTIMATEDAYS: TIntegerField
-      FieldName = 'ESTIMATEDAYS'
-      Origin = 'ESTIMATEDAYS'
-    end
-    object TBCOMPANYTAX: TBCDField
-      FieldName = 'TAX'
-      Origin = 'TAX'
-      Precision = 15
-      Size = 2
-    end
-    object TBCOMPANYIMAGEM: TBlobField
-      FieldName = 'IMAGEM'
-      Origin = 'IMAGEM'
-      Size = 2147483647
-    end
-  end
-  object sqlVendor: TFDQuery
-    Connection = DBDados.FDConnection
-    SQL.Strings = (
-      'SELECT C.*'
-      'FROM TBCONTRACTORS C'
-      'INNER JOIN TBPOSITION P ON P.ID_POSITION = C.ID_POSITION'
-      'WHERE P.NAME IN ( '#39'MANAGER'#39','#39'SALES REPRESENTATIVE'#39')'
-      'AND C.ID_COMPANY = :ID_COMPANY'
-      'ORDER BY P.NAME')
-    Left = 688
-    Top = 400
-    ParamData = <
-      item
-        Name = 'ID_COMPANY'
-        DataType = ftInteger
-        ADDataType = dtInt32
-        ParamType = ptInput
-      end>
-    object sqlVendorID_CONTRACTORS: TIntegerField
-      FieldName = 'ID_CONTRACTORS'
-      Origin = 'ID_CONTRACTORS'
-      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
-      Required = True
-    end
-    object sqlVendorID_MAIN_USER: TIntegerField
-      FieldName = 'ID_MAIN_USER'
-      Origin = 'ID_MAIN_USER'
-    end
-    object sqlVendorNAME: TStringField
-      FieldName = 'NAME'
-      Origin = 'NAME'
-      Size = 50
-    end
-    object sqlVendorID_POSITION: TIntegerField
-      FieldName = 'ID_POSITION'
-      Origin = 'ID_POSITION'
-    end
-    object sqlVendorPHONE: TStringField
-      FieldName = 'PHONE'
-      Origin = 'PHONE'
-      Size = 12
-    end
-    object sqlVendorEMAIL: TStringField
-      FieldName = 'EMAIL'
-      Origin = 'EMAIL'
-      Size = 100
-    end
-    object sqlVendorDRIVER_LICENSE: TStringField
-      FieldName = 'DRIVER_LICENSE'
-      Origin = 'DRIVER_LICENSE'
-    end
-    object sqlVendorID_USER: TIntegerField
-      FieldName = 'ID_USER'
-      Origin = 'ID_USER'
-    end
-    object sqlVendorCOMISSION: TBCDField
-      FieldName = 'COMISSION'
-      Origin = 'COMISSION'
-      Precision = 15
-      Size = 2
-    end
-    object sqlVendorADD_DATE: TDateField
-      FieldName = 'ADD_DATE'
-      Origin = 'ADD_DATE'
-    end
-    object sqlVendorUPD_DATE: TDateField
-      FieldName = 'UPD_DATE'
-      Origin = 'UPD_DATE'
-    end
-    object sqlVendorID_COMPANY: TIntegerField
-      FieldName = 'ID_COMPANY'
-      Origin = 'ID_COMPANY'
-    end
-  end
-  object dsVendor: TDataSource
-    DataSet = sqlVendor
-    Left = 760
-    Top = 416
-  end
-  object dsGrid: TDataSource
-    DataSet = sqlGrid
-    Left = 668
-    Top = 288
   end
   object sqlContact: TFDQuery
     AfterEdit = sqlContactAfterEdit
@@ -1562,8 +1419,8 @@ object frmCustomerLP: TfrmCustomerLP
     Connection = DBDados.FDConnection
     SQL.Strings = (
       
-        'select * from TBCONTACT where id_address = :id_address and id_cu' +
-        'stomer = :id_customer')
+        'select * from TBCONTACT where id_address = :id_address and id_su' +
+        'pplier = :id_supplier')
     Left = 792
     Top = 274
     ParamData = <
@@ -1574,7 +1431,7 @@ object frmCustomerLP: TfrmCustomerLP
         ParamType = ptInput
       end
       item
-        Name = 'ID_CUSTOMER'
+        Name = 'ID_SUPPLIER'
         DataType = ftInteger
         ADDataType = dtInt32
         ParamType = ptInput
