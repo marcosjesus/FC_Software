@@ -3,7 +3,6 @@ unit ufrmSupplierInvoice;
 interface
 
 uses
-  uFunctions,
   uClassDBGenerics,
   uClassSupplierInvoice,
   SetParametro,
@@ -35,7 +34,7 @@ uses
 
 type
   TfrmSupplierInvoice = class(TForm)
-    cxPageMaster: TcxPageControl;
+    cxPage: TcxPageControl;
     cxTabSheetList: TcxTabSheet;
     cxTabSheetForm: TcxTabSheet;
     Panel27: TPanel;
@@ -78,8 +77,8 @@ type
     Label3: TLabel;
     Label4: TLabel;
     cxTextEdit2: TcxTextEdit;
-    cxPageItem: TcxPageControl;
-    cxTabSheetGrade: TcxTabSheet;
+    cxPageControl1: TcxPageControl;
+    cxTabSheetItem: TcxTabSheet;
     cxTabSheetItemForm: TcxTabSheet;
     cxGrid2DBTableView1: TcxGridDBTableView;
     cxGrid2Level1: TcxGridLevel;
@@ -96,17 +95,13 @@ type
     Label16: TLabel;
     edtShipping: TcxCurrencyEdit;
     Label6: TLabel;
-    lblProcessID: TLabel;
     procedure ButSairClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure ButNovoClick(Sender: TObject);
   private
     { Private declarations }
-    Invoice   : TInvoice;
-    Item      : TInvoiceItem;
-    varNewKey : Integer;
-    varNewKeyItem : Integer;
-    varOption, varOptionItem : char;
+    Invoice  : TInvoice;
+    Item     : TInvoiceItem;
   public
     { Public declarations }
     procedure SetupForm;
@@ -133,24 +128,20 @@ procedure TfrmSupplierInvoice.ButNovoClick(Sender: TObject);
 var
   varNextKey : TDBNextKey;
 begin
-  varNextKey                := TDBNextKey.Create(SUP_INVOICE_HEADER);
+  varNextKey                := TDBNextKey.Create(TBHeader);
   Try
     varNewKey               := varNextKey.Key;
     lblProcessID.caption    := ZeroLeft(IntToStr(varNewKey),7);
-    varNextKey.UpdateKey(varNewKey, SUP_INVOICE_HEADER); // atualiza a nova chave no banco
+    varNextKey.UpdateKey(varNewKey, TBHeader); // atualiza a nova chave no banco
     varNewKeyItem := 0;
 
-    Invoice := TInvoice.Create(Self);
-    Invoice.id_sup_invoice := varNewKey;
+    Process := TSalesProcess.Create(Self);
+    Process.id_process := varNewKey;
+    Process.tablename  := TBHeader;
 
   finally
     FreeAndNil(varNextKey);
   End;
-
-  varOption := 'I';
-  cxPageMaster.ActivePage := cxTabSheetForm;
-  cxPageItem.ActivePage     := cxTabSheetGrade;
-
 end;
 
 procedure TfrmSupplierInvoice.ButSairClick(Sender: TObject);
@@ -168,7 +159,7 @@ end;
 
 procedure TfrmSupplierInvoice.SetupForm;
 begin
-  cxPageMaster.ActivePage := cxTabSheetList;
+  cxPage.ActivePage := cxTabSheetList;
   SetParametros(edtManufactory, TipoSupplier);
   SetParametros(edtProduct, TipoProduct);
 

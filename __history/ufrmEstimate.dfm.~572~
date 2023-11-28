@@ -737,7 +737,7 @@ object frmEstimate: TfrmEstimate
         Font.Style = []
         ParentFont = False
         TabOrder = 1
-        Properties.ActivePage = cxTabSheetService
+        Properties.ActivePage = cxTabSheetItems
         Properties.CustomButtons.Buttons = <>
         OnChange = cxPageForm2Change
         ClientRectBottom = 656

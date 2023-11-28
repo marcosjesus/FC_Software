@@ -35,7 +35,7 @@ uses
 
 type
   TfrmSupplierInvoice = class(TForm)
-    cxPageMaster: TcxPageControl;
+    cxPage: TcxPageControl;
     cxTabSheetList: TcxTabSheet;
     cxTabSheetForm: TcxTabSheet;
     Panel27: TPanel;
@@ -78,8 +78,8 @@ type
     Label3: TLabel;
     Label4: TLabel;
     cxTextEdit2: TcxTextEdit;
-    cxPageItem: TcxPageControl;
-    cxTabSheetGrade: TcxTabSheet;
+    cxPageControl1: TcxPageControl;
+    cxTabSheetItem: TcxTabSheet;
     cxTabSheetItemForm: TcxTabSheet;
     cxGrid2DBTableView1: TcxGridDBTableView;
     cxGrid2Level1: TcxGridLevel;
@@ -106,7 +106,6 @@ type
     Item      : TInvoiceItem;
     varNewKey : Integer;
     varNewKeyItem : Integer;
-    varOption, varOptionItem : char;
   public
     { Public declarations }
     procedure SetupForm;
@@ -146,11 +145,6 @@ begin
   finally
     FreeAndNil(varNextKey);
   End;
-
-  varOption := 'I';
-  cxPageMaster.ActivePage := cxTabSheetForm;
-  cxPageItem.ActivePage     := cxTabSheetGrade;
-
 end;
 
 procedure TfrmSupplierInvoice.ButSairClick(Sender: TObject);
@@ -168,7 +162,7 @@ end;
 
 procedure TfrmSupplierInvoice.SetupForm;
 begin
-  cxPageMaster.ActivePage := cxTabSheetList;
+  cxPage.ActivePage := cxTabSheetList;
   SetParametros(edtManufactory, TipoSupplier);
   SetParametros(edtProduct, TipoProduct);
 

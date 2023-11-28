@@ -1063,38 +1063,27 @@ begin
          begin
 
              varArquivo := varLocal + Process.Customer.folder.pasta + '\' + Folder_Quotation + '\Quotation_' + sqlProcessID_PROCESS.AsString + '.PDF';
-             if FileExists(varArquivo) Then
-                 DeleteFile(varArquivo);
+
              varGlobalSubject := 'Quotation Nr ' +  sqlProcessID_PROCESS.AsString;
          end
          else if TBHeader = ORDER_HEADER then
          begin
              varArquivo := varLocal + Process.Customer.folder.pasta + '\' + Folder_Order + '\Order_' + sqlProcessID_PROCESS.AsString + '.PDF';
-             if FileExists(varArquivo) Then
-                 DeleteFile(varArquivo);
              varGlobalSubject := 'Order Nr ' +  sqlProcessID_PROCESS.AsString;
          end
          else if TBHeader = ORDER_HEADER then
          begin
              varArquivo := varLocal + Process.Customer.folder.pasta + '\' + Folder_Invoice + '\Invoice_' + sqlProcessID_PROCESS.AsString + '.PDF';
-             if FileExists(varArquivo) Then
-                 DeleteFile(varArquivo);
              varGlobalSubject := 'Invoice Nr ' +  sqlProcessID_PROCESS.AsString;
          end
        end
-       else
-       begin
-            varArquivo := varLocal +  varTemp + '\Temp_' + sqlProcessID_PROCESS.AsString + '.PDF';
-            if FileExists(varArquivo) Then
-               DeleteFile(varArquivo);
-       end;
+       else  varArquivo := varLocal +  varTemp + '\Temp_' + sqlProcessID_PROCESS.AsString + '.PDF';
    end
    else if TPEMAIL = WORK_EMAIL then
        begin
-           varArquivo := varLocal + Process.Customer.folder.pasta + '\' + Folder_Service + '\WorkOrder_' + sqlProcessID_PROCESS.AsString + '.PDF';
-           if FileExists(varArquivo) Then
-              DeleteFile(varArquivo);
-           varGlobalEmailDestino := lblEmail.Caption;
+             varArquivo := varLocal + Process.Customer.folder.pasta + '\' + Folder_Service + '\Invoice_' + sqlProcessID_PROCESS.AsString + '.PDF';
+
+             varGlobalEmailDestino := lblEmail.Caption;
        end;
 
    Prev := TRLPreviewForm(Sender).Preview;

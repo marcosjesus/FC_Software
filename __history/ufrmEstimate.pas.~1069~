@@ -1091,7 +1091,7 @@ begin
    end
    else if TPEMAIL = WORK_EMAIL then
        begin
-           varArquivo := varLocal + Process.Customer.folder.pasta + '\' + Folder_Service + '\WorkOrder_' + sqlProcessID_PROCESS.AsString + '.PDF';
+           varArquivo := varLocal + Process.Customer.folder.pasta + '\' + Folder_Service + '\WordOrder_' + sqlProcessID_PROCESS.AsString + '.PDF';
            if FileExists(varArquivo) Then
               DeleteFile(varArquivo);
            varGlobalEmailDestino := lblEmail.Caption;

@@ -168,7 +168,7 @@ end;
 
 procedure TfrmSupplierInvoice.SetupForm;
 begin
-  cxPageMaster.ActivePage := cxTabSheetList;
+  cxPage.ActivePage := cxTabSheetList;
   SetParametros(edtManufactory, TipoSupplier);
   SetParametros(edtProduct, TipoProduct);
 

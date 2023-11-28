@@ -35,8 +35,7 @@ uses
   ufrmRequestOrder in 'ufrmRequestOrder.pas' {frmRequestOrder},
   ufrmFollowUP in 'ufrmFollowUP.pas' {frmFollowUP},
   uSetupFolder in 'uSetupFolder.pas',
-  ufrmSupplierInvoice in 'ufrmSupplierInvoice.pas' {frmSupplierInvoice},
-  uClassSupplierInvoice in 'uClassSupplierInvoice.pas';
+  ufrmSupplierInvoice in 'ufrmSupplierInvoice.pas';
 
 {$R *.res}
 

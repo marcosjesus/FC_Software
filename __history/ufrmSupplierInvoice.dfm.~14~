@@ -18,7 +18,7 @@ object frmSupplierInvoice: TfrmSupplierInvoice
   OnClose = FormClose
   PixelsPerInch = 96
   TextHeight = 13
-  object cxPageMaster: TcxPageControl
+  object cxPage: TcxPageControl
     Left = 0
     Top = 0
     Width = 944
@@ -512,14 +512,14 @@ object frmSupplierInvoice: TfrmSupplierInvoice
           TabOrder = 4
         end
       end
-      object cxPageItem: TcxPageControl
+      object cxPageControl1: TcxPageControl
         Left = 0
         Top = 156
         Width = 854
         Height = 305
         Align = alClient
         TabOrder = 2
-        Properties.ActivePage = cxTabSheetGrade
+        Properties.ActivePage = cxTabSheetItem
         Properties.CustomButtons.Buttons = <>
         ExplicitTop = 129
         ExplicitHeight = 332
@@ -527,7 +527,7 @@ object frmSupplierInvoice: TfrmSupplierInvoice
         ClientRectLeft = 4
         ClientRectRight = 850
         ClientRectTop = 24
-        object cxTabSheetGrade: TcxTabSheet
+        object cxTabSheetItem: TcxTabSheet
           Caption = 'Items'
           ImageIndex = 0
           ExplicitHeight = 304
@@ -538,8 +538,7 @@ object frmSupplierInvoice: TfrmSupplierInvoice
             Height = 277
             Align = alClient
             TabOrder = 0
-            ExplicitLeft = 1
-            ExplicitTop = 2
+            ExplicitHeight = 304
             object cxGrid2DBTableView1: TcxGridDBTableView
               Navigator.Buttons.CustomButtons = <>
               DataController.Summary.DefaultGroupSummaryItems = <>

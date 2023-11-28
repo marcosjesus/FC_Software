@@ -44,7 +44,6 @@ uses
     varGlobalFromEmail : String;
     varGlobalFromName  : String;
     varGlobalArquivo   : String;
-    varGlobalEmailDestino : String;
 
 
 
