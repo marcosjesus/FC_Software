@@ -40,6 +40,12 @@ uses
 
   var
     FFormatoBR: TFormatSettings;
+    varGlobalSubject   : String;
+    varGlobalFromEmail : String;
+    varGlobalFromName  : String;
+    varGlobalArquivo   : String;
+
+
 
   function Str_Pal(cOrig: string; nPos: Word; cSep: ShortString): string;
   function ComputerName : String;
@@ -241,7 +247,6 @@ begin
    emSMTP.Password  := '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';
    emSMTP.UseTLS    := utUseImplicitTLS;
 
-
    emSMTP.Connect;
    Try
 
@@ -252,9 +257,9 @@ begin
            Clear;
            Body.Clear;
            Recipients.Clear;
-           Subject                := '[CashFlow] - NEW USER:';
-           From.Address           := 'mlj.developer.br@gmail.com';
-           From.Name              := 'CashFlow';
+           Subject                := varGlobalSubject;
+           From.Address           := varGlobalFromEmail;
+           From.Name              := varGlobalFromName;
            Recipients.Add.Address := varEmail;
            {
            FDQueryEmail.Close;
@@ -295,14 +300,8 @@ begin
            ContentType     := 'text/html';
            ParentPart      := 1;
          end;
-       {
-        for I := 0 to varAnexos.Count-1 do
-        begin
 
-           Attachment := TIdAttachmentFile.Create(emMessage.MessageParts, varAnexos[I]);
-
-        end;
-        }
+         Attachment := TIdAttachmentFile.Create(emMessage.MessageParts, varGlobalArquivo);
 
       end;
 

@@ -179,6 +179,10 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="uSetupFolder.pas"/>
+        <DCCReference Include="ufrmSupplierInvoice.pas">
+            <Form>frmSupplierInvoice</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

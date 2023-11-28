@@ -3,6 +3,7 @@ unit ufrmEstimate;
 interface
 
 uses
+  RLPreview,
   jpeg, pngimage,   bde.dbtables,
   uClassDBGenerics,
   uClassSalesProcess,
@@ -198,7 +199,7 @@ type
     RLHTMLFilter1: TRLHTMLFilter;
     RLPDFFilter1: TRLPDFFilter;
     pnlRelatorio: TPanel;
-    Report: TRLReport;
+    ReportSale: TRLReport;
     RLBand3: TRLBand;
     LblProcess: TRLLabel;
     RLDraw1: TRLDraw;
@@ -528,9 +529,8 @@ type
     cxTableViewPositionSTATUS: TcxGridDBColumn;
     cxTableViewPositionUSERX: TcxGridDBColumn;
     cxTableViewPositionbtnImprimir: TcxGridDBColumn;
-    cxTableViewPositionbtnEmail: TcxGridDBColumn;
     pnlRelService: TPanel;
-    RLReport1: TRLReport;
+    ReportService: TRLReport;
     RLBand10: TRLBand;
     RLBand11: TRLBand;
     RLLabel26: TRLLabel;
@@ -611,7 +611,7 @@ type
     procedure sqlTermsAfterDelete(DataSet: TDataSet);
     procedure ButExcluirClick(Sender: TObject);
     procedure ButImprimirClick(Sender: TObject);
-    procedure ReportBeforePrint(Sender: TObject; var PrintIt: Boolean);
+    procedure ReportSaleBeforePrint(Sender: TObject; var PrintIt: Boolean);
     procedure edtheightExit(Sender: TObject);
     procedure cxGrid1DBTableView1StylesGetContentStyle(
       Sender: TcxCustomGridTableView; ARecord: TcxCustomGridRecord;
@@ -634,7 +634,7 @@ type
       Sender: TObject; AButtonIndex: Integer);
     procedure cxEditRepository1ButtonEmailPropertiesButtonClick(Sender: TObject;
       AButtonIndex: Integer);
-    procedure RLReport1BeforePrint(Sender: TObject; var PrintIt: Boolean);
+    procedure ReportServiceBeforePrint(Sender: TObject; var PrintIt: Boolean);
     procedure RLPreviewSetup1Send(Sender: TObject);
   private
     { Private declarations }
@@ -872,7 +872,13 @@ begin
    SetParametros(edtCliente, TipoCustomerCompany);
    edtCliente.SetValue('C.ID_CUSTOMER = ' + IntToStr(Process.Customer.Id_customer));
 
-   Report.Preview;
+   if TBHeader = ESTIMATE_HEADER then
+     ReportSale.PreviewOptions.Caption := 'Quotation'
+   else if TBHeader = ORDER_HEADER then
+        ReportSale.PreviewOptions.Caption := 'Order'
+        else if TBHeader = INVOICE_HEADER then
+             ReportSale.PreviewOptions.Caption := 'Invoice';
+   ReportSale.Preview;
 
 end;
 
@@ -1011,7 +1017,7 @@ begin
   end;
 end;
 
-procedure TfrmEstimate.ReportBeforePrint(Sender: TObject; var PrintIt: Boolean);
+procedure TfrmEstimate.ReportSaleBeforePrint(Sender: TObject; var PrintIt: Boolean);
 begin
 
    sqlHeader.Close;
@@ -1040,8 +1046,16 @@ var
   varLocal : String;
   varTemp : String;
   varArquivo : String;
+  Filt: TRLCustomSaveFilter;
+  Prev: TRLPreview;
 begin
-   Report.Prepare;
+
+
+   Prev := TRLPreviewForm(Sender).Preview;
+
+
+
+   ReportSale.Prepare;
    varLocal := ExtractFilePath(Application.ExeName);
    varTemp  := Folder_Documents;
 
@@ -1058,13 +1072,24 @@ begin
 
    else  varArquivo := varLocal +  varTemp + '\Temp_' + sqlProcessID_PROCESS.AsString + '.PDF';
 
-   Report.SaveToFile(varArquivo);
+   ReportSale.SaveToFile(varArquivo);
+
+   varGlobalSubject   := 'Quotation Nr ' +  sqlProcessID_PROCESS.AsString;
+   varGlobalFromEmail := Process.Contractors.email;
+   varGlobalFromName  := Process.Contractors.nome;
+   varGlobalArquivo   := varArquivo;
+
+   EnviarEmail(sqlProcessCUSTOMER_EMAIL.AsString, 'This is your File');
+
    if Assigned(Process) then
      FreeAndNil(Process);
-  // EnviarEmail
+
+
+
+
 end;
 
-procedure TfrmEstimate.RLReport1BeforePrint(Sender: TObject;
+procedure TfrmEstimate.ReportServiceBeforePrint(Sender: TObject;
   var PrintIt: Boolean);
 begin
    sqlHeader.Close;
@@ -1604,6 +1629,23 @@ begin
     Exit;
   end;
 
+   if edtEmail.Text = '' then
+   begin
+      Mens_MensInf('The Email field is required.');
+      edtEmail.SetFocus;
+      Exit;
+   end;
+
+  if edtEmail.Text <> '' then
+  begin
+    if IsValidEmailRegEx(edtEmail.Text) = False Then
+    begin
+       Mens_MensErro('Invalid Customer´s E-mail.');
+       edtEmail.SetFocus ;
+       Exit;
+    end;
+  end;
+
 
   if edtSalesRep.Text = '' then
   begin
@@ -1768,12 +1810,6 @@ begin
 
         Try
           varSqlDados.Connection := DBDados.Connection;
-          varSqlDados.SQL.Clear;
-          varSqlDados.SQL.Add('Select STATUS From TBREQUESTORDER With (NOLOCK)');
-          varSqlDados.SQL.Add(' Where ID_PROCESS = :ID_PROCESS');
-          varSqlDados.SQL.Add(' AND TABLENAME = :TABLENAME');
-          varSqlDados.SQL.Add(' AND ID_PROCESS_ITEM = :ID_PROCESS_ITEM');
-          varSqlDados.SQL.Add(' AND ID_PRODUCT = :ID_PRODUCT');
           for I := 0 to Process.ItensNF.Count -1 do
           begin
               varSqlDados.Close;
@@ -2137,6 +2173,8 @@ end;
 procedure TfrmEstimate.cxEditRepository1ButtonEmailPropertiesButtonClick(
   Sender: TObject; AButtonIndex: Integer);
 begin
+
+
    ShowMessage('Sending e-mail...');
 end;
 
@@ -2160,7 +2198,8 @@ end;
 procedure TfrmEstimate.cxEditRepository1ButtonImprimirPropertiesButtonClick(
   Sender: TObject; AButtonIndex: Integer);
 begin
-  RLReport1.Preview;
+  ReportService.PreviewOptions.Caption := 'Work Order';
+  ReportService.Preview;
 end;
 
 procedure TfrmEstimate.cxGrid1DBTableView1DblClick(Sender: TObject);

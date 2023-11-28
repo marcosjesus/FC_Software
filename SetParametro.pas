@@ -6,7 +6,7 @@ uses
   uDMConectDB, SysUtils, Classes, Forms, Windows, ExtCtrls, menus,  EditBusca, Graphics;
 
 type
-  TTipoConsulta = (TipoVendorPricingTable, TipoCustomer, TipoCustomerCompany, TipoContractor, TipoPricingTable, TipoSupplier, TipoProduto, TipoProdutoVendas, TipoCliente, TipoFornecedorX, TipoItensFaturado, TipoProdutoFornecedor, TipoCompras,
+  TTipoConsulta = (TipoProduct, TipoVendorPricingTable, TipoCustomer, TipoCustomerCompany, TipoContractor, TipoPricingTable, TipoSupplier, TipoProduto, TipoProdutoVendas, TipoCliente, TipoFornecedorX, TipoItensFaturado, TipoProdutoFornecedor, TipoCompras,
                    TipoProdutoMateria, TipoHistoricoInteracao, TipoVendas, TipoCentroCusto, TipoTransportadora,
                    TipoVendedor, TipoHistoricoVendas, TipoProdutoEspecie, TipoComposicaoCPV, TipoBanco, TipoGrupo, TipoPlanoContas,
                    TipoMarca, TipoMarcaProduto, TipoCargo, TipoProfissao, TipoContatoFornecedor, TipoContatoCliente, TipoNatureza,
@@ -54,20 +54,45 @@ begin
   CaixaTexto.bs_SetCNPJ   := False;
   CaixaTexto.bs_SetColor  := False;
 
+
+  if TipoConsulta = TipoProduct then
+  begin
+    CaixaTexto.bs_Caption := 'Product Table';
+    CaixaTexto.bs_Table := 'TBPRODUCT P With (NOLOCK)';
+    CaixaTexto.bs_Fields.Add('P.ID_PRODUCT;ID;;' + inttostr(WIDTH_CODIGO));                           //0
+    CaixaTexto.bs_Fields.Add('TP.DESCRIPTION;PRODUCT TYPE;;' + inttostr(WIDTH_DOCUMENTO));               //1
+    CaixaTexto.bs_Fields.Add('TS.DESCRIPTION;PRODUCT STYLE;;' + inttostr(WIDTH_DOCUMENTO));              //2
+
+    CaixaTexto.bs_Fields.Add('(P.PRODUCT_STYLE + '' '' + P.PRODUCT_STYLE_NAME  + '' '' +  P.COLOR + '' '' + P.COLOR_NAME);PRODUCT_NAME;;' + inttostr(WIDTH_DESCRICAO));             //4
+    CaixaTexto.bs_Fields.Add('P.SKU;SKU;;' + inttostr(WIDTH_DOCUMENTO));                                   //19
+
+    CaixaTexto.bs_Fields.Add('PRODUCT_STYLE_NAME;#;;' + inttostr(WIDTH_DOCUMENTO));
+
+    CaixaTexto.bs_Join :=  ' LEFT OUTER JOIN TBTYPEBRAND TP ON TP.ID_TYPEBRAND = P.ID_TYPE ' +
+                           ' LEFT OUTER JOIN TBTYPEBRAND TS ON TS.ID_TYPEBRAND = P.STYLE ';
+
+    CaixaTexto.bs_TextResult := 'PRODUCT_STYLE_NAME';
+    CaixaTexto.bs_KeyField   := 'ID_PRODUCT';
+  end
+  else
   if TipoConsulta = TipoVendorPricingTable then
   begin
 
     CaixaTexto.bs_Caption := 'Pricing Table';
     CaixaTexto.bs_Table := 'TBPRICEITEM I With (NOLOCK)';
 
+
+
     CaixaTexto.bs_Fields.Add('I.ID_PRODUCT;ID;;' + inttostr(WIDTH_CODIGO));                           //0
     CaixaTexto.bs_Fields.Add('TP.DESCRIPTION;PRODUCT TYPE;;' + inttostr(WIDTH_DOCUMENTO));               //1
     CaixaTexto.bs_Fields.Add('TS.DESCRIPTION;PRODUCT STYLE;;' + inttostr(WIDTH_DOCUMENTO));              //2
     CaixaTexto.bs_Fields.Add('S.TRADININGNAME;MANUFACTURE;;' + inttostr(WIDTH_DOCUMENTO));               //3
+
     CaixaTexto.bs_Fields.Add('P.PRODUCT_STYLE;PRODUCT_STYLE;;' + inttostr(WIDTH_DOCUMENTO));             //4
     CaixaTexto.bs_Fields.Add('P.PRODUCT_STYLE_NAME;PRODUCT STYLE NAME;;' + inttostr(WIDTH_DOCUMENTO));   //5
     CaixaTexto.bs_Fields.Add('P.COLOR;COLOR;;' + inttostr(WIDTH_DOCUMENTO));                             //6
     CaixaTexto.bs_Fields.Add('P.COLOR_NAME;COLOR_NAME;;' + inttostr(WIDTH_DOCUMENTO));                   //7
+
     CaixaTexto.bs_Fields.Add('P.QTY;#;;' + inttostr(WIDTH_DOCUMENTO));                                   //8
     CaixaTexto.bs_Fields.Add('I.PRICE_FINAL;RATE;;' + inttostr(WIDTH_DOCUMENTO));                        //9
     CaixaTexto.bs_Fields.Add('P.STYLE;#;;' + inttostr(WIDTH_DOCUMENTO));                                 //10
@@ -1442,7 +1467,11 @@ begin
   else if Tabela = 'TBPRICEITEM' then
     SetParametros(EditBusca, TipoVendorPricingTable )
   else if Tabela = 'TBCUSTOMER' then
-    SetParametros(EditBusca, TipoCustomerCompany );
+    SetParametros(EditBusca, TipoCustomerCompany )
+  else if Tabela = 'TBPRODUCT' then
+    SetParametros(EditBusca, TipoProduct );
+
+
 
 end;
 

@@ -38,16 +38,19 @@ Type
        Fnome          : string;
        Fposition      : string;
        Fcomissao      : Double;
-       FCompany: TCompany;
+       Femail         : String;
+       FCompany       : TCompany;
     procedure setFcomissao(const Value: Double);
     procedure setFid_contractor(const Value: integer);
     procedure setFposition(const Value: string);
     procedure setFnome(const Value: string);
+    procedure setFemail(const Value: string);
     public
       property id_contractor  : integer read Fid_contractor write setFid_contractor;
       property position       : string read Fposition write setFposition;
       property comissao       : Double read Fcomissao write setFcomissao;
       property nome           : string read Fnome write setFnome;
+      property email          : string read Femail write setFemail;
       property Company        : TCompany read FCompany;
 
       Constructor Create;
@@ -632,6 +635,7 @@ begin
   nome := '';
   position := '';
   comissao := 0.00;
+  email := '';
   FCompany := TCompany.Create;
 end;
 
@@ -648,7 +652,7 @@ begin
        Try
         sqlDados.Close;
         sqlDados.SQL.Clear;
-        sqlDados.SQL.Add('SELECT C.ID_COMPANY,  C.ID_CONTRACTORS, C.NAME AS VENDORNAME, C.COMISSION, P.NAME AS POSITION ');
+        sqlDados.SQL.Add('SELECT C.ID_COMPANY,  C.ID_CONTRACTORS, C.NAME AS VENDORNAME, C.COMISSION, P.NAME AS POSITION, C.EMAIL ');
         sqlDados.SQL.Add('FROM TBCONTRACTORS C WITH (NOLOCK) ');
         sqlDados.SQL.Add('LEFT OUTER JOIN TBPOSITION P ON P.ID_POSITION = C.ID_POSITION ');
         sqlDados.SQL.Add('WHERE  C.ID_MAIN_USER = :ID_USER');
@@ -666,6 +670,8 @@ begin
 
            comissao      := sqlDados.FieldByName('COMISSION').AsFloat;
 
+           email         := sqlDados.FieldByName('EMAIL').AsString;
+
            Company.id_company :=  sqlDados.FieldByName('ID_COMPANY').AsInteger;
 
 //           Company.Search(sqlDados.FieldByName('ID_COMPANY').AsInteger);
@@ -680,6 +686,11 @@ end;
 procedure TVendor.setFcomissao(const Value: Double);
 begin
   Fcomissao := Value;
+end;
+
+procedure TVendor.setFemail(const Value: string);
+begin
+  Femail := Value;
 end;
 
 procedure TVendor.setFid_contractor(const Value: integer);

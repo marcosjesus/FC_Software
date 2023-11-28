@@ -34,7 +34,8 @@ uses
   ufrmCustomerLP in 'ufrmCustomerLP.pas' {frmCustomerLP},
   ufrmRequestOrder in 'ufrmRequestOrder.pas' {frmRequestOrder},
   ufrmFollowUP in 'ufrmFollowUP.pas' {frmFollowUP},
-  uSetupFolder in 'uSetupFolder.pas';
+  uSetupFolder in 'uSetupFolder.pas',
+  ufrmSupplierInvoice in 'ufrmSupplierInvoice.pas' {frmSupplierInvoice};
 
 {$R *.res}
 

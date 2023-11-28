@@ -116,6 +116,7 @@ type
     procedure dxBarLargeButtonCustomerLPClick(Sender: TObject);
     procedure dxBarLargeButtonRequestOrderClick(Sender: TObject);
     procedure dxBarLargeButtonInvoiceClick(Sender: TObject);
+    procedure dxBarLargeButtonSupplierInvoiceClick(Sender: TObject);
   private
     { Private declarations }
     procedure System_Acess;
@@ -136,7 +137,8 @@ implementation
 uses AsyncCalls, uDMConectDB, uFrmLogin, MensFun, ufrmAccount, uFrmSupplier, uFrmCustomer,
   uFrmCompany, uFrmProduct, uFrmCreditors, ufrmPosition, uFrmVendorsContractors,
   uFrmPriceTable, ufrmBrandType, ufrmEstimate, ufrmCreateAccount,
-  ufrmAccessControl, ufrmInventory, ufrmCustomerLP, ufrmRequestOrder;
+  ufrmAccessControl, ufrmInventory, ufrmCustomerLP, ufrmRequestOrder,
+  ufrmSupplierInvoice;
 
 procedure TfrmMenuPrincipal.dxBarLargeButtonCreditorsClick(Sender: TObject);
 begin
@@ -628,6 +630,32 @@ begin
     frmSupplier.Visible := True;
     frmSupplier.BringToFront;
     frmSupplier.Update;
+end;
+
+procedure TfrmMenuPrincipal.dxBarLargeButtonSupplierInvoiceClick(
+  Sender: TObject);
+
+  procedure SetupForm;
+  begin
+
+    frmSupplierInvoice.SetupForm; // Estimate
+
+  end;
+
+begin
+  if DBDados.varLogado = False  then Exit;
+
+  if not Assigned(frmSupplierInvoice) then
+    frmSupplierInvoice := TfrmSupplierInvoice.Create(Self);
+    frmSupplierInvoice.Caption := 'Manufactory Invoice';
+    frmSupplierInvoice.Show;
+
+    frmSupplierInvoice.Visible := True;
+    frmSupplierInvoice.BringToFront;
+    frmSupplierInvoice.Update;
+
+    LocalAsyncVclCall( @SetupForm );
+
 end;
 
 procedure TfrmMenuPrincipal.dxBarLargeButtonUserClick(Sender: TObject);

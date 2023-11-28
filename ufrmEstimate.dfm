@@ -264,8 +264,8 @@ object frmEstimate: TfrmEstimate
       OnClick = ButExcluirClick
     end
     object ButImprimir: TcxButton
-      Left = 118
-      Top = 2
+      Left = 114
+      Top = 0
       Width = 36
       Height = 33
       Hint = 'Visualizar Impress'#227'o (Alt+I)'
@@ -567,7 +567,7 @@ object frmEstimate: TfrmEstimate
     Font.Style = []
     ParentFont = False
     TabOrder = 1
-    Properties.ActivePage = cxTabEstimateReports
+    Properties.ActivePage = cxTabEstimateForm
     Properties.CustomButtons.Buttons = <>
     ClientRectBottom = 684
     ClientRectLeft = 4
@@ -737,7 +737,7 @@ object frmEstimate: TfrmEstimate
         Font.Style = []
         ParentFont = False
         TabOrder = 1
-        Properties.ActivePage = cxTabSheetService
+        Properties.ActivePage = cxTabSheetItems
         Properties.CustomButtons.Buttons = <>
         OnChange = cxPageForm2Change
         ClientRectBottom = 656
@@ -1796,6 +1796,8 @@ object frmEstimate: TfrmEstimate
               Font.Style = []
               ParentFont = False
               TabOrder = 17
+              ExplicitLeft = 837
+              ExplicitTop = 0
               object Label36: TLabel
                 Left = 40
                 Top = 0
@@ -3815,20 +3817,6 @@ object frmEstimate: TfrmEstimate
                 Width = 30
                 IsCaptionAssigned = True
               end
-              object cxTableViewPositionbtnEmail: TcxGridDBColumn
-                DataBinding.FieldName = 'btnEmail'
-                PropertiesClassName = 'TcxButtonEditProperties'
-                Properties.Buttons = <
-                  item
-                    Default = True
-                    Kind = bkEllipsis
-                  end>
-                Properties.ViewStyle = vsButtonsOnly
-                RepositoryItem = cxEditRepository1ButtonEmail
-                HeaderImageIndex = 22
-                Width = 30
-                IsCaptionAssigned = True
-              end
               object cxTableViewPositionID_SERVICE: TcxGridDBColumn
                 Caption = 'Service ID'
                 DataBinding.FieldName = 'ID_SERVICE'
@@ -3894,14 +3882,14 @@ object frmEstimate: TfrmEstimate
       object pnlRelatorio: TPanel
         Left = 24
         Top = 36
-        Width = 1089
+        Width = 819
         Height = 455
         Caption = 'Quotation/Order/Invoice'
         Color = 33023
         ParentBackground = False
         TabOrder = 0
         Visible = False
-        object Report: TRLReport
+        object ReportSale: TRLReport
           Left = 17
           Top = 21
           Width = 794
@@ -3912,7 +3900,7 @@ object frmEstimate: TfrmEstimate
           Font.Height = -13
           Font.Name = 'Arial'
           Font.Style = []
-          BeforePrint = ReportBeforePrint
+          BeforePrint = ReportSaleBeforePrint
           object RLBand3: TRLBand
             Left = 38
             Top = 38
@@ -4922,10 +4910,10 @@ object frmEstimate: TfrmEstimate
         end
       end
       object pnlRelService: TPanel
-        Left = 110
-        Top = 434
-        Width = 160
-        Height = 42
+        Left = 849
+        Top = 37
+        Width = 424
+        Height = 440
         Caption = 'Service'
         Color = 16744448
         Font.Charset = DEFAULT_CHARSET
@@ -4937,7 +4925,8 @@ object frmEstimate: TfrmEstimate
         ParentFont = False
         TabOrder = 1
         Visible = False
-        object RLReport1: TRLReport
+        object ReportService: TRLReport
+          Tag = 1
           Left = 8
           Top = 9
           Width = 794
@@ -4948,7 +4937,7 @@ object frmEstimate: TfrmEstimate
           Font.Height = -13
           Font.Name = 'Arial'
           Font.Style = []
-          BeforePrint = RLReport1BeforePrint
+          BeforePrint = ReportServiceBeforePrint
           object RLBand10: TRLBand
             Left = 38
             Top = 38
@@ -5568,15 +5557,15 @@ object frmEstimate: TfrmEstimate
   end
   object DSPPRICELIST: TDataSource
     DataSet = STPPRICELIST
-    Left = 765
-    Top = 550
+    Left = 757
+    Top = 518
   end
   object STPPRICELIST: TFDStoredProc
     Connection = DBDados.FDConnection
     SchemaName = 'dbo'
     StoredProcName = 'FLOORDB.dbo.SP_VENDOR_PRICINGTABLE'
     Left = 765
-    Top = 606
+    Top = 566
     ParamData = <
       item
         Position = 1
@@ -6126,8 +6115,8 @@ object frmEstimate: TfrmEstimate
   end
   object dsTerms: TDataSource
     DataSet = sqlTerms
-    Left = 677
-    Top = 547
+    Left = 669
+    Top = 507
   end
   object sqlParcelas: TFDQuery
     Connection = DBDados.FDConnection
@@ -6664,13 +6653,14 @@ object frmEstimate: TfrmEstimate
       'FortesReport Community Edition v4.0.0.1 \251 Copyright '#169' 1999-20' +
       '21 Fortes Inform'#225'tica'
     DisplayName = 'PDF Document'
-    Left = 915
-    Top = 601
+    Left = 939
+    Top = 585
   end
   object RLPreviewSetup1: TRLPreviewSetup
+    Tag = -1
     OnSend = RLPreviewSetup1Send
-    Left = 990
-    Top = 552
+    Left = 982
+    Top = 496
   end
   object cxStyleRepository: TcxStyleRepository
     Left = 1072
@@ -6707,7 +6697,7 @@ object frmEstimate: TfrmEstimate
     SQL.Strings = (
       'select * from tbimage where id_product = :id_product')
     Left = 839
-    Top = 605
+    Top = 573
     ParamData = <
       item
         Name = 'ID_PRODUCT'
