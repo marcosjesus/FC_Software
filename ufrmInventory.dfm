@@ -416,11 +416,14 @@ object frmInventory: TfrmInventory
       Height = 210
       Align = alTop
       Caption = 'Product'
+      Color = clWhite
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
       Font.Name = 'Tahoma'
       Font.Style = []
+      ParentBackground = False
+      ParentColor = False
       ParentFont = False
       TabOrder = 7
       object Label11: TLabel

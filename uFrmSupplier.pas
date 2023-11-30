@@ -29,7 +29,7 @@ uses
   FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
   FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
   FireDAC.Comp.DataSet, FireDAC.Comp.Client, cxGridExportLink, Vcl.ComCtrls,
-  cxSplitter;
+  cxSplitter, cxImageComboBox, Vcl.ImgList;
 
 type
   TfrmSupplier = class(TForm)
@@ -155,6 +155,11 @@ type
     cxGrid1DBTableView1EMAIL: TcxGridDBColumn;
     sqlAddressCOUNTY: TStringField;
     cxTableViewAddressCOUNTY: TcxGridDBColumn;
+    sqlAddressTYPEADDRESS: TStringField;
+    cxTableViewAddressTYPEADDRESS: TcxGridDBColumn;
+    cxSmallImages: TcxImageList;
+    sqlGridTYPEADDRESS: TStringField;
+    cxGrid1DBTableView1TYPEADDRESS: TcxGridDBColumn;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure ButNovoClick(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);

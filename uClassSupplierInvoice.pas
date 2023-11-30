@@ -19,6 +19,7 @@ type
   TInvoiceItem = class(TComponent)
   private
     Fid_sup_invoiceitem : integer;
+    Fid_sup_invoice     : integer;
     Fid_supplier        : integer;
     Finvoice_id         : string;
     Fid_product         : integer;
@@ -48,6 +49,7 @@ type
     procedure setFunitprice(const Value: double);
     procedure setFupd_date(const Value: Tdatetime);
     procedure setFwidth(const Value: double);
+    procedure setFid_sup_invoice(const Value: integer);
 
   protected
     function Invoice : TInvoice;
@@ -57,6 +59,7 @@ type
      procedure Inicializar; virtual;
 
      property id_sup_invoiceitem : integer   read Fid_sup_invoiceitem write setFid_sup_invoiceitem;
+     property id_sup_invoice     : integer   read Fid_sup_invoice     write setFid_sup_invoice;
      property id_supplier        : integer   read Fid_supplier        write setFid_supplier;
      property invoice_id         : string    read Finvoice_id         write setFinvoice_id;
      property id_product         : integer   read Fid_product         write setFid_product;
@@ -73,6 +76,7 @@ type
      property id_user            : Integer   read Fid_user            write setFid_user;
      constructor Create(AOwner: TComponent); override;
      procedure Save;
+     function SearchProductonSale : Boolean;
 
   end;
 
@@ -98,23 +102,17 @@ type
     Fid_company     : Integer;
     Fdate_invoice   : TDatetime;
     Finvoice_id     : String;
-    Fterms          : String;
     Fsalesrep       : String;
     Ffreight        : Double;
     Ftax            : Double;
-    Fsubtotal       : Double;
+    Fmerchandise    : Double;
     Ftotal          : Double;
-    Fpay_name       : String;
-    Fpay_pobox      : String;
-    Fpay_address    : String;
-    Fpay_zipcode    : String;
-    Fpay_city       : String;
-    Fpay_st         : String;
     Fadd_date       : TDatetime;
     Fupd_date       : TDatetime;
     Fid_user        : Integer;
     FItens          : TList;
     FItensNF        : TItensNF;
+    Fstatus         : String;
 
     function GetNroItens: Integer;
     function getItens(index: Integer): TInvoiceItem;
@@ -126,18 +124,12 @@ type
     procedure setFid_supplier(const Value: Integer);
     procedure setFid_user(const Value: Integer);
     procedure setFinvoice_id(const Value: String);
-    procedure setFpay_address(const Value: String);
-    procedure setFpay_city(const Value: String);
-    procedure setFpay_name(const Value: String);
-    procedure setFpay_pobox(const Value: String);
-    procedure setFpay_st(const Value: String);
-    procedure setFpay_zipcode(const Value: String);
     procedure setFsalesrep(const Value: String);
-    procedure setFsubtotal(const Value: Double);
     procedure setFtax(const Value: Double);
-    procedure setFterms(const Value: String);
     procedure setFtotal(const Value: Double);
     procedure setFupd_date(const Value: TDatetime);
+    procedure setFmerchandise(const Value: Double);
+    procedure setFStatus(const Value: String);
 
   public
     procedure setItens(index: Integer; const Value: TInvoiceItem);
@@ -146,26 +138,22 @@ type
     property id_company     : Integer   read Fid_company     write setFid_company;
     property date_invoice   : TDatetime read Fdate_invoice   write setFdate_invoice;
     property invoice_id     : String    read Finvoice_id     write setFinvoice_id;
-    property terms          : String    read Fterms          write setFterms;
     property salesrep       : String    read Fsalesrep       write setFsalesrep;
     property freight        : Double    read Ffreight        write setFfreight;
     property tax            : Double    read Ftax            write setFtax;
-    property subtotal       : Double    read Fsubtotal       write setFsubtotal;
+    property merchandise    : Double    read Fmerchandise    write setFmerchandise;
     property total          : Double    read Ftotal          write setFtotal;
-    property pay_name       : String    read Fpay_name       write setFpay_name;
-    property pay_pobox      : String    read Fpay_pobox      write setFpay_pobox;
-    property pay_address    : String    read Fpay_address    write setFpay_address;
-    property pay_zipcode    : String    read Fpay_zipcode    write setFpay_zipcode;
-    property pay_city       : String    read Fpay_city       write setFpay_city;
-    property pay_st         : String    read Fpay_st         write setFpay_st;
     property add_date       : TDatetime read Fadd_date       write setFadd_date;
     property upd_date       : TDatetime read Fupd_date       write setFupd_date;
     property id_user        : Integer   read Fid_user        write setFid_user;
+    property status         : String    read Fstatus         write setFStatus;
 
     property Itens[index: Integer]: TInvoiceItem read getItens   write setItens; default;
     property ItensNF              : TItensNF     read FItensNF   write FItensNF;
     constructor Create(AOwner: TComponent); override;
     procedure Save;
+    procedure Update;
+    function ValidInvoiceDuplicty : Boolean;
 
   end;
 
@@ -183,21 +171,15 @@ begin
     id_company        := 0;
     date_invoice      := Date;
     invoice_id        := '';
-    terms             := '';
     salesrep          := '';
     freight           := 0.0;
     tax               := 0.0;
-    subtotal          := 0.0;
+    merchandise       := 0.0;
     total             := 0.0;
-    pay_name          := '';
-    pay_pobox         := '';
-    pay_address       := '';
-    pay_zipcode       := '';
-    pay_city          := '';
-    pay_st            := '';
     add_date          := Date;
     upd_date          := Date;
     id_user           := 0;
+    status            := 'PENDING';
 end;
 
 function TInvoice.getItens(index: Integer): TInvoiceItem;
@@ -221,42 +203,32 @@ begin
       sqlDados.Connection := FDConnection;
       sqlDados.SQL.Clear;
       sqlDados.SQL.Add('Insert into TBSUP_INVOICE (');
-      sqlDados.SQL.Add('id_supplier ');
+      sqlDados.SQL.Add('id_sup_invoice ');
+      sqlDados.SQL.Add(',id_supplier ');
       sqlDados.SQL.Add(',id_company  ');
       sqlDados.SQL.Add(',date_invoice  ');
       sqlDados.SQL.Add(',invoice_id  ');
-      sqlDados.SQL.Add(',terms  ');
       sqlDados.SQL.Add(',salesrep ');
       sqlDados.SQL.Add(',freight ');
       sqlDados.SQL.Add(',tax ');
-      sqlDados.SQL.Add(',subtotal  ');
+      sqlDados.SQL.Add(',merchandise  ');
       sqlDados.SQL.Add(',total ');
-      sqlDados.SQL.Add(',pay_name  ');
-      sqlDados.SQL.Add(',pay_pobox ');
-      sqlDados.SQL.Add(',pay_address ');
-      sqlDados.SQL.Add(',pay_zipcode  ');
-      sqlDados.SQL.Add(',pay_city ');
-      sqlDados.SQL.Add(',pay_st ');
-      sqlDados.SQL.Add(',id_user) ');
-      sqlDados.SQL.Add(' Values ( ');
+      sqlDados.SQL.Add(',id_user ');
+      sqlDados.SQL.Add(',status) ');
 
+      sqlDados.SQL.Add(' Values ( ');
+      sqlDados.SQL.Add(  IntToStr(id_sup_invoice) + ',' );
       sqlDados.SQL.Add(  IntToStr(id_supplier) + ',' );
       sqlDados.SQL.Add(  IntToStr(id_company) + ',' );
       sqlDados.SQL.Add(  QuotedStr(FormatDateTime('mm/dd/yyyy hh:mm:ss', date_invoice)) +  ',' );
       sqlDados.SQL.Add(  QuotedStr(invoice_id) + ',' );
-      sqlDados.SQL.Add(  QuotedStr(terms) + ',' );
       sqlDados.SQL.Add(  QuotedStr(salesrep) + ',' );
       sqlDados.SQL.Add(  QuotedStr( FloatToStr( freight )) +  ',' );
       sqlDados.SQL.Add(  QuotedStr( FloatToStr( tax )) +  ',' );
-      sqlDados.SQL.Add(  QuotedStr( FloatToStr( subtotal )) +  ',' );
+      sqlDados.SQL.Add(  QuotedStr( FloatToStr( merchandise )) +  ',' );
       sqlDados.SQL.Add(  QuotedStr( FloatToStr( total )) +  ',' );
-      sqlDados.SQL.Add(  QuotedStr(pay_name) + ',' );
-      sqlDados.SQL.Add(  QuotedStr(pay_pobox) + ',' );
-      sqlDados.SQL.Add(  QuotedStr(pay_address) + ',' );
-      sqlDados.SQL.Add(  QuotedStr(pay_zipcode) + ',' );
-      sqlDados.SQL.Add(  QuotedStr(pay_city) + ',' );
-      sqlDados.SQL.Add(  QuotedStr(pay_st) + ',' );
-      sqlDados.SQL.Add(  IntToStr(id_user) + ')' );
+      sqlDados.SQL.Add(  IntToStr(DBDados.varID_USER) + ',' );
+      sqlDados.SQL.Add(  QuotedStr(status) + ')' );
 
       Try
          sqlDados.ExecSQL;
@@ -313,44 +285,20 @@ begin
   Finvoice_id := Value;
 end;
 
-procedure TInvoice.setFpay_address(const Value: String);
-begin
-  Fpay_address := Value;
-end;
-
-procedure TInvoice.setFpay_city(const Value: String);
-begin
-  Fpay_city := Value;
-end;
-
-procedure TInvoice.setFpay_name(const Value: String);
-begin
-  Fpay_name := Value;
-end;
-
-procedure TInvoice.setFpay_pobox(const Value: String);
-begin
-  Fpay_pobox := Value;
-end;
-
-procedure TInvoice.setFpay_st(const Value: String);
-begin
-  Fpay_st := Value;
-end;
-
-procedure TInvoice.setFpay_zipcode(const Value: String);
-begin
-  Fpay_zipcode := Value;
-end;
 
 procedure TInvoice.setFsalesrep(const Value: String);
 begin
   Fsalesrep := Value;
 end;
 
-procedure TInvoice.setFsubtotal(const Value: Double);
+procedure TInvoice.setFStatus(const Value: String);
 begin
-  Fsubtotal := Value;
+  Fstatus := Value;
+end;
+
+procedure TInvoice.setFmerchandise(const Value: Double);
+begin
+  Fmerchandise := Value;
 end;
 
 procedure TInvoice.setFtax(const Value: Double);
@@ -358,10 +306,6 @@ begin
   Ftax := Value;
 end;
 
-procedure TInvoice.setFterms(const Value: String);
-begin
-  Fterms := Value;
-end;
 
 procedure TInvoice.setFtotal(const Value: Double);
 begin
@@ -376,6 +320,81 @@ end;
 procedure TInvoice.setItens(index: Integer; const Value: TInvoiceItem);
 begin
   FItens.Insert(index,value);
+end;
+
+procedure TInvoice.Update;
+var
+  sqlDados : TFDQuery;
+begin
+   with DBDados do
+   begin
+       sqlDados := TFDQuery.Create(Nil);
+       sqlDados.Connection := FDConnection;
+       Try
+        sqldados.Close;
+        sqldados.sql.clear;
+
+        sqldados.sql.add('Update TBSUP_INVOICE ');
+        sqldados.sql.add(' Set ID_COMPANY = :ID_COMPANY');
+        sqlDados.SQL.Add(',DATE_INVOICE = :DATE_INVOICE ');
+        sqlDados.SQL.Add(',SALESREP     = :SALESREP  ');
+        sqlDados.SQL.Add(',FREIGHT      = :FREIGHT  ');
+        sqlDados.SQL.Add(',TAX          = :TAX  ');
+        sqlDados.SQL.Add(',MERCHANDISE  = :MERCHANDISE  ');
+        sqlDados.SQL.Add(',TOTAL        = :TOTAL ');
+        sqlDados.SQL.Add(',UPD_DATE     = :UPD_DATE  ');
+        sqlDados.SQL.Add(',ID_USER      = :ID_USER  ');
+        sqlDados.SQL.Add(',STATUS       = :STATUS  ');
+        sqlDados.SQL.Add(' Where ID_SUPPLIER = :ID_SUPPLIER and  INVOICE_ID = :INVOICE_ID');
+        sqlDados.Params.ParamByName('ID_SUPPLIER').AsInteger    := id_supplier;
+        sqlDados.Params.ParamByName('INVOICE_ID').AsString      := invoice_id;
+        sqlDados.Params.ParamByName('ID_COMPANY').AsInteger     := id_company;
+        sqlDados.Params.ParamByName('DATE_INVOICE').AsString    := FormatDateTime('mm/dd/yyyy hh:mm:ss', date_invoice);
+        sqlDados.Params.ParamByName('SALESREP').AsString        := salesrep;
+        sqlDados.Params.ParamByName('FREIGHT').AsFloat          := freight;
+        sqlDados.Params.ParamByName('TAX').AsFloat              := tax;
+        sqlDados.Params.ParamByName('MERCHANDISE').AsFloat      := merchandise;
+        sqlDados.Params.ParamByName('TOTAL').AsFloat            := total;
+        sqlDados.Params.ParamByName('UPD_DATE').AsString        := FormatDateTime('mm/dd/yyyy hh:mm:ss', upd_date);
+        sqlDados.Params.ParamByName('ID_USER').AsInteger        := id_user;
+        sqlDados.Params.ParamByName('STATUS').AsString          := status;
+
+
+        Try
+           sqlDados.ExecSQL;
+
+        except
+            on E: EDatabaseError do
+              Mens_MensErro(E.ClassName+' error raised, with message : '+E.Message);
+
+        end;
+       Finally
+         FreeAndNil(sqlDados);
+       End;
+   end;
+
+end;
+
+function TInvoice.ValidInvoiceDuplicty: Boolean;
+var
+ sqlDados : TFDQuery;
+begin
+  with DBDados do
+  begin
+    sqlDados := TFDQuery.Create(Nil);
+    Try
+      sqlDados.Connection := FDConnection;
+      sqlDados.SQL.Clear;
+      sqlDados.SQL.Add('Select ID_SUPPLIER From  TBSUP_INVOICE ');
+      sqlDados.SQL.Add(' Where ID_SUPPLIER = :ID_SUPPLIER and INVOICE_ID = :INVOICE_ID');
+      sqlDados.Params.ParamByName('ID_SUPPLIER').AsInteger := id_supplier;
+      sqlDados.Params.ParamByName('INVOICE_ID').AsString   := invoice_id;
+      sqlDados.Open;
+      Result := sqlDados.IsEmpty;
+    Finally
+      FreeAndNil(sqlDados);
+    End;
+  End;
 end;
 
 { TItensNF }
@@ -420,7 +439,7 @@ end;
 procedure TInvoiceItem.Assign(const pItemNF: TInvoiceItem);
 begin
    Inicializar;
-
+   id_sup_invoice     := pItemNF.id_sup_invoice;
    id_sup_invoiceitem := pItemNF.id_sup_invoiceitem;
    id_supplier        := pItemNF.id_supplier;
    invoice_id         := pItemNF.invoice_id;
@@ -447,6 +466,7 @@ end;
 procedure TInvoiceItem.Inicializar;
 begin
     id_sup_invoiceitem  := 0;
+    id_sup_invoice      := 0;
     id_supplier         := 0;
     invoice_id          := '';
     id_product          := 0;
@@ -479,7 +499,9 @@ begin
       sqlDados.Connection := FDConnection;
       sqlDados.SQL.Clear;
       sqlDados.SQL.Add('Insert into TBSUP_INVOICEITEM (');
-      sqlDados.SQL.Add('id_supplier ');
+      sqlDados.SQL.Add('id_sup_invoiceitem ');
+      sqlDados.SQL.Add(',id_sup_invoice ');
+      sqlDados.SQL.Add(',id_supplier ');
       sqlDados.SQL.Add(',invoice_id ');
       sqlDados.SQL.Add(',id_product ');
       sqlDados.SQL.Add(',width ');
@@ -492,7 +514,8 @@ begin
       sqlDados.SQL.Add(',amount ');
       sqlDados.SQL.Add(',id_user)');
       sqlDados.SQL.Add(' Values ( ');
-
+      sqlDados.SQL.Add(  IntToStr(id_sup_invoiceitem) + ',' );
+      sqlDados.SQL.Add(  IntToStr(id_sup_invoice) + ',' );
       sqlDados.SQL.Add(  IntToStr(id_supplier) + ',' );
       sqlDados.SQL.Add(  QuotedStr(invoice_id) + ',' );
       sqlDados.SQL.Add(  IntToStr(id_product) + ',' );
@@ -514,6 +537,29 @@ begin
             Mens_MensErro(E.ClassName+' error raised, with message : '+E.Message);
 
       end;
+    Finally
+      FreeAndNil(sqlDados);
+    End;
+  end;
+end;
+
+function TInvoiceItem.SearchProductonSale : Boolean;
+var
+ sqlDados   : TFDQuery;
+begin
+  with DBDados do
+  begin
+    sqlDados := TFDQuery.Create(Nil);
+    Try
+        sqlDados.Connection := FDConnection;
+        sqlDados.SQL.Clear;
+        sqlDados.SQL.Add('Select ISNULL(id_product,0) as id_product From TBSUP_INVOICEITEM With (NOLOCK) ');
+        sqlDados.SQL.Add('where  INVOICE_ID = :INVOICE_ID and ID_SUPPLIER = :ID_SUPPLIER AND  ID_PRODUCT = :ID_PRODUCT ');
+        sqlDados.Params.ParamByName('INVOICE_ID').AsString      := invoice_id;
+        sqlDados.Params.ParamByName('ID_SUPPLIER').AsInteger    := id_supplier;
+        sqlDados.Params.ParamByName('ID_PRODUCT').AsInteger     := id_product;
+        sqlDados.Open;
+        Result := sqlDados.IsEmpty;
     Finally
       FreeAndNil(sqlDados);
     End;
@@ -548,6 +594,11 @@ end;
 procedure TInvoiceItem.setFid_supplier(const Value: integer);
 begin
   Fid_supplier := Value;
+end;
+
+procedure TInvoiceItem.setFid_sup_invoice(const Value: integer);
+begin
+  Fid_sup_invoice := Value;
 end;
 
 procedure TInvoiceItem.setFid_sup_invoiceitem(const Value: integer);

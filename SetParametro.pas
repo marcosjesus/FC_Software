@@ -60,13 +60,14 @@ begin
     CaixaTexto.bs_Caption := 'Product Table';
     CaixaTexto.bs_Table := 'TBPRODUCT P With (NOLOCK)';
     CaixaTexto.bs_Fields.Add('P.ID_PRODUCT;ID;;' + inttostr(WIDTH_CODIGO));                           //0
-    CaixaTexto.bs_Fields.Add('TP.DESCRIPTION;PRODUCT TYPE;;' + inttostr(WIDTH_DOCUMENTO));               //1
-    CaixaTexto.bs_Fields.Add('TS.DESCRIPTION;PRODUCT STYLE;;' + inttostr(WIDTH_DOCUMENTO));              //2
-
+    CaixaTexto.bs_Fields.Add('TP.DESCRIPTION;PRODUCT TYPE;;' + inttostr(WIDTH_DOCUMENTO));            //1
+    CaixaTexto.bs_Fields.Add('TS.DESCRIPTION;PRODUCT STYLE;;' + inttostr(WIDTH_DOCUMENTO));           //2
     CaixaTexto.bs_Fields.Add('(P.PRODUCT_STYLE + '' '' + P.PRODUCT_STYLE_NAME  + '' '' +  P.COLOR + '' '' + P.COLOR_NAME);PRODUCT_NAME;;' + inttostr(WIDTH_DESCRICAO));             //4
-    CaixaTexto.bs_Fields.Add('P.SKU;SKU;;' + inttostr(WIDTH_DOCUMENTO));                                   //19
+    CaixaTexto.bs_Fields.Add('P.SKU;SKU;;' + inttostr(WIDTH_DOCUMENTO));                              //4
+    CaixaTexto.bs_Fields.Add('PRODUCT_STYLE_NAME;#;;' + inttostr(WIDTH_DOCUMENTO));                   //5
+    CaixaTexto.bs_Fields.Add('P.areaSquareFeetPerBox;#;;' + inttostr(WIDTH_DOCUMENTO));               //6
 
-    CaixaTexto.bs_Fields.Add('PRODUCT_STYLE_NAME;#;;' + inttostr(WIDTH_DOCUMENTO));
+    CaixaTexto.bs_Filter   := 'P.TYPEOFPRODUCT = ''PRODUCT''';
 
     CaixaTexto.bs_Join :=  ' LEFT OUTER JOIN TBTYPEBRAND TP ON TP.ID_TYPEBRAND = P.ID_TYPE ' +
                            ' LEFT OUTER JOIN TBTYPEBRAND TS ON TS.ID_TYPEBRAND = P.STYLE ';
@@ -117,6 +118,7 @@ begin
                           ' LEFT OUTER JOIN TBPRODUCT P ON P.ID_PRODUCT = I.ID_PRODUCT  ' +
                           ' LEFT OUTER JOIN TBTYPEBRAND TP ON TP.ID_TYPEBRAND = P.ID_TYPE ' +
                           ' LEFT OUTER JOIN TBTYPEBRAND TS ON TS.ID_TYPEBRAND = P.STYLE ';
+
 
 
     CaixaTexto.bs_TextResult := 'PRODUCT_NAME';
@@ -236,15 +238,18 @@ begin
     CaixaTexto.bs_Caption := 'Suppliers';
     CaixaTexto.bs_Table := 'TBSUPPLIER S With (NOLOCK)';
 
-    CaixaTexto.bs_Fields.Add('S.NAMEBUSINESS;Supplier Name;;' + inttostr(WIDTH_NOME220));                    //0
-    CaixaTexto.bs_Fields.Add('A.CITY;City;;' + inttostr(WIDTH_DOCUMENTO));                    //0
-    CaixaTexto.bs_Fields.Add('A.STATEE;ST;;' + inttostr(WIDTH_DOCUMENTO));                    //0
-    CaixaTexto.bs_Fields.Add('A.ZIPCODE;ZipCode;;' + inttostr(WIDTH_DOCUMENTO));
-                      //0
+    CaixaTexto.bs_Fields.Add('S.NAMEBUSINESS;Supplier Name;;' + inttostr(WIDTH_NOME220)); //0
+
+    CaixaTexto.bs_Fields.Add('A.CITY;City;;' + inttostr(WIDTH_DOCUMENTO));                //1
+    CaixaTexto.bs_Fields.Add('A.STATEE;ST;;' + inttostr(WIDTH_DOCUMENTO));                //2
+    CaixaTexto.bs_Fields.Add('A.ZIPCODE;ZipCode;;' + inttostr(WIDTH_DOCUMENTO));          //3
+    CaixaTexto.bs_Fields.Add('A.address1;#;;' + inttostr(WIDTH_DOCUMENTO));               //4
+    CaixaTexto.bs_Fields.Add('A.county;#;;' + inttostr(WIDTH_DOCUMENTO));                 //5
+
 
     CaixaTexto.bs_Fields.Add('S.ID_SUPPLIER;#;;' + inttostr(WIDTH_DOCUMENTO));
 
-    CaixaTexto.bs_Join := ' left outer join  TBADDRESS A on A.ID_SUPPLIER = S.ID_SUPPLIER ';
+    CaixaTexto.bs_Join := ' left outer join  TBADDRESS A on A.ID_SUPPLIER = S.ID_SUPPLIER and A.TYPEADDRESS = ''O'' ';
 
     CaixaTexto.bs_TextResult := 'NAMEBUSINESS';
     CaixaTexto.bs_KeyField   := 'ID_SUPPLIER';

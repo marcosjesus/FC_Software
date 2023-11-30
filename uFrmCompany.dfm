@@ -28,7 +28,7 @@ object frmCompany: TfrmCompany
     Height = 509
     Align = alClient
     TabOrder = 0
-    Properties.ActivePage = cxTabSheetList
+    Properties.ActivePage = cxTabSheetForm
     Properties.CustomButtons.Buttons = <>
     OnChange = cxPageControlChange
     ClientRectBottom = 505
@@ -45,8 +45,6 @@ object frmCompany: TfrmCompany
         Height = 481
         Align = alClient
         TabOrder = 0
-        ExplicitLeft = 33
-        ExplicitTop = -24
         object cxGrid1DBTableView1: TcxGridDBTableView
           OnDblClick = cxGrid1DBTableView1DblClick
           Navigator.Buttons.CustomButtons = <>
@@ -1096,8 +1094,8 @@ object frmCompany: TfrmCompany
     Connection = DBDados.FDConnection
     SQL.Strings = (
       'SELECT * FROM TBCOMPANY ORDER BY COMPANYNAME')
-    Left = 260
-    Top = 152
+    Left = 420
+    Top = 376
     object sqlGridID_COMPANY: TIntegerField
       FieldName = 'ID_COMPANY'
       Origin = 'ID_COMPANY'
@@ -1173,14 +1171,14 @@ object frmCompany: TfrmCompany
   end
   object dsCompany: TDataSource
     DataSet = sqlGrid
-    Left = 268
-    Top = 208
+    Left = 428
+    Top = 432
   end
   object SaveDialog: TSaveDialog
     DefaultExt = '*.xlsx'
     Filter = 'Arquivos Excel|*.xlsx'
-    Left = 337
-    Top = 208
+    Left = 497
+    Top = 432
   end
   object sqlImage: TFDQuery
     Connection = DBDados.FDConnection
@@ -1188,8 +1186,8 @@ object frmCompany: TfrmCompany
       
         'select ID_COMPANY, IMAGEM from tbcompany where id_company = :id_' +
         'company')
-    Left = 329
-    Top = 157
+    Left = 489
+    Top = 381
     ParamData = <
       item
         Name = 'ID_COMPANY'
@@ -1211,11 +1209,11 @@ object frmCompany: TfrmCompany
   end
   object OpenPictureDialog: TOpenPictureDialog
     DefaultExt = '*.jpg'
-    Left = 401
-    Top = 165
+    Left = 561
+    Top = 389
   end
   object SavePictureDialog: TSavePictureDialog
-    Left = 449
-    Top = 208
+    Left = 609
+    Top = 432
   end
 end

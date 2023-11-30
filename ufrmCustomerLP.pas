@@ -32,7 +32,7 @@ uses
   cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxClasses,
   cxGridCustomView, cxGrid, cxPC, FireDAC.Comp.Client, Datasnap.DBClient,
   Datasnap.Provider, FireDAC.Comp.DataSet, dxSkinsdxStatusBarPainter, Vcl.Menus,
-  cxButtons, dxStatusBar, Vcl.ComCtrls;
+  cxButtons, dxStatusBar, Vcl.ComCtrls, cxImageComboBox, Vcl.ImgList, cxSplitter;
 
 type
   TfrmCustomerLP = class(TForm)
@@ -177,6 +177,10 @@ type
     sqlVendorUPD_DATE: TDateField;
     sqlVendorID_COMPANY: TIntegerField;
     cxTableViewAddressCOUNTY: TcxGridDBColumn;
+    cxSmallImages: TcxImageList;
+    sqlAddressTYPEADDRESS: TStringField;
+    cxTableViewAddressTYPEADDRESS: TcxGridDBColumn;
+    cxSplitter1: TcxSplitter;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);

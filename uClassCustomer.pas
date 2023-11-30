@@ -223,7 +223,7 @@ begin
           folder.pasta        := sqlDados.FieldByName('folder').AsString;
           typeperson          := sqlDados.FieldByName('typeperson').AsString;
           User.Search(id_user);
-//          Company.Search(sqlDados.FieldByName('Id_Company').AsInteger);
+          Company.Search(sqlDados.FieldByName('Id_Company').AsInteger);
 
            Try
               sqlAddress.SQL.Clear;

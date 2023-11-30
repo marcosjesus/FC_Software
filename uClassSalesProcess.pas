@@ -1006,7 +1006,6 @@ begin
       FreeAndNil(sqlDados);
     End;
   end;
-
 end;
 
 procedure TSalesProcessItem.setFadd_date(const Value: TdateTime);

@@ -586,6 +586,7 @@ type
     RLDBText42: TRLDBText;
     RLDBText43: TRLDBText;
     RLLabel36: TRLLabel;
+    RLDBText44: TRLDBText;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure spbCleanCustomerClick(Sender: TObject);
@@ -1676,7 +1677,12 @@ begin
 
   if  varOption = 'X' then
   begin
-    Mens_MensInf('The Estimate Form not in insert or edit mode.') ;
+    if TBHeader = ESTIMATE_HEADER then
+      Mens_MensInf('The Estimate Form not in insert or edit mode.')
+    else if TBHeader = ORDER_HEADER then
+      Mens_MensInf('The Order Form not in insert or edit mode.')
+    else  Mens_MensInf('The Invoice Form not in insert or edit mode.');
+
     Exit;
   end;
 
@@ -2087,21 +2093,21 @@ begin
 
   if edtweidth.Text = '' then
   begin
-     Mens_MensInf('Width fiels is required.') ;
+     Mens_MensInf('Width field is required.') ;
      edtweidth.SetFocus;
      Exit;
   end;
 
   if edtheight.Text = '' then
   begin
-     Mens_MensInf('Height fiels is required.') ;
+     Mens_MensInf('Height field is required.') ;
      edtheight.SetFocus;
      Exit;
   end;
 
   if edttotalarea.Text = '' then
   begin
-     Mens_MensInf('Total Area fiels is required.') ;
+     Mens_MensInf('Total Area field is required.') ;
      edttotalarea.SetFocus;
      Exit;
   end;
@@ -2125,17 +2131,16 @@ begin
      Item.SearchProductonSale(TBItem, varNewKey, edtProduto.bs_KeyValue);
      if Item.id_product <> 0 then
      begin
+         if TBHeader = ESTIMATE_HEADER then
+            Mens_MensInf('Product or service already exists in Estimate!.')
+         else if TBHeader = ORDER_HEADER Then
+            Mens_MensInf('Product or service already exists in Order!.')
+         else if TBHeader = INVOICE_HEADER then
+            Mens_MensInf('Product or service already exists in Invoice!.');
 
-           if TBHeader = ESTIMATE_HEADER then
-              Mens_MensInf('Product or service already exists in Estimate!.')
-           else if TBHeader = ORDER_HEADER Then
-              Mens_MensInf('Product or service already exists in Order!.')
-           else if TBHeader = INVOICE_HEADER then
-              Mens_MensInf('Product or service already exists in Invoice!.');
-
-           edtProduto.SetFocus;
-           Exit;
-       end;
+         edtProduto.SetFocus;
+         Exit;
+     end;
   end;
 
   iChecked := 0;
@@ -2984,13 +2989,13 @@ begin
  edtCliente.Clear;
  edtCliente.bs_KeyValues.Clear;
  edtCustomerName.Text := '';
- edtAddress.Text := '';
- edtZipCode.Text := '';
- edtCounty.Text := '';
- edtCity.Text := '';
- edtST.Text := '';
- edtEmail.Text := '';
- edtPhone.Text := '';
+ edtAddress.Text      := '';
+ edtZipCode.Text      := '';
+ edtCounty.Text       := '';
+ edtCity.Text         := '';
+ edtST.Text           := '';
+ edtEmail.Text        := '';
+ edtPhone.Text        := '';
  edtCustomerName.SetFocus;
 
 end;
