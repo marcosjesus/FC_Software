@@ -711,7 +711,6 @@ object frmEstimate: TfrmEstimate
       Font.Style = []
       ImageIndex = 1
       ParentFont = False
-      TabVisible = False
       object Panel2: TPanel
         Left = 41
         Top = 174
@@ -738,7 +737,7 @@ object frmEstimate: TfrmEstimate
         Font.Style = []
         ParentFont = False
         TabOrder = 1
-        Properties.ActivePage = cxTabSheetItems
+        Properties.ActivePage = cxTabSheetService
         Properties.CustomButtons.Buttons = <>
         OnChange = cxPageForm2Change
         ClientRectBottom = 656

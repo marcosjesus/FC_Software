@@ -34,7 +34,6 @@ type
     Fadd_date           : Tdatetime;
     Fupd_date           : Tdatetime;
     Fid_user            : Integer;
-    FAreaSquareFeet     : Double;
     procedure setFadd_date(const Value: Tdatetime);
     procedure setFamount(const Value: double);
     procedure setFdyelot(const Value: string);
@@ -51,7 +50,6 @@ type
     procedure setFupd_date(const Value: Tdatetime);
     procedure setFwidth(const Value: double);
     procedure setFid_sup_invoice(const Value: integer);
-    procedure setFAreaSquareFeet(const Value: Double);
 
   protected
     function Invoice : TInvoice;
@@ -76,8 +74,6 @@ type
      property add_date           : Tdatetime read Fadd_date           write setFadd_date;
      property upd_date           : Tdatetime read Fupd_date           write setFupd_date;
      property id_user            : Integer   read Fid_user            write setFid_user;
-     property AreaSquareFeet     : Double    read FAreaSquareFeet     write setFAreaSquareFeet;
-
      constructor Create(AOwner: TComponent); override;
      procedure Save;
      procedure Update;
@@ -351,10 +347,8 @@ begin
         sqlDados.SQL.Add(',ID_USER      = :ID_USER  ');
         sqlDados.SQL.Add(',STATUS       = :STATUS  ');
         sqlDados.SQL.Add(' Where ID_SUPPLIER = :ID_SUPPLIER and  INVOICE_ID = :INVOICE_ID');
-        {KEYS}
         sqlDados.Params.ParamByName('ID_SUPPLIER').AsInteger    := id_supplier;
         sqlDados.Params.ParamByName('INVOICE_ID').AsString      := invoice_id;
-
         sqlDados.Params.ParamByName('ID_COMPANY').AsInteger     := id_company;
         sqlDados.Params.ParamByName('DATE_INVOICE').AsString    := FormatDateTime('mm/dd/yyyy hh:mm:ss', date_invoice);
         sqlDados.Params.ParamByName('SALESREP').AsString        := salesrep;
@@ -462,7 +456,6 @@ begin
    add_date           := pItemNF.add_date;
    upd_date           := pItemNF.upd_date;
    id_user            := pItemNF.id_user;
-   AreaSquareFeet     := pItemNF.AreaSquareFeet;
 end;
 
 constructor TInvoiceItem.Create(AOwner: TComponent);
@@ -489,7 +482,6 @@ begin
     add_date            := Date;
     upd_date            := Date;
     id_user             := 0;
-    AreaSquareFeet      := 0.0;
 end;
 
 function TInvoiceItem.Invoice: TInvoice;
@@ -521,7 +513,6 @@ begin
       sqlDados.SQL.Add(',dyelot ');
       sqlDados.SQL.Add(',unitprice ');
       sqlDados.SQL.Add(',amount ');
-      sqlDados.SQL.Add(',AreaSquareFeet ');
       sqlDados.SQL.Add(',id_user)');
       sqlDados.SQL.Add(' Values ( ');
       sqlDados.SQL.Add(  IntToStr(id_sup_invoiceitem) + ',' );
@@ -537,7 +528,6 @@ begin
       sqlDados.SQL.Add(  QuotedStr(dyelot) + ',' );
       sqlDados.SQL.Add(  QuotedStr( FloatToStr( unitprice )) +  ',' );
       sqlDados.SQL.Add(  QuotedStr( FloatToStr( amount )) +  ',' );
-      sqlDados.SQL.Add(  QuotedStr( FloatToStr( AreaSquareFeet )) +  ',' );
       sqlDados.SQL.Add(  IntToStr(id_user) + ')' );
 
       Try
@@ -585,11 +575,6 @@ end;
 procedure TInvoiceItem.setFamount(const Value: double);
 begin
   Famount := Value;
-end;
-
-procedure TInvoiceItem.setFAreaSquareFeet(const Value: Double);
-begin
-  FAreaSquareFeet := Value;
 end;
 
 procedure TInvoiceItem.setFdyelot(const Value: string);
@@ -681,7 +666,6 @@ begin
         sqlDados.SQL.Add(',height     = :height');
         sqlDados.SQL.Add(',qty        = :qty');
         sqlDados.SQL.Add(',totalarea  = :totalarea');
-        sqlDados.SQL.Add(',AreaSquareFeet  = :AreaSquareFeet');
         sqlDados.SQL.Add(',rollnumber = :rollnumber ');
         sqlDados.SQL.Add(',dyelot     = :dyelot');
         sqlDados.SQL.Add(',unitprice  = :unitprice');
@@ -698,11 +682,10 @@ begin
         sqlDados.Params.ParamByName('height').AsFloat           := height;
         sqlDados.Params.ParamByName('qty').AsInteger            := qty;
         sqlDados.Params.ParamByName('totalarea').AsFloat        := totalarea;
-        sqlDados.Params.ParamByName('AreaSquareFeet').AsFloat   := AreaSquareFeet;
         sqlDados.Params.ParamByName('rollnumber').AsString      := rollnumber;
         sqlDados.Params.ParamByName('dyelot').AsString          := dyelot;
-        sqlDados.Params.ParamByName('unitprice').AsFloat        := unitprice;
-        sqlDados.Params.ParamByName('amount').AsFloat           := amount;
+        sqlDados.Params.ParamByName('unitprice').AsFloat        := width;
+        sqlDados.Params.ParamByName('amount').AsFloat           := height;
         sqlDados.Params.ParamByName('id_user').AsInteger        := id_user;
         sqlDados.Params.ParamByName('upd_date').AsString        := FormatDateTime('mm/dd/yyyy hh:mm:ss', upd_date);
 

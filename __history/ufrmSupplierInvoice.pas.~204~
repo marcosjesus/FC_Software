@@ -52,7 +52,7 @@ type
     cxGrid1: TcxGrid;
     sqlGrid: TFDQuery;
     dsGrid: TDataSource;
-    pnlTop: TPanel;
+    Panel1: TPanel;
     edtManufactory: TEditBusca;
     Label1: TLabel;
     Label13: TLabel;
@@ -270,7 +270,6 @@ var
   varNextKey : TDBNextKey;
 begin
 
-
   varNextKey               := TDBNextKey.Create(SUP_INVOICE_HEADER);
   Try
     varNewKey              := varNextKey.Key;
@@ -281,8 +280,6 @@ begin
 
     Invoice                := TInvoice.Create(Self);
     Invoice.id_sup_invoice := varNewKey;
-    AtualizaGradeItem;
-    AtualizTerms;
   finally
     FreeAndNil(varNextKey);
   End;
@@ -337,7 +334,6 @@ begin
 
 
   varOptionItem := 'I';
-  pnlTop.Enabled := False;
   cxPageItem.ActivePage := cxTabSheetItemForm;
   CleanItemFromEdition;
 
@@ -356,11 +352,10 @@ begin
     FreeAndNil(varNextKey);
   End;
 
+
   Item.id_sup_invoice     := Invoice.id_sup_invoice;
   Item.id_supplier        := Invoice.id_supplier;
   Item.invoice_id         := Invoice.invoice_id;
-
-  edtProduct.bs_Filter := 'P.TYPEOFPRODUCT = ''PRODUCT''  AND P.ID_SUPPLIER = ' + QuotedStr(IntToStr(Invoice.id_supplier));
 
   ButItensOnOff('FFFTTFFF');
   edtProduct.SetFocus;
@@ -447,7 +442,7 @@ begin
   Item.id_sup_invoice := sqlItemID_SUP_INVOICE.AsInteger;
   Item.id_supplier    := sqlItemID_SUPPLIER.AsInteger;
   Item.invoice_id     := sqlItemINVOICE_ID.AsString;
-  pnlTop.Enabled := False;
+
   cxPageItem.ActivePage := cxTabSheetItemForm;
   edtProduct.SetValue('P.ID_PRODUCT = ' + IntToStr(sqlItemID_PRODUCT.AsInteger));
   edtRoolNumber.Text := sqlItemROLLNUMBER.AsString;
@@ -471,8 +466,6 @@ begin
   ClearHeaderScreen;
   Caption   := 'Manufactory Invoice';
   varOption := 'X';
-  ButItensOnOff('TTTFFTTT');
-  pnlTop.Enabled := True;
   cxPageMaster.ActivePage := cxTabSheetList;
 end;
 
@@ -483,7 +476,6 @@ begin
       FreeAndNil(Item);
 
   CleanItemFromEdition;
-  pnlTop.Enabled := True;
   cxPageItem.ActivePage := cxTabSheetGrade;
   ButItensOnOff('TTTFFTTT');
 end;
@@ -550,12 +542,9 @@ begin
      Exit;
    end;
 
-   Invoice.total := edtTotal.Value;
-
-   if ValidTerms = False then Exit;
 
    SaveHeader;
-   pnlTop.Enabled := True;
+
    cxPageMaster.ActivePage := cxTabSheetList;
 
    AtualizaGrade;
@@ -669,7 +658,7 @@ begin
 
   if Assigned(Item) then
      FreeAndNil(Item);
-  pnlTop.Enabled := True;
+
   cxPageItem.ActivePage := cxTabSheetGrade;
 
 end;
@@ -1006,7 +995,8 @@ begin
    Invoice.total          := edtTotal.Value;
    Invoice.merchandise    := edtMerchandise.Value;
    Invoice.id_user        := DBDados.varID_USER;
-   Invoice.status         := cmbStatus.Text;
+
+   if ValidTerms = False then Exit;
 
    if varOption = 'I' then
      Invoice.Save

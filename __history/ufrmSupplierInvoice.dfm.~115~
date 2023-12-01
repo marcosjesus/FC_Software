@@ -26,7 +26,7 @@ object frmSupplierInvoice: TfrmSupplierInvoice
     Height = 489
     Align = alClient
     TabOrder = 0
-    Properties.ActivePage = cxTabSheetList
+    Properties.ActivePage = cxTabSheetForm
     Properties.CustomButtons.Buttons = <>
     ClientRectBottom = 485
     ClientRectLeft = 4
@@ -116,7 +116,7 @@ object frmSupplierInvoice: TfrmSupplierInvoice
       Caption = 'Invoice Form'
       ImageIndex = 1
       TabVisible = False
-      object pnlTop: TPanel
+      object Panel1: TPanel
         Left = 0
         Top = 0
         Width = 1130
@@ -732,7 +732,6 @@ object frmSupplierInvoice: TfrmSupplierInvoice
             Font.Style = []
             ParentFont = False
             TabOrder = 0
-            ExplicitTop = 2
             object cxGrid2DBTableView1: TcxGridDBTableView
               Navigator.Buttons.CustomButtons = <>
               DataController.DataSource = dsItem
@@ -744,16 +743,7 @@ object frmSupplierInvoice: TfrmSupplierInvoice
                   Column = cxGrid2DBTableView1AMOUNT
                 end>
               DataController.Summary.SummaryGroups = <>
-              OptionsData.CancelOnExit = False
-              OptionsData.Deleting = False
-              OptionsData.DeletingConfirmation = False
-              OptionsData.Editing = False
-              OptionsData.Inserting = False
-              OptionsView.FocusRect = False
               OptionsView.Footer = True
-              OptionsView.GroupByBox = False
-              OptionsView.Header = False
-              OptionsView.Indicator = True
               object cxGrid2DBTableView1ID_SUP_INVOICEITEM: TcxGridDBColumn
                 Caption = 'Item ID'
                 DataBinding.FieldName = 'ID_SUP_INVOICEITEM'

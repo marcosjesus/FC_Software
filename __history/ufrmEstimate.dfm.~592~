@@ -711,7 +711,6 @@ object frmEstimate: TfrmEstimate
       Font.Style = []
       ImageIndex = 1
       ParentFont = False
-      TabVisible = False
       object Panel2: TPanel
         Left = 41
         Top = 174

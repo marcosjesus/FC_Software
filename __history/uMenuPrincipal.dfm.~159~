@@ -1989,9 +1989,9 @@ object frmMenuPrincipal: TfrmMenuPrincipal
       Width = 100
     end
     object dxBarLargeButtonOrders: TdxBarLargeButton
-      Caption = 'Order'
+      Caption = 'Orders'
       Category = 0
-      Hint = 'Order'
+      Hint = 'Orders'
       Visible = ivAlways
       LargeImageIndex = 18
       OnClick = dxBarLargeButtonOrdersClick
@@ -2007,9 +2007,9 @@ object frmMenuPrincipal: TfrmMenuPrincipal
       Width = 100
     end
     object dxBarLargeButtonSROrders: TdxBarLargeButton
-      Caption = 'Order'
+      Caption = 'Orders'
       Category = 0
-      Hint = 'Order'
+      Hint = 'Orders'
       Visible = ivAlways
       LargeImageIndex = 54
       OnClick = dxBarLargeButtonSROrdersClick
@@ -2382,9 +2382,9 @@ object frmMenuPrincipal: TfrmMenuPrincipal
       Width = 100
     end
     object dxBarLargeButtonInventory: TdxBarLargeButton
-      Caption = 'Estimate'
+      Caption = 'Estimates'
       Category = 0
-      Hint = 'Estimate'
+      Hint = 'Estimates'
       Visible = ivAlways
       LargeGlyph.Data = {
         36100000424D3610000000000000360000002800000020000000200000000100
@@ -2799,9 +2799,9 @@ object frmMenuPrincipal: TfrmMenuPrincipal
       Width = 100
     end
     object dxBarLargeButtonSupplierInvoice: TdxBarLargeButton
-      Caption = 'Manufacture Invoice'
+      Caption = 'Supplier Invoice'
       Category = 0
-      Hint = 'Manufacture Invoice'
+      Hint = 'Supplier Invoice'
       Visible = ivAlways
       LargeGlyph.Data = {
         36100000424D3610000000000000360000002800000020000000200000000100

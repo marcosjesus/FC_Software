@@ -588,11 +588,6 @@ object frmRequestOrder: TfrmRequestOrder
               Column = cxGrid1DBTableView1COUNTNEED
             end>
           DataController.Summary.SummaryGroups = <>
-          OptionsData.CancelOnExit = False
-          OptionsData.Deleting = False
-          OptionsData.DeletingConfirmation = False
-          OptionsData.Editing = False
-          OptionsData.Inserting = False
           OptionsView.Footer = True
           OptionsView.GroupFooters = gfAlwaysVisible
           object cxGrid1DBTableView1REQ_DATE: TcxGridDBColumn
@@ -642,7 +637,6 @@ object frmRequestOrder: TfrmRequestOrder
             Width = 100
           end
           object cxGrid1DBTableView1SOURCE: TcxGridDBColumn
-            Caption = 'Source'
             DataBinding.FieldName = 'SOURCE'
             Visible = False
             GroupIndex = 1

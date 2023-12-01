@@ -710,7 +710,7 @@ object frmSupplierInvoice: TfrmSupplierInvoice
         Height = 276
         Align = alClient
         TabOrder = 2
-        Properties.ActivePage = cxTabSheetItemForm
+        Properties.ActivePage = cxTabSheetGrade
         Properties.CustomButtons.Buttons = <>
         ClientRectBottom = 272
         ClientRectLeft = 4

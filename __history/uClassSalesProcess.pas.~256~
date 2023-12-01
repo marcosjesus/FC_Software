@@ -861,19 +861,17 @@ begin
         sqlDados.SQL.Clear;
         sqlDados.SQL.Add('SELECT ISNULL(SUM(I.TOTALAREA),0) AS SQUAREFEET ');
         sqlDados.SQL.Add('FROM TBPROCESS_ITEM I With (NOLOCK)  ');
-
         sqlDados.SQL.Add('INNER JOIN TBPROCESS H ON H.ID_PROCESS = I.ID_PROCESS AND H.TABLENAME = :TABLEHEADER ');
-
-        sqlDados.SQL.Add('WHERE I.TABLENAME  = :TABLEITEM ');
-        sqlDados.SQL.Add('AND   I.ID_PRODUCT = :ID_PRODUCT ');
-        sqlDados.SQL.Add('AND   H.STATUS = ''PENDING''');
-
+        sqlDados.SQL.Add('WHERE I.TABLENAME = :TABLEITEM ');
+        sqlDados.SQL.Add('AND I.ID_PRODUCT = :ID_PRODUCT ');
+        sqlDados.SQL.Add('AND H.STATUS = ''PENDING''');
         sqlDados.SQL.Add('  AND I.ID_PROCESS  NOT  IN  (SELECT ID_PROCESS FROM TBPROCESS_ITEM X WHERE X.TABLENAME = :TABLEITEM AND X.ID_PROCESS = :ID_PROCESS )');
 
         sqlDados.Params.ParamByName('ID_PRODUCT').AsInteger := varId_product;
         sqlDados.Params.ParamByName('TABLEHEADER').AsString := varTableName;
         sqlDados.Params.ParamByName('TABLEITEM').AsString   := varTableName + '_ITEM';
         sqlDados.Params.ParamByName('ID_PROCESS').AsInteger := id_process;
+
         sqlDados.Open;
         varResultado := sqlDados.FieldByName('SQUAREFEET').AsString;
        Finally

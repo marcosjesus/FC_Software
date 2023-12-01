@@ -776,7 +776,6 @@ begin
      FreeAndNil(Process);
 
   varNewKeyItem := 0;
-  ButItensOnOff('TTTFFTTT');
 
   Page.ActivePage := cxTabSheetGrade;
   cxPageEstimate.ActivePage := cxTabEstimateList;
@@ -865,7 +864,7 @@ begin
     Item.Delete;
     AtualizaGradeItem;
   Finally
-    FreeAndNil(Item);
+    FreeAndNil(Process);
   End;
 end;
 
@@ -1899,7 +1898,7 @@ begin
               varSqlDados.Params.ParamByName('ID_PROCESS_ITEM').AsInteger := Process.ItensNF.Items[I].id_process_item;
               varSqlDados.Params.ParamByName('ID_PRODUCT').AsInteger      := Process.ItensNF.Items[I].id_product;
               varSqlDados.Open;
-              if varSqlDados.FieldByName('STATUS').AsString = 'PENDING'  then
+              if not varSqlDados.IsEmpty  then
               begin
                  Mens_MensInf(' The Product # ' + IntToStr(Process.ItensNF.Items[i].id_product) + ' still Pending on Purchase Order');
                  cmbStatus.ItemIndex := cmbStatus.ItemIndex - 1;

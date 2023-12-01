@@ -874,6 +874,7 @@ begin
         sqlDados.Params.ParamByName('TABLEHEADER').AsString := varTableName;
         sqlDados.Params.ParamByName('TABLEITEM').AsString   := varTableName + '_ITEM';
         sqlDados.Params.ParamByName('ID_PROCESS').AsInteger := id_process;
+         DbDados.GetComando(sqlDados, True);
         sqlDados.Open;
         varResultado := sqlDados.FieldByName('SQUAREFEET').AsString;
        Finally

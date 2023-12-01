@@ -282,7 +282,6 @@ begin
     Invoice                := TInvoice.Create(Self);
     Invoice.id_sup_invoice := varNewKey;
     AtualizaGradeItem;
-    AtualizTerms;
   finally
     FreeAndNil(varNextKey);
   End;

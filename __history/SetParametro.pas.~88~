@@ -67,6 +67,8 @@ begin
     CaixaTexto.bs_Fields.Add('PRODUCT_STYLE_NAME;#;;' + inttostr(WIDTH_DOCUMENTO));                   //5
     CaixaTexto.bs_Fields.Add('P.areaSquareFeetPerBox;#;;' + inttostr(WIDTH_DOCUMENTO));               //6
 
+    CaixaTexto.bs_Filter   := 'P.TYPEOFPRODUCT = ''PRODUCT''';
+
     CaixaTexto.bs_Join :=  ' LEFT OUTER JOIN TBTYPEBRAND TP ON TP.ID_TYPEBRAND = P.ID_TYPE ' +
                            ' LEFT OUTER JOIN TBTYPEBRAND TS ON TS.ID_TYPEBRAND = P.STYLE ';
 

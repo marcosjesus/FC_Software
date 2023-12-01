@@ -270,7 +270,6 @@ var
   varNextKey : TDBNextKey;
 begin
 
-
   varNextKey               := TDBNextKey.Create(SUP_INVOICE_HEADER);
   Try
     varNewKey              := varNextKey.Key;
@@ -281,8 +280,6 @@ begin
 
     Invoice                := TInvoice.Create(Self);
     Invoice.id_sup_invoice := varNewKey;
-    AtualizaGradeItem;
-    AtualizTerms;
   finally
     FreeAndNil(varNextKey);
   End;

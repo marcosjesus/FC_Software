@@ -567,7 +567,7 @@ object frmEstimate: TfrmEstimate
     Font.Style = []
     ParentFont = False
     TabOrder = 1
-    Properties.ActivePage = cxTabEstimateList
+    Properties.ActivePage = cxTabEstimateForm
     Properties.CustomButtons.Buttons = <>
     ClientRectBottom = 684
     ClientRectLeft = 4
@@ -711,7 +711,6 @@ object frmEstimate: TfrmEstimate
       Font.Style = []
       ImageIndex = 1
       ParentFont = False
-      TabVisible = False
       object Panel2: TPanel
         Left = 41
         Top = 174

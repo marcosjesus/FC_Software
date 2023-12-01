@@ -1595,7 +1595,6 @@ object frmMenuPrincipal: TfrmMenuPrincipal
     TabOrder = 0
     TabStop = False
     object dxRibbonTabAdmin: TdxRibbonTab
-      Active = True
       Caption = 'Admin'
       Groups = <
         item
@@ -1617,6 +1616,7 @@ object frmMenuPrincipal: TfrmMenuPrincipal
       Index = 1
     end
     object dxRibbonTabTransactions: TdxRibbonTab
+      Active = True
       Caption = 'Transactions'
       Groups = <
         item
@@ -2799,9 +2799,9 @@ object frmMenuPrincipal: TfrmMenuPrincipal
       Width = 100
     end
     object dxBarLargeButtonSupplierInvoice: TdxBarLargeButton
-      Caption = 'Manufacture Invoice'
+      Caption = 'Supplier Invoice'
       Category = 0
-      Hint = 'Manufacture Invoice'
+      Hint = 'Supplier Invoice'
       Visible = ivAlways
       LargeGlyph.Data = {
         36100000424D3610000000000000360000002800000020000000200000000100

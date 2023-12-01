@@ -321,7 +321,7 @@ begin
 
   if not Assigned(frmEstimate) then
     frmEstimate := TfrmEstimate.Create(Self);
-    frmEstimate.Caption := 'Quotation';
+    frmEstimate.Caption := 'Estimate';
     frmEstimate.lblProcessName.Caption := frmEstimate.Caption;
     frmEstimate.Show;
 

@@ -776,7 +776,6 @@ begin
      FreeAndNil(Process);
 
   varNewKeyItem := 0;
-  ButItensOnOff('TTTFFTTT');
 
   Page.ActivePage := cxTabSheetGrade;
   cxPageEstimate.ActivePage := cxTabEstimateList;
@@ -807,7 +806,7 @@ begin
   end;
 
  if TBHeader = ESTIMATE_HEADER then
-     varProcessName := 'Quotation #: ' + ZeroLeft(sqlProcessID_PROCESS.AsString,7)
+     varProcessName := 'Estimate #: ' + ZeroLeft(sqlProcessID_PROCESS.AsString,7)
  else if TBHeader = ORDER_HEADER then
      varProcessName := 'Order #: ' + ZeroLeft(sqlProcessID_PROCESS.AsString,7);
 
@@ -845,9 +844,9 @@ begin
   end;
 
  if TBHeader = ESTIMATE_HEADER then
-     varProcessName := 'Quotation Item  #: ' + sqlProcessItemID_PRODUCT.AsString
+     varProcessName := 'Item Estimate #: ' + sqlProcessItemID_PRODUCT.AsString
  else if TBHeader = ORDER_HEADER then
-     varProcessName := 'Order Item #: ' + sqlProcessItemID_PRODUCT.AsString;
+     varProcessName := 'Item Order #: ' + sqlProcessItemID_PRODUCT.AsString;
 
   if cmbStatus.ItemIndex = 1 then
   begin
@@ -865,7 +864,7 @@ begin
     Item.Delete;
     AtualizaGradeItem;
   Finally
-    FreeAndNil(Item);
+    FreeAndNil(Process);
   End;
 end;
 
@@ -1216,7 +1215,7 @@ procedure TfrmEstimate.btnCartClick(Sender: TObject);
 begin
   if  varOption = 'X' then
   begin
-    Mens_MensInf('The Form not in insert or edit mode.') ;
+    Mens_MensInf('The Estimate Form not in insert or edit mode.') ;
     Exit;
   end;
 
@@ -1565,7 +1564,7 @@ begin
 
   if  varOption = 'X' then
   begin
-    Mens_MensInf('The Form not in insert or edit mode.') ;
+    Mens_MensInf('The Estimate Form not in insert or edit mode.') ;
     Exit;
   end;
 
@@ -1679,7 +1678,7 @@ begin
   if  varOption = 'X' then
   begin
     if TBHeader = ESTIMATE_HEADER then
-      Mens_MensInf('The Quotation Form not in insert or edit mode.')
+      Mens_MensInf('The Estimate Form not in insert or edit mode.')
     else if TBHeader = ORDER_HEADER then
       Mens_MensInf('The Order Form not in insert or edit mode.')
     else  Mens_MensInf('The Invoice Form not in insert or edit mode.');
@@ -1899,7 +1898,7 @@ begin
               varSqlDados.Params.ParamByName('ID_PROCESS_ITEM').AsInteger := Process.ItensNF.Items[I].id_process_item;
               varSqlDados.Params.ParamByName('ID_PRODUCT').AsInteger      := Process.ItensNF.Items[I].id_product;
               varSqlDados.Open;
-              if varSqlDados.FieldByName('STATUS').AsString = 'PENDING'  then
+              if not varSqlDados.IsEmpty  then
               begin
                  Mens_MensInf(' The Product # ' + IntToStr(Process.ItensNF.Items[i].id_product) + ' still Pending on Purchase Order');
                  cmbStatus.ItemIndex := cmbStatus.ItemIndex - 1;
@@ -1933,19 +1932,19 @@ begin
 
   if varOption = 'X' then
   begin
-     Mens_MensInf('The Form not in edit or insert mode.') ;
+     Mens_MensInf('The Estimate Form not in edit or insert mode.') ;
      Exit;
   end;
-  if lblTotal.Caption <> '0.00' then
-     Process.total                     := StrToFloat(lblTotal.Caption)
-  else  Process.total := 0.00;
 
-  if ValidTerms = False then Exit;
 
   SaveHeader;
+
   LimpaEdits;
+
   cxPageEstimate.ActivePage := cxTabEstimateList;
+
   AtualizaGrade;
+
   edtTotal.EditValue := sqlProcessTOTAL.AsFloat;
 
   if  Process <> Nil then
@@ -1997,9 +1996,6 @@ begin
      Item.height           := StrToFloat(edtheight.EditValue);
      Item.totalarea        := StrToFloat(edttotalarea.EditValue);
      Item.dif_totalarea    := Item.totalarea - StrToFloat(lblAV.Caption);;
-
-     Process.total := Process.total + Item.amout;
-
 
      Process.ItensNF.Add(Process, Item);
 
@@ -2075,6 +2071,8 @@ begin
    Process.User.id_user              := DBDados.varID_USER;
 
 
+   if ValidTerms = False then Exit;
+
    if varOption = 'I' then
      Process.Save
    else if varOption = 'U' then
@@ -2138,7 +2136,7 @@ begin
      if Item.id_product <> 0 then
      begin
          if TBHeader = ESTIMATE_HEADER then
-            Mens_MensInf('Product or service already exists in Quotation!.')
+            Mens_MensInf('Product or service already exists in Estimate!.')
          else if TBHeader = ORDER_HEADER Then
             Mens_MensInf('Product or service already exists in Order!.')
          else if TBHeader = INVOICE_HEADER then
@@ -2170,6 +2168,7 @@ begin
 
   SaveItem;
 
+  Process.total := Process.total + Item.amout;
 
   AtualizaGradeItem;
 

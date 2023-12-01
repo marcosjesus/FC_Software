@@ -558,6 +558,8 @@ object frmRequestOrder: TfrmRequestOrder
     TabOrder = 2
     Properties.ActivePage = cxTabSheet1
     Properties.CustomButtons.Buttons = <>
+    ExplicitTop = 41
+    ExplicitHeight = 422
     ClientRectBottom = 459
     ClientRectLeft = 4
     ClientRectRight = 879
@@ -565,6 +567,7 @@ object frmRequestOrder: TfrmRequestOrder
     object cxTabSheet1: TcxTabSheet
       Caption = 'Resquest Order'
       ImageIndex = 0
+      ExplicitHeight = 394
       object cxGrid1: TcxGrid
         Left = 0
         Top = 0
@@ -572,29 +575,13 @@ object frmRequestOrder: TfrmRequestOrder
         Height = 435
         Align = alClient
         TabOrder = 0
+        ExplicitHeight = 394
         object cxGrid1DBTableView1: TcxGridDBTableView
           Navigator.Buttons.CustomButtons = <>
           DataController.DataSource = dsGrid
-          DataController.Summary.DefaultGroupSummaryItems = <
-            item
-              Kind = skSum
-              FieldName = 'COUNTNEED'
-              Column = cxGrid1DBTableView1COUNTNEED
-            end>
-          DataController.Summary.FooterSummaryItems = <
-            item
-              Kind = skSum
-              FieldName = 'COUNTNEED'
-              Column = cxGrid1DBTableView1COUNTNEED
-            end>
+          DataController.Summary.DefaultGroupSummaryItems = <>
+          DataController.Summary.FooterSummaryItems = <>
           DataController.Summary.SummaryGroups = <>
-          OptionsData.CancelOnExit = False
-          OptionsData.Deleting = False
-          OptionsData.DeletingConfirmation = False
-          OptionsData.Editing = False
-          OptionsData.Inserting = False
-          OptionsView.Footer = True
-          OptionsView.GroupFooters = gfAlwaysVisible
           object cxGrid1DBTableView1REQ_DATE: TcxGridDBColumn
             DataBinding.FieldName = 'REQ_DATE'
             Width = 100
@@ -642,10 +629,7 @@ object frmRequestOrder: TfrmRequestOrder
             Width = 100
           end
           object cxGrid1DBTableView1SOURCE: TcxGridDBColumn
-            Caption = 'Source'
             DataBinding.FieldName = 'SOURCE'
-            Visible = False
-            GroupIndex = 1
           end
         end
         object cxGrid1Level1: TcxGridLevel
