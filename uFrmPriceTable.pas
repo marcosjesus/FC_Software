@@ -28,7 +28,7 @@ uses
   FireDAC.Stan.Async, FireDAC.DApt, cxDBLookupComboBox, cxDropDownEdit,
   FireDAC.Comp.DataSet, FireDAC.Comp.Client, cxCalendar, dxmdaset,
   dxBarBuiltInMenu, Vcl.ExtCtrls, cxPC, cxCurrencyEdit, cxButtonEdit,
-  cxEditRepositoryItems, Vcl.StdCtrls;
+  cxEditRepositoryItems, Vcl.StdCtrls, cxCheckBox;
 
 type
   TfrmPriceTable = class(TForm)

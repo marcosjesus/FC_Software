@@ -121,6 +121,7 @@ type
     sqlMenuActions: TStringField;
     dsMenu: TDataSource;
     sqlUserSpecialPer: TFDQuery;
+    sqlUserID_COMPANY: TIntegerField;
     procedure butOkClick(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -442,7 +443,7 @@ begin
       sqlSalvar.Params.ParamByName('PHONE_NUMBER').AsString := EdtPhone.Text;
       sqlSalvar.Params.ParamByName('ID_POSITION').AsInteger := cxLookupComboBoxPosition.EditValue;
       sqlSalvar.Params.ParamByName('ID_COMPANY').AsInteger  := cmbCompany.EditValue;
-      
+
 
 
       if rgActive.ItemIndex = 0 then
@@ -580,7 +581,7 @@ begin
    EdtPhone.Text      := sqlUserPHONE_NUMBER.AsString;
    edtPassword.Text   := sqlUserPWD.AsString;
 
-   
+
    sqlUserCompany.Close;
    sqlUserCompany.Params.ParamByName('ID_USER').AsInteger := sqlUserID_USER.AsInteger;
    sqlUserCompany.Open;
@@ -590,6 +591,8 @@ begin
       Company := pCompanyRec(chklistCompany.Items.Objects[I]);
       chklistCompany.Checked[i] := sqlUserCompany.Locate( 'ID_COMPANY', Company.ID_COMPANY );
    end;
+
+   cmbCompany.EditValue := sqlUserID_COMPANY.AsInteger;
 
    sqlUserSpecialPer.Close;
    sqlUserSpecialPer.Params.ParamByName('ID_USER').AsInteger := sqlUserID_USER.AsInteger;

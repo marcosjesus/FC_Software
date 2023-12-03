@@ -587,6 +587,20 @@ type
     RLDBText43: TRLDBText;
     RLLabel36: TRLLabel;
     RLDBText44: TRLDBText;
+    sqlFollowup: TFDQuery;
+    sqlFollowupID_SERVICE_FOLLOWUP: TFDAutoIncField;
+    sqlFollowupID_SERVICE: TIntegerField;
+    sqlFollowupCOMMENTS: TMemoField;
+    sqlFollowupADD_DATE: TSQLTimeStampField;
+    sqlFollowupUPD_DATE: TSQLTimeStampField;
+    sqlFollowupID_USER: TIntegerField;
+    dsFollowup: TDataSource;
+    RLSubDetail2: TRLSubDetail;
+    RLGroup4: TRLGroup;
+    RLBand17: TRLBand;
+    RLBand18: TRLBand;
+    RLLabel37: TRLLabel;
+    RLDBMemo1: TRLDBMemo;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure spbCleanCustomerClick(Sender: TObject);
@@ -2264,6 +2278,7 @@ begin
      frmFollowUP.sqlFollowup.Close;
      frmFollowUP.sqlFollowup.Params.ParamByName('ID_SERVICE').AsInteger := sqlServiceID_SERVICE.AsInteger;
      frmFollowUP.sqlFollowup.Open;
+     frmFollowUP.varID_Service :=  sqlServiceID_SERVICE.AsInteger;
      frmFollowUP.lblCustomer.Caption := sqlServiceCUSTOMER.AsString;
      frmFollowUP.lblOrder.Caption    := sqlServiceID_PROCESS.AsString;
      frmFollowUP.ShowModal;
@@ -2277,6 +2292,10 @@ procedure TfrmEstimate.cxEditRepository1ButtonImprimirPropertiesButtonClick(
   Sender: TObject; AButtonIndex: Integer);
 begin
   TPEMAIL := WORK_EMAIL;
+  sqlFollowup.Close;
+  sqlFollowup.Params.ParamByName('ID_SERVICE').AsInteger := sqlServiceID_SERVICE.AsInteger;
+  sqlFollowup.Open;
+
   ReportService.PreviewOptions.Caption := 'Work Order';
   ReportService.Preview;
 end;

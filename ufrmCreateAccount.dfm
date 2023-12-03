@@ -1093,6 +1093,10 @@ object frmCreateAccount: TfrmCreateAccount
       Origin = '[POSITION]'
       Size = 80
     end
+    object sqlUserID_COMPANY: TIntegerField
+      FieldName = 'ID_COMPANY'
+      Origin = 'ID_COMPANY'
+    end
   end
   object dsUser: TDataSource
     DataSet = sqlUser

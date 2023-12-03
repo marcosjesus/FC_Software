@@ -26,7 +26,7 @@ object frmPriceTable: TfrmPriceTable
     Height = 673
     Align = alClient
     TabOrder = 0
-    Properties.ActivePage = cxTabSheetItem
+    Properties.ActivePage = cxTabSheetList
     Properties.CustomButtons.Buttons = <>
     ClientRectBottom = 669
     ClientRectLeft = 4
@@ -146,10 +146,9 @@ object frmPriceTable: TfrmPriceTable
           object cxTableViewPriceTableACTIVE: TcxGridDBColumn
             Caption = 'Default'
             DataBinding.FieldName = 'ACTIVE'
-            PropertiesClassName = 'TcxComboBoxProperties'
-            Properties.Items.Strings = (
-              'Y'
-              'N')
+            PropertiesClassName = 'TcxCheckBoxProperties'
+            Properties.ValueChecked = 'Y'
+            Properties.ValueUnchecked = 'N'
             Width = 100
           end
           object cxTableViewPriceTableColumn1: TcxGridDBColumn

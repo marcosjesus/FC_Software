@@ -52,10 +52,12 @@ type
     lblCustomer: TLabel;
     lblOrder: TLabel;
     procedure ButCancelarClick(Sender: TObject);
+    procedure sqlFollowupAfterEdit(DataSet: TDataSet);
   private
     { Private declarations }
   public
     { Public declarations }
+    varID_Service : Integer;
   end;
 
 var
@@ -70,6 +72,13 @@ uses uDMConectDB;
 procedure TfrmFollowUP.ButCancelarClick(Sender: TObject);
 begin
   Close;
+end;
+
+procedure TfrmFollowUP.sqlFollowupAfterEdit(DataSet: TDataSet);
+begin
+  sqlFollowupID_SERVICE.AsInteger := varID_Service;
+  sqlFollowupUPD_DATE.AsDateTime  := Date;
+  sqlFollowupID_USER.AsInteger    := DBDados.varID_USER;
 end;
 
 end.

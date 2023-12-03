@@ -2,7 +2,7 @@ object frmSupplierInvoice: TfrmSupplierInvoice
   Left = 0
   Top = 0
   Caption = 'Manufactory Invoice'
-  ClientHeight = 524
+  ClientHeight = 525
   ClientWidth = 1138
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -23,12 +23,12 @@ object frmSupplierInvoice: TfrmSupplierInvoice
     Left = 0
     Top = 0
     Width = 1138
-    Height = 489
+    Height = 490
     Align = alClient
     TabOrder = 0
     Properties.ActivePage = cxTabSheetList
     Properties.CustomButtons.Buttons = <>
-    ClientRectBottom = 485
+    ClientRectBottom = 486
     ClientRectLeft = 4
     ClientRectRight = 1134
     ClientRectTop = 24
@@ -39,7 +39,7 @@ object frmSupplierInvoice: TfrmSupplierInvoice
         Left = 0
         Top = 0
         Width = 1130
-        Height = 461
+        Height = 462
         Align = alClient
         TabOrder = 0
         object cxGrid1DBTableView1: TcxGridDBTableView
@@ -91,15 +91,19 @@ object frmSupplierInvoice: TfrmSupplierInvoice
             Width = 100
           end
           object cxGrid1DBTableView1FREIGHT: TcxGridDBColumn
+            Caption = 'FREIGHT U$'
             DataBinding.FieldName = 'FREIGHT'
           end
           object cxGrid1DBTableView1TAX: TcxGridDBColumn
+            Caption = 'TAX U$'
             DataBinding.FieldName = 'TAX'
           end
           object cxGrid1DBTableView1SUBTOTAL: TcxGridDBColumn
+            Caption = 'MERCHANDISE U$'
             DataBinding.FieldName = 'MERCHANDISE'
           end
           object cxGrid1DBTableView1TOTAL: TcxGridDBColumn
+            Caption = 'TOTAL U$'
             DataBinding.FieldName = 'TOTAL'
           end
           object cxGrid1DBTableView1STATUS: TcxGridDBColumn
@@ -613,7 +617,7 @@ object frmSupplierInvoice: TfrmSupplierInvoice
         Left = 1048
         Top = 185
         Width = 82
-        Height = 276
+        Height = 277
         Align = alRight
         BevelOuter = bvLowered
         Font.Charset = DEFAULT_CHARSET
@@ -629,7 +633,7 @@ object frmSupplierInvoice: TfrmSupplierInvoice
           Width = 74
           Height = 25
           Hint = '|Inclui novo contato para esse cliente.'
-          Caption = '&Novo'
+          Caption = 'New'
           ParentShowHint = False
           ShowHint = True
           TabOrder = 0
@@ -647,7 +651,7 @@ object frmSupplierInvoice: TfrmSupplierInvoice
           Width = 74
           Height = 25
           Hint = '|Altera os dados do contato selecionado.'
-          Caption = '&Alterar'
+          Caption = 'Edit'
           ParentShowHint = False
           ShowHint = True
           TabOrder = 1
@@ -665,7 +669,7 @@ object frmSupplierInvoice: TfrmSupplierInvoice
           Width = 74
           Height = 25
           Hint = '|Apaga os dados do contato selecionado.'
-          Caption = '&Excluir'
+          Caption = 'Delete'
           ParentShowHint = False
           ShowHint = True
           TabOrder = 2
@@ -676,7 +680,7 @@ object frmSupplierInvoice: TfrmSupplierInvoice
           Width = 74
           Height = 25
           Hint = '|Confirma Inclus'#227'o/Altera'#231#227'o do contato.'
-          Caption = 'Con&firmar'
+          Caption = 'Save'
           Enabled = False
           ParentShowHint = False
           ShowHint = True
@@ -690,12 +694,12 @@ object frmSupplierInvoice: TfrmSupplierInvoice
           OnClick = ButSalvarItemClick
         end
         object ButCAncelarItem: TcxButton
-          Left = 3
+          Left = 2
           Top = 146
           Width = 74
           Height = 25
           Hint = '|Ignora Inclus'#227'o/Altera'#231#227'o do contato.'
-          Caption = '&Cancelar'
+          Caption = 'Cancel'
           Enabled = False
           ParentShowHint = False
           ShowHint = True
@@ -707,12 +711,12 @@ object frmSupplierInvoice: TfrmSupplierInvoice
         Left = 0
         Top = 185
         Width = 1048
-        Height = 276
+        Height = 277
         Align = alClient
         TabOrder = 2
-        Properties.ActivePage = cxTabSheetItemForm
+        Properties.ActivePage = cxTabSheetGrade
         Properties.CustomButtons.Buttons = <>
-        ClientRectBottom = 272
+        ClientRectBottom = 273
         ClientRectLeft = 4
         ClientRectRight = 1044
         ClientRectTop = 24
@@ -723,7 +727,7 @@ object frmSupplierInvoice: TfrmSupplierInvoice
             Left = 0
             Top = 0
             Width = 1040
-            Height = 248
+            Height = 249
             Align = alClient
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
@@ -732,7 +736,6 @@ object frmSupplierInvoice: TfrmSupplierInvoice
             Font.Style = []
             ParentFont = False
             TabOrder = 0
-            ExplicitTop = 2
             object cxGrid2DBTableView1: TcxGridDBTableView
               Navigator.Buttons.CustomButtons = <>
               DataController.DataSource = dsItem
@@ -752,7 +755,6 @@ object frmSupplierInvoice: TfrmSupplierInvoice
               OptionsView.FocusRect = False
               OptionsView.Footer = True
               OptionsView.GroupByBox = False
-              OptionsView.Header = False
               OptionsView.Indicator = True
               object cxGrid2DBTableView1ID_SUP_INVOICEITEM: TcxGridDBColumn
                 Caption = 'Item ID'
@@ -785,7 +787,7 @@ object frmSupplierInvoice: TfrmSupplierInvoice
                 Width = 100
               end
               object cxGrid2DBTableView1HEIGHT: TcxGridDBColumn
-                Caption = 'Height'
+                Caption = 'Lenght'
                 DataBinding.FieldName = 'HEIGHT'
                 Width = 100
               end
@@ -850,9 +852,9 @@ object frmSupplierInvoice: TfrmSupplierInvoice
           object Label15: TLabel
             Left = 135
             Top = 66
-            Width = 36
+            Width = 38
             Height = 16
-            Caption = 'Height'
+            Caption = 'Lenght'
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
             Font.Height = -13
@@ -1115,7 +1117,7 @@ object frmSupplierInvoice: TfrmSupplierInvoice
   end
   object Panel27: TPanel
     Left = 0
-    Top = 489
+    Top = 490
     Width = 1138
     Height = 35
     Align = alBottom

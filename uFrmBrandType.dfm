@@ -33,7 +33,7 @@ object FrmBrandType: TFrmBrandType
       Height = 644
       Align = alClient
       TabOrder = 0
-      Properties.ActivePage = TabBrand
+      Properties.ActivePage = TabMaterial
       Properties.CustomButtons.Buttons = <>
       ClientRectBottom = 640
       ClientRectLeft = 4
@@ -214,6 +214,10 @@ object FrmBrandType: TFrmBrandType
       object TabRoom: TcxTabSheet
         Caption = 'Room'
         ImageIndex = 2
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object cxGrid1: TcxGrid
           Left = 0
           Top = 0
@@ -281,6 +285,10 @@ object FrmBrandType: TFrmBrandType
       object TabDisplay: TcxTabSheet
         Caption = 'Sample Board'
         ImageIndex = 3
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object cxGrid2: TcxGrid
           Left = 0
           Top = 0

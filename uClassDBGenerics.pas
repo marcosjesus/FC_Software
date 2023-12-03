@@ -674,7 +674,7 @@ begin
 
            Company.id_company :=  sqlDados.FieldByName('ID_COMPANY').AsInteger;
 
-//           Company.Search(sqlDados.FieldByName('ID_COMPANY').AsInteger);
+           Company.Search(sqlDados.FieldByName('ID_COMPANY').AsInteger);
         end;
 
        Finally

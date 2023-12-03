@@ -738,7 +738,7 @@ object frmEstimate: TfrmEstimate
         Font.Style = []
         ParentFont = False
         TabOrder = 1
-        Properties.ActivePage = cxTabSheetItems
+        Properties.ActivePage = cxTabSheetService
         Properties.CustomButtons.Buttons = <>
         OnChange = cxPageForm2Change
         ClientRectBottom = 656
@@ -2113,7 +2113,7 @@ object frmEstimate: TfrmEstimate
               Width = 74
               Height = 25
               Hint = '|Inclui novo contato para esse cliente.'
-              Caption = '&Novo'
+              Caption = '&New'
               ParentShowHint = False
               ShowHint = True
               TabOrder = 0
@@ -2131,7 +2131,7 @@ object frmEstimate: TfrmEstimate
               Width = 74
               Height = 25
               Hint = '|Altera os dados do contato selecionado.'
-              Caption = '&Alterar'
+              Caption = '&Edit'
               ParentShowHint = False
               ShowHint = True
               TabOrder = 1
@@ -2149,7 +2149,7 @@ object frmEstimate: TfrmEstimate
               Width = 74
               Height = 25
               Hint = '|Apaga os dados do contato selecionado.'
-              Caption = '&Excluir'
+              Caption = '&Delete'
               ParentShowHint = False
               ShowHint = True
               TabOrder = 2
@@ -2161,7 +2161,7 @@ object frmEstimate: TfrmEstimate
               Width = 74
               Height = 25
               Hint = '|Confirma Inclus'#227'o/Altera'#231#227'o do contato.'
-              Caption = 'Con&firmar'
+              Caption = 'Save'
               Enabled = False
               ParentShowHint = False
               ShowHint = True
@@ -2180,7 +2180,7 @@ object frmEstimate: TfrmEstimate
               Width = 74
               Height = 25
               Hint = '|Ignora Inclus'#227'o/Altera'#231#227'o do contato.'
-              Caption = '&Cancelar'
+              Caption = 'Cancel'
               Enabled = False
               ParentShowHint = False
               ShowHint = True
@@ -2288,7 +2288,7 @@ object frmEstimate: TfrmEstimate
                     DataBinding.FieldName = 'WIDTH'
                   end
                   object cxGrid1DBTableView1HEIGHT: TcxGridDBColumn
-                    Caption = 'Height'
+                    Caption = 'Lenght'
                     DataBinding.FieldName = 'HEIGHT'
                   end
                   object cxGrid1DBTableView1TOTALAREA: TcxGridDBColumn
@@ -2340,7 +2340,7 @@ object frmEstimate: TfrmEstimate
                 ParentFont = False
                 TabOrder = 1
                 object Label21: TLabel
-                  Left = 663
+                  Left = 853
                   Top = 33
                   Width = 55
                   Height = 13
@@ -2353,7 +2353,7 @@ object frmEstimate: TfrmEstimate
                   ParentFont = False
                 end
                 object Label22: TLabel
-                  Left = 663
+                  Left = 853
                   Top = 11
                   Width = 42
                   Height = 13
@@ -2366,7 +2366,7 @@ object frmEstimate: TfrmEstimate
                   ParentFont = False
                 end
                 object Label23: TLabel
-                  Left = 663
+                  Left = 853
                   Top = 55
                   Width = 18
                   Height = 13
@@ -2379,7 +2379,7 @@ object frmEstimate: TfrmEstimate
                   ParentFont = False
                 end
                 object Label24: TLabel
-                  Left = 663
+                  Left = 853
                   Top = 77
                   Width = 40
                   Height = 13
@@ -2392,7 +2392,7 @@ object frmEstimate: TfrmEstimate
                   ParentFont = False
                 end
                 object Label25: TLabel
-                  Left = 663
+                  Left = 853
                   Top = 101
                   Width = 24
                   Height = 13
@@ -2405,7 +2405,7 @@ object frmEstimate: TfrmEstimate
                   ParentFont = False
                 end
                 object lblSubTotal: TLabel
-                  Left = 896
+                  Left = 1086
                   Top = 11
                   Width = 28
                   Height = 16
@@ -2419,7 +2419,7 @@ object frmEstimate: TfrmEstimate
                   ParentFont = False
                 end
                 object lblTax: TLabel
-                  Left = 896
+                  Left = 1086
                   Top = 55
                   Width = 28
                   Height = 16
@@ -2433,7 +2433,7 @@ object frmEstimate: TfrmEstimate
                   ParentFont = False
                 end
                 object lblTotal: TLabel
-                  Left = 896
+                  Left = 1086
                   Top = 99
                   Width = 28
                   Height = 16
@@ -2447,7 +2447,7 @@ object frmEstimate: TfrmEstimate
                   ParentFont = False
                 end
                 object lblDiscount: TLabel
-                  Left = 896
+                  Left = 1086
                   Top = 33
                   Width = 28
                   Height = 16
@@ -2461,8 +2461,8 @@ object frmEstimate: TfrmEstimate
                   ParentFont = False
                 end
                 object Label37: TLabel
-                  Left = 1044
-                  Top = 11
+                  Left = 629
+                  Top = 14
                   Width = 31
                   Height = 13
                   Caption = 'Status'
@@ -2484,7 +2484,7 @@ object frmEstimate: TfrmEstimate
                   end
                 end
                 object edtmskDiscount: TcxCurrencyEdit
-                  Left = 729
+                  Left = 919
                   Top = 30
                   TabOrder = 1
                   OnExit = edtmskDiscountExit
@@ -2492,15 +2492,15 @@ object frmEstimate: TfrmEstimate
                   Width = 48
                 end
                 object edtShipping: TcxCurrencyEdit
-                  Left = 803
+                  Left = 993
                   Top = 74
                   TabOrder = 2
                   OnExit = edtShippingExit
                   Width = 121
                 end
                 object cmbStatus: TcxComboBox
-                  Left = 1044
-                  Top = 30
+                  Left = 629
+                  Top = 35
                   Properties.DropDownListStyle = lsFixedList
                   Properties.Items.Strings = (
                     'Pending'
@@ -2670,9 +2670,9 @@ object frmEstimate: TfrmEstimate
                 object Label15: TLabel
                   Left = 87
                   Top = 180
-                  Width = 36
+                  Width = 38
                   Height = 16
-                  Caption = 'Height'
+                  Caption = 'Lenght'
                   Font.Charset = DEFAULT_CHARSET
                   Font.Color = clWindowText
                   Font.Height = -13
@@ -3058,10 +3058,10 @@ object frmEstimate: TfrmEstimate
                 end
                 object Label42: TLabel
                   Left = 582
-                  Top = 294
-                  Width = 13
+                  Top = 295
+                  Width = 15
                   Height = 13
-                  Caption = 'EP'
+                  Caption = 'QP'
                   Font.Charset = DEFAULT_CHARSET
                   Font.Color = clRed
                   Font.Height = -11
@@ -3879,10 +3879,10 @@ object frmEstimate: TfrmEstimate
       ImageIndex = 2
       ParentFont = False
       object pnlRelatorio: TPanel
-        Left = 24
-        Top = 36
-        Width = 819
-        Height = 455
+        Left = 615
+        Top = -172
+        Width = 630
+        Height = 805
         Caption = 'Quotation/Order/Invoice'
         Color = 33023
         ParentBackground = False
@@ -4924,10 +4924,10 @@ object frmEstimate: TfrmEstimate
         end
       end
       object pnlRelService: TPanel
-        Left = 849
-        Top = 37
-        Width = 424
-        Height = 440
+        Left = 129
+        Top = 21
+        Width = 888
+        Height = 745
         Caption = 'Service'
         Color = 16744448
         Font.Charset = DEFAULT_CHARSET
@@ -5328,9 +5328,9 @@ object frmEstimate: TfrmEstimate
               object RLLabel33: TRLLabel
                 Left = 575
                 Top = 4
-                Width = 45
+                Width = 48
                 Height = 16
-                Caption = 'Height'
+                Caption = 'Lenght'
                 Font.Charset = DEFAULT_CHARSET
                 Font.Color = clBlack
                 Font.Height = -13
@@ -5457,7 +5457,7 @@ object frmEstimate: TfrmEstimate
             end
             object RLBand16: TRLBand
               Left = 0
-              Top = 87
+              Top = 151
               Width = 718
               Height = 24
               BandType = btSummary
@@ -5467,6 +5467,79 @@ object frmEstimate: TfrmEstimate
               Font.Name = 'Arial'
               Font.Style = []
               ParentFont = False
+            end
+            object RLSubDetail2: TRLSubDetail
+              Left = 0
+              Top = 87
+              Width = 718
+              Height = 64
+              DataSource = dsFollowup
+              object RLGroup4: TRLGroup
+                Left = 0
+                Top = 0
+                Width = 718
+                Height = 64
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clBlack
+                Font.Height = -13
+                Font.Name = 'Arial'
+                Font.Style = []
+                ParentFont = False
+                object RLBand17: TRLBand
+                  Left = 0
+                  Top = 0
+                  Width = 718
+                  Height = 24
+                  BandType = btHeader
+                  Font.Charset = DEFAULT_CHARSET
+                  Font.Color = clBlack
+                  Font.Height = -13
+                  Font.Name = 'Arial'
+                  Font.Style = []
+                  ParentFont = False
+                  object RLLabel37: TRLLabel
+                    Left = 5
+                    Top = 4
+                    Width = 71
+                    Height = 16
+                    Caption = 'Comments'
+                    Font.Charset = DEFAULT_CHARSET
+                    Font.Color = clBlack
+                    Font.Height = -13
+                    Font.Name = 'Arial'
+                    Font.Style = [fsBold]
+                    ParentFont = False
+                  end
+                end
+                object RLBand18: TRLBand
+                  Left = 0
+                  Top = 24
+                  Width = 718
+                  Height = 41
+                  Font.Charset = DEFAULT_CHARSET
+                  Font.Color = clBlack
+                  Font.Height = -13
+                  Font.Name = 'Arial'
+                  Font.Style = []
+                  ParentFont = False
+                  object RLDBMemo1: TRLDBMemo
+                    Left = 0
+                    Top = 0
+                    Width = 718
+                    Height = 41
+                    Align = faClient
+                    Behavior = [beSiteExpander]
+                    DataField = 'COMMENTS'
+                    DataSource = dsFollowup
+                    Font.Charset = DEFAULT_CHARSET
+                    Font.Color = clBlack
+                    Font.Height = -13
+                    Font.Name = 'Arial'
+                    Font.Style = []
+                    ParentFont = False
+                  end
+                end
+              end
             end
           end
         end
@@ -5571,15 +5644,15 @@ object frmEstimate: TfrmEstimate
   end
   object DSPPRICELIST: TDataSource
     DataSet = STPPRICELIST
-    Left = 757
-    Top = 518
+    Left = 717
+    Top = 414
   end
   object STPPRICELIST: TFDStoredProc
     Connection = DBDados.FDConnection
     SchemaName = 'dbo'
     StoredProcName = 'FLOORDB.dbo.SP_VENDOR_PRICINGTABLE'
-    Left = 765
-    Top = 566
+    Left = 757
+    Top = 366
     ParamData = <
       item
         Position = 1
@@ -6066,8 +6139,8 @@ object frmEstimate: TfrmEstimate
     SQL.Strings = (
       'select * from TBTERMS'
       'where tablename = :tablename and ID_PROCESS = :ID_PROCESS')
-    Left = 677
-    Top = 595
+    Left = 605
+    Top = 451
     ParamData = <
       item
         Name = 'TABLENAME'
@@ -6129,8 +6202,8 @@ object frmEstimate: TfrmEstimate
   end
   object dsTerms: TDataSource
     DataSet = sqlTerms
-    Left = 669
-    Top = 507
+    Left = 653
+    Top = 411
   end
   object sqlParcelas: TFDQuery
     Connection = DBDados.FDConnection
@@ -6667,18 +6740,18 @@ object frmEstimate: TfrmEstimate
       'FortesReport Community Edition v4.0.0.1 \251 Copyright '#169' 1999-20' +
       '21 Fortes Inform'#225'tica'
     DisplayName = 'PDF Document'
-    Left = 939
-    Top = 585
+    Left = 931
+    Top = 449
   end
   object RLPreviewSetup1: TRLPreviewSetup
     Tag = -1
     OnSend = RLPreviewSetup1Send
-    Left = 982
-    Top = 496
+    Left = 838
+    Top = 464
   end
   object cxStyleRepository: TcxStyleRepository
-    Left = 1056
-    Top = 488
+    Left = 1064
+    Top = 384
     PixelsPerInch = 96
     object cxStyleReq_PurchaseOrder: TcxStyle
       AssignedValues = [svColor, svFont, svTextColor]
@@ -6710,8 +6783,8 @@ object frmEstimate: TfrmEstimate
     Connection = DBDados.FDConnection
     SQL.Strings = (
       'select * from tbimage where id_product = :id_product')
-    Left = 815
-    Top = 525
+    Left = 807
+    Top = 413
     ParamData = <
       item
         Name = 'ID_PRODUCT'
@@ -6930,8 +7003,8 @@ object frmEstimate: TfrmEstimate
     Top = 544
   end
   object cxEditRepository1: TcxEditRepository
-    Left = 1176
-    Top = 504
+    Left = 1032
+    Top = 432
     object cxEditRepository1ButtonFollowUP: TcxEditRepositoryButtonItem
       Properties.Buttons = <
         item
@@ -9384,5 +9457,53 @@ object frmEstimate: TfrmEstimate
           00010B11192035557E974F7FBCE15990D5FF4F7EBBE23556809B0A1119200000
           0001000000000000000000000000000000000000000000000000}
       end>
+  end
+  object sqlFollowup: TFDQuery
+    Connection = DBDados.FDConnection
+    SQL.Strings = (
+      'SELECT TOP 1 * FROM TBSERVICE_FOLLOWUP'
+      'WHERE ID_SERVICE = :ID_SERVICE')
+    Left = 296
+    Top = 369
+    ParamData = <
+      item
+        Name = 'ID_SERVICE'
+        DataType = ftInteger
+        ADDataType = dtInt32
+        ParamType = ptInput
+      end>
+    object sqlFollowupID_SERVICE_FOLLOWUP: TFDAutoIncField
+      FieldName = 'ID_SERVICE_FOLLOWUP'
+      Origin = 'ID_SERVICE_FOLLOWUP'
+      ProviderFlags = [pfInWhere, pfInKey]
+      ReadOnly = True
+    end
+    object sqlFollowupID_SERVICE: TIntegerField
+      FieldName = 'ID_SERVICE'
+      Origin = 'ID_SERVICE'
+    end
+    object sqlFollowupCOMMENTS: TMemoField
+      FieldName = 'COMMENTS'
+      Origin = 'COMMENTS'
+      BlobType = ftMemo
+      Size = 2147483647
+    end
+    object sqlFollowupADD_DATE: TSQLTimeStampField
+      FieldName = 'ADD_DATE'
+      Origin = 'ADD_DATE'
+    end
+    object sqlFollowupUPD_DATE: TSQLTimeStampField
+      FieldName = 'UPD_DATE'
+      Origin = 'UPD_DATE'
+    end
+    object sqlFollowupID_USER: TIntegerField
+      FieldName = 'ID_USER'
+      Origin = 'ID_USER'
+    end
+  end
+  object dsFollowup: TDataSource
+    DataSet = sqlFollowup
+    Left = 296
+    Top = 441
   end
 end

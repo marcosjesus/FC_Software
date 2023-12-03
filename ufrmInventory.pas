@@ -49,17 +49,12 @@ type
     STPPRICELISTID_PRICELIST: TFDAutoIncField;
     STPPRICELISTNAME: TStringField;
     STPPRICELISTEXPIREDDATE: TDateField;
-    ButCancelar: TcxButton;
     GroupBox1: TGroupBox;
     Label1: TLabel;
     Label2: TLabel;
-    Label3: TLabel;
     Label4: TLabel;
-    Label5: TLabel;
     edtManufactory: TEdit;
     edtProdutcStyle: TEdit;
-    edtProductStyleName: TEdit;
-    edtStyle: TEdit;
     edtProductType: TEdit;
     Label6: TLabel;
     Label7: TLabel;
@@ -72,7 +67,6 @@ type
     Label11: TLabel;
     Label13: TLabel;
     Label14: TLabel;
-    Label15: TLabel;
     lblStyle: TLabel;
     lblProductType: TLabel;
     Label16: TLabel;
@@ -98,10 +92,7 @@ type
     SubTotal: TLabel;
     Label23: TLabel;
     lblTax: TLabel;
-    btnCart: TcxButton;
-    btnCleanCart: TcxButton;
     btnViewCart: TcxButton;
-    btnRoom: TcxButton;
     lblTotal: TLabel;
     Label24: TLabel;
     lblRoom: TLabel;
@@ -122,6 +113,12 @@ type
     OpenPictureDialog: TOpenPictureDialog;
     cxSplitter1: TcxSplitter;
     cmbProduct: TcxComboBox;
+    Label3: TLabel;
+    edtProductID: TEdit;
+    btnRoom: TcxButton;
+    btnCart: TcxButton;
+    btnCleanCart: TcxButton;
+    ButCancelar: TcxButton;
     procedure edtManufactoryEnter(Sender: TObject);
     procedure edtManufactoryChange(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -131,10 +128,6 @@ type
     procedure edtProdutcStyleChange(Sender: TObject);
     procedure cxGrid1DBBandedTableView1DblClick(Sender: TObject);
     procedure edtheightExit(Sender: TObject);
-    procedure edtProductStyleNameEnter(Sender: TObject);
-    procedure edtProductStyleNameChange(Sender: TObject);
-    procedure edtStyleEnter(Sender: TObject);
-    procedure edtStyleChange(Sender: TObject);
     procedure edtProductTypeEnter(Sender: TObject);
     procedure edtProductTypeChange(Sender: TObject);
     procedure btnCartClick(Sender: TObject);
@@ -148,6 +141,9 @@ type
     procedure edtweidthEnter(Sender: TObject);
     procedure cmbProductClick(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+    procedure edtProductIDEnter(Sender: TObject);
+    procedure edtProductIDChange(Sender: TObject);
+    procedure edtProductIDKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
     varSelectProduct : Boolean;
@@ -163,6 +159,7 @@ type
     procedure OpenInventory;
     procedure CleanScreen;
     procedure ShowImagem;
+    procedure LimpaEdit(Sender: TObject);
   public
     { Public declarations }
     Carrinho : TSalesProcess;
@@ -205,7 +202,14 @@ begin
     ABand := cxGrid1DBBandedTableView1.Bands.Add;
     ABand.Index := 1;
     ABand.HeaderAlignmentHorz := taCenter;
-    ABand.Caption := 'PRINCING TABLE';
+    ABand.Caption := 'PRINCING TABLE U$';
+
+    AColumn         := cxGrid1DBBandedTableView1.CreateColumn;
+    AColumn.Width   := 60;
+    AColumn.Caption := 'ID';
+    AColumn.DataBinding.FieldName := sqlInventoty.Fields[8].FieldName;
+    AColumn.Position.BandIndex := 0;
+
 
     AColumn         := cxGrid1DBBandedTableView1.CreateColumn;
     AColumn.Width   := 100;
@@ -261,9 +265,9 @@ begin
           AColumn.Caption := sqlInventoty.Fields[i].FullName;
           AColumn.Width := 200;
           AColumn.Position.BandIndex := 1;
-{          AColumn.PropertiesClass := TcxCurrencyEditProperties;
+          AColumn.PropertiesClass := TcxCurrencyEditProperties;
           TcxCurrencyEditProperties(AColumn.Properties).DisplayFormat := 'U$,0.00;(U$,0.00)';
-
+{
           cxGrid1DBBandedTableView1.DataController.Summary.FooterSummaryItems.Add(AColumn, spFooter, skSum, '##,###,###.##');
  }
     end;
@@ -347,7 +351,7 @@ begin
 
   if edtheight.Text = '' then
   begin
-     Mens_MensInf('Height fiels is required.') ;
+     Mens_MensInf('Lenght fiels is required.') ;
      edtheight.SetFocus;
      Exit;
   end;
@@ -627,7 +631,7 @@ begin
    lblTotalSQF.Caption          := sqlInventoty.Fields[6].AsString;
 
    lblProductID.Caption         := ZeroLeft(sqlInventoty.Fields[8].AsString,7);
-   lblRate.Caption              := sqlInventoty.Fields[7].AsString;
+   lblRate.Caption              := FormatFloat('0.00', sqlInventoty.Fields[7].AsFloat);
    if cmbProduct.ItemIndex = 0 then
    begin
      lblEP.Caption                := Item.ProductPending('TBESTIMATE', sqlInventoty.Fields[8].AsInteger);
@@ -660,6 +664,50 @@ begin
 
 end;
 
+procedure TfrmInventory.edtProductIDChange(Sender: TObject);
+begin
+  if sqlInventoty.IsEmpty Then Exit;
+  sqlInventoty.FindNearest([edtProductID.Text]);
+end;
+
+procedure TfrmInventory.LimpaEdit(Sender: TObject);
+var i : integer;
+begin
+     for i := 0 to ComponentCount -1 do
+     begin
+
+       if (Components[i] is TEdit) then
+          TEdit(Components[i]).Clear;
+
+     end;
+end;
+
+procedure TfrmInventory.edtProductIDEnter(Sender: TObject);
+begin
+  if sqlInventoty.IsEmpty Then Exit;
+
+  //'Product ID';
+  sqlInventoty.IndexFieldNames :=  sqlInventoty.FieldList.fields[8].fieldname;
+  LimpaEdit(Self);
+end;
+
+procedure TfrmInventory.edtProductIDKeyPress(Sender: TObject; var Key: Char);
+begin
+ if not (Key in [#8, '0'..'9', FFormatoBR.DecimalSeparator]) then begin
+    ShowMessage('Invalid key: ' + Key);
+    Key := #0;
+  end
+  else if ((Key = FFormatoBR.DecimalSeparator) or (Key = '-')) and
+      (Pos(Key, edtProductID.Text) > 0) then begin
+    ShowMessage('Invalid Key: twice ' + Key);
+    Key := #0;
+  end
+  else if (Key = '-') and (edtProductID.SelStart <> 0) then begin
+    ShowMessage('Only allowed at beginning of number: ' + Key);
+    Key := #0;
+  end;
+end;
+
 procedure TfrmInventory.edtProductTypeChange(Sender: TObject);
 begin
   if sqlInventoty.IsEmpty Then Exit;
@@ -668,22 +716,11 @@ end;
 
 procedure TfrmInventory.edtProductTypeEnter(Sender: TObject);
 begin
+
   if sqlInventoty.IsEmpty Then Exit;
 
-  sqlInventoty.IndexFieldNames := 'PRODUCT TYPE';
-end;
-
-procedure TfrmInventory.edtStyleChange(Sender: TObject);
-begin
-  if sqlInventoty.IsEmpty Then Exit;
-  sqlInventoty.FindNearest([edtStyle.Text]);
-end;
-
-procedure TfrmInventory.edtStyleEnter(Sender: TObject);
-begin
-  if sqlInventoty.IsEmpty Then Exit;
-
-  sqlInventoty.IndexFieldNames := 'PRODUCT_STYLE_NAME';
+  sqlInventoty.IndexFieldNames :=  sqlInventoty.FieldList.fields[1].fieldname;
+    LimpaEdit(Self);
 end;
 
 procedure TfrmInventory.edtweidthEnter(Sender: TObject);
@@ -703,19 +740,6 @@ begin
    end;
 end;
 
-procedure TfrmInventory.edtProductStyleNameChange(Sender: TObject);
-begin
-  if sqlInventoty.IsEmpty Then Exit;
-  sqlInventoty.FindNearest([edtProductStyleName.Text]);
-end;
-
-procedure TfrmInventory.edtProductStyleNameEnter(Sender: TObject);
-begin
-  if sqlInventoty.IsEmpty Then Exit;
-
-  sqlInventoty.IndexFieldNames := 'PRODUCT_STYLE_NAME';
-end;
-
 procedure TfrmInventory.edtProdutcStyleChange(Sender: TObject);
 begin
   if sqlInventoty.IsEmpty Then Exit;
@@ -726,7 +750,9 @@ procedure TfrmInventory.edtProdutcStyleEnter(Sender: TObject);
 begin
   if sqlInventoty.IsEmpty Then Exit;
 
-  sqlInventoty.IndexFieldNames := 'PRODUCT_STYLE';
+  // 'PRODUCT STYLE'
+  sqlInventoty.IndexFieldNames :=  sqlInventoty.FieldList.fields[2].fieldname;
+  LimpaEdit(Self);
 end;
 
 procedure TfrmInventory.edtheightEnter(Sender: TObject);
@@ -810,7 +836,9 @@ procedure TfrmInventory.edtManufactoryEnter(Sender: TObject);
 begin
   if sqlInventoty.IsEmpty Then Exit;
 
-  sqlInventoty.IndexFieldNames := 'MANUFACTORY';
+  //'MANUFACTORY';
+  sqlInventoty.IndexFieldNames :=  sqlInventoty.FieldList.fields[0].fieldname;
+    LimpaEdit(Self);
 end;
 
 procedure TfrmInventory.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -872,25 +900,29 @@ begin
       sqlInventoty.SQL.Add(      'ID_PRODUCT,  ');
       sqlInventoty.SQL.Add(      'AreaSquareFeetPerBox,  ');
       sqlInventoty.SQL.Add(      'ID_SUPPLIER  ');
+
       sqlInventoty.SQL.Add('FROM (  ');
       sqlInventoty.SQL.Add('		SELECT  A.NAME AS PRICETABLE, PRICE_FINAL, B.ID_PRODUCT, C.PRODUCT_STYLE_NAME, ISNULL(SUM(D.TOTALAREA),0) as TOTALAREA, ');
       sqlInventoty.SQL.Add('	  	E.NAMEBUSINESS,');
       sqlInventoty.SQL.Add('	  	C.PRODUCT_STYLE,');
       sqlInventoty.SQL.Add('	    C.COLOR, ');
       sqlInventoty.SQL.Add('	    C.COLOR_NAME, ');
+
       sqlInventoty.SQL.Add('		  F.DESCRIPTION AS [PRODUCT TYPE], ');
       sqlInventoty.SQL.Add('		  G.DESCRIPTION AS [PRODUCT STYLE],');
+
       sqlInventoty.SQL.Add('		  C.LOC_SECTION AS [SECTION], ');
       sqlInventoty.SQL.Add('		  C.LOC_POSITION AS [POSITION], ');
       sqlInventoty.SQL.Add('      C.AreaSquareFeetPerBox,  ');
       sqlInventoty.SQL.Add('      C.ID_SUPPLIER  ');
+
       sqlInventoty.SQL.Add('		FROM TBPRICELIST A ');
       sqlInventoty.SQL.Add('		  INNER JOIN TBPRICEITEM B ON B.ID_PRICELIST = A.ID_PRICELIST');
       sqlInventoty.SQL.Add('		  INNER JOIN TBPRODUCT C ON C.ID_PRODUCT = B.ID_PRODUCT  AND C.TYPEOFPRODUCT = ''PRODUCT'' ');
       sqlInventoty.SQL.Add('		  INNER JOIN TBINVENTORY D ON D.ID_PRODUCT = B.ID_PRODUCT ');
       sqlInventoty.SQL.Add('		  INNER JOIN TBSUPPLIER E ON E.ID_SUPPLIER = C.ID_SUPPLIER ');
       sqlInventoty.SQL.Add('	    LEFT OUTER JOIN TBTYPEBRAND F ON F.ID_TYPEBRAND = C.ID_TYPE ');
-      sqlInventoty.SQL.Add('      LEFT OUTER JOIN TBTYPEBRAND G ON G.ID_TYPEBRAND = C.STYLE  ');
+      sqlInventoty.SQL.Add('      LEFT OUTER JOIN TBTYPEBRAND G ON G.ID_TYPEBRAND = C.STYLE ');
       sqlInventoty.SQL.Add('	   	WHERE C.ACTIVE = ''Y'' AND A.' + DBDados.varReturnCompanies  );
       sqlInventoty.SQL.Add('		GROUP BY C.LOC_SECTION,  ');
       sqlInventoty.SQL.Add('             C.LOC_POSITION, ');
@@ -949,7 +981,7 @@ begin
       sqlInventoty.SQL.Add('		  INNER JOIN TBPRODUCT C ON C.ID_PRODUCT = B.ID_PRODUCT  AND C.TYPEOFPRODUCT = ''SERVICE'' ');
       sqlInventoty.SQL.Add('		  LEFT OUTER JOIN TBINVENTORY D ON D.ID_PRODUCT = B.ID_PRODUCT ');
       sqlInventoty.SQL.Add('		  INNER JOIN TBSUPPLIER E ON E.ID_SUPPLIER = C.ID_SUPPLIER ');
-      sqlInventoty.SQL.Add('	    LEFT OUTER JOIN TBTYPEBRAND F ON F.ID_TYPEBRAND = C.ID_TYPE ');
+      sqlInventoty.SQL.Add('	    LEFT OUTER JOIN TBTYPEBRAND F ON F.ID_TYPEBRAND = C.ID_TYPE  ');
       sqlInventoty.SQL.Add('      LEFT OUTER JOIN TBTYPEBRAND G ON G.ID_TYPEBRAND = C.STYLE  ');
       sqlInventoty.SQL.Add('	   	WHERE C.ACTIVE = ''Y'' AND A.' + DBDados.varReturnCompanies  );
       sqlInventoty.SQL.Add('		GROUP BY C.LOC_SECTION,  ');

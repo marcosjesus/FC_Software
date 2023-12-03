@@ -7,9 +7,6 @@ Coordinates=421,506,83,36
 [lblTax]
 Coordinates=629,438,49,58
 
-[btnCart]
-Coordinates=890,302,57,58
-
 [Label6]
 Coordinates=459,370,53,58
 
@@ -18,9 +15,6 @@ Coordinates=343,506,68,36
 
 [Label16]
 Coordinates=820,302,60,58
-
-[edtProductStyleName]
-Coordinates=533,166,139,58
 
 [Label13]
 Coordinates=847,166,60,58
@@ -36,9 +30,6 @@ Coordinates=1252,1,195,36
 
 [lblManufactory]
 Coordinates=341,166,98,58
-
-[ButCancelar]
-Coordinates=836,370,85,58
 
 [Panel2]
 Coordinates=698,234,55,58
@@ -110,9 +101,6 @@ Coordinates=69,438,53,58
 [lblProductName]
 Coordinates=10,370,106,58
 
-[btnCleanCart]
-Coordinates=631,302,90,58
-
 [lblPosition]
 Coordinates=449,166,74,58
 
@@ -131,20 +119,8 @@ Coordinates=846,584,128,36
 [EdtQty]
 Coordinates=861,438,54,36
 
-[edtStyle]
-Coordinates=558,438,61,58
-
-[btnRoom]
-Coordinates=310,234,66,58
-
 [Label10]
 Coordinates=879,234,60,58
-
-[Label15]
-Coordinates=291,438,60,58
-
-[Label3]
-Coordinates=126,370,53,58
 
 [Label42]
 Coordinates=10,234,60,58
@@ -169,9 +145,6 @@ Coordinates=10,166,60,58
 
 [lblTotalSQF]
 Coordinates=754,166,83,58
-
-[Label5]
-Coordinates=361,438,53,58
 
 [lblSection]
 Coordinates=317,302,71,58
@@ -267,5 +240,5 @@ Coordinates=288,10,153,58
 Coordinates=451,10,122,58
 
 []
-Coordinates=391,741,91,36
+Coordinates=836,370,85,58
 
