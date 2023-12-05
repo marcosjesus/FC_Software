@@ -579,7 +579,7 @@ object frmProduct: TfrmProduct
                 Top = 110
                 Width = 40
                 Height = 13
-                Caption = 'Lenght'
+                Caption = 'Length'
               end
               object Label19: TLabel
                 Left = 567

@@ -3,7 +3,9 @@ unit ufrmAccessControl;
 interface
 
 uses
+  uFunctions,
   MensFun,
+  ComObj,
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, cxGraphics, cxLookAndFeels,
   cxLookAndFeelPainters, Vcl.Menus, dxSkinsCore, dxSkinBlack, dxSkinBlue,
@@ -65,6 +67,10 @@ type
     Button1: TButton;
     sqlAux2: TFDQuery;
     sqlAux3: TFDQuery;
+    Button2: TButton;
+    OpenDialog: TOpenDialog;
+    Button3: TButton;
+    OpenDialog1: TOpenDialog;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure ButCancelarClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -73,9 +79,13 @@ type
     procedure ButSalvarClick(Sender: TObject);
     procedure chklistMenuClick(Sender: TObject);
     procedure Button1Click(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
+    procedure Button3Click(Sender: TObject);
   private
     procedure Delete(varID_Position, varID_Menu: Integer);
     procedure Insert(varID_Position, varID_Menu: Integer);
+    procedure OpenANewWordtFileAndSaveAs(Sender: TObject);
+    function ExtractTextFromWordFile(const FileName: string): string;
     { Private declarations }
 
   public
@@ -210,6 +220,157 @@ begin
       FreeAndNil(Lista);
   End;
 end;
+
+procedure TfrmAccessControl.Button2Click(Sender: TObject);
+var
+  varFile : TStringList;
+  myFile : String;
+  I : Integer;
+  SR: TSearchRec;
+  X : integer;
+
+begin
+
+   I := FindFirst('C:\temp\FCDOCFILES\TXT\*.txt' , faAnyFile, SR);
+   while I = 0 do
+   begin
+     myFile := '';
+     varFile := TStringList.Create;
+     varFile.LoadFromFile('C:\temp\FCDOCFILES\TXT\' + SR.Name);
+     try
+
+        for I := 0 to  varFile.Count-1  do
+        begin
+
+            if varFile[i] <> '' then
+              myFile := myFile + varFile[i] + ';';
+
+
+
+            if Pos('Floor', varFile[i]) > 0 then
+            begin
+                doSaveLog('c:\temp\', myFile);
+                myFile := '';
+            end;
+        end;
+
+
+
+     finally
+       FreeAndNil(varFile);
+     end;
+
+     I := FindNext(SR);
+
+   end;
+end;
+
+
+function TfrmAccessControl.ExtractTextFromWordFile(const FileName:string):string;
+var
+  WordApp    : Variant;
+  CharsCount : integer;
+begin
+  WordApp := CreateOleObject('Word.Application');
+  try
+    WordApp.Visible := False;
+    WordApp.Documents.open(FileName);
+    CharsCount:=Wordapp.Documents.item(1).Characters.Count;//get the number of chars to select
+    Result:=WordApp.Documents.item(1).Range(0, CharsCount).Text;//Select the text and retrieve the selection
+    WordApp.documents.item(1).Close;
+  finally
+   WordApp.Quit;
+  end;
+end;
+
+
+procedure TfrmAccessControl.Button3Click(Sender: TObject);
+var
+  MyFile : String;
+  MyFileSaved : TStringList;
+  varNewFileName : String;
+  SR: TSearchRec;
+  I: integer;
+begin
+  MyFile := '';
+
+  I := FindFirst('C:\temp\FCDOCFILES\*.docx' , faAnyFile, SR);
+  while I = 0 do
+  begin
+     MyFileSaved         := TStringList.Create;
+     try
+
+        MyFile           :=  ExtractTextFromWordFile('C:\temp\FCDOCFILES\' + SR.Name);
+        MyFileSaved.Text := MyFile;
+        varNewFileName   := StringReplace(SR.Name, '.docx','.txt',[rfReplaceAll, rfIgnoreCase]);
+        MyFileSaved.SaveToFile('C:\temp\FCDOCFILES\TXT\' + varNewFileName);
+     finally
+        MyFile := '';
+        FreeAndNil(MyFileSaved);
+     end;
+
+     I := FindNext(SR);
+   end;
+   ShowMessage('FIM');
+end;
+
+procedure TfrmAccessControl.OpenANewWordtFileAndSaveAs(Sender: TObject);
+var
+   WordFileName: String;
+   WordApplication, WordFile: Variant;
+begin
+     //be sure ComObj and Variants units are included in the "uses" clause
+
+     WordFileName := OpenDialog1.FileName; //replace file name with the name of your file
+
+     WordApplication := Null;
+     WordFile := Null;
+
+     try
+        //create Word OLE
+        WordApplication := CreateOleObject('Word.Application');
+     except
+           WordApplication := Null;
+           //add error/exception handling code as desired
+     end;
+
+     If VarIsNull(WordApplication) = False then
+        begin
+             try
+                WordApplication.Visible := True; //set to False if you do not want to see the activity in the background
+                WordApplication.DisplayAlerts := False; //ensures message dialogs do not interrupt the flow of your automation process. May be helpful to set to True during testing and debugging.
+
+                //Open a new Word file (i.e., new Word document)
+                try
+                   WordFile := WordApplication.Documents.Add; //uses the default template
+                   //reference
+                   //https://docs.microsoft.com/en-us/office/vba/api/word.documents.add
+                except
+                      WordFile := Null;
+                      //add error/exception handling code as desired
+                end;
+
+                If VarIsNull(WordFile) = False then
+                   begin
+                        //add some text to the new Word file
+                       //reference
+                        //https://docs.microsoft.com/en-us/office/vba/api/word.range.text
+                        WordFileName :=  StringReplace(WordFileName, '.docx','.txt',[rfReplaceAll, rfIgnoreCase]);
+                        WordFile.SaveAs(WordFileName);
+                        //reference
+                        //https://docs.microsoft.com/en-us/office/vba/api/word.documents.save
+                   end;
+             finally
+                    WordFile.Close;
+                    WordApplication.DisplayAlerts := True;
+                    WordApplication.Quit;
+
+                    WordFile := Unassigned;
+                    WordApplication := Unassigned;
+             end;
+        end;
+end;
+
 
 procedure TfrmAccessControl.Insert(varID_Position, varID_Menu : Integer);
 begin

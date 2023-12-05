@@ -34,13 +34,25 @@ object frmSupplierInvoice: TfrmSupplierInvoice
     ClientRectTop = 24
     object cxTabSheetList: TcxTabSheet
       Caption = 'Invoice List'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
       ImageIndex = 0
+      ParentFont = False
       object cxGrid1: TcxGrid
         Left = 0
         Top = 0
         Width = 1130
         Height = 462
         Align = alClient
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
         TabOrder = 0
         object cxGrid1DBTableView1: TcxGridDBTableView
           Navigator.Buttons.CustomButtons = <>
@@ -258,6 +270,19 @@ object frmSupplierInvoice: TfrmSupplierInvoice
           Height = 13
           Caption = 'Status'
         end
+        object Label17: TLabel
+          Left = 334
+          Top = 154
+          Width = 85
+          Height = 13
+          Caption = 'Terms Description'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ParentFont = False
+        end
         object edtManufactory: TEditBusca
           Left = 99
           Top = 20
@@ -317,14 +342,20 @@ object frmSupplierInvoice: TfrmSupplierInvoice
           TabOrder = 9
           object Label36: TLabel
             Left = 14
-            Top = 0
-            Width = 29
+            Top = 130
+            Width = 64
             Height = 13
-            Caption = 'Terms'
+            Caption = 'Terms (Days)'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            ParentFont = False
           end
           object edtDays: TEdit
             Left = 14
-            Top = 19
+            Top = 149
             Width = 89
             Height = 21
             Font.Charset = DEFAULT_CHARSET
@@ -337,7 +368,7 @@ object frmSupplierInvoice: TfrmSupplierInvoice
           end
           object btnTerms: TcxButton
             Left = 120
-            Top = 7
+            Top = 145
             Width = 42
             Height = 33
             LookAndFeel.Kind = lfOffice11
@@ -538,6 +569,7 @@ object frmSupplierInvoice: TfrmSupplierInvoice
           Top = 69
           ParentFont = False
           Properties.CharCase = ecUpperCase
+          Properties.MaxLength = 20
           Style.Font.Charset = DEFAULT_CHARSET
           Style.Font.Color = clWindowText
           Style.Font.Height = -11
@@ -564,6 +596,7 @@ object frmSupplierInvoice: TfrmSupplierInvoice
           Left = 99
           Top = 123
           Properties.CharCase = ecUpperCase
+          Properties.MaxLength = 30
           TabOrder = 4
           Width = 369
         end
@@ -611,6 +644,14 @@ object frmSupplierInvoice: TfrmSupplierInvoice
           Properties.ReadOnly = False
           TabOrder = 10
           Width = 147
+        end
+        object cxTextEdit1: TcxTextEdit
+          Left = 427
+          Top = 150
+          Properties.CharCase = ecUpperCase
+          Properties.MaxLength = 30
+          TabOrder = 11
+          Width = 282
         end
       end
       object pnlBtnLateral: TPanel
@@ -787,7 +828,7 @@ object frmSupplierInvoice: TfrmSupplierInvoice
                 Width = 100
               end
               object cxGrid2DBTableView1HEIGHT: TcxGridDBColumn
-                Caption = 'Lenght'
+                Caption = 'Length'
                 DataBinding.FieldName = 'HEIGHT'
                 Width = 100
               end
@@ -827,7 +868,13 @@ object frmSupplierInvoice: TfrmSupplierInvoice
         end
         object cxTabSheetItemForm: TcxTabSheet
           Caption = 'Form'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
           ImageIndex = 1
+          ParentFont = False
           TabVisible = False
           object Label5: TLabel
             Left = 17

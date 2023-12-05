@@ -351,7 +351,7 @@ begin
 
   if edtheight.Text = '' then
   begin
-     Mens_MensInf('Lenght fiels is required.') ;
+     Mens_MensInf('Length fiels is required.') ;
      edtheight.SetFocus;
      Exit;
   end;

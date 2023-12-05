@@ -141,6 +141,14 @@ uses AsyncCalls, uDMConectDB, uFrmLogin, MensFun, ufrmAccount, uFrmSupplier, uFr
   ufrmSupplierInvoice;
 
 procedure TfrmMenuPrincipal.dxBarLargeButtonCreditorsClick(Sender: TObject);
+
+  procedure SetuTable;
+  begin
+
+    FrmCreditors.SetupTable; // Estimate
+
+  end;
+
 begin
   if DBDados.varLogado = False  then Exit;
 
@@ -151,6 +159,8 @@ begin
     FrmCreditors.Visible := True;
     FrmCreditors.BringToFront;
     FrmCreditors.Update;
+
+    LocalAsyncVclCall( @SetuTable );
 end;
 
 procedure TfrmMenuPrincipal.dxBarLargeButtonCompanyClick(Sender: TObject);
@@ -379,6 +389,13 @@ begin
 end;
 
 procedure TfrmMenuPrincipal.dxBarLargeButtonLoginClick(Sender: TObject);
+  procedure SetupForm;
+  begin
+
+    FrmLogin.SetupForm; // Order
+
+  end;
+
 begin
   if not Assigned(FrmLogin) then
     FrmLogin := TFrmLogin.Create(Self) ;
@@ -388,6 +405,9 @@ begin
     FrmLogin.Visible := True;
     FrmLogin.BringToFront;
     FrmLogin.Update;
+
+    LocalAsyncVclCall( @SetupForm );
+
 end;
 
 procedure TfrmMenuPrincipal.dxBarLargeButtonOrdersClick(Sender: TObject);

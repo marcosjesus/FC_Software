@@ -36,6 +36,7 @@ type
 
     varAction    : Array of String;
     varRegiao    : String;
+    varID        : String;
     varBanco     : String;
     varUsuario   : String;
     varUsuarioLastName : String;
@@ -74,6 +75,8 @@ type
     function PricingTableNames : String;
     function NumberofCompanyByUser : Integer;
     function GetSpecialPermission(varAction : String) : Boolean;
+    procedure SaveUserPerfil;
+
   end;
 
 
@@ -100,10 +103,12 @@ end;
 
 Function TDBDados.GetComando(ObjetoQuery: TFDQuery; bMostra : Boolean) : String;
 var
- i        : Integer;
- strQuery : String;
+
+ i           : Integer;
+ strQuery    : String;
  sGetComando : String;
- Lista : TStringList;
+ Lista       : TStringList;
+
 begin
 
   strQuery := UpperCase(ObjetoQuery.SQL.Text);
@@ -375,9 +380,21 @@ begin
    Arq       := TIniFile.Create(ExtractFilePath(Application.ExeName)+'conexao.ini');
    varBanco  := Arq.ReadString('BANCO','VENDOR', '');
    varRegiao := Arq.ReadString('REGIAO','FORMATDATE', '');
+   varID     := Arq.ReadString('ID','EMAIL', '');
    Arq.Free;
    varLogado := False;
    ConectarNoBanco;
+end;
+
+procedure  TDBDados.SaveUserPerfil;
+var
+  ini:TIniFile;
+begin
+  ini:=TIniFile.Create(ExtractFilePath(Application.ExeName)+'conexao.ini');
+  ini.WriteString('BANCO', 'VENDOR', varBanco);
+  ini.WriteString('REGIAO', 'FORMATDATE', varRegiao);
+  ini.WriteString('ID', 'EMAIL', varID);
+  ini.Free;
 end;
 
 

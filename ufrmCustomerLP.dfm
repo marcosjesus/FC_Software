@@ -34,8 +34,9 @@ object frmCustomerLP: TfrmCustomerLP
     Font.Style = []
     ParentFont = False
     TabOrder = 0
-    Properties.ActivePage = cxTabSheetList
+    Properties.ActivePage = cxTabSheetForm
     Properties.CustomButtons.Buttons = <>
+    ExplicitTop = -4
     ClientRectBottom = 457
     ClientRectLeft = 4
     ClientRectRight = 977
@@ -276,7 +277,7 @@ object frmCustomerLP: TfrmCustomerLP
                       Value = 'R'
                     end
                     item
-                      Description = 'Ordering address'
+                      Description = 'Shipping address'
                       ImageIndex = 58
                       Tag = 3
                       Value = 'O'
@@ -558,9 +559,6 @@ object frmCustomerLP: TfrmCustomerLP
             Font.Style = [fsBold]
             ParentFont = False
             TabOrder = 2
-            ExplicitLeft = 633
-            ExplicitTop = 231
-            ExplicitWidth = 395
             object cxGrid2: TcxGrid
               Left = 1
               Top = 1
@@ -575,9 +573,6 @@ object frmCustomerLP: TfrmCustomerLP
               ParentFont = False
               TabOrder = 0
               RootLevelOptions.DetailTabsPosition = dtpTop
-              ExplicitLeft = 69
-              ExplicitTop = 19
-              ExplicitWidth = 393
               object cxGridDBTableView1: TcxGridDBTableView
                 Navigator.Buttons.ConfirmDelete = True
                 Navigator.Buttons.CustomButtons = <>

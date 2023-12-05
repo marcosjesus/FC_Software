@@ -49,6 +49,7 @@ type
     { Private declarations }
   public
     { Public declarations }
+    procedure SetupForm;
   end;
 
 var
@@ -112,6 +113,7 @@ begin
     end
     else
     begin
+        DBDados.varID          := EdiUsuario.Text;
         varComputerName         := sqlAux.FieldByName('COMPUTERNAME').AsString;
         DBDados.varUsuario      := sqlAux.FieldByName('FIRST_NAME').AsString;
         DBDados.varID_USER      := sqlAux.FieldByName('ID_User').AsInteger;
@@ -154,6 +156,7 @@ begin
   end;
 
   ModalResult := varModalResult ;
+  DBDados.SaveUserPerfil;
   DBDados.varLogado := True;
   //Dados.BuscaCaminhodoArquivo;
   Close;
@@ -206,6 +209,13 @@ begin
     Key := 0;
     PostMessage(Handle, WM_NEXTDLGCTL, 0, 0);
   end;
+end;
+
+procedure TFrmLogin.SetupForm;
+begin
+   EdiUsuario.Text := DBDados.varID;
+   if EdiUsuario.Text <> '' then
+     EdiSenha.SetFocus;
 end;
 
 end.

@@ -32,7 +32,7 @@ object frmCreateAccount: TfrmCreateAccount
     Font.Style = []
     ParentFont = False
     TabOrder = 0
-    Properties.ActivePage = cxTabSheetForm
+    Properties.ActivePage = cxTabSheet1List
     Properties.CustomButtons.Buttons = <>
     ClientRectBottom = 474
     ClientRectLeft = 4

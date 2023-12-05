@@ -526,6 +526,15 @@ object FrmVendorsContractors: TFrmVendorsContractors
       FieldName = 'ID_COMPANY'
       Origin = 'ID_COMPANY'
     end
+    object sqlGridADD_DATE: TDateField
+      AutoGenerateValue = arDefault
+      FieldName = 'ADD_DATE'
+    end
+    object sqlGridUPD_DATE: TDateField
+      AutoGenerateValue = arDefault
+      FieldName = 'UPD_DATE'
+      ProviderFlags = []
+    end
   end
   object dsGrid: TDataSource
     DataSet = sqlGrid

@@ -1,9 +1,9 @@
 object FrmCreditors: TFrmCreditors
   Left = 0
   Top = 0
-  Caption = 'Creditors'
-  ClientHeight = 498
-  ClientWidth = 755
+  Caption = 'Account Payable'
+  ClientHeight = 496
+  ClientWidth = 1073
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -23,34 +23,155 @@ object FrmCreditors: TFrmCreditors
   object cxPageControl: TcxPageControl
     Left = 0
     Top = 0
-    Width = 755
-    Height = 443
+    Width = 1073
+    Height = 441
     Align = alClient
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
     TabOrder = 0
     Properties.ActivePage = cxTabSheetList
     Properties.CustomButtons.Buttons = <>
     OnChange = cxPageControlChange
-    ClientRectBottom = 439
+    ClientRectBottom = 437
     ClientRectLeft = 4
-    ClientRectRight = 751
+    ClientRectRight = 1069
     ClientRectTop = 24
     object cxTabSheetList: TcxTabSheet
-      Caption = 'Creditors List'
+      Caption = 'Accounts Payable'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
       ImageIndex = 0
+      ParentFont = False
+      object cxGrid2: TcxGrid
+        Left = 0
+        Top = 0
+        Width = 1065
+        Height = 413
+        Align = alClient
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 0
+        object cxGrid2DBTableView1: TcxGridDBTableView
+          Navigator.Buttons.CustomButtons = <>
+          DataController.DataSource = dsGrid
+          DataController.KeyFieldNames = 'ID_PAYABLE'
+          DataController.Summary.DefaultGroupSummaryItems = <>
+          DataController.Summary.FooterSummaryItems = <
+            item
+              Kind = skSum
+              FieldName = 'DISCOUNT'
+            end
+            item
+              Kind = skSum
+              FieldName = 'TAX'
+            end
+            item
+              Kind = skSum
+              FieldName = 'SHIPPING'
+            end
+            item
+              Kind = skSum
+              FieldName = 'TOTAL'
+            end
+            item
+              Kind = skSum
+              FieldName = 'SUBTOTAL'
+            end>
+          DataController.Summary.SummaryGroups = <>
+          OptionsData.CancelOnExit = False
+          OptionsData.Deleting = False
+          OptionsData.DeletingConfirmation = False
+          OptionsData.Editing = False
+          OptionsData.Inserting = False
+          OptionsView.Footer = True
+          OptionsView.Indicator = True
+          object cxGrid2DBTableView1ID_PAYABLE: TcxGridDBColumn
+            DataBinding.FieldName = 'ID_PAYABLE'
+            Width = 100
+          end
+          object cxGrid2DBTableView1EXPENSECATEGORY: TcxGridDBColumn
+            DataBinding.FieldName = 'EXPENSECATEGORY'
+            Width = 144
+          end
+          object cxGrid2DBTableView1NAMEBUSINESS: TcxGridDBColumn
+            DataBinding.FieldName = 'NAMEBUSINESS'
+            Width = 112
+          end
+          object cxGrid2DBTableView1INVOICE_ID: TcxGridDBColumn
+            AlternateCaption = 'j'
+            DataBinding.FieldName = 'INVOICE_ID'
+            Width = 100
+          end
+          object cxGrid2DBTableView1DATE_DUE: TcxGridDBColumn
+            DataBinding.FieldName = 'DATE_DUE'
+            Width = 100
+          end
+          object cxGrid2DBTableView1PAYMENT_AMOUNT: TcxGridDBColumn
+            DataBinding.FieldName = 'PAYMENT_AMOUNT'
+            Width = 113
+          end
+          object cxGrid2DBTableView1PAYMENT_STATUS: TcxGridDBColumn
+            DataBinding.FieldName = 'PAYMENT_STATUS'
+            Width = 124
+          end
+          object cxGrid2DBTableView1INVOICE_DATE: TcxGridDBColumn
+            DataBinding.FieldName = 'INVOICE_DATE'
+            Width = 100
+          end
+          object cxGrid2DBTableView1METHOD: TcxGridDBColumn
+            DataBinding.FieldName = 'METHOD'
+            Width = 100
+          end
+          object cxGrid2DBTableView1DESCRIPTION: TcxGridDBColumn
+            DataBinding.FieldName = 'DESCRIPTION'
+            Width = 100
+          end
+          object cxGrid2DBTableView1INTERNALCOD: TcxGridDBColumn
+            DataBinding.FieldName = 'INTERNALCOD'
+            Width = 100
+          end
+          object cxGrid2DBTableView1DBUSER: TcxGridDBColumn
+            DataBinding.FieldName = 'DBUSER'
+            Width = 100
+          end
+        end
+        object cxGrid2Level1: TcxGridLevel
+          GridView = cxGrid2DBTableView1
+        end
+      end
     end
     object cxTabSheetForm: TcxTabSheet
       Caption = 'Registration Form'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
       ImageIndex = 1
+      ParentFont = False
+      ExplicitLeft = 20
+      ExplicitTop = -24
       object Panel1: TPanel
         Tag = -2
         Left = 0
         Top = 0
-        Width = 747
+        Width = 1065
         Height = 27
         Align = alTop
         Alignment = taLeftJustify
         BevelInner = bvLowered
-        Caption = '     ID'
+        Caption = '     '
         Font.Charset = ANSI_CHARSET
         Font.Color = clWindowText
         Font.Height = -11
@@ -58,6 +179,7 @@ object FrmCreditors: TFrmCreditors
         Font.Style = [fsBold]
         ParentFont = False
         TabOrder = 0
+        ExplicitWidth = 710
         object Label1: TLabel
           Left = 317
           Top = 7
@@ -66,24 +188,42 @@ object FrmCreditors: TFrmCreditors
           Caption = 
             'Please fill out this form as completely and accurantely as possi' +
             'ble '
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          ParentFont = False
         end
       end
-      object Panel2: TPanel
+      object pnl3: TPanel
         Tag = -2
-        Left = 18
-        Top = 46
-        Width = 707
+        Left = 0
+        Top = 123
+        Width = 710
         Height = 27
         Alignment = taLeftJustify
         BevelInner = bvLowered
-        Caption = '  Supplier'
         Font.Charset = ANSI_CHARSET
         Font.Color = clWindowText
         Font.Height = -11
         Font.Name = 'Arial'
         Font.Style = [fsBold]
         ParentFont = False
-        TabOrder = 1
+        TabOrder = 3
+        object Label11: TLabel
+          Left = 43
+          Top = 6
+          Width = 74
+          Height = 14
+          Caption = 'Manufacturer'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
         object EdiCodigo: TrsSuperEdit
           Tag = -2
           Left = 444
@@ -117,8 +257,8 @@ object FrmCreditors: TFrmCreditors
           TabOrder = 0
           Visible = False
         end
-        object cxButton1: TcxButton
-          Left = 675
+        object btnLimpaSupplier: TcxButton
+          Left = 664
           Top = 3
           Width = 26
           Height = 23
@@ -135,13 +275,25 @@ object FrmCreditors: TFrmCreditors
           ParentShowHint = False
           ShowHint = True
           TabOrder = 1
-          OnClick = cxButton1Click
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          ParentFont = False
+          OnClick = btnLimpaSupplierClick
         end
         object edtSupplier: TEditBusca
-          Left = 73
+          Left = 128
           Top = 4
-          Width = 505
+          Width = 530
           Height = 22
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          ParentFont = False
           TabOrder = 2
           ClickOnArrow = True
           ClickOnReturn = False
@@ -158,14 +310,530 @@ object FrmCreditors: TFrmCreditors
           bs_Imagem = False
           bs_HideTop = False
           bs_Top100 = False
+          bs_Script = False
         end
+      end
+      object pnl1: TPanel
+        Tag = -2
+        Left = 0
+        Top = 69
+        Width = 710
+        Height = 27
+        Alignment = taLeftJustify
+        BevelInner = bvLowered
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Arial'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 1
+        object Label2: TLabel
+          Left = 16
+          Top = 8
+          Width = 100
+          Height = 14
+          Caption = 'Expense Category'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object rsSuperEdit1: TrsSuperEdit
+          Tag = -2
+          Left = 444
+          Top = 3
+          Width = 0
+          Height = 22
+          Alignment = taRightJustify
+          Format = foInteger
+          TagName = 'TRE_TREINAMENTO_ID'
+          CT_Titulo = 'Consulta de Treinamento'
+          CT_TableName = 'TRE_TREINAMENTO'
+          CT_NumFields = 4
+          CT_ColTit = 'ID;CursoID;NomeCurso;DataRealiza'#231#227'o'
+          CT_ColField = 'TRE_TREINAMENTO_ID;CUR_ID;CUR_NOMCURSO;TRE_DTREALIZACAO'
+          CT_RetField1 = 0
+          CT_RetControl1 = rsSuperEdit1
+          CT_RetField2 = 0
+          CT_Test = False
+          CT_ConsTab = True
+          CT_KeyValue = rsSuperEdit1
+          CT_Search = False
+          MaxLength = 15
+          Text = ''
+          CharCase = ecUpperCase
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 0
+          Visible = False
+        end
+        object cxLookupComboBoxExpense: TcxLookupComboBox
+          Left = 127
+          Top = 2
+          Properties.KeyFieldNames = 'ID_EXPENSECATEGORY'
+          Properties.ListColumns = <
+            item
+              FieldName = 'DESCRIPTION'
+            end>
+          Properties.ListSource = dsExpenseCategory
+          TabOrder = 1
+          Width = 562
+        end
+      end
+      object pnl4: TPanel
+        Tag = -2
+        Left = 0
+        Top = 151
+        Width = 710
+        Height = 27
+        Alignment = taLeftJustify
+        BevelInner = bvLowered
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Arial'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 4
+        object Label3: TLabel
+          Left = 64
+          Top = 8
+          Width = 52
+          Height = 14
+          Caption = 'Invoice ID'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Label12: TLabel
+          Left = 473
+          Top = 8
+          Width = 66
+          Height = 14
+          Caption = 'Invoice Date'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object rsSuperEdit2: TrsSuperEdit
+          Tag = -2
+          Left = 444
+          Top = 3
+          Width = 0
+          Height = 22
+          Alignment = taRightJustify
+          Format = foInteger
+          TagName = 'TRE_TREINAMENTO_ID'
+          CT_Titulo = 'Consulta de Treinamento'
+          CT_TableName = 'TRE_TREINAMENTO'
+          CT_NumFields = 4
+          CT_ColTit = 'ID;CursoID;NomeCurso;DataRealiza'#231#227'o'
+          CT_ColField = 'TRE_TREINAMENTO_ID;CUR_ID;CUR_NOMCURSO;TRE_DTREALIZACAO'
+          CT_RetField1 = 0
+          CT_RetControl1 = rsSuperEdit2
+          CT_RetField2 = 0
+          CT_Test = False
+          CT_ConsTab = True
+          CT_KeyValue = rsSuperEdit2
+          CT_Search = False
+          MaxLength = 15
+          Text = ''
+          CharCase = ecUpperCase
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 0
+          Visible = False
+        end
+        object edtInvoice: TcxTextEdit
+          Left = 128
+          Top = 3
+          TabOrder = 1
+          Width = 145
+        end
+        object InvoiceDate: TcxDateEdit
+          Left = 545
+          Top = 3
+          ParentFont = False
+          Style.Font.Charset = ANSI_CHARSET
+          Style.Font.Color = clWindowText
+          Style.Font.Height = -11
+          Style.Font.Name = 'Arial'
+          Style.Font.Style = [fsBold]
+          Style.IsFontAssigned = True
+          TabOrder = 2
+          Width = 145
+        end
+      end
+      object pnl5: TPanel
+        Tag = -2
+        Left = 0
+        Top = 179
+        Width = 710
+        Height = 28
+        Alignment = taLeftJustify
+        BevelInner = bvLowered
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Arial'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 5
+        object Label4: TLabel
+          Left = 69
+          Top = 5
+          Width = 47
+          Height = 14
+          Caption = 'Data Due'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object rsSuperEdit3: TrsSuperEdit
+          Tag = -2
+          Left = 444
+          Top = 3
+          Width = 0
+          Height = 22
+          Alignment = taRightJustify
+          Format = foInteger
+          TagName = 'TRE_TREINAMENTO_ID'
+          CT_Titulo = 'Consulta de Treinamento'
+          CT_TableName = 'TRE_TREINAMENTO'
+          CT_NumFields = 4
+          CT_ColTit = 'ID;CursoID;NomeCurso;DataRealiza'#231#227'o'
+          CT_ColField = 'TRE_TREINAMENTO_ID;CUR_ID;CUR_NOMCURSO;TRE_DTREALIZACAO'
+          CT_RetField1 = 0
+          CT_RetControl1 = rsSuperEdit3
+          CT_RetField2 = 0
+          CT_Test = False
+          CT_ConsTab = True
+          CT_KeyValue = rsSuperEdit3
+          CT_Search = False
+          MaxLength = 15
+          Text = ''
+          CharCase = ecUpperCase
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 0
+          Visible = False
+        end
+        object InvoiceDateDue: TcxDateEdit
+          Left = 128
+          Top = 4
+          ParentFont = False
+          Style.Font.Charset = ANSI_CHARSET
+          Style.Font.Color = clWindowText
+          Style.Font.Height = -11
+          Style.Font.Name = 'Arial'
+          Style.Font.Style = [fsBold]
+          Style.IsFontAssigned = True
+          TabOrder = 1
+          Width = 145
+        end
+      end
+      object pnl6: TPanel
+        Tag = -2
+        Left = 0
+        Top = 206
+        Width = 710
+        Height = 27
+        Alignment = taLeftJustify
+        BevelInner = bvLowered
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Arial'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 6
+        object Label5: TLabel
+          Left = 72
+          Top = 7
+          Width = 44
+          Height = 14
+          Caption = 'Amount'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object rsSuperEdit4: TrsSuperEdit
+          Tag = -2
+          Left = 444
+          Top = 3
+          Width = 0
+          Height = 22
+          Alignment = taRightJustify
+          Format = foInteger
+          TagName = 'TRE_TREINAMENTO_ID'
+          CT_Titulo = 'Consulta de Treinamento'
+          CT_TableName = 'TRE_TREINAMENTO'
+          CT_NumFields = 4
+          CT_ColTit = 'ID;CursoID;NomeCurso;DataRealiza'#231#227'o'
+          CT_ColField = 'TRE_TREINAMENTO_ID;CUR_ID;CUR_NOMCURSO;TRE_DTREALIZACAO'
+          CT_RetField1 = 0
+          CT_RetControl1 = rsSuperEdit4
+          CT_RetField2 = 0
+          CT_Test = False
+          CT_ConsTab = True
+          CT_KeyValue = rsSuperEdit4
+          CT_Search = False
+          MaxLength = 15
+          Text = ''
+          CharCase = ecUpperCase
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 0
+          Visible = False
+        end
+        object edtAmount: TcxCurrencyEdit
+          Left = 128
+          Top = 4
+          TabOrder = 1
+          Width = 145
+        end
+      end
+      object pnl7: TPanel
+        Tag = -2
+        Left = 0
+        Top = 234
+        Width = 710
+        Height = 34
+        Alignment = taLeftJustify
+        BevelInner = bvLowered
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Arial'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 7
+        object Label6: TLabel
+          Left = 446
+          Top = 9
+          Width = 93
+          Height = 14
+          Caption = 'Payment Method'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Label7: TLabel
+          Left = 3
+          Top = 9
+          Width = 114
+          Height = 14
+          Caption = 'Payment Description'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object rsSuperEdit5: TrsSuperEdit
+          Tag = -2
+          Left = 444
+          Top = 4
+          Width = 0
+          Height = 22
+          Alignment = taRightJustify
+          Format = foInteger
+          TagName = 'TRE_TREINAMENTO_ID'
+          CT_Titulo = 'Consulta de Treinamento'
+          CT_TableName = 'TRE_TREINAMENTO'
+          CT_NumFields = 4
+          CT_ColTit = 'ID;CursoID;NomeCurso;DataRealiza'#231#227'o'
+          CT_ColField = 'TRE_TREINAMENTO_ID;CUR_ID;CUR_NOMCURSO;TRE_DTREALIZACAO'
+          CT_RetField1 = 0
+          CT_RetControl1 = rsSuperEdit5
+          CT_RetField2 = 0
+          CT_Test = False
+          CT_ConsTab = True
+          CT_KeyValue = rsSuperEdit5
+          CT_Search = False
+          MaxLength = 15
+          Text = ''
+          CharCase = ecUpperCase
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 0
+          Visible = False
+        end
+        object cxLookupComboBoxPaymentMethod: TcxLookupComboBox
+          Left = 545
+          Top = 6
+          Properties.KeyFieldNames = 'ID_PAYMENT_METHOD'
+          Properties.ListColumns = <
+            item
+              FieldName = 'PAYMENT_DESCRIPTION'
+            end>
+          Properties.ListSource = dsPaymentMethod
+          TabOrder = 1
+          Width = 145
+        end
+        object edtPaymentDesc: TcxTextEdit
+          Left = 128
+          Top = 6
+          ParentFont = False
+          Properties.CharCase = ecUpperCase
+          Properties.MaxLength = 50
+          Style.Font.Charset = ANSI_CHARSET
+          Style.Font.Color = clWindowText
+          Style.Font.Height = -11
+          Style.Font.Name = 'Arial'
+          Style.Font.Style = [fsBold]
+          Style.IsFontAssigned = True
+          TabOrder = 2
+          Width = 297
+        end
+      end
+      object pnl2: TPanel
+        Tag = -2
+        Left = 0
+        Top = 96
+        Width = 710
+        Height = 27
+        Alignment = taLeftJustify
+        BevelInner = bvLowered
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Arial'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 2
+        object Label9: TLabel
+          Left = 64
+          Top = 8
+          Width = 52
+          Height = 14
+          Caption = 'Company'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object rsSuperEdit6: TrsSuperEdit
+          Tag = -2
+          Left = 444
+          Top = 3
+          Width = 0
+          Height = 22
+          Alignment = taRightJustify
+          Format = foInteger
+          TagName = 'TRE_TREINAMENTO_ID'
+          CT_Titulo = 'Consulta de Treinamento'
+          CT_TableName = 'TRE_TREINAMENTO'
+          CT_NumFields = 4
+          CT_ColTit = 'ID;CursoID;NomeCurso;DataRealiza'#231#227'o'
+          CT_ColField = 'TRE_TREINAMENTO_ID;CUR_ID;CUR_NOMCURSO;TRE_DTREALIZACAO'
+          CT_RetField1 = 0
+          CT_RetControl1 = rsSuperEdit6
+          CT_RetField2 = 0
+          CT_Test = False
+          CT_ConsTab = True
+          CT_KeyValue = rsSuperEdit6
+          CT_Search = False
+          MaxLength = 15
+          Text = ''
+          CharCase = ecUpperCase
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 0
+          Visible = False
+        end
+        object cxLookupComboBoxCompany: TcxLookupComboBox
+          Left = 127
+          Top = 3
+          Properties.DropDownRows = 20
+          Properties.KeyFieldNames = 'ID_COMPANY'
+          Properties.ListColumns = <
+            item
+              FieldName = 'COMPANYNAME'
+            end>
+          Properties.ListSource = DsCompany
+          TabOrder = 1
+          Width = 562
+        end
+      end
+      object rgStatus: TcxRadioGroup
+        Left = 0
+        Top = 28
+        Caption = 'Status'
+        Properties.Columns = 4
+        Properties.Items = <
+          item
+            Caption = 'Open'
+            Value = '1'
+          end
+          item
+            Caption = 'Paid'
+            Value = '2'
+          end
+          item
+            Caption = 'Overdue'
+            Value = '3'
+          end
+          item
+            Caption = 'Void'
+            Value = '4'
+          end>
+        ItemIndex = 0
+        TabOrder = 8
+        Height = 40
+        Width = 710
       end
     end
   end
   object Panel27: TPanel
     Left = 0
-    Top = 443
-    Width = 755
+    Top = 441
+    Width = 1073
     Height = 36
     Align = alBottom
     BevelOuter = bvNone
@@ -319,6 +987,7 @@ object FrmCreditors: TFrmCreditors
       Font.Style = []
       ParentFont = False
       WordWrap = True
+      OnClick = ButAlterarClick
     end
     object ButExcluir: TcxButton
       Left = 72
@@ -465,6 +1134,7 @@ object FrmCreditors: TFrmCreditors
         B4A1F0DFD7FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF}
       OptionsImage.Margin = 5
       TabOrder = 3
+      OnClick = ButSairClick
     end
     object ButSalvar: TcxButton
       Left = 281
@@ -531,6 +1201,7 @@ object FrmCreditors: TFrmCreditors
         6666666666666666666666666666666666666666666666666666}
       OptionsImage.Margin = 5
       TabOrder = 4
+      OnClick = ButSalvarClick
     end
     object ButCancelar: TcxButton
       Left = 322
@@ -599,6 +1270,7 @@ object FrmCreditors: TFrmCreditors
       OptionsImage.Margin = 5
       ParentBiDiMode = False
       TabOrder = 5
+      OnClick = ButCancelarClick
     end
     object ButImprimir: TcxButton
       Left = 107
@@ -677,8 +1349,8 @@ object FrmCreditors: TFrmCreditors
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 479
-    Width = 755
+    Top = 477
+    Width = 1073
     Height = 19
     Panels = <
       item
@@ -693,5 +1365,298 @@ object FrmCreditors: TFrmCreditors
         Text = 'Date modified'
         Width = 300
       end>
+  end
+  object sqlGrid: TFDQuery
+    Connection = DBDados.FDConnection
+    SQL.Strings = (
+      'SELECT P.ID_PAYABLE'
+      '   ,P.INVOICE_ID'
+      '   ,P.INVOICE_DATE'
+      '   ,S.NAMEBUSINESS'
+      '   ,E.INTERNALCOD'
+      '   ,E.DESCRIPTION AS EXPENSECATEGORY'
+      '   ,P.PAYMENT_DESCRIPTION AS DESCRIPTION'
+      '   ,P.DATE_DUE'
+      '   ,P.PAYMENT_AMOUNT'
+      '   ,P.PAYMENT_STATUS'
+      '   ,M.PAYMENT_DESCRIPTION AS METHOD'
+      '   ,(U.LASTNAME + '#39','#39' + U.FIRST_NAME) AS DBUSER'
+      '   ,P.ID_SUPPLIER'
+      '   ,P.ID_EXPENSECATEGORY'
+      '   ,P.ID_PAYMENT_METHOD'
+      '   ,P.ID_USER'
+      '   ,P.ID_COMPANY'
+      '   ,P.ADD_DATE'
+      '   ,P.UPD_DATE'
+      ''
+      'FROM  TBPAYABLE P'
+      'LEFT OUTER JOIN TBSUPPLIER S ON S.ID_SUPPLIER = P.ID_SUPPLIER'
+      
+        'LEFT OUTER JOIN TBEXPENSECATEGORY E ON E.ID_EXPENSECATEGORY = P.' +
+        'ID_EXPENSECATEGORY'
+      
+        'LEFT OUTER JOIN TBPAYMENT_METHOD M ON M.ID_PAYMENT_METHOD = P.ID' +
+        '_PAYMENT_METHOD'
+      'LEFT OUTER JOIN TBUSER U ON U.ID_USER = P.ID_USER')
+    Left = 796
+    Top = 312
+    object sqlGridID_PAYABLE: TFDAutoIncField
+      FieldName = 'ID_PAYABLE'
+      Origin = 'ID_PAYABLE'
+      ProviderFlags = [pfInWhere, pfInKey]
+      ReadOnly = True
+    end
+    object sqlGridINVOICE_ID: TStringField
+      FieldName = 'INVOICE_ID'
+      Origin = 'INVOICE_ID'
+    end
+    object sqlGridINVOICE_DATE: TDateField
+      FieldName = 'INVOICE_DATE'
+      Origin = 'INVOICE_DATE'
+      Required = True
+    end
+    object sqlGridNAMEBUSINESS: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'NAMEBUSINESS'
+      Origin = 'NAMEBUSINESS'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 100
+    end
+    object sqlGridINTERNALCOD: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'INTERNALCOD'
+      Origin = 'INTERNALCOD'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 10
+    end
+    object sqlGridEXPENSECATEGORY: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'EXPENSECATEGORY'
+      Origin = 'DESCRIPTION'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 40
+    end
+    object sqlGridDESCRIPTION: TStringField
+      FieldName = 'DESCRIPTION'
+      Origin = 'PAYMENT_DESCRIPTION'
+      Size = 50
+    end
+    object sqlGridDATE_DUE: TDateField
+      FieldName = 'DATE_DUE'
+      Origin = 'DATE_DUE'
+      Required = True
+    end
+    object sqlGridPAYMENT_AMOUNT: TBCDField
+      FieldName = 'PAYMENT_AMOUNT'
+      Origin = 'PAYMENT_AMOUNT'
+      Required = True
+      Precision = 15
+      Size = 2
+    end
+    object sqlGridPAYMENT_STATUS: TStringField
+      FieldName = 'PAYMENT_STATUS'
+      Origin = 'PAYMENT_STATUS'
+      Required = True
+      Size = 10
+    end
+    object sqlGridMETHOD: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'METHOD'
+      Origin = 'PAYMENT_DESCRIPTION'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 50
+    end
+    object sqlGridDBUSER: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'DBUSER'
+      Origin = 'DBUSER'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 41
+    end
+    object sqlGridID_SUPPLIER: TIntegerField
+      FieldName = 'ID_SUPPLIER'
+      Origin = 'ID_SUPPLIER'
+      Required = True
+    end
+    object sqlGridID_EXPENSECATEGORY: TIntegerField
+      FieldName = 'ID_EXPENSECATEGORY'
+      Origin = 'ID_EXPENSECATEGORY'
+    end
+    object sqlGridID_USER: TIntegerField
+      FieldName = 'ID_USER'
+      Origin = 'ID_USER'
+      Required = True
+    end
+    object sqlGridID_PAYMENT_METHOD: TIntegerField
+      FieldName = 'ID_PAYMENT_METHOD'
+      Origin = 'ID_PAYMENT_METHOD'
+    end
+    object sqlGridID_COMPANY: TIntegerField
+      FieldName = 'ID_COMPANY'
+      Origin = 'ID_COMPANY'
+      Required = True
+    end
+    object sqlGridADD_DATE: TSQLTimeStampField
+      FieldName = 'ADD_DATE'
+      Origin = 'ADD_DATE'
+      Required = True
+    end
+    object sqlGridUPD_DATE: TSQLTimeStampField
+      FieldName = 'UPD_DATE'
+      Origin = 'UPD_DATE'
+    end
+  end
+  object sqlExpenseCategory: TFDQuery
+    Connection = DBDados.FDConnection
+    SQL.Strings = (
+      
+        'select ID_EXPENSECATEGORY, (INTERNALCOD + '#39'     !     '#39' + DESCRI' +
+        'PTION) as DESCRIPTION'
+      'from [dbo].[TBEXPENSECATEGORY]')
+    Left = 876
+    Top = 320
+    object sqlExpenseCategoryID_EXPENSECATEGORY: TFDAutoIncField
+      FieldName = 'ID_EXPENSECATEGORY'
+      Origin = 'ID_EXPENSECATEGORY'
+      ProviderFlags = [pfInWhere, pfInKey]
+      ReadOnly = True
+    end
+    object sqlExpenseCategoryDESCRIPTION: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'DESCRIPTION'
+      Origin = 'DESCRIPTION'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 61
+    end
+  end
+  object dsExpenseCategory: TDataSource
+    DataSet = sqlExpenseCategory
+    Left = 820
+    Top = 224
+  end
+  object sqlPaymentMethod: TFDQuery
+    Connection = DBDados.FDConnection
+    SQL.Strings = (
+      ' SELECT ID_PAYMENT_METHOD, PAYMENT_DESCRIPTION'
+      ' FROM TBPAYMENT_METHOD')
+    Left = 820
+    Top = 168
+  end
+  object dsPaymentMethod: TDataSource
+    DataSet = sqlPaymentMethod
+    Left = 932
+    Top = 152
+  end
+  object dsGrid: TDataSource
+    DataSet = sqlGrid
+    Left = 820
+    Top = 96
+  end
+  object DsCompany: TDataSource
+    DataSet = TBCOMPANY
+    Left = 503
+    Top = 348
+  end
+  object TBCOMPANY: TFDTable
+    Filtered = True
+    IndexFieldNames = 'ID_COMPANY'
+    Connection = DBDados.FDConnection
+    UpdateOptions.UpdateTableName = 'TBCOMPANY'
+    TableName = 'TBCOMPANY'
+    Left = 583
+    Top = 340
+    object TBCOMPANYID_COMPANY: TIntegerField
+      FieldName = 'ID_COMPANY'
+      Origin = 'ID_COMPANY'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object TBCOMPANYADD_DATE: TSQLTimeStampField
+      FieldName = 'ADD_DATE'
+      Origin = 'ADD_DATE'
+    end
+    object TBCOMPANYUPD_DATE: TSQLTimeStampField
+      FieldName = 'UPD_DATE'
+      Origin = 'UPD_DATE'
+    end
+    object TBCOMPANYTAX_ID: TStringField
+      FieldName = 'TAX_ID'
+      Origin = 'TAX_ID'
+    end
+    object TBCOMPANYCOMPANYNAME: TStringField
+      FieldName = 'COMPANYNAME'
+      Origin = 'COMPANYNAME'
+      Size = 100
+    end
+    object TBCOMPANYTRADINGNAME: TStringField
+      FieldName = 'TRADINGNAME'
+      Origin = 'TRADINGNAME'
+      Size = 50
+    end
+    object TBCOMPANYCOMPANYOWNER: TStringField
+      FieldName = 'COMPANYOWNER'
+      Origin = 'COMPANYOWNER'
+      Size = 100
+    end
+    object TBCOMPANYPHONENUMBER: TStringField
+      FieldName = 'PHONENUMBER'
+      Origin = 'PHONENUMBER'
+      Size = 15
+    end
+    object TBCOMPANYEMAIL: TStringField
+      FieldName = 'EMAIL'
+      Origin = 'EMAIL'
+      Size = 100
+    end
+    object TBCOMPANYADDRESS1: TStringField
+      FieldName = 'ADDRESS1'
+      Origin = 'ADDRESS1'
+      Size = 100
+    end
+    object TBCOMPANYCOUNTRY: TStringField
+      FieldName = 'COUNTRY'
+      Origin = 'COUNTRY'
+      Size = 30
+    end
+    object TBCOMPANYST: TStringField
+      FieldName = 'ST'
+      Origin = 'ST'
+      Size = 2
+    end
+    object TBCOMPANYCITY: TStringField
+      FieldName = 'CITY'
+      Origin = 'CITY'
+      Size = 40
+    end
+    object TBCOMPANYZIPCODE: TStringField
+      FieldName = 'ZIPCODE'
+      Origin = 'ZIPCODE'
+      Size = 10
+    end
+    object TBCOMPANYID_USER: TIntegerField
+      FieldName = 'ID_USER'
+      Origin = 'ID_USER'
+    end
+    object TBCOMPANYESTIMATEDAYS: TIntegerField
+      FieldName = 'ESTIMATEDAYS'
+      Origin = 'ESTIMATEDAYS'
+    end
+    object TBCOMPANYTAX: TBCDField
+      FieldName = 'TAX'
+      Origin = 'TAX'
+      Precision = 15
+      Size = 2
+    end
+  end
+  object sqlAux: TFDQuery
+    Connection = DBDados.FDConnection
+    Left = 228
+    Top = 160
   end
 end

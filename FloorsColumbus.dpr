@@ -36,7 +36,8 @@ uses
   ufrmFollowUP in 'ufrmFollowUP.pas' {frmFollowUP},
   uSetupFolder in 'uSetupFolder.pas',
   ufrmSupplierInvoice in 'ufrmSupplierInvoice.pas' {frmSupplierInvoice},
-  uClassSupplierInvoice in 'uClassSupplierInvoice.pas';
+  uClassSupplierInvoice in 'uClassSupplierInvoice.pas',
+  uClassFinance in 'uClassFinance.pas';
 
 {$R *.res}
 

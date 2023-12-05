@@ -86,6 +86,8 @@ type
     sqlGridID_USER: TIntegerField;
     sqlGridCOMISSION: TBCDField;
     sqlGridID_COMPANY: TIntegerField;
+    sqlGridADD_DATE: TDateField;
+    sqlGridUPD_DATE: TDateField;
     procedure FormShow(Sender: TObject);
     procedure sqlGridNewRecord(DataSet: TDataSet);
     procedure sqlGridAfterEdit(DataSet: TDataSet);

@@ -85,7 +85,7 @@ type
      property  id_user            : integer   read Fid_user            write setFid_user;
      property  add_date           : TdateTime read Fadd_date           write setFadd_date;
      property  upd_date           : TdateTime read Fupd_date           write setFupd_date;
-     property  room           : String    read Froom           write setFroom;
+     property  room               : String    read Froom               write setFroom;
      property  width              : Double    read Fwidth              write setFwidth;
      property  height             : Double    read Fheight             write setFheight;
      property  totalarea          : Double    read Ftotalarea          write setFtotalarea;
@@ -761,7 +761,7 @@ begin
   id_user          := pItemNF.id_user;
   add_date         := pItemNF.add_date;
   upd_date         := pItemNF.upd_date;
-  room         := pItemNF.room;
+  room             := pItemNF.room;
   width            := pItemNF.width;
   height           := pItemNF.height;
   totalarea          := pItemNF.totalarea;
@@ -837,7 +837,7 @@ begin
     id_user          := 0;
     add_date         := Now;
     upd_date         := 0;
-    room         := '';
+    room             := '';
     width            := 0.0;
     height           := 0.0;
     totalarea        := 0.0;

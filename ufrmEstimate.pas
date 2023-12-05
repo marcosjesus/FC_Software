@@ -35,7 +35,7 @@ uses
   FireDAC.Comp.Client, cxCurrencyEdit, Vcl.Mask, RLReport, RLPDFFilter,
   RLFilters, RLHTMLFilter, RLPreviewForm, cxCheckListBox, cxDBCheckListBox,
   Vcl.CheckLst, Vcl.Samples.Spin, Vcl.DBCtrls, Vcl.ExtDlgs, cxButtonEdit,
-  Vcl.ImgList, cxEditRepositoryItems;
+  Vcl.ImgList, cxEditRepositoryItems, cxSpinEdit;
 
 
 
@@ -306,10 +306,8 @@ type
     edtPhone: TMaskEdit;
     Panel4: TPanel;
     lblProcessName: TLabel;
-    lblProcessID: TLabel;
     pnlTerms: TPanel;
     Label36: TLabel;
-    edtDays: TEdit;
     btnTerms: TcxButton;
     cxGrid3: TcxGrid;
     cxGrid3DBTableView1: TcxGridDBTableView;
@@ -601,6 +599,12 @@ type
     RLBand18: TRLBand;
     RLLabel37: TRLLabel;
     RLDBMemo1: TRLDBMemo;
+    edtDays: TcxSpinEdit;
+    edtTermsDesc: TcxTextEdit;
+    Label58: TLabel;
+    sqlTermsDESCRIPTION: TStringField;
+    sqlParcelasDESCRIPTION: TStringField;
+    RLDBText45: TRLDBText;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure spbCleanCustomerClick(Sender: TObject);
@@ -789,6 +793,12 @@ begin
   if Process <> Nil then
      FreeAndNil(Process);
 
+  if TBHeader = ESTIMATE_HEADER then
+    Caption   := 'Quotation'
+  else if TBHeader = ORDER_HEADER then
+        Caption := 'Order'
+        else Caption := 'Invoice';
+
   varNewKeyItem := 0;
   ButItensOnOff('TTTFFTTT');
 
@@ -917,7 +927,6 @@ end;
 procedure TfrmEstimate.LimpaEdits;
 var i : integer;
 begin
-   lblProcessID.caption         := '0';
    varOption := 'X';
    varOptionItem := 'X';
    //if Page.ActivePageIndex = 1 then   // TABSHEET = 2
@@ -1235,7 +1244,7 @@ begin
   end;
 
 
-  if cxLookupComboBoxCompany.Text = '' then
+  if cxLookupComboBoxCompany.EditValue = Null then
   begin
     Mens_MensInf('Company name field is required.') ;
     cxLookupComboBoxCompany.SetFocus;
@@ -1264,7 +1273,7 @@ begin
             end;
 
 
-            Process.id_process := StrToInt(lblProcessID.Caption);
+            Process.id_process := varNewKey;
             cxLookupComboBoxPrincing.EditValue := Process.ItensNF[0].id_pricelist;
             if varOption = 'I' then
             begin
@@ -1274,7 +1283,7 @@ begin
 
             for I := 0 to Process.ItensNF.Count -1 do
               begin
-                  Process.ItensNF.Items[I].id_process      := StrToInt(lblProcessID.Caption);
+                  Process.ItensNF.Items[I].id_process      := varNewKey;
                   Process.ItensNF.Items[I].id_process_item := varNewKeyItem;
                   Process.ItensNF.Items[I].Save;
                   Inc(varNewKeyItem);
@@ -1329,7 +1338,7 @@ begin
         sqlDados.SQL.Add('Insert INTO TBSERVICE ');
         sqlDados.SQL.Add('(ID_PROCESS,  ID_CONTRACTORS,  DT_SERVICE, SIDEMARK,  ID_USER) ');
         sqlDados.SQL.Add('VALUES (:ID_PROCESS,  :ID_CONTRACTORS,  :DT_SERVICE, :SIDEMARK,   :ID_USER  )');
-        sqlDados.Params.ParamByName('ID_PROCESS').AsInteger     := StrToInt(lblProcessID.Caption);
+        sqlDados.Params.ParamByName('ID_PROCESS').AsInteger     := varNewKey;
         sqlDados.Params.ParamByName('ID_CONTRACTORS').AsInteger := cxLookupComboBoxWorker.EditValue;
         sqlDados.Params.ParamByName('DT_SERVICE').AsString      := FormatDateTime('mm/dd/yyyy hh:mm:ss', cxDateWork.Date);
         sqlDados.Params.ParamByName('SIDEMARK').AsString        := edtSidemark.Text;
@@ -1403,15 +1412,25 @@ begin
 
    if edtTotal.EditValue <= 0 then
    begin
-    Mens_MensInf('Total field is required.') ;
+    Mens_MensInf('Terms Amount field is required.') ;
     edtTotal.EditValue := sqlProcessTOTAL.AsFloat;
     edtTotal.SetFocus;
     Exit;
    end;
 
+   if edtTermsDesc.Text = '' then
+   begin
+    Mens_MensInf('Terms Description field is required.') ;
+    edtTermsDesc.SetFocus;
+    Exit;
+   end;
+
+
+
+
    if StrToInt(edtDays.Text) > Contractor.Company.estimateDays then
    begin
-       Mens_MensInf('Term can not be greater than  Date Valid until.') ;
+       Mens_MensInf('Terms can not be greater than Date Valid Until.') ;
        edtDays.SetFocus;
        Exit;
    end;
@@ -1433,6 +1452,7 @@ begin
          sqlDados.SQL.Add(',NUM_DAYS');
          sqlDados.SQL.Add(',DATE_DUE');
          sqlDados.SQL.Add(',VALUE');
+         sqlDados.SQL.Add(',DESCRIPTION');
          sqlDados.SQL.Add(',ADD_DATE');
          sqlDados.SQL.Add(',ID_USER)');
 
@@ -1443,6 +1463,7 @@ begin
          sqlDados.SQL.Add(',:NUM_DAYS');
          sqlDados.SQL.Add(',:DATE_DUE');
          sqlDados.SQL.Add(',:VALUE');
+         sqlDados.SQL.Add(',:DESCRIPTION');
          sqlDados.SQL.Add(',:ADD_DATE');
          sqlDados.SQL.Add(',:ID_USER)');
 
@@ -1453,6 +1474,7 @@ begin
          sqlDados.Params.ParamByName('NUM_DAYS').AsInteger   := StrToInt(edtDays.Text);
          sqlDados.Params.ParamByName('DATE_DUE').AsString    := FormatDateTime('mm/dd/yyyy hh:mm:ss', varDateDue);
          sqlDados.Params.ParamByName('VALUE').AsFloat        := edtTotal.EditValue;
+         sqlDados.Params.ParamByName('DESCRIPTION').AsString := edtTermsDesc.Text;
          sqlDados.Params.ParamByName('ADD_DATE').AsString    := FormatDateTime('mm/dd/yyyy hh:mm:ss', now);
          sqlDados.Params.ParamByName('ID_USER').AsInteger    := DBDados.varID_USER;
 
@@ -1482,7 +1504,7 @@ begin
    cxPageEstimate.ActivePage         := cxTabEstimateForm;
    cxPageForm2.ActivePage            := cxTabSheetItems;
 
-   lblProcessID.Caption              := ZeroLeft(sqlProcessID_PROCESS.AsString,7);
+   varNewKey                         := sqlProcessID_PROCESS.AsInteger;
    cxLookupComboBoxCompany.EditValue := sqlProcessID_COMPANY.AsString;
    Contractor.Search(sqlProcessID_USER.AsInteger);
 
@@ -1583,7 +1605,7 @@ begin
     Exit;
   end;
 
-  if cxLookupComboBoxCompany.Text = '' then
+  if cxLookupComboBoxCompany.EditValue = Null then
   begin
     Mens_MensInf('Company name field is required.') ;
     cxLookupComboBoxCompany.SetFocus;
@@ -1665,7 +1687,7 @@ begin
   varNextKey                := TDBNextKey.Create(TBHeader);
   Try
     varNewKey               := varNextKey.Key;
-    lblProcessID.caption    := ZeroLeft(IntToStr(varNewKey),7);
+    Caption                := Caption + '  -  ' + ZeroLeft(IntToStr(varNewKey),7);
     varNextKey.UpdateKey(varNewKey, TBHeader); // atualiza a nova chave no banco
     varNewKeyItem := 0;
 
@@ -1702,7 +1724,7 @@ begin
   end;
 
 
-  if cxLookupComboBoxCompany.Text = '' then
+  if cxLookupComboBoxCompany.EditValue = Null then
   begin
     Mens_MensInf('Company name field is required.') ;
     cxLookupComboBoxCompany.SetFocus;
@@ -2360,7 +2382,7 @@ var
 begin
   if cxPageForm2.ActivePage = cxTabSheetService then
   begin
-    lblOrder.Caption       := lblProcessID.Caption;
+    lblOrder.Caption       := IntToStr(varNewKey);
     lblCustomer.Caption    := edtCliente.Text;
     lblAddress.Caption     := edtAddress.Text;
     lblCity.Caption        := edtCity.Text;
@@ -2383,7 +2405,7 @@ begin
         sqlDados.SQL.Add ('FROM TBSERVICE A    ');
         sqlDados.SQL.Add ('INNER JOIN TBPROCESS B ON B.ID_PROCESS = A.ID_PROCESS AND B.TABLENAME = ''TBORDER''  ');
         sqlDados.SQL.Add (' WHERE A.ID_PROCESS = :ID_PROCESS ');
-        sqlDados.Params.ParamByName('ID_PROCESS').AsInteger := StrToInt(lblProcessID.Caption);
+        sqlDados.Params.ParamByName('ID_PROCESS').AsInteger := varNewKey;
         sqlDados.Open;
         if not sqlDados.IsEmpty then
         begin
@@ -2886,7 +2908,6 @@ begin
   varNewKey := 0;
   varNewKeyItem := 0;
   ButCancelarClick(Self);
-  lblProcessID.Caption := '0';
 
   AtualizaGrade;
  {
@@ -3046,7 +3067,7 @@ begin
      sqlDados.Params.ParamByName('ID_COMPANY').AsInteger    := cxLookupComboBoxCompany.EditValue;
      sqlDados.Params.ParamByName('ID_CONTRACTOR').AsInteger := edtSalesRep.bs_KeyValue;
      sqlDados.Params.ParamByName('TABLENAME').AsString      := TBItem;
-     sqlDados.Params.ParamByName('ID_PROCESS').AsInteger    := StrToInt(lblProcessID.Caption);
+     sqlDados.Params.ParamByName('ID_PROCESS').AsInteger    := varNewKey;
      sqlDados.Params.ParamByName('ID_PRODUCT').AsInteger    := Item.id_product;
      Try
          sqlDados.ExecSQL;

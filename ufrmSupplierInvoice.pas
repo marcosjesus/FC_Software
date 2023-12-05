@@ -202,6 +202,8 @@ type
     edtDyeLot: TcxTextEdit;
     Label12: TLabel;
     Label14: TLabel;
+    cxTextEdit1: TcxTextEdit;
+    Label17: TLabel;
     procedure ButSairClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure ButNovoClick(Sender: TObject);
@@ -328,7 +330,7 @@ begin
       exit;
   end;
 
-  if cxLookupComboBoxCompany.Text = '' then
+  if cxLookupComboBoxCompany.EditValue = Null then
   begin
     Mens_MensInf('The Company name field is required.') ;
     cxLookupComboBoxCompany.SetFocus;
@@ -433,7 +435,7 @@ begin
       exit;
   end;
 
-  if cxLookupComboBoxCompany.Text = '' then
+  if cxLookupComboBoxCompany.EditValue = Null then
   begin
     Mens_MensInf('The Company name field is required.') ;
     cxLookupComboBoxCompany.SetFocus;
@@ -825,7 +827,7 @@ begin
    if ((edtManufactory.Text = '') or (edtManufactory.bs_KeyValues.Count = 0)) then
    begin
       varRetorno := False;
-      Mens_MensInf('The Manufactory field is required.');
+      Mens_MensInf('The Manufactorer field is required.');
       edtManufactory.SetFocus;
       Exit;
    end;
@@ -847,7 +849,7 @@ begin
       exit;
   end;
 
-  if cxLookupComboBoxCompany.Text = '' then
+  if cxLookupComboBoxCompany.EditValue = Null then
   begin
     varRetorno := False;
     Mens_MensInf('The Company name field is required.') ;

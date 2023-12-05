@@ -54,13 +54,34 @@ object frmAccessControl: TfrmAccessControl
       Width = 315
     end
     object Button1: TButton
-      Left = 512
-      Top = 16
+      Left = 399
+      Top = 14
       Width = 75
       Height = 25
       Caption = 'Button1'
       TabOrder = 1
+      Visible = False
       OnClick = Button1Click
+    end
+    object Button2: TButton
+      Left = 480
+      Top = 14
+      Width = 75
+      Height = 25
+      Caption = 'TXT ReadLine'
+      TabOrder = 2
+      Visible = False
+      OnClick = Button2Click
+    end
+    object Button3: TButton
+      Left = 561
+      Top = 14
+      Width = 88
+      Height = 25
+      Caption = 'Word Converter'
+      TabOrder = 3
+      Visible = False
+      OnClick = Button3Click
     end
   end
   object Panel2: TPanel
@@ -366,8 +387,8 @@ object frmAccessControl: TfrmAccessControl
   end
   object sqlAux: TFDQuery
     Connection = DBDados.FDConnection
-    Left = 488
-    Top = 99
+    Left = 536
+    Top = 107
   end
   object sqlAux2: TFDQuery
     Connection = DBDados.FDConnection
@@ -378,5 +399,15 @@ object frmAccessControl: TfrmAccessControl
     Connection = DBDados.FDConnection
     Left = 400
     Top = 115
+  end
+  object OpenDialog: TOpenDialog
+    DefaultExt = '*.txt'
+    Left = 448
+    Top = 67
+  end
+  object OpenDialog1: TOpenDialog
+    DefaultExt = '*.docx'
+    Left = 296
+    Top = 83
   end
 end
