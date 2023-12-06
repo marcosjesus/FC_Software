@@ -52,6 +52,7 @@ Type
        procedure UpdateSupplier;
        procedure SaveSupplier;
        procedure Delete;
+       function Lista(var Lista : TStringList) : TStringList;
   end;
 
 
@@ -100,6 +101,30 @@ begin
     End;
   end;
 
+end;
+
+function TSupplier.Lista(var Lista : TStringList): TStringList;
+var
+  sqlSupplier, sqlSave : TFDQuery;
+begin
+   sqlSupplier := TFDQuery.Create(Nil);
+   Lista.Clear;
+   Try
+     sqlSupplier.Connection := DBDados.Connection;
+     sqlSupplier.Close;
+     sqlSupplier.SQL.Clear;
+     sqlSupplier.SQL.Add('Select id_supplier From TBSUPPLIER' );
+     sqlSupplier.Open;
+     sqlSupplier.First;
+     while not sqlSupplier.EOF do
+     begin
+       Lista.Add(sqlSupplier.FieldByName('id_supplier').AsString);
+       sqlSupplier.Next;
+     end;
+   Finally
+      FreeAndNil(sqlSupplier);
+   End;
+   Result := Lista;
 end;
 
 procedure TSupplier.SaveSupplier;

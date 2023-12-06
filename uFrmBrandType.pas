@@ -3,6 +3,9 @@ unit ufrmBrandType;
 interface
 
 uses
+  MensFun,
+  uClassSupplier,
+  uClassDBGenerics,
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, cxGraphics, cxControls, cxLookAndFeels,
   cxLookAndFeelPainters, cxStyles, dxSkinsCore, dxSkinBlack, dxSkinBlue,
@@ -24,7 +27,7 @@ uses
   Vcl.ExtCtrls, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
   FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
   FireDAC.Stan.Async, FireDAC.DApt, cxDropDownEdit, FireDAC.Comp.DataSet,
-  FireDAC.Comp.Client, dxBarBuiltInMenu, Vcl.ComCtrls, cxPC;
+  FireDAC.Comp.Client, dxBarBuiltInMenu, Vcl.ComCtrls, cxPC, cxDBLookupComboBox;
 
 type
   TFrmBrandType = class(TForm)
@@ -86,6 +89,15 @@ type
     sqlGridBrandID_USER: TIntegerField;
     sqlGridBrandPROFIT_MIN: TFloatField;
     sqlGridBrandPROFIT_REGULAR: TFloatField;
+    cxTabSheet1: TcxTabSheet;
+    cxGrid3: TcxGrid;
+    cxGridDBTableView3: TcxGridDBTableView;
+    cxGridLevel3: TcxGridLevel;
+    sqlService: TFDQuery;
+    dsService: TDataSource;
+    cxGridDBTableView3DESCRIPTION: TcxGridDBColumn;
+    sqlServiceID_LABOR: TFDAutoIncField;
+    sqlServiceDESCRIPTION: TStringField;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure sqlGridTypeAfterEdit(DataSet: TDataSet);
     procedure sqlGridTypeNewRecord(DataSet: TDataSet);
@@ -94,10 +106,17 @@ type
     procedure FormShow(Sender: TObject);
     procedure sqlGridRoomNewRecord(DataSet: TDataSet);
     procedure sqlGridRoomAfterEdit(DataSet: TDataSet);
+    procedure sqlServiceAfterPost(DataSet: TDataSet);
   private
     { Private declarations }
+    Supplier : TSupplier;
+    varLista : TStringList;
+
+
+
   public
     { Public declarations }
+    procedure SetupForm;
   end;
 
 var
@@ -111,6 +130,13 @@ uses uDMConectDB;
 
 procedure TFrmBrandType.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
+  if varLista <> Nil then
+     FreeAndNil(varLista);
+
+  if Supplier <> Nil then
+     FreeAndNil(Supplier);
+
+
   FrmBrandType := nil;
   Action := caFree;
 end;
@@ -120,11 +146,19 @@ begin
   sqlGridType.Close;
   sqlGridBrand.Close;
   sqlGridRoom.Close;
+  sqlService.Close;
 
   sqlGridType.Open;
   sqlGridBrand.Open;
   sqlGridRoom.Open;
+  sqlService.Open;
+end;
 
+procedure TFrmBrandType.SetupForm;
+begin
+   Supplier := TSupplier.Create;
+   varLista := TStringList.Create;
+   varLista := Supplier.Lista(varLista);
 end;
 
 procedure TFrmBrandType.sqlGridBrandAfterEdit(DataSet: TDataSet);
@@ -165,6 +199,55 @@ procedure TFrmBrandType.sqlGridTypeNewRecord(DataSet: TDataSet);
 begin
   sqlGridTypeID_USER.AsInteger      := DBDados.varID_USER;
   sqlGridTypeADD_DATE.AsDateTime    := Now;
+end;
+
+procedure TFrmBrandType.sqlServiceAfterPost(DataSet: TDataSet);
+Var
+  I , varNewProduct  : Integer;
+  sqlSave            : TFDQuery;
+  varNextKey         : TDBNextKey;
+begin
+{
+   sqlSave     := TFDQuery.Create(Nil);
+
+
+   Try
+     sqlSave.Connection  := DBDados.Connection;
+     sqlSave.Close;
+     sqlSave.SQL.Clear;
+     sqlSave.SQL.Add('Insert into TBPRODUCT (ID_PRODUCT, ID_SUPPLIER, PRODUCT_NAME, QTY, ID_USER, ADD_DATE, TAXBLE, TYPEOFPRODUCT, ID_TYPE, ACTIVE)');
+     sqlSave.SQL.Add(' VALUES (:ID_PRODUCT, :ID_SUPPLIER, :PRODUCT_NAME, :QTY, :ID_USER, :ADD_DATE, :TAXBLE, :TYPEOFPRODUCT, :ID_TYPE, :ACTIVE)');
+     for I := 0 to varLista.Count - 1 do
+     begin
+         varNextKey  := TDBNextKey.Create('TBPRODUCT');
+         varNewProduct := varNextKey.Key;
+         sqlSave.Params.ParamByName('ID_PRODUCT').AsInteger   := varNewProduct;
+         sqlSave.Params.ParamByName('ID_SUPPLIER').AsInteger  := StrToInt(varLista[I]);
+         sqlSave.Params.ParamByName('PRODUCT_NAME').AsString  := sqlServiceDESCRIPTION.AsString;
+         sqlSave.Params.ParamByName('QTY').AsInteger          := 1;
+         sqlSave.Params.ParamByName('ID_USER').AsInteger      := DBDados.varID_USER;
+         sqlSave.Params.ParamByName('ADD_DATE').AsString      := FormatDateTime('mm/dd/yyyy hh:mm:ss', now);
+         sqlSave.Params.ParamByName('TAXBLE').AsString        := 'N';
+         sqlSave.Params.ParamByName('TYPEOFPRODUCT').AsString := 'SERVICE';
+         sqlSave.Params.ParamByName('ID_TYPE').AsInteger      := sqlServiceID_PRODUCTTYPE.AsInteger;
+         sqlSave.Params.ParamByName('ACTIVE').AsString        := 'Y';
+
+         sqlSave.Prepare;
+
+         Try
+             sqlSave.ExecSQL;
+             varNextKey.UpdateKey(varNewProduct, 'TBPRODUCT'); // atualiza a nova chave no banco
+             FreeAndNil(varNextKey);
+         except
+            on E: EDatabaseError do
+              Mens_MensErro(E.ClassName+' error raised, with message : '+E.Message);
+         end;
+       end;
+   Finally
+     FreeAndNil(sqlSave);
+
+   End;
+ }
 end;
 
 end.

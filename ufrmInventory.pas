@@ -96,8 +96,8 @@ type
     lblTotal: TLabel;
     Label24: TLabel;
     lblRoom: TLabel;
-    Label25: TLabel;
-    Label26: TLabel;
+    lblInfoQuant: TLabel;
+    lblUnidadeMedida: TLabel;
     Label27: TLabel;
     lblSection: TLabel;
     Label28: TLabel;
@@ -144,6 +144,7 @@ type
     procedure edtProductIDEnter(Sender: TObject);
     procedure edtProductIDChange(Sender: TObject);
     procedure edtProductIDKeyPress(Sender: TObject; var Key: Char);
+    procedure edtweidthExit(Sender: TObject);
   private
     { Private declarations }
     varSelectProduct : Boolean;
@@ -449,6 +450,8 @@ begin
         CartID    := 1;
         Try
           ItemCount := 0;
+          lblUnidadeMedida.Caption     := '';
+          lblInfoQuant.Caption         := '';
           Carrinho.tablename  := 'TBESTIMATE';
           Carrinho.id_process :=  CartID;
           btnCart.Caption     := '0';
@@ -494,24 +497,24 @@ begin
 
   if Carrinho <> Nil then
   begin
-        try
-           Application.CreateForm(TfrmRoom,  frmRoom);
-           LocalAsyncVclCall( @LoadRoom );
-           lblRoom.Caption := '';
-           frmRoom.ShowModal;
-        finally
-           lblRoom.Caption := '';
-           Item.room       := '';
-           for i := 0 to frmRoom.chklistRoom.Items.Count -1 do
-           begin
-             if frmRoom.chklistRoom.Checked[I] then
-                Item.room := Item.room + frmRoom.chklistRoom.Items[i] + ';';
-           end;
+    try
+       Application.CreateForm(TfrmRoom,  frmRoom);
+       LocalAsyncVclCall( @LoadRoom );
+       lblRoom.Caption := '';
+       frmRoom.ShowModal;
+    finally
+       lblRoom.Caption := '';
+       Item.room       := '';
+       for i := 0 to frmRoom.chklistRoom.Items.Count -1 do
+       begin
+         if frmRoom.chklistRoom.Checked[I] then
+            Item.room := Item.room + frmRoom.chklistRoom.Items[i] + ';';
+       end;
 
-            Item.room := Copy(Item.room, 1, Length(Item.room)-1);
-            lblRoom.Caption := Item.room;
-            FreeAndNil(frmRoom);
-        end;
+        Item.room := Copy(Item.room, 1, Length(Item.room)-1);
+        lblRoom.Caption := Item.room;
+        FreeAndNil(frmRoom);
+    end;
   end;
 end;
 
@@ -623,6 +626,8 @@ begin
  10     sqlInventoty.SQL.Add(      'ID_SUPPLIER  ');
 
       }
+   lblUnidadeMedida.Caption     := '';
+   lblInfoQuant.Caption         := '';
    lblManufactory.Caption       := sqlInventoty.Fields[0].AsString;
    lblProductName.Caption       := sqlInventoty.Fields[3].AsString;
 
@@ -731,6 +736,22 @@ begin
   varTempAreaTotal         := 0;
 end;
 
+procedure TfrmInventory.edtweidthExit(Sender: TObject);
+begin
+  if ((UpperCase(sqlInventoty.Fields[1].AsString) = 'CARPET') OR (UpperCase(sqlInventoty.Fields[1].AsString) = 'VINYL')) Then
+  begin
+    if ((edtweidth.Value <> 6) AND
+        (edtweidth.Value <> 12) AND
+        (edtweidth.Value <> 15) AND
+        (edtweidth.Value <> 16)) then
+       begin
+         Mens_MensInf('Invalid feet value! Try again.') ;
+         edtweidth.Value := 0;
+         edtweidth.SetFocus;
+       end;
+  end;
+end;
+
 procedure TfrmInventory.edtweidthKeyPress(Sender: TObject; var Key: Char);
 begin
    if  varSelectProduct = False then
@@ -788,11 +809,19 @@ begin
                   else
                   begin
                     edttotalarea.Value := EdtQty.Value * edtAreaSquareFeetPerBox.Value;
+                    lblInfoQuant.Caption     := 'Quantity Per Carton';
+                    lblUnidadeMedida.Caption := 'sqft';
                   end;
                   lblTax.Caption      := FormatFloat('0.00',(((edttotalarea.Value *  sqlInventoty.Fields[7].AsFloat) / 100) *  SalesRep.Company.Tax));
                   item.tax            := StrToFloat(lblTax.Caption);
               end;
-          end else  edttotalarea.value := Item.width * Item.height;
+          end else
+          begin
+           edttotalarea.value       := Item.height * 1.334;
+           lblInfoQuant.Caption     := 'Quantity Per Roll';
+           lblUnidadeMedida.Caption := 'yds';
+          end;
+
 
           if cmbProduct.ItemIndex = 0 then
           begin

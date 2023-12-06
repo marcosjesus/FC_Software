@@ -97,51 +97,63 @@ object FrmCreditors: TFrmCreditors
           OptionsView.Footer = True
           OptionsView.Indicator = True
           object cxGrid2DBTableView1ID_PAYABLE: TcxGridDBColumn
+            Caption = 'ID'
             DataBinding.FieldName = 'ID_PAYABLE'
             Width = 100
           end
+          object cxGrid2DBTableView1INTERNALCOD: TcxGridDBColumn
+            Caption = 'Account Plan'
+            DataBinding.FieldName = 'INTERNALCOD'
+            Width = 100
+          end
           object cxGrid2DBTableView1EXPENSECATEGORY: TcxGridDBColumn
+            Caption = 'Expense Category'
             DataBinding.FieldName = 'EXPENSECATEGORY'
             Width = 144
           end
           object cxGrid2DBTableView1NAMEBUSINESS: TcxGridDBColumn
+            Caption = 'Manufactorer'
             DataBinding.FieldName = 'NAMEBUSINESS'
             Width = 112
           end
           object cxGrid2DBTableView1INVOICE_ID: TcxGridDBColumn
             AlternateCaption = 'j'
+            Caption = 'Document'
             DataBinding.FieldName = 'INVOICE_ID'
             Width = 100
           end
+          object cxGrid2DBTableView1INVOICE_DATE: TcxGridDBColumn
+            Caption = 'Invoce Date'
+            DataBinding.FieldName = 'INVOICE_DATE'
+            Width = 100
+          end
           object cxGrid2DBTableView1DATE_DUE: TcxGridDBColumn
+            Caption = 'Invoice Date Due'
             DataBinding.FieldName = 'DATE_DUE'
             Width = 100
           end
           object cxGrid2DBTableView1PAYMENT_AMOUNT: TcxGridDBColumn
+            Caption = 'Amount'
             DataBinding.FieldName = 'PAYMENT_AMOUNT'
             Width = 113
           end
           object cxGrid2DBTableView1PAYMENT_STATUS: TcxGridDBColumn
+            Caption = 'Status'
             DataBinding.FieldName = 'PAYMENT_STATUS'
             Width = 124
           end
-          object cxGrid2DBTableView1INVOICE_DATE: TcxGridDBColumn
-            DataBinding.FieldName = 'INVOICE_DATE'
-            Width = 100
-          end
           object cxGrid2DBTableView1METHOD: TcxGridDBColumn
+            Caption = 'Payment Method'
             DataBinding.FieldName = 'METHOD'
             Width = 100
           end
           object cxGrid2DBTableView1DESCRIPTION: TcxGridDBColumn
+            Caption = 'Description'
             DataBinding.FieldName = 'DESCRIPTION'
             Width = 100
           end
-          object cxGrid2DBTableView1INTERNALCOD: TcxGridDBColumn
-            DataBinding.FieldName = 'INTERNALCOD'
-            Width = 100
-          end
           object cxGrid2DBTableView1DBUSER: TcxGridDBColumn
+            Caption = 'User'
             DataBinding.FieldName = 'DBUSER'
             Width = 100
           end
@@ -160,8 +172,6 @@ object FrmCreditors: TFrmCreditors
       Font.Style = []
       ImageIndex = 1
       ParentFont = False
-      ExplicitLeft = 20
-      ExplicitTop = -24
       object Panel1: TPanel
         Tag = -2
         Left = 0
@@ -179,7 +189,6 @@ object FrmCreditors: TFrmCreditors
         Font.Style = [fsBold]
         ParentFont = False
         TabOrder = 0
-        ExplicitWidth = 710
         object Label1: TLabel
           Left = 317
           Top = 7
@@ -375,8 +384,8 @@ object FrmCreditors: TFrmCreditors
           Visible = False
         end
         object cxLookupComboBoxExpense: TcxLookupComboBox
-          Left = 127
-          Top = 2
+          Left = 128
+          Top = 5
           Properties.KeyFieldNames = 'ID_EXPENSECATEGORY'
           Properties.ListColumns = <
             item
@@ -463,7 +472,7 @@ object FrmCreditors: TFrmCreditors
         end
         object edtInvoice: TcxTextEdit
           Left = 128
-          Top = 3
+          Top = 4
           TabOrder = 1
           Width = 145
         end
@@ -1453,6 +1462,9 @@ object FrmCreditors: TFrmCreditors
       FieldName = 'PAYMENT_AMOUNT'
       Origin = 'PAYMENT_AMOUNT'
       Required = True
+      DisplayFormat = '0.0'
+      EditFormat = '0.0'
+      currency = True
       Precision = 15
       Size = 2
     end
@@ -1560,8 +1572,8 @@ object FrmCreditors: TFrmCreditors
   end
   object DsCompany: TDataSource
     DataSet = TBCOMPANY
-    Left = 503
-    Top = 348
+    Left = 495
+    Top = 332
   end
   object TBCOMPANY: TFDTable
     Filtered = True

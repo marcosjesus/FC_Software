@@ -36,7 +36,7 @@ object frmEstimate: TfrmEstimate
     ParentFont = False
     TabOrder = 0
     object ButNovo: TcxButton
-      Left = 3
+      Left = 4
       Top = 0
       Width = 36
       Height = 33
@@ -567,7 +567,7 @@ object frmEstimate: TfrmEstimate
     Font.Style = []
     ParentFont = False
     TabOrder = 1
-    Properties.ActivePage = cxTabEstimateList
+    Properties.ActivePage = cxTabEstimateReports
     Properties.CustomButtons.Buttons = <>
     ClientRectBottom = 684
     ClientRectLeft = 4
@@ -672,13 +672,13 @@ object frmEstimate: TfrmEstimate
             Caption = 'SubTotal'
             DataBinding.FieldName = 'SUBTOTAL'
           end
-          object cxGrid2DBTableView1TOTAL: TcxGridDBColumn
-            Caption = 'Total'
-            DataBinding.FieldName = 'TOTAL'
-          end
           object cxGrid2DBTableView1TAX: TcxGridDBColumn
             Caption = 'Tax'
             DataBinding.FieldName = 'TAX'
+          end
+          object cxGrid2DBTableView1TOTAL: TcxGridDBColumn
+            Caption = 'Total'
+            DataBinding.FieldName = 'TOTAL'
           end
           object cxGrid2DBTableView1DISCOUNT: TcxGridDBColumn
             Caption = 'U$ Discount'
@@ -738,7 +738,7 @@ object frmEstimate: TfrmEstimate
         Font.Style = []
         ParentFont = False
         TabOrder = 1
-        Properties.ActivePage = cxTabSheetService
+        Properties.ActivePage = cxTabSheetItems
         Properties.CustomButtons.Buttons = <>
         OnChange = cxPageForm2Change
         ClientRectBottom = 656
@@ -841,7 +841,7 @@ object frmEstimate: TfrmEstimate
               ParentFont = False
             end
             object Label9: TLabel
-              Left = 1253
+              Left = 1213
               Top = 1
               Width = 3
               Height = 105
@@ -946,12 +946,19 @@ object frmEstimate: TfrmEstimate
               Font.Style = []
               ParentFont = False
             end
+            object Label37: TLabel
+              Left = 847
+              Top = 3
+              Width = 31
+              Height = 13
+              Caption = 'Status'
+            end
             object edtCliente: TEditBusca
               Left = 755
               Top = 0
               Width = 28
               Height = 21
-              TabOrder = 21
+              TabOrder = 20
               Text = 'edtCliente'
               OnClick = edtClienteClick
               ClickOnArrow = True
@@ -1201,9 +1208,9 @@ object frmEstimate: TfrmEstimate
               Text = '(   )   -    '
             end
             object Panel4: TPanel
-              Left = 1256
+              Left = 1216
               Top = 1
-              Width = 97
+              Width = 137
               Height = 105
               Align = alRight
               Font.Charset = DEFAULT_CHARSET
@@ -1214,12 +1221,12 @@ object frmEstimate: TfrmEstimate
               ParentFont = False
               TabOrder = 16
               DesignSize = (
-                97
+                137
                 105)
               object lblProcessName: TLabel
                 Left = 1
                 Top = 1
-                Width = 95
+                Width = 135
                 Height = 25
                 Align = alTop
                 Alignment = taRightJustify
@@ -1230,11 +1237,11 @@ object frmEstimate: TfrmEstimate
                 Font.Name = 'Tahoma'
                 Font.Style = []
                 ParentFont = False
-                ExplicitLeft = -1
+                ExplicitLeft = 39
                 ExplicitWidth = 97
               end
               object btnCart: TcxButton
-                Left = 30
+                Left = 70
                 Top = 45
                 Width = 82
                 Height = 59
@@ -1774,265 +1781,6 @@ object frmEstimate: TfrmEstimate
                 OnClick = btnCartClick
               end
             end
-            object pnlTerms: TPanel
-              Left = 847
-              Top = 1
-              Width = 406
-              Height = 105
-              Align = alRight
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -11
-              Font.Name = 'Tahoma'
-              Font.Style = []
-              ParentFont = False
-              TabOrder = 17
-              object Label36: TLabel
-                Left = 0
-                Top = 0
-                Width = 125
-                Height = 13
-                Caption = 'Terms (Days)        Amount'
-                Font.Charset = DEFAULT_CHARSET
-                Font.Color = clWindowText
-                Font.Height = -11
-                Font.Name = 'Tahoma'
-                Font.Style = []
-                ParentFont = False
-              end
-              object Label58: TLabel
-                Left = 0
-                Top = 52
-                Width = 85
-                Height = 13
-                Caption = 'Terms Description'
-                Font.Charset = DEFAULT_CHARSET
-                Font.Color = clWindowText
-                Font.Height = -11
-                Font.Name = 'Tahoma'
-                Font.Style = []
-                ParentFont = False
-              end
-              object btnTerms: TcxButton
-                Left = 208
-                Top = 67
-                Width = 42
-                Height = 33
-                LookAndFeel.Kind = lfOffice11
-                LookAndFeel.NativeStyle = False
-                LookAndFeel.SkinName = 'Office2007Blue'
-                OptionsImage.Glyph.Data = {
-                  36100000424D3610000000000000360000002800000020000000200000000100
-                  2000000000000010000000000000000000000000000000000000000000000000
-                  0001000000020000000400000005000000050000000500000005000000050000
-                  0005000000060000000600000006000000060000000600000006000000060000
-                  0006000000060000000600000006000000060000000600000006000000070000
-                  0007000000070000000600000005000000030000000100000001000000010000
-                  0003000000090000000F00000013000000140000001400000014000000150000
-                  0015000000150000001600000016000000160000001600000017000000170000
-                  0017000000180000001800000018000000180000001900000019000000190000
-                  001A0000001A00000019000000140000000D0000000500000001000000020000
-                  00092F211D57956B5DEAA47565FFA47565FFA37463FFA17363FFA17262FFA071
-                  62FFA17161FFA07161FFA07060FF9F7060FF9E6F60FF9E6E5FFF9E6E5EFF9D6D
-                  5EFF9D6D5EFF9C6C5DFF9C6C5CFF9C6C5CFF9B6B5CFF9C6B5BFF9B6A5BFF9B6A
-                  5BFF9B695BFF9A695AFF8C5F52EB2B1D195E0000000C00000003000000030000
-                  000D9F7464F6DCC4B0FFE1CCB8FFE1CCB8FFE1CCB7FFE1CCB8FFE1C9B7FFE1CC
-                  B7FFDEC9B4FFE1C9B7FFDEC9B4FFDEC9B4FFDEC9B4FFDDC7B1FFDDC7B1FFDEC9
-                  B4FFDEC8B4FFDDC7B1FFDDC7B1FFDDC7B1FFDDC7B1FFDDC7B1FFDDC7B1FFDDC7
-                  B1FFDDC7B1FFDDC7B1FFD7BEA9FF946556F70000001400000005000000040000
-                  0010AA7B6CFFCCA390FFCA9E8BFFC99E8CFFC99D8AFFC99C8AFFC89B89FFC79B
-                  88FFC69887FFC69787FFC59785FFC49684FFC49683FFC49482FFC49382FFC393
-                  80FFC29280FFC1917EFFC1907DFFC08E7CFFC08E7BFFBF8C7AFFBE8C7AFFBE8B
-                  79FFBD8B79FFBD8A76FFC08F7CFF9D6C5CFF0000001800000006000000040000
-                  0010B08272FFEFE3D8FFFCFDF5FFFCFDF5FFFCFDF5FFFCFCF4FFFCFCF4FFFBFC
-                  F3FFFCFBF3FFFBFBF3FFFBFAF2FFFAFAF1FFFAF9F1FFFBF9F1FFFAF9F0FFF9F8
-                  EFFFF9F8EFFFF9F7EEFFF9F6EEFFF8F6EDFFF8F5ECFFF7F5ECFFF7F4EBFFF8F3
-                  EBFFF8F3EAFFF6F2EAFFE6D4C9FFA37262FF0000001800000006000000040000
-                  000FB18474FFF6F0E9FFF1E7DFFFF2E7DFFFF1E7DEFFF1E7DEFFF1E7DEFFF1E6
-                  DDFFF1E6DEFFF0E6DEFFF0E6DDFFF1E6DDFFF0E6DDFFF0E6DCFFF0E6DCFFF0E6
-                  DCFFF0E6DBFFEFE6DBFFF0E5DBFFF0E6DBFFF0E5DAFFF0E5DAFFEFE5DAFFEFE4
-                  DAFFEFE5DAFFEFE3D9FFF2E8E0FFA47363FF0000001700000006000000040000
-                  000EB28575FFF6EFE9FFF4ECE5FFF5ECE4FFF4EBE4FFF5EBE3FFF4EBE3FFF4EB
-                  E3FFF4EBE2FFF4EBE2FFF4EAE1FFF3EAE2FFF4EAE2FFF4EAE1FFF3EAE1FFF3EA
-                  E0FFF4EAE0FFF3EAE0FFF3EAE0FFF2EADFFFF3E9DFFFF3E9DFFFF3E9DFFFF2E9
-                  DFFFF3E9DEFFF2E8DEFFF2E8DFFFA57463FF0000001700000006000000030000
-                  000EB38676FFF8F2ECFFF6EEE7FFF6EFE7FFF6EEE6FFF6EEE6FFF6EEE6FFF5EE
-                  E6FFF5EEE5FFF5EEE5FFF5EDE4FFF5EDE4FFF5ECE4FFF4EDE3FFF5ECE3FFF4EC
-                  E3FFF5ECE3FFF4EBE2FFF4EBE3FFF4ECE2FFF4EBE2FFF4EBE1FFF4EBE1FFF4EA
-                  E1FFF4EAE1FFF3E9E0FFF4EBE2FFA67565FF0000001600000006000000030000
-                  000DB58878FFF9F4EEFFF7EFE8FFF6F0E8FFC19B8BFFC09A8AFFF1E6DEFFC099
-                  89FFBF9788FFF1E5DDFFBF9687FFBE9585FFF0E4DCFFBC9584FFBC9483FFEFE3
-                  DAFFBB9182FFBA9182FFEFE3D9FF5867DBFF5865DAFFE5DEE2FF5664DAFF5664
-                  DAFFF4EAE1FFF4EAE2FFF5EDE4FFA67566FF0000001500000005000000030000
-                  000CB68A7AFFFAF5EFFFF7F0E9FFF7F1E9FFC39E8DFFC29C8CFFF1E7DFFFC09B
-                  8AFFC09A8AFFF1E6DEFFBF9889FFBF9988FFF1E5DDFFBE9587FFBE9585FFF0E5
-                  DCFFBB9584FFBB9482FFEFE4DBFF5A69DCFF5A69DCFFE5DFE2FF5967DBFF5866
-                  DAFFF4EBE3FFF4ECE2FFF5EDE5FFA87767FF0000001400000005000000030000
-                  000CB88C7CFFF9F5F0FFF8F1EAFFF7F0EAFFF2E8E1FFF2E9E0FFF6EFE8FFF2EB
-                  E4FFEFE8E1FFEEE7E0FFEEE7DFFFEDE5DEFFECE6DEFFECE6DEFFEFE7E1FFF3EC
-                  E4FFF0E4DCFFF0E4DCFFEFE4DBFFE7E0E3FFE6E0E4FFE6DFE3FFE5DFE2FFE5DF
-                  E3FFF5ECE3FFF5ECE3FFF6EEE6FFA87869FF0000001400000005000000030000
-                  000BB88E7EFFFAF6F1FFF7F2EBFFF8F1EBFFC6A192FFC5A091FFF3EDE6FFC6A1
-                  92FFC5A091FFF3EDE6FFC6A192FFC5A091FFF3EDE6FFBF9789FFBF9788FFEFE8
-                  E1FFBF9789FFBF9788FFF1E5DDFF6070DFFF5F6FDFFFE7E0E4FF5E6DDEFF5D6C
-                  DDFFF5EDE4FFF5ECE4FFF6EEE6FFA97969FF0000001300000005000000030000
-                  000ABA8F80FFFAF7F2FFF8F2ECFFF8F3ECFFC7A495FFC7A393FFF3EDE6FFC7A4
-                  95FFC7A393FFF3EDE6FFC7A495FFC7A393FFF3EDE6FFC09A8BFFC09A8AFFECE6
-                  DFFFC09A8BFFC09A8AFFF1E6DEFF6273E0FF6173E0FFE7E1E6FF6071DFFF6070
-                  DEFFF5EDE5FFF5EDE5FFF6EFE8FFAA7A6BFF0000001200000005000000020000
-                  000ABB9181FFFAF7F2FFF8F3EDFFF8F3EDFFF4EBE4FFF3EBE4FFF3EDE7FFF4EB
-                  E4FFF3EBE4FFF3EDE7FFF4EBE4FFF3EBE4FFF3EDE7FFF1E7E0FFF1E7DFFFEDE7
-                  E0FFF1E7E0FFF1E7DFFFF1E8DFFFE7E4E7FFE8E3E6FFE7E3E6FFE7E2E6FFE7E2
-                  E6FFF6EEE6FFF5EEE6FFF7F0E8FFAC7D6CFF0000001200000004000000020000
-                  0009BD9282FFFBF8F4FFF9F4EEFFF9F4EEFFC9A89AFFC9A899FFF5EFE9FFC9A8
-                  9AFFC9A899FFF5EFE9FFC9A89AFFC9A899FFF5EFE9FFC49F8EFFC39E8EFFEEE8
-                  E1FFC49F8EFFC39E8EFFF2E8DFFF687AE3FF6879E3FFE8E4E8FF6678E1FF6577
-                  E1FFF6EEE7FFF6EFE7FFF7F1E9FFAD7E6EFF0000001100000004000000020000
-                  0008BE9484FFFBF8F4FFF9F5F0FFFAF5EFFFCBAA9BFFCAAA9BFFF5F0EAFFCBAA
-                  9BFFCAAA9BFFF5F0EAFFCBAA9BFFCAAA9BFFF5F0EAFFC5A091FFC4A090FFEFE9
-                  E4FFC5A091FFC4A090FFF2E8E1FF6B7EE4FF6B7EE4FFE8E5E9FF697BE3FF687A
-                  E2FFF6EFE8FFF6EFE8FFF7F1EAFFAE7F6FFF0000001000000004000000020000
-                  0008BF9685FFFCF8F5FFFAF5F1FFFAF5F0FFF6EEE8FFF6EEE7FFF6F1ECFFF6EE
-                  E8FFF6EEE7FFF6F1ECFFF6EEE8FFF6EEE7FFF6F1ECFFF3EAE2FFF3E9E2FFF1EB
-                  E6FFF3EAE2FFF3E9E2FFF3E9E2FFEAE5EAFFEAE5EAFFEAE5EAFFE9E5E9FFE9E5
-                  E9FFF7F0E9FFF7F0E8FFF8F1EBFFAF8170FF0000000F00000004000000020000
-                  0007C09888FFFCFAF6FFFAF7F2FFFAF6F1FFCEAFA0FFCEAEA0FFF8F3EEFFCEAF
-                  A0FFCEAEA0FFF8F3EEFFCEAFA0FFCEAEA0FFF8F3EEFFC9A596FFC7A595FFF2ED
-                  E7FFC9A596FFC7A595FFF3EAE3FF7085E7FF6F84E6FFEAE6EBFF6E82E6FF6D81
-                  E5FFF7F0EAFFF7F0E9FFF8F3ECFFB08272FF0000000F00000004000000020000
-                  0006C19989FFFCFAF7FFFAF7F2FFFAF6F2FFD0B1A3FFD0B1A1FFF9F5F0FFD0B1
-                  A3FFD0B1A1FFF9F5F0FFD0B1A3FFD0B1A1FFF9F5F0FFCAA89AFFC9A699FFF6F1
-                  EBFFCAA89AFFC9A699FFF3EBE5FF7388E8FF7287E7FFEBE8EBFF7185E7FF7184
-                  E6FFF8F2EBFFF7F1EBFFF8F3EEFFB18474FF0000000E00000004000000010000
-                  0006C39B8AFFFCFAF8FFFBF8F3FFFBF8F3FFFBF7F3FFFAF7F2FFFBF6F2FFFAF5
-                  F1FFF8F4EFFFF8F4EFFFF7F3EEFFF7F3EDFFF6F2ECFFF5F1EBFFF7F2EDFFF8F3
-                  EEFFFAF4EFFFF9F4EEFFF9F4EEFFF9F4EEFFF8F3EDFFF8F3EDFFF8F3ECFFF8F2
-                  ECFFF8F2ECFFF8F2ECFFF9F4EEFFB28576FF0000000D00000003000000010000
-                  0005C39C8CFFFCFAF9FFFBF8F4FFFBF8F4FFFBF8F4FFFBF8F4FFFBF7F4FFFAF7
-                  F3FFFAF7F2FFFBF7F2FFFAF6F2FFFAF6F1FFFAF6F1FFFAF5F1FFFAF5F0FFFAF5
-                  F0FFFAF5F0FFFAF5EFFFF9F5EFFFF9F4EEFFF9F4EFFFF9F4EEFFF9F4EEFFF9F3
-                  EDFFF8F3EDFFF8F3EDFFF9F4EFFFB48778FF0000000D00000003000000010000
-                  0005C49D8DFFFDFCFBFFFDFBF8FFFDFBF8FFFCFAF8FFFDFAF7FFFDFBF7FFFDF9
-                  F7FFFCFAF7FFFCFAF6FFFBF9F6FFFCF9F6FFFCF8F5FFFBF9F5FFFCF9F5FFFBF8
-                  F5FFFBF8F5FFFBF8F4FFFBF8F5FFFBF8F4FFFBF8F3FFFBF8F3FFFBF7F3FFFBF7
-                  F2FFFBF6F2FFFBF6F2FFFBF8F4FFB58979FF0000000C00000003000000010000
-                  0004444BBBFF9EADF0FF6B81E6FF6B80E6FF6A7FE5FF687CE4FF677BE4FF677A
-                  E3FF6578E2FF6476E2FF6375E1FF6274E1FF6172E0FF6070DFFF5E6FDFFF5D6D
-                  DEFF5C6BDEFF5B69DDFF5968DCFF5967DBFF5765DAFF5663DAFF5561DAFF5460
-                  D8FF525FD8FF515DD7FF6872DEFF3336A9FF0000000B00000003000000010000
-                  0004474EBDFFA0AFF1FF6D83E8FF6C82E7FF6B80E6FF8093EAFF8799EBFF7E91
-                  E9FF677AE4FF6679E3FF6577E3FF6376E1FF6274E1FF6173E0FF6171E0FF5F6F
-                  DFFF5E6EDEFF5D6CDDFF5B6BDDFF5B69DCFF717DE1FF7783E4FF6E7BE1FF5563
-                  D9FF5460D9FF5360D8FF6B76DFFF3639ACFF0000000B00000003000000010000
-                  00034951C0FFA0B2F2FF6F85E8FF6E84E7FF5F73D7FF3E3D7BFF29234EFF2B2B
-                  61FF596DD1FF677BE4FF667AE4FF6578E2FF6476E2FF6375E2FF6273E1FF6172
-                  E0FF6070DFFF5E6FDEFF5E6DDEFF505ECFFF3C3879FF29234EFF28275EFF4B57
-                  C8FF5663DAFF5562D9FF6D78E0FF383CAEFF0000000A00000003000000010000
-                  00034C54C3FFA3B4F2FF778DEAFF7086E8FF5B6FD3FF5D558CFFB7A194FF3F37
-                  6CFF5667CCFF697DE5FF687CE4FF677AE4FF6679E3FF6478E3FF6375E1FF6274
-                  E1FF6273E0FF6071DFFF5F6FDFFF4C5BC9FF5D558CFFB7A194FF3F376CFF4753
-                  C1FF5866DBFF5663DAFF6F7BE1FF3A3FB0FF0000000900000002000000000000
-                  00024B53B6ED8E9DE7FFA4B5F2FFA3B3F2FF8D9DE1FF645B91FFAA9284FF473F
-                  74FF8795D9FF9DADF0FF9CACF0FF9BAAEFFF9BA9EEFF9AA7EEFF98A6EEFF97A5
-                  EDFF96A4EDFF94A2ECFF93A1ECFF7D8AD9FF645B91FFAA9284FF473F74FF7681
-                  D2FF8C97E9FF8C97E8FF7680DBFF3C3FA5EE0000000600000002000000000000
-                  0001141631413F479ECA4F58C7FF4F58C7FF4048B4FF6A6399FFFFFEF3FF5048
-                  7FFF3D44ADFF4B54C2FF4A52C2FF4A52C1FF4951C0FF4950C0FF484FBFFF474F
-                  BEFF464EBEFF464DBDFF464CBCFF383DA9FF6A6399FFFFFEF3FF50487FFF3539
-                  A3FF4248B8FF4147B7FF32368FCC10112D450000000400000001000000000000
-                  000000000001000000010000000200000002000000088A7368FFDACEC5FF735A
-                  50FF0000000D0000000300000003000000040000000400000004000000040000
-                  00040000000500000005000000050000000B8A7368FFDACEC5FF735A50FF0000
-                  0010000000060000000600000005000000030000000100000000000000000000
-                  000000000000000000000000000000000000000000026C5B54C090796FFF6655
-                  4EC2000000060000000100000001000000010000000100000001000000010000
-                  0001000000010000000100000001000000036C5B54C090796FFF66554EC20000
-                  0006000000010000000100000001000000010000000000000000000000000000
-                  0000000000000000000000000000000000000000000000000002000000030000
-                  0003000000010000000000000000000000000000000000000000000000000000
-                  0000000000000000000000000000000000000000000200000003000000030000
-                  0001000000000000000000000000000000000000000000000000}
-                OptionsImage.Margin = 5
-                TabOrder = 1
-                Font.Charset = DEFAULT_CHARSET
-                Font.Color = clWindowText
-                Font.Height = -11
-                Font.Name = 'Tahoma'
-                Font.Style = []
-                ParentFont = False
-                OnClick = btnTermsClick
-              end
-              object cxGrid3: TcxGrid
-                Left = 256
-                Top = 1
-                Width = 149
-                Height = 103
-                Align = alRight
-                Font.Charset = DEFAULT_CHARSET
-                Font.Color = clWindowText
-                Font.Height = -11
-                Font.Name = 'Tahoma'
-                Font.Style = []
-                ParentFont = False
-                TabOrder = 2
-                object cxGrid3DBTableView1: TcxGridDBTableView
-                  Navigator.Buttons.CustomButtons = <>
-                  Navigator.Buttons.Insert.Enabled = False
-                  Navigator.Visible = True
-                  DataController.DataSource = dsTerms
-                  DataController.KeyFieldNames = 'ID_TERMS'
-                  DataController.Summary.DefaultGroupSummaryItems = <>
-                  DataController.Summary.FooterSummaryItems = <
-                    item
-                      Kind = skSum
-                      FieldName = 'VALUE'
-                      Column = cxGrid3DBTableView1VALUE
-                      DisplayText = 'Total'
-                    end>
-                  DataController.Summary.SummaryGroups = <>
-                  OptionsData.CancelOnExit = False
-                  OptionsData.DeletingConfirmation = False
-                  OptionsData.Editing = False
-                  OptionsData.Inserting = False
-                  OptionsView.Footer = True
-                  OptionsView.GroupByBox = False
-                  OptionsView.Indicator = True
-                  object cxGrid3DBTableView1DATE_DUE: TcxGridDBColumn
-                    Caption = 'Date Due'
-                    DataBinding.FieldName = 'DATE_DUE'
-                  end
-                  object cxGrid3DBTableView1VALUE: TcxGridDBColumn
-                    Caption = 'Total'
-                    DataBinding.FieldName = 'VALUE'
-                  end
-                end
-                object cxGrid3Level1: TcxGridLevel
-                  GridView = cxGrid3DBTableView1
-                end
-              end
-              object edtTotal: TcxMaskEdit
-                Left = 84
-                Top = 20
-                TabOrder = 0
-                Width = 89
-              end
-              object edtDays: TcxSpinEdit
-                Left = 10
-                Top = 19
-                Properties.MinValue = 1.000000000000000000
-                TabOrder = 3
-                Value = 1
-                Width = 41
-              end
-              object edtTermsDesc: TcxTextEdit
-                Left = 0
-                Top = 71
-                Properties.CharCase = ecUpperCase
-                Properties.MaxLength = 50
-                TabOrder = 4
-                Width = 202
-              end
-            end
             object Panel6: TPanel
               Left = 840
               Top = 5
@@ -2044,7 +1792,7 @@ object frmEstimate: TfrmEstimate
               Font.Name = 'Tahoma'
               Font.Style = []
               ParentFont = False
-              TabOrder = 18
+              TabOrder = 17
             end
             object Panel7: TPanel
               Left = 382
@@ -2057,7 +1805,7 @@ object frmEstimate: TfrmEstimate
               Font.Name = 'Tahoma'
               Font.Style = []
               ParentFont = False
-              TabOrder = 19
+              TabOrder = 18
             end
             object cxDateShippingDate: TcxDateEdit
               Left = 272
@@ -2069,7 +1817,7 @@ object frmEstimate: TfrmEstimate
               Style.Font.Name = 'Tahoma'
               Style.Font.Style = []
               Style.IsFontAssigned = True
-              TabOrder = 20
+              TabOrder = 19
               Width = 96
             end
             object cbxCustomerType: TComboBox
@@ -2104,6 +1852,20 @@ object frmEstimate: TfrmEstimate
               ParentFont = False
               TabOrder = 11
             end
+            object cmbStatus: TcxComboBox
+              Left = 847
+              Top = 24
+              Properties.DropDownListStyle = lsFixedList
+              Properties.Items.Strings = (
+                'Pending'
+                'Accepted'
+                'Closed'
+                'Rejected')
+              Properties.MaxLength = 0
+              Properties.ReadOnly = False
+              TabOrder = 21
+              Width = 147
+            end
           end
           object pnlBtnLateral: TPanel
             Left = 1272
@@ -2119,6 +1881,12 @@ object frmEstimate: TfrmEstimate
             Font.Style = [fsBold]
             ParentFont = False
             TabOrder = 1
+            object Shape1: TShape
+              Left = 2
+              Top = 191
+              Width = 80
+              Height = 1
+            end
             object ButNovoItem: TcxButton
               Left = 2
               Top = 6
@@ -2190,7 +1958,7 @@ object frmEstimate: TfrmEstimate
               Left = 3
               Top = 146
               Width = 74
-              Height = 25
+              Height = 26
               Hint = '|Ignora Inclus'#227'o/Altera'#231#227'o do contato.'
               Caption = 'Cancel'
               Enabled = False
@@ -2198,6 +1966,25 @@ object frmEstimate: TfrmEstimate
               ShowHint = True
               TabOrder = 4
               OnClick = ButCAncelarItemClick
+            end
+            object btnLoadService: TcxButton
+              Left = 3
+              Top = 198
+              Width = 74
+              Height = 26
+              Hint = 'Add Service'
+              OptionsImage.ImageIndex = 58
+              OptionsImage.Images = cxSmallImages
+              ParentShowHint = False
+              ShowHint = True
+              TabOrder = 5
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = [fsBold]
+              ParentFont = False
+              OnClick = btnLoadServiceClick
             end
           end
           object Page: TcxPageControl
@@ -2213,7 +2000,7 @@ object frmEstimate: TfrmEstimate
             Font.Style = []
             ParentFont = False
             TabOrder = 2
-            Properties.ActivePage = cxTabSheetGrade
+            Properties.ActivePage = cxTabSheetEdit
             Properties.CustomButtons.Buttons = <>
             Properties.HideTabs = True
             ClientRectBottom = 521
@@ -2233,8 +2020,8 @@ object frmEstimate: TfrmEstimate
                 Left = 0
                 Top = 0
                 Width = 1264
-                Height = 396
-                Align = alClient
+                Height = 206
+                Align = alTop
                 Font.Charset = DEFAULT_CHARSET
                 Font.Color = clWindowText
                 Font.Height = -11
@@ -2242,8 +2029,8 @@ object frmEstimate: TfrmEstimate
                 Font.Style = []
                 ParentFont = False
                 TabOrder = 0
-                object cxGrid1DBTableView1: TcxGridDBTableView
-                  OnDblClick = cxGrid1DBTableView1DblClick
+                object cxGrid1DBTableViewItem: TcxGridDBTableView
+                  OnDblClick = cxGrid1DBTableViewItemDblClick
                   Navigator.Buttons.CustomButtons = <>
                   DataController.DataSource = dsProcessItem
                   DataController.KeyFieldNames = 'ID_PROCESS_ITEM'
@@ -2252,13 +2039,13 @@ object frmEstimate: TfrmEstimate
                     item
                       Kind = skSum
                       FieldName = 'AMOUT'
-                      Column = cxGrid1DBTableView1AMOUT
+                      Column = cxGrid1DBTableViewItemAMOUT
                       DisplayText = 'SubTotal'
                     end
                     item
                       Kind = skSum
                       FieldName = 'TOTALAREA'
-                      Column = cxGrid1DBTableView1TOTALAREA
+                      Column = cxGrid1DBTableViewItemTOTALAREA
                       DisplayText = 'Total Area'
                     end>
                   DataController.Summary.SummaryGroups = <>
@@ -2270,72 +2057,71 @@ object frmEstimate: TfrmEstimate
                   OptionsView.Footer = True
                   OptionsView.GroupByBox = False
                   OptionsView.Indicator = True
-                  Styles.OnGetContentStyle = cxGrid1DBTableView1StylesGetContentStyle
-                  object cxGrid1DBTableView1ID_PRODUCT: TcxGridDBColumn
+                  object cxGrid1DBTableViewItemID_PRODUCT: TcxGridDBColumn
                     Caption = 'Product ID'
                     DataBinding.FieldName = 'ID_PRODUCT'
                   end
-                  object cxGrid1DBTableView1DESCRIPTION: TcxGridDBColumn
+                  object cxGrid1DBTableViewItemDESCRIPTION: TcxGridDBColumn
                     Caption = 'Product Type'
                     DataBinding.FieldName = 'DESCRIPTION'
                     Width = 100
                   end
-                  object cxGrid1DBTableView1TRADININGNAME: TcxGridDBColumn
+                  object cxGrid1DBTableViewItemTRADININGNAME: TcxGridDBColumn
                     Caption = 'Manufacture'
                     DataBinding.FieldName = 'TRADININGNAME'
                     Width = 100
                   end
-                  object cxGrid1DBTableView1STYLE: TcxGridDBColumn
+                  object cxGrid1DBTableViewItemSTYLE: TcxGridDBColumn
                     Caption = 'Product Style'
                     DataBinding.FieldName = 'STYLE'
                     Width = 100
                   end
-                  object cxGrid1DBTableView1PRODUCT: TcxGridDBColumn
+                  object cxGrid1DBTableViewItemPRODUCT: TcxGridDBColumn
                     Caption = 'Product/Service'
                     DataBinding.FieldName = 'PRODUCT'
                     Width = 250
                   end
-                  object cxGrid1DBTableView1WIDTH: TcxGridDBColumn
+                  object cxGrid1DBTableViewItemWIDTH: TcxGridDBColumn
                     Caption = 'Width'
                     DataBinding.FieldName = 'WIDTH'
                   end
-                  object cxGrid1DBTableView1HEIGHT: TcxGridDBColumn
+                  object cxGrid1DBTableViewItemHEIGHT: TcxGridDBColumn
                     Caption = 'Length'
                     DataBinding.FieldName = 'HEIGHT'
                   end
-                  object cxGrid1DBTableView1TOTALAREA: TcxGridDBColumn
+                  object cxGrid1DBTableViewItemTOTALAREA: TcxGridDBColumn
                     Caption = 'Total Area'
                     DataBinding.FieldName = 'TOTALAREA'
                   end
-                  object cxGrid1DBTableView1QTY: TcxGridDBColumn
+                  object cxGrid1DBTableViewItemQTY: TcxGridDBColumn
                     Caption = 'Number of Box'
                     DataBinding.FieldName = 'QTY'
                   end
-                  object cxGrid1DBTableView1RATE: TcxGridDBColumn
+                  object cxGrid1DBTableViewItemRATE: TcxGridDBColumn
                     Caption = 'Rate U$'
                     DataBinding.FieldName = 'RATE'
                   end
-                  object cxGrid1DBTableView1AMOUT: TcxGridDBColumn
+                  object cxGrid1DBTableViewItemAMOUT: TcxGridDBColumn
                     Caption = 'SubTotal U$'
                     DataBinding.FieldName = 'AMOUT'
                   end
-                  object cxGrid1DBTableView1TAXBLE: TcxGridDBColumn
+                  object cxGrid1DBTableViewItemTAXBLE: TcxGridDBColumn
                     Caption = 'Tax'
                     DataBinding.FieldName = 'TAXBLE'
                     Width = 100
                   end
-                  object cxGrid1DBTableView1ROOM: TcxGridDBColumn
+                  object cxGrid1DBTableViewItemROOM: TcxGridDBColumn
                     Caption = 'Room'
                     DataBinding.FieldName = 'ROOM'
                     Width = 100
                   end
-                  object cxGrid1DBTableView1REQ_PURCHASE_ORDER: TcxGridDBColumn
+                  object cxGrid1DBTableViewItemREQ_PURCHASE_ORDER: TcxGridDBColumn
                     DataBinding.FieldName = 'REQ_PURCHASE_ORDER'
                     Visible = False
                   end
                 end
                 object cxGrid1Level1: TcxGridLevel
-                  GridView = cxGrid1DBTableView1
+                  GridView = cxGrid1DBTableViewItem
                 end
               end
               object Panel3: TPanel
@@ -2352,11 +2138,11 @@ object frmEstimate: TfrmEstimate
                 ParentFont = False
                 TabOrder = 1
                 object Label21: TLabel
-                  Left = 853
-                  Top = 33
+                  Left = 858
+                  Top = 36
                   Width = 55
                   Height = 13
-                  Caption = 'Discount %'
+                  Caption = '% Discount'
                   Font.Charset = DEFAULT_CHARSET
                   Font.Color = clWindowText
                   Font.Height = -11
@@ -2365,7 +2151,7 @@ object frmEstimate: TfrmEstimate
                   ParentFont = False
                 end
                 object Label22: TLabel
-                  Left = 853
+                  Left = 858
                   Top = 11
                   Width = 42
                   Height = 13
@@ -2378,7 +2164,7 @@ object frmEstimate: TfrmEstimate
                   ParentFont = False
                 end
                 object Label23: TLabel
-                  Left = 853
+                  Left = 858
                   Top = 55
                   Width = 18
                   Height = 13
@@ -2391,7 +2177,7 @@ object frmEstimate: TfrmEstimate
                   ParentFont = False
                 end
                 object Label24: TLabel
-                  Left = 853
+                  Left = 858
                   Top = 77
                   Width = 40
                   Height = 13
@@ -2404,7 +2190,7 @@ object frmEstimate: TfrmEstimate
                   ParentFont = False
                 end
                 object Label25: TLabel
-                  Left = 853
+                  Left = 858
                   Top = 101
                   Width = 24
                   Height = 13
@@ -2472,25 +2258,19 @@ object frmEstimate: TfrmEstimate
                   Font.Style = [fsBold]
                   ParentFont = False
                 end
-                object Label37: TLabel
-                  Left = 629
-                  Top = 14
-                  Width = 31
-                  Height = 13
-                  Caption = 'Status'
-                end
                 object GroupBox1: TGroupBox
-                  Left = 9
-                  Top = 6
-                  Width = 610
-                  Height = 105
+                  Left = 1
+                  Top = 1
+                  Width = 264
+                  Height = 119
+                  Align = alLeft
                   Caption = 'Comments'
                   TabOrder = 0
                   object memComments: TMemo
                     Left = 2
                     Top = 15
-                    Width = 606
-                    Height = 88
+                    Width = 260
+                    Height = 102
                     Align = alClient
                     TabOrder = 0
                   end
@@ -2510,20 +2290,251 @@ object frmEstimate: TfrmEstimate
                   OnExit = edtShippingExit
                   Width = 121
                 end
-                object cmbStatus: TcxComboBox
-                  Left = 629
-                  Top = 35
-                  Properties.DropDownListStyle = lsFixedList
-                  Properties.Items.Strings = (
-                    'Pending'
-                    'Accepted'
-                    'Closed'
-                    'Rejected')
-                  Properties.MaxLength = 0
-                  Properties.ReadOnly = False
+                object pnlTerms: TPanel
+                  Left = 265
+                  Top = 1
+                  Width = 587
+                  Height = 119
+                  Align = alLeft
+                  Font.Charset = DEFAULT_CHARSET
+                  Font.Color = clWindowText
+                  Font.Height = -11
+                  Font.Name = 'Tahoma'
+                  Font.Style = []
+                  ParentFont = False
                   TabOrder = 3
-                  Width = 147
+                  object Label36: TLabel
+                    Left = 12
+                    Top = 10
+                    Width = 64
+                    Height = 13
+                    Caption = 'Terms (Days)'
+                    Font.Charset = DEFAULT_CHARSET
+                    Font.Color = clWindowText
+                    Font.Height = -11
+                    Font.Name = 'Tahoma'
+                    Font.Style = []
+                    ParentFont = False
+                  end
+                  object Label58: TLabel
+                    Left = 265
+                    Top = 10
+                    Width = 53
+                    Height = 13
+                    Caption = 'Description'
+                    Font.Charset = DEFAULT_CHARSET
+                    Font.Color = clWindowText
+                    Font.Height = -11
+                    Font.Name = 'Tahoma'
+                    Font.Style = []
+                    ParentFont = False
+                  end
+                  object Label45: TLabel
+                    Left = 127
+                    Top = 10
+                    Width = 37
+                    Height = 13
+                    Caption = 'Amount'
+                    Font.Charset = DEFAULT_CHARSET
+                    Font.Color = clWindowText
+                    Font.Height = -11
+                    Font.Name = 'Tahoma'
+                    Font.Style = []
+                    ParentFont = False
+                  end
+                  object btnTerms: TcxButton
+                    Left = 559
+                    Top = 7
+                    Width = 25
+                    Height = 27
+                    LookAndFeel.Kind = lfOffice11
+                    LookAndFeel.NativeStyle = False
+                    LookAndFeel.SkinName = 'Office2007Blue'
+                    OptionsImage.Glyph.Data = {
+                      36040000424D3604000000000000360000002800000010000000100000000100
+                      20000000000000040000000000000000000000000000000000000000000A0000
+                      0010000000110000001100000011000000120000001200000012000000120000
+                      0012000000120000001300000013000000120000000C0000000381594CC2B47C
+                      69FFB37B69FFB37B68FFB37A68FFB37A68FFB27A68FFB27A68FFB37968FFB279
+                      68FFB27967FFB27867FFB17867FFB17866FF7F5649C30000000BB77F6EFFFBF8
+                      F5FFF8EEE9FFF8EEE9FFF7EFE8FFF7EEE8FFF7EEE8FFF7EEE8FFF7EDE7FFF7ED
+                      E6FFF6EDE6FFF6ECE6FFF6ECE6FFF6ECE5FFB47B69FF00000011B98472FFFBF8
+                      F6FFBF998AFFEBDAD3FFBE9788FFEBDAD3FFBD9586FFEBDAD3FFBC9484FFEBDA
+                      D3FF5D6DDDFFE4DDE1FF5A69DCFFF7EDE7FFB77F6EFF00000011BC8978FFFCFA
+                      F8FFEBDDD5FFECDCD5FFEBDDD5FFECDCD5FFEBDDD5FFECDCD5FFEBDDD5FFECDC
+                      D5FFE5DFE3FFE5DFE2FFE5DEE2FFF8EEE9FFB98472FF00000010C08E7DFFFCFA
+                      F9FFC6A294FFEDDED6FFC4A092FFEDDED6FFC29E8EFFEDDED6FFC19B8CFFEDDE
+                      D6FF6577E1FFE5E0E4FF6272E0FFF8F1EBFFBC8977FF00000010C39482FFFCFA
+                      FAFFEDDFD9FFEDDFD8FFEDDFD9FFEDDFD8FFEDDFD9FFEDDFD8FFEDDFD9FFEDDF
+                      D8FFE6E2E6FFE6E2E6FFE6E2E5FFF9F2EEFFC08E7CFF0000000FC79887FFFDFB
+                      FAFFCCAB9DFFEEE0DBFFCAA99BFFEEE0DBFFC9A799FFEEE0DBFFC8A496FFEEE0
+                      DBFF6D81E5FFE8E3E8FF6A7DE4FFFAF4F0FFC49381FF0000000EC99D8CFFFDFC
+                      FCFFEEE2DCFFEEE2DCFFEEE2DCFFEEE2DCFFEEE2DCFFEEE2DCFFEEE2DCFFEEE2
+                      DCFFE8E6EAFFE8E5EAFFE8E4E9FFFAF6F2FFC69886FF0000000DCDA190FFFEFC
+                      FCFFD0B1A3FFEFE3DFFFCFB0A2FFEFE3DFFFCFAFA0FFEFE3DFFFCDAD9FFFEFE3
+                      DFFF7388E8FFE9E6EBFF7186E7FFFBF7F5FFC99D8BFF0000000DCFA594FFFEFC
+                      FCFFFDF9F9FFFDF9F9FFFDF9F9FFFDFAF8FFFDF9F8FFFDFAF8FFFCF9F7FFFCF9
+                      F7FFFCF9F7FFFDF8F7FFFCF9F7FFFCF9F7FFCCA290FF0000000C4B53C3FF8D9E
+                      ECFF687CE3FF6678E2FF6476E1FF6172E0FF5F70DFFF5F70DFFF5D6CDEFF5B69
+                      DCFF5966DBFF5664DAFF5462D9FF616DDCFF3337AAFF0000000B4C55C4FF93A4
+                      EEFF6C80E6FF6A7EE4FF687BE4FF6678E2FF6375E1FF6375E1FF6172E0FF5E6F
+                      DEFF5C6CDDFF5A69DCFF5766DAFF6472DDFF3538ABFF0000000A4D56C6FF96A7
+                      EFFF95A6EFFF93A4EDFF90A2EDFF8F9FEDFF8B9BEBFF8B9BEBFF8898EAFF8595
+                      EAFF8291E7FF7F8DE7FF7D89E5FF7987E5FF3539ACFF000000093A4093C14D55
+                      C5FF4B53C3FF4A51C1FF484FBFFF464DBEFF444BBBFF444BBBFF4249B9FF4046
+                      B7FF3E44B4FF3C41B3FF3A3EB0FF393CAEFF282B80C200000006000000040000
+                      0006000000060000000600000007000000070000000700000007000000070000
+                      0007000000070000000800000008000000070000000500000001}
+                    OptionsImage.Margin = 5
+                    TabOrder = 1
+                    Font.Charset = DEFAULT_CHARSET
+                    Font.Color = clWindowText
+                    Font.Height = -11
+                    Font.Name = 'Tahoma'
+                    Font.Style = []
+                    ParentFont = False
+                    OnClick = btnTermsClick
+                  end
+                  object cxGrid3: TcxGrid
+                    Left = 1
+                    Top = 40
+                    Width = 585
+                    Height = 78
+                    Align = alBottom
+                    Font.Charset = DEFAULT_CHARSET
+                    Font.Color = clWindowText
+                    Font.Height = -11
+                    Font.Name = 'Tahoma'
+                    Font.Style = []
+                    ParentFont = False
+                    TabOrder = 2
+                    object cxGrid3DBTableView1: TcxGridDBTableView
+                      Navigator.Buttons.CustomButtons = <>
+                      Navigator.Buttons.Insert.Enabled = False
+                      Navigator.Visible = True
+                      DataController.DataSource = dsTerms
+                      DataController.KeyFieldNames = 'ID_TERMS'
+                      DataController.Summary.DefaultGroupSummaryItems = <>
+                      DataController.Summary.FooterSummaryItems = <
+                        item
+                          Kind = skSum
+                          FieldName = 'VALUE'
+                          Column = cxGrid3DBTableView1VALUE
+                          DisplayText = 'Total'
+                        end>
+                      DataController.Summary.SummaryGroups = <>
+                      OptionsData.CancelOnExit = False
+                      OptionsData.DeletingConfirmation = False
+                      OptionsData.Editing = False
+                      OptionsData.Inserting = False
+                      OptionsView.Footer = True
+                      OptionsView.GroupByBox = False
+                      OptionsView.Indicator = True
+                      object cxGrid3DBTableView1DESCRIPTION: TcxGridDBColumn
+                        DataBinding.FieldName = 'DESCRIPTION'
+                      end
+                      object cxGrid3DBTableView1DATE_DUE: TcxGridDBColumn
+                        Caption = 'Date Due'
+                        DataBinding.FieldName = 'DATE_DUE'
+                      end
+                      object cxGrid3DBTableView1VALUE: TcxGridDBColumn
+                        Caption = 'Total'
+                        DataBinding.FieldName = 'VALUE'
+                      end
+                    end
+                    object cxGrid3Level1: TcxGridLevel
+                      GridView = cxGrid3DBTableView1
+                    end
+                  end
+                  object edtTotal: TcxMaskEdit
+                    Left = 170
+                    Top = 10
+                    TabOrder = 0
+                    Width = 89
+                  end
+                  object edtDays: TcxSpinEdit
+                    Left = 80
+                    Top = 10
+                    Properties.MinValue = 1.000000000000000000
+                    TabOrder = 3
+                    Value = 1
+                    Width = 41
+                  end
+                  object edtTermsDesc: TcxTextEdit
+                    Left = 325
+                    Top = 10
+                    Properties.CharCase = ecUpperCase
+                    Properties.MaxLength = 50
+                    TabOrder = 4
+                    Width = 228
+                  end
                 end
+              end
+              object cxGrid4: TcxGrid
+                Left = 0
+                Top = 211
+                Width = 1264
+                Height = 185
+                Align = alClient
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -11
+                Font.Name = 'Tahoma'
+                Font.Style = []
+                ParentFont = False
+                TabOrder = 2
+                object cxGridDBTableViewServiceItem: TcxGridDBTableView
+                  Navigator.Buttons.ConfirmDelete = True
+                  Navigator.Buttons.CustomButtons = <>
+                  Navigator.Visible = True
+                  DataController.DataSource = dsServicesItem
+                  DataController.KeyFieldNames = 'ID_SERVICE_ITEM'
+                  DataController.Summary.DefaultGroupSummaryItems = <>
+                  DataController.Summary.FooterSummaryItems = <
+                    item
+                      Format = '0.00'
+                      Kind = skSum
+                      FieldName = 'SubTotal'
+                      Column = cxGridDBTableViewServiceItemSubTotal
+                      DisplayText = 'SubTotal'
+                    end>
+                  DataController.Summary.SummaryGroups = <>
+                  OptionsView.Footer = True
+                  OptionsView.GroupByBox = False
+                  OptionsView.Indicator = True
+                  object cxGridDBTableViewServiceItemDESC_PRODUCT: TcxGridDBColumn
+                    Caption = 'Service Description'
+                    DataBinding.FieldName = 'DESC_PRODUCT'
+                    Width = 810
+                  end
+                  object cxGridDBTableViewServiceItemROOM: TcxGridDBColumn
+                    Caption = 'Room'
+                    DataBinding.FieldName = 'ROOM'
+                  end
+                  object cxGridDBTableViewServiceItemTOTALAREA: TcxGridDBColumn
+                    Caption = 'Qty'
+                    DataBinding.FieldName = 'TOTALAREA'
+                  end
+                  object cxGridDBTableViewServiceItemRATE: TcxGridDBColumn
+                    Caption = 'Unit Price U$'
+                    DataBinding.FieldName = 'RATE'
+                  end
+                  object cxGridDBTableViewServiceItemSubTotal: TcxGridDBColumn
+                    Caption = 'SubTotal U$'
+                    DataBinding.FieldName = 'SubTotal'
+                  end
+                end
+                object cxGridLevel1: TcxGridLevel
+                  GridView = cxGridDBTableViewServiceItem
+                end
+              end
+              object cxSplitter1: TcxSplitter
+                Left = 0
+                Top = 206
+                Width = 1264
+                Height = 5
+                AlignSplitter = salTop
+                Control = pnlTop
               end
             end
             object cxTabSheetEdit: TcxTabSheet
@@ -2548,7 +2559,7 @@ object frmEstimate: TfrmEstimate
                 Font.Style = []
                 ParentFont = False
                 TabOrder = 0
-                object Image1: TImage
+                object ImageProduct: TImage
                   Left = 1
                   Top = 1
                   Width = 549
@@ -2718,12 +2729,12 @@ object frmEstimate: TfrmEstimate
                   Font.Style = []
                   ParentFont = False
                 end
-                object Label45: TLabel
+                object lblInfoQuant: TLabel
                   Left = 164
                   Top = 241
-                  Width = 92
+                  Width = 3
                   Height = 13
-                  Caption = 'Quantity Per Carton'
+                  Caption = '-'
                   Font.Charset = DEFAULT_CHARSET
                   Font.Color = clWindowText
                   Font.Height = -11
@@ -2731,12 +2742,12 @@ object frmEstimate: TfrmEstimate
                   Font.Style = []
                   ParentFont = False
                 end
-                object Label46: TLabel
+                object lblUnidadeMedida: TLabel
                   Left = 360
                   Top = 241
-                  Width = 17
+                  Width = 3
                   Height = 13
-                  Caption = 'sqft'
+                  Caption = '-'
                   Font.Charset = DEFAULT_CHARSET
                   Font.Color = clWindowText
                   Font.Height = -11
@@ -3209,6 +3220,7 @@ object frmEstimate: TfrmEstimate
                   Style.IsFontAssigned = True
                   TabOrder = 1
                   OnEnter = edtweidthEnter
+                  OnExit = edtweidthExit
                   Width = 64
                 end
                 object chklistRoom: TCheckListBox
@@ -3891,18 +3903,24 @@ object frmEstimate: TfrmEstimate
       ImageIndex = 2
       ParentFont = False
       object pnlRelatorio: TPanel
-        Left = 470
-        Top = -15
-        Width = 630
-        Height = 805
+        Left = 0
+        Top = -64
+        Width = 869
+        Height = 949
         Caption = 'Quotation/Order/Invoice'
         Color = 33023
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = []
         ParentBackground = False
+        ParentFont = False
         TabOrder = 0
         Visible = False
         object ReportSale: TRLReport
-          Left = 17
-          Top = 21
+          Left = 94
+          Top = 32
           Width = 794
           Height = 1123
           DataSource = dsHeader
@@ -3916,7 +3934,7 @@ object frmEstimate: TfrmEstimate
             Left = 38
             Top = 38
             Width = 718
-            Height = 181
+            Height = 107
             BandType = btHeader
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
@@ -3924,31 +3942,373 @@ object frmEstimate: TfrmEstimate
             Font.Name = 'Arial'
             Font.Style = []
             ParentFont = False
-            object LblProcess: TRLLabel
-              Left = 3
-              Top = 7
-              Width = 95
-              Height = 22
-              Caption = 'Estimate #'
+            object RLImageLogo: TRLImage
+              Left = 6
+              Top = 9
+              Width = 263
+              Height = 81
+            end
+            object RLDBText2: TRLDBText
+              Left = 276
+              Top = 10
+              Width = 90
+              Height = 14
+              DataField = 'COMPANY_NAME'
+              DataSource = dsHeader
               Font.Charset = DEFAULT_CHARSET
               Font.Color = clBlack
-              Font.Height = -19
+              Font.Height = -11
               Font.Name = 'Arial'
               Font.Style = []
               ParentFont = False
+              Text = ''
             end
-            object RLDraw1: TRLDraw
-              Left = 3
-              Top = 35
-              Width = 712
-              Height = 7
-              DrawKind = dkLine
+            object RLDBText3: TRLDBText
+              Left = 275
+              Top = 26
+              Width = 110
+              Height = 14
+              DataField = 'COMPANY_ADRRESS'
+              DataSource = dsHeader
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clBlack
+              Font.Height = -11
+              Font.Name = 'Arial'
+              Font.Style = []
+              ParentFont = False
+              Text = ''
+            end
+            object RLDBText4: TRLDBText
+              Left = 275
+              Top = 40
+              Width = 84
+              Height = 14
+              DataField = 'COMPANY_CITY'
+              DataSource = dsHeader
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clBlack
+              Font.Height = -11
+              Font.Name = 'Arial'
+              Font.Style = []
+              ParentFont = False
+              Text = ''
+            end
+            object RLDBText5: TRLDBText
+              Left = 403
+              Top = 40
+              Width = 104
+              Height = 14
+              DataField = 'COMPANY_ZIPCODE'
+              DataSource = dsHeader
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clBlack
+              Font.Height = -11
+              Font.Name = 'Arial'
+              Font.Style = []
+              ParentFont = False
+              Text = ''
+            end
+            object RLDBText36: TRLDBText
+              Left = 403
+              Top = 55
+              Width = 74
+              Height = 14
+              DataField = 'COMPANY_ST'
+              DataSource = dsHeader
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clBlack
+              Font.Height = -11
+              Font.Name = 'Arial'
+              Font.Style = []
+              ParentFont = False
+              Text = ''
+            end
+            object RLDBText6: TRLDBText
+              Left = 275
+              Top = 55
+              Width = 104
+              Height = 14
+              DataField = 'COMPANY_COUNTY'
+              DataSource = dsHeader
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clBlack
+              Font.Height = -11
+              Font.Name = 'Arial'
+              Font.Style = []
+              ParentFont = False
+              Text = ''
+            end
+            object RLDBText16: TRLDBText
+              Left = 275
+              Top = 73
+              Width = 82
+              Height = 14
+              DataField = 'VENDOR_EMAIL'
+              DataSource = dsHeader
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clBlack
+              Font.Height = -11
+              Font.Name = 'Arial'
+              Font.Style = []
+              ParentFont = False
+              Text = ''
+            end
+          end
+          object RLBand1: TRLBand
+            Left = 38
+            Top = 145
+            Width = 718
+            Height = 129
+            BandType = btColumnHeader
+            object RLDBText7: TRLDBText
+              Left = 20
+              Top = 4
+              Width = 94
+              Height = 14
+              DataField = 'CUSTOMER_NAME'
+              DataSource = dsHeader
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clBlack
+              Font.Height = -11
+              Font.Name = 'Arial'
+              Font.Style = []
+              ParentFont = False
+              Text = ''
+            end
+            object RLDBText8: TRLDBText
+              Left = 20
+              Top = 18
+              Width = 114
+              Height = 14
+              DataField = 'CUSTOMER_ADDRESS'
+              DataSource = dsHeader
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clBlack
+              Font.Height = -11
+              Font.Name = 'Arial'
+              Font.Style = []
+              ParentFont = False
+              Text = ''
+            end
+            object RLDBText9: TRLDBText
+              Left = 20
+              Top = 33
+              Width = 88
+              Height = 14
+              DataField = 'CUSTOMER_CITY'
+              DataSource = dsHeader
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clBlack
+              Font.Height = -11
+              Font.Name = 'Arial'
+              Font.Style = []
+              ParentFont = False
+              Text = ''
+            end
+            object RLDBText10: TRLDBText
+              Left = 155
+              Top = 33
+              Width = 104
+              Height = 14
+              DataField = 'COMPANY_ZIPCODE'
+              DataSource = dsHeader
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clBlack
+              Font.Height = -11
+              Font.Name = 'Arial'
+              Font.Style = []
+              ParentFont = False
+              Text = ''
+            end
+            object RLDBText11: TRLDBText
+              Left = 20
+              Top = 48
+              Width = 108
+              Height = 14
+              DataField = 'CUSTOMER_COUNTY'
+              DataSource = dsHeader
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clBlack
+              Font.Height = -11
+              Font.Name = 'Arial'
+              Font.Style = []
+              ParentFont = False
+              Text = ''
+            end
+            object RLLabel19: TRLLabel
+              Left = 550
+              Top = 65
+              Width = 57
+              Height = 14
+              Caption = 'Sales Rep'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clBlack
+              Font.Height = -11
+              Font.Name = 'Arial'
+              Font.Style = [fsBold]
+              ParentFont = False
+            end
+            object RLDBText21: TRLDBText
+              Left = 622
+              Top = 65
+              Width = 74
+              Height = 12
+              DataField = 'VENDOR_NAME'
+              DataSource = dsHeader
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clBlack
+              Font.Height = -9
+              Font.Name = 'Arial'
+              Font.Style = []
+              ParentFont = False
+              Text = ''
+            end
+            object RLLabel20: TRLLabel
+              Left = 152
+              Top = 87
+              Width = 195
+              Height = 14
+              Caption = 'Comments or Special Instructions:'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clBlack
+              Font.Height = -11
+              Font.Name = 'Arial'
+              Font.Style = [fsBold]
+              ParentFont = False
+            end
+            object RLDBText22: TRLDBText
+              Left = 152
+              Top = 104
+              Width = 115
+              Height = 14
+              DataField = 'ESTIMATE_COMMENTS'
+              DataSource = dsHeader
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clBlack
+              Font.Height = -11
+              Font.Name = 'Arial'
+              Font.Style = []
+              ParentFont = False
+              Text = ''
+            end
+            object RLLabel21: TRLLabel
+              Left = 384
+              Top = 4
+              Width = 68
+              Height = 14
+              Caption = 'P.O Number'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clBlack
+              Font.Height = -11
+              Font.Name = 'Arial'
+              Font.Style = [fsBold]
+              ParentFont = False
+            end
+            object RLLabel22: TRLLabel
+              Left = 580
+              Top = 48
+              Width = 27
+              Height = 14
+              Caption = 'Date'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clBlack
+              Font.Height = -11
+              Font.Name = 'Arial'
+              Font.Style = [fsBold]
+              ParentFont = False
+            end
+            object RLLabel23: TRLLabel
+              Left = 543
+              Top = 100
+              Width = 64
+              Height = 14
+              Caption = 'Pick-up Via'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clBlack
+              Font.Height = -11
+              Font.Name = 'Arial'
+              Font.Style = [fsBold]
+              ParentFont = False
+            end
+            object RLLabel24: TRLLabel
+              Left = 546
+              Top = 82
+              Width = 61
+              Height = 14
+              Caption = 'F.O.B Point'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clBlack
+              Font.Height = -11
+              Font.Name = 'Arial'
+              Font.Style = [fsBold]
+              ParentFont = False
+            end
+            object RLDBText23: TRLDBText
+              Left = 384
+              Top = 22
+              Width = 91
+              Height = 10
+              DataField = 'ESTIMATE_PONUMBER'
+              DataSource = dsHeader
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clBlack
+              Font.Height = -8
+              Font.Name = 'Arial'
+              Font.Style = []
+              ParentFont = False
+              Text = ''
+            end
+            object RLDBText26: TRLDBText
+              Left = 20
+              Top = 99
+              Width = 62
+              Height = 14
+              DataField = 'ITEM_ROOM'
+              DataSource = dsHeader
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clBlack
+              Font.Height = -11
+              Font.Name = 'Arial'
+              Font.Style = []
+              ParentFont = False
+              Text = ''
+            end
+            object RLDBText35: TRLDBText
+              Left = 156
+              Top = 48
+              Width = 78
+              Height = 14
+              DataField = 'CUSTOMER_ST'
+              DataSource = dsHeader
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clBlack
+              Font.Height = -11
+              Font.Name = 'Arial'
+              Font.Style = []
+              ParentFont = False
+              Text = ''
+            end
+            object RLDBText44: TRLDBText
+              Left = 20
+              Top = 64
+              Width = 95
+              Height = 14
+              DataField = 'CUSTOMER_EMAIL'
+              DataSource = dsHeader
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clBlack
+              Font.Height = -11
+              Font.Name = 'Arial'
+              Font.Style = []
+              ParentFont = False
+              Text = ''
             end
             object RLDBText1: TRLDBText
-              Left = 120
-              Top = 9
+              Left = 611
+              Top = 7
               Width = 87
               Height = 16
+              Alignment = taRightJustify
               DataField = 'ESTIMATE_ID'
               DataSource = dsHeader
               Font.Charset = DEFAULT_CHARSET
@@ -3959,514 +4319,289 @@ object frmEstimate: TfrmEstimate
               ParentFont = False
               Text = ''
             end
-            object RLImage1: TRLImage
-              Left = 3
+            object LblProcess: TRLLabel
+              Left = 512
+              Top = 4
+              Width = 95
+              Height = 22
+              Caption = 'Estimate #'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clBlack
+              Font.Height = -19
+              Font.Name = 'Arial'
+              Font.Style = []
+              ParentFont = False
+            end
+            object RLLabel2: TRLLabel
+              Left = 20
+              Top = 87
+              Width = 35
+              Height = 14
+              Caption = 'Room'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clBlack
+              Font.Height = -11
+              Font.Name = 'Arial'
+              Font.Style = [fsBold]
+              ParentFont = False
+            end
+            object RLDBText46: TRLDBText
+              Left = 622
               Top = 48
-              Width = 245
-              Height = 113
+              Width = 76
+              Height = 12
+              DataField = 'ESTIMATE_DATE'
+              DataSource = dsHeader
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clBlack
+              Font.Height = -9
+              Font.Name = 'Arial'
+              Font.Style = []
+              ParentFont = False
+              Text = ''
             end
           end
-          object RLGroup1: TRLGroup
+          object RLSubDetail3: TRLSubDetail
             Left = 38
-            Top = 219
+            Top = 274
             Width = 718
-            Height = 216
-            DataFields = 'ESTIMATE_ID'
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clBlack
-            Font.Height = -13
-            Font.Name = 'Arial'
-            Font.Style = []
-            ParentFont = False
-            object RLBand2: TRLBand
+            Height = 159
+            DataSource = dsHeader
+            object RLGroup1: TRLGroup
               Left = 0
               Top = 0
               Width = 718
-              Height = 19
-              BandType = btHeader
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clBlack
-              Font.Height = -13
-              Font.Name = 'Arial'
-              Font.Style = []
-              ParentFont = False
-              object RLLabel2: TRLLabel
-                Left = 16
-                Top = 1
-                Width = 64
-                Height = 16
-                Caption = 'Company'
+              Height = 57
+              DataFields = 'TYPEOFPRODUCT'
+              object RLBand4: TRLBand
+                Left = 0
+                Top = 0
+                Width = 718
+                Height = 22
+                BandType = btHeader
                 Font.Charset = DEFAULT_CHARSET
                 Font.Color = clBlack
                 Font.Height = -13
                 Font.Name = 'Arial'
-                Font.Style = [fsBold]
+                Font.Style = []
                 ParentFont = False
+                object RLDraw2: TRLDraw
+                  Left = 3
+                  Top = 146
+                  Width = 712
+                  Height = 7
+                  DrawKind = dkLine
+                end
+                object RLLabel3: TRLLabel
+                  Left = 14
+                  Top = 5
+                  Width = 35
+                  Height = 16
+                  Caption = 'Type'
+                  Font.Charset = DEFAULT_CHARSET
+                  Font.Color = clBlack
+                  Font.Height = -13
+                  Font.Name = 'Arial'
+                  Font.Style = [fsBold]
+                  ParentFont = False
+                end
+                object RLDBText20: TRLDBText
+                  Left = 55
+                  Top = 6
+                  Width = 91
+                  Height = 14
+                  DataField = 'TYPEOFPRODUCT'
+                  DataSource = dsHeader
+                  Font.Charset = DEFAULT_CHARSET
+                  Font.Color = clBlack
+                  Font.Height = -11
+                  Font.Name = 'Arial'
+                  Font.Style = []
+                  ParentFont = False
+                  Text = ''
+                end
               end
-              object RLLabel3: TRLLabel
-                Left = 424
-                Top = 1
-                Width = 64
+              object RLBand19: TRLBand
+                Left = 0
+                Top = 22
+                Width = 718
                 Height = 16
-                Caption = 'Customer'
+                BandType = btColumnHeader
                 Font.Charset = DEFAULT_CHARSET
                 Font.Color = clBlack
                 Font.Height = -13
                 Font.Name = 'Arial'
-                Font.Style = [fsBold]
-                ParentFont = False
-              end
-            end
-            object RLBand4: TRLBand
-              Left = 0
-              Top = 19
-              Width = 718
-              Height = 145
-              BandType = btColumnHeader
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clBlack
-              Font.Height = -13
-              Font.Name = 'Arial'
-              Font.Style = []
-              ParentFont = False
-              object RLDBText2: TRLDBText
-                Left = 16
-                Top = 1
-                Width = 90
-                Height = 14
-                DataField = 'COMPANY_NAME'
-                DataSource = dsHeader
-                Font.Charset = DEFAULT_CHARSET
-                Font.Color = clBlack
-                Font.Height = -11
-                Font.Name = 'Arial'
                 Font.Style = []
                 ParentFont = False
-                Text = ''
+                object RLLabel4: TRLLabel
+                  Left = 118
+                  Top = 0
+                  Width = 75
+                  Height = 16
+                  Caption = 'Description'
+                  Font.Charset = DEFAULT_CHARSET
+                  Font.Color = clBlack
+                  Font.Height = -13
+                  Font.Name = 'Arial'
+                  Font.Style = [fsBold]
+                  ParentFont = False
+                end
+                object RLLabel5: TRLLabel
+                  Left = 81
+                  Top = 0
+                  Width = 25
+                  Height = 16
+                  Caption = 'Qty'
+                  Font.Charset = DEFAULT_CHARSET
+                  Font.Color = clBlack
+                  Font.Height = -13
+                  Font.Name = 'Arial'
+                  Font.Style = [fsBold]
+                  ParentFont = False
+                end
+                object RLLabel7: TRLLabel
+                  Left = 466
+                  Top = 0
+                  Width = 66
+                  Height = 16
+                  Caption = 'Unit Price'
+                  Font.Charset = DEFAULT_CHARSET
+                  Font.Color = clBlack
+                  Font.Height = -13
+                  Font.Name = 'Arial'
+                  Font.Style = [fsBold]
+                  ParentFont = False
+                end
+                object RLLabel9: TRLLabel
+                  Left = 601
+                  Top = 0
+                  Width = 48
+                  Height = 16
+                  Caption = 'Taxble'
+                  Font.Charset = DEFAULT_CHARSET
+                  Font.Color = clBlack
+                  Font.Height = -13
+                  Font.Name = 'Arial'
+                  Font.Style = [fsBold]
+                  ParentFont = False
+                end
+                object RLLabel10: TRLLabel
+                  Left = 679
+                  Top = 0
+                  Width = 36
+                  Height = 16
+                  Caption = 'Total'
+                  Font.Charset = DEFAULT_CHARSET
+                  Font.Color = clBlack
+                  Font.Height = -13
+                  Font.Name = 'Arial'
+                  Font.Style = [fsBold]
+                  ParentFont = False
+                end
               end
-              object RLDBText3: TRLDBText
-                Left = 16
-                Top = 15
-                Width = 110
-                Height = 14
-                DataField = 'COMPANY_ADRRESS'
-                DataSource = dsHeader
-                Font.Charset = DEFAULT_CHARSET
-                Font.Color = clBlack
-                Font.Height = -11
-                Font.Name = 'Arial'
-                Font.Style = []
-                ParentFont = False
-                Text = ''
-              end
-              object RLDBText4: TRLDBText
-                Left = 16
-                Top = 29
-                Width = 84
-                Height = 14
-                DataField = 'COMPANY_CITY'
-                DataSource = dsHeader
-                Font.Charset = DEFAULT_CHARSET
-                Font.Color = clBlack
-                Font.Height = -11
-                Font.Name = 'Arial'
-                Font.Style = []
-                ParentFont = False
-                Text = ''
-              end
-              object RLDBText5: TRLDBText
-                Left = 144
-                Top = 29
-                Width = 104
-                Height = 14
-                DataField = 'COMPANY_ZIPCODE'
-                DataSource = dsHeader
-                Font.Charset = DEFAULT_CHARSET
-                Font.Color = clBlack
-                Font.Height = -11
-                Font.Name = 'Arial'
-                Font.Style = []
-                ParentFont = False
-                Text = ''
-              end
-              object RLDBText6: TRLDBText
-                Left = 16
-                Top = 44
-                Width = 104
-                Height = 14
-                DataField = 'COMPANY_COUNTY'
-                DataSource = dsHeader
-                Font.Charset = DEFAULT_CHARSET
-                Font.Color = clBlack
-                Font.Height = -11
-                Font.Name = 'Arial'
-                Font.Style = []
-                ParentFont = False
-                Text = ''
-              end
-              object RLDBText7: TRLDBText
-                Left = 424
-                Top = 4
-                Width = 94
-                Height = 14
-                DataField = 'CUSTOMER_NAME'
-                DataSource = dsHeader
-                Font.Charset = DEFAULT_CHARSET
-                Font.Color = clBlack
-                Font.Height = -11
-                Font.Name = 'Arial'
-                Font.Style = []
-                ParentFont = False
-                Text = ''
-              end
-              object RLDBText8: TRLDBText
-                Left = 424
-                Top = 15
-                Width = 114
-                Height = 14
-                DataField = 'CUSTOMER_ADDRESS'
-                DataSource = dsHeader
-                Font.Charset = DEFAULT_CHARSET
-                Font.Color = clBlack
-                Font.Height = -11
-                Font.Name = 'Arial'
-                Font.Style = []
-                ParentFont = False
-                Text = ''
-              end
-              object RLDBText9: TRLDBText
-                Left = 424
-                Top = 29
-                Width = 88
-                Height = 14
-                DataField = 'CUSTOMER_CITY'
-                DataSource = dsHeader
-                Font.Charset = DEFAULT_CHARSET
-                Font.Color = clBlack
-                Font.Height = -11
-                Font.Name = 'Arial'
-                Font.Style = []
-                ParentFont = False
-                Text = ''
-              end
-              object RLDBText10: TRLDBText
-                Left = 560
-                Top = 29
-                Width = 104
-                Height = 14
-                DataField = 'COMPANY_ZIPCODE'
-                DataSource = dsHeader
-                Font.Charset = DEFAULT_CHARSET
-                Font.Color = clBlack
-                Font.Height = -11
-                Font.Name = 'Arial'
-                Font.Style = []
-                ParentFont = False
-                Text = ''
-              end
-              object RLDBText11: TRLDBText
-                Left = 424
-                Top = 44
-                Width = 108
-                Height = 14
-                DataField = 'CUSTOMER_COUNTY'
-                DataSource = dsHeader
-                Font.Charset = DEFAULT_CHARSET
-                Font.Color = clBlack
-                Font.Height = -11
-                Font.Name = 'Arial'
-                Font.Style = []
-                ParentFont = False
-                Text = ''
-              end
-              object RLLabel4: TRLLabel
-                Left = 3
-                Top = 126
-                Width = 32
-                Height = 16
-                Caption = 'Item'
+              object RLBand6: TRLBand
+                Left = 0
+                Top = 38
+                Width = 718
+                Height = 17
                 Font.Charset = DEFAULT_CHARSET
                 Font.Color = clBlack
                 Font.Height = -13
                 Font.Name = 'Arial'
-                Font.Style = [fsBold]
-                ParentFont = False
-              end
-              object RLLabel5: TRLLabel
-                Left = 55
-                Top = 125
-                Width = 53
-                Height = 16
-                Caption = 'Product'
-                Font.Charset = DEFAULT_CHARSET
-                Font.Color = clBlack
-                Font.Height = -13
-                Font.Name = 'Arial'
-                Font.Style = [fsBold]
-                ParentFont = False
-              end
-              object RLLabel6: TRLLabel
-                Left = 229
-                Top = 126
-                Width = 129
-                Height = 16
-                Caption = 'Total Area (SQFeet)'
-                Font.Charset = DEFAULT_CHARSET
-                Font.Color = clBlack
-                Font.Height = -13
-                Font.Name = 'Arial'
-                Font.Style = [fsBold]
-                ParentFont = False
-              end
-              object RLLabel7: TRLLabel
-                Left = 391
-                Top = 126
-                Width = 33
-                Height = 16
-                Caption = 'Rate'
-                Font.Charset = DEFAULT_CHARSET
-                Font.Color = clBlack
-                Font.Height = -13
-                Font.Name = 'Arial'
-                Font.Style = [fsBold]
-                ParentFont = False
-              end
-              object RLLabel8: TRLLabel
-                Left = 486
-                Top = 126
-                Width = 53
-                Height = 16
-                Caption = 'Amount'
-                Font.Charset = DEFAULT_CHARSET
-                Font.Color = clBlack
-                Font.Height = -13
-                Font.Name = 'Arial'
-                Font.Style = [fsBold]
-                ParentFont = False
-              end
-              object RLLabel9: TRLLabel
-                Left = 601
-                Top = 126
-                Width = 48
-                Height = 16
-                Caption = 'Taxble'
-                Font.Charset = DEFAULT_CHARSET
-                Font.Color = clBlack
-                Font.Height = -13
-                Font.Name = 'Arial'
-                Font.Style = [fsBold]
-                ParentFont = False
-              end
-              object RLLabel10: TRLLabel
-                Left = 679
-                Top = 126
-                Width = 36
-                Height = 16
-                Caption = 'Total'
-                Font.Charset = DEFAULT_CHARSET
-                Font.Color = clBlack
-                Font.Height = -13
-                Font.Name = 'Arial'
-                Font.Style = [fsBold]
-                ParentFont = False
-              end
-              object RLDraw2: TRLDraw
-                Left = 3
-                Top = 139
-                Width = 712
-                Height = 7
-                DrawKind = dkLine
-              end
-              object RLLabel19: TRLLabel
-                Left = 484
-                Top = 91
-                Width = 57
-                Height = 14
-                Caption = 'Sales Rep'
-                Font.Charset = DEFAULT_CHARSET
-                Font.Color = clBlack
-                Font.Height = -11
-                Font.Name = 'Arial'
-                Font.Style = [fsBold]
-                ParentFont = False
-              end
-              object RLDBText21: TRLDBText
-                Left = 486
-                Top = 110
-                Width = 63
-                Height = 10
-                DataField = 'VENDOR_NAME'
-                DataSource = dsHeader
-                Font.Charset = DEFAULT_CHARSET
-                Font.Color = clBlack
-                Font.Height = -8
-                Font.Name = 'Arial'
                 Font.Style = []
                 ParentFont = False
-                Text = ''
-              end
-              object RLLabel20: TRLLabel
-                Left = 14
-                Top = 61
-                Width = 195
-                Height = 14
-                Caption = 'Comments or Special Instructions:'
-                Font.Charset = DEFAULT_CHARSET
-                Font.Color = clBlack
-                Font.Height = -11
-                Font.Name = 'Arial'
-                Font.Style = [fsBold]
-                ParentFont = False
-              end
-              object RLDBText22: TRLDBText
-                Left = 213
-                Top = 61
-                Width = 115
-                Height = 14
-                DataField = 'ESTIMATE_COMMENTS'
-                DataSource = dsHeader
-                Font.Charset = DEFAULT_CHARSET
-                Font.Color = clBlack
-                Font.Height = -11
-                Font.Name = 'Arial'
-                Font.Style = []
-                ParentFont = False
-                Text = ''
-              end
-              object RLLabel21: TRLLabel
-                Left = 128
-                Top = 91
-                Width = 68
-                Height = 14
-                Caption = 'P.O Number'
-                Font.Charset = DEFAULT_CHARSET
-                Font.Color = clBlack
-                Font.Height = -11
-                Font.Name = 'Arial'
-                Font.Style = [fsBold]
-                ParentFont = False
-              end
-              object RLLabel22: TRLLabel
-                Left = 224
-                Top = 91
-                Width = 71
-                Height = 14
-                Caption = 'Pick-up Date'
-                Font.Charset = DEFAULT_CHARSET
-                Font.Color = clBlack
-                Font.Height = -11
-                Font.Name = 'Arial'
-                Font.Style = [fsBold]
-                ParentFont = False
-              end
-              object RLLabel23: TRLLabel
-                Left = 304
-                Top = 91
-                Width = 64
-                Height = 14
-                Caption = 'Pick-up Via'
-                Font.Charset = DEFAULT_CHARSET
-                Font.Color = clBlack
-                Font.Height = -11
-                Font.Name = 'Arial'
-                Font.Style = [fsBold]
-                ParentFont = False
-              end
-              object RLLabel24: TRLLabel
-                Left = 391
-                Top = 91
-                Width = 61
-                Height = 14
-                Caption = 'F.O.B Point'
-                Font.Charset = DEFAULT_CHARSET
-                Font.Color = clBlack
-                Font.Height = -11
-                Font.Name = 'Arial'
-                Font.Style = [fsBold]
-                ParentFont = False
-              end
-              object RLDBText23: TRLDBText
-                Left = 128
-                Top = 110
-                Width = 91
-                Height = 10
-                DataField = 'ESTIMATE_PONUMBER'
-                DataSource = dsHeader
-                Font.Charset = DEFAULT_CHARSET
-                Font.Color = clBlack
-                Font.Height = -8
-                Font.Name = 'Arial'
-                Font.Style = []
-                ParentFont = False
-                Text = ''
-              end
-              object RLDBText26: TRLDBText
-                Left = 14
-                Top = 75
-                Width = 62
-                Height = 14
-                DataField = 'ITEM_ROOM'
-                DataSource = dsHeader
-                Font.Charset = DEFAULT_CHARSET
-                Font.Color = clBlack
-                Font.Height = -11
-                Font.Name = 'Arial'
-                Font.Style = []
-                ParentFont = False
-                Text = ''
-              end
-              object RLDBText35: TRLDBText
-                Left = 560
-                Top = 44
-                Width = 78
-                Height = 14
-                DataField = 'CUSTOMER_ST'
-                DataSource = dsHeader
-                Font.Charset = DEFAULT_CHARSET
-                Font.Color = clBlack
-                Font.Height = -11
-                Font.Name = 'Arial'
-                Font.Style = []
-                ParentFont = False
-                Text = ''
-              end
-              object RLDBText36: TRLDBText
-                Left = 144
-                Top = 44
-                Width = 74
-                Height = 14
-                DataField = 'COMPANY_ST'
-                DataSource = dsHeader
-                Font.Charset = DEFAULT_CHARSET
-                Font.Color = clBlack
-                Font.Height = -11
-                Font.Name = 'Arial'
-                Font.Style = []
-                ParentFont = False
-                Text = ''
-              end
-              object RLDBText44: TRLDBText
-                Left = 424
-                Top = 60
-                Width = 95
-                Height = 14
-                DataField = 'CUSTOMER_EMAIL'
-                DataSource = dsHeader
-                Font.Charset = DEFAULT_CHARSET
-                Font.Color = clBlack
-                Font.Height = -11
-                Font.Name = 'Arial'
-                Font.Style = []
-                ParentFont = False
-                Text = ''
+                object RLDBText13: TRLDBText
+                  Left = 120
+                  Top = 1
+                  Width = 114
+                  Height = 14
+                  DataField = 'ITEM_PRODUCT_NAME'
+                  DataSource = dsHeader
+                  Font.Charset = DEFAULT_CHARSET
+                  Font.Color = clBlack
+                  Font.Height = -11
+                  Font.Name = 'Arial'
+                  Font.Style = []
+                  ParentFont = False
+                  Text = ''
+                end
+                object RLDBText14: TRLDBText
+                  Left = 13
+                  Top = 4
+                  Width = 94
+                  Height = 14
+                  Alignment = taRightJustify
+                  DataField = 'ITEM_TOTALAREA'
+                  DataSource = dsHeader
+                  Font.Charset = DEFAULT_CHARSET
+                  Font.Color = clBlack
+                  Font.Height = -11
+                  Font.Name = 'Arial'
+                  Font.Style = []
+                  ParentFont = False
+                  Text = ''
+                end
+                object RLDBText15: TRLDBText
+                  Left = 474
+                  Top = 0
+                  Width = 58
+                  Height = 14
+                  Alignment = taRightJustify
+                  DataField = 'ITEM_RATE'
+                  DataSource = dsHeader
+                  Font.Charset = DEFAULT_CHARSET
+                  Font.Color = clBlack
+                  Font.Height = -11
+                  Font.Name = 'Arial'
+                  Font.Style = []
+                  ParentFont = False
+                  Text = ''
+                end
+                object RLDBText17: TRLDBText
+                  Left = 557
+                  Top = 1
+                  Width = 79
+                  Height = 14
+                  Alignment = taRightJustify
+                  DataField = 'ITEM_TAXABLE'
+                  DataSource = dsHeader
+                  Font.Charset = DEFAULT_CHARSET
+                  Font.Color = clBlack
+                  Font.Height = -11
+                  Font.Name = 'Arial'
+                  Font.Style = []
+                  ParentFont = False
+                  Text = ''
+                end
+                object RLDBText18: TRLDBText
+                  Left = 647
+                  Top = 1
+                  Width = 68
+                  Height = 14
+                  Alignment = taRightJustify
+                  DataField = 'ITEM_AMOUT'
+                  DataSource = dsHeader
+                  Font.Charset = DEFAULT_CHARSET
+                  Font.Color = clBlack
+                  Font.Height = -11
+                  Font.Name = 'Arial'
+                  Font.Style = []
+                  ParentFont = False
+                  Text = ''
+                end
               end
             end
             object RLBand5: TRLBand
               Left = 0
-              Top = 181
+              Top = 57
               Width = 718
-              Height = 106
+              Height = 111
               BandType = btSummary
+              Borders.Sides = sdCustom
+              Borders.DrawLeft = False
+              Borders.DrawTop = False
+              Borders.DrawRight = False
+              Borders.DrawBottom = True
               Font.Charset = DEFAULT_CHARSET
               Font.Color = clBlack
               Font.Height = -13
@@ -4625,336 +4760,149 @@ object frmEstimate: TfrmEstimate
                 Text = ''
               end
             end
-            object RLBand6: TRLBand
-              Left = 0
-              Top = 164
-              Width = 718
-              Height = 17
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clBlack
-              Font.Height = -13
-              Font.Name = 'Arial'
-              Font.Style = []
-              ParentFont = False
-              object RLDBText12: TRLDBText
-                Left = 16
-                Top = 1
-                Width = 68
-                Height = 14
-                DataField = 'ITEM_ID_ITEM'
-                DataSource = dsHeader
-                Font.Charset = DEFAULT_CHARSET
-                Font.Color = clBlack
-                Font.Height = -11
-                Font.Name = 'Arial'
-                Font.Style = []
-                ParentFont = False
-                Text = ''
-              end
-              object RLDBText13: TRLDBText
-                Left = 56
-                Top = 1
-                Width = 114
-                Height = 14
-                DataField = 'ITEM_PRODUCT_NAME'
-                DataSource = dsHeader
-                Font.Charset = DEFAULT_CHARSET
-                Font.Color = clBlack
-                Font.Height = -11
-                Font.Name = 'Arial'
-                Font.Style = []
-                ParentFont = False
-                Text = ''
-              end
-              object RLDBText14: TRLDBText
-                Left = 262
-                Top = 1
-                Width = 94
-                Height = 14
-                Alignment = taRightJustify
-                DataField = 'ITEM_TOTALAREA'
-                DataSource = dsHeader
-                Font.Charset = DEFAULT_CHARSET
-                Font.Color = clBlack
-                Font.Height = -11
-                Font.Name = 'Arial'
-                Font.Style = []
-                ParentFont = False
-                Text = ''
-              end
-              object RLDBText15: TRLDBText
-                Left = 366
-                Top = 1
-                Width = 58
-                Height = 14
-                Alignment = taRightJustify
-                DataField = 'ITEM_RATE'
-                DataSource = dsHeader
-                Font.Charset = DEFAULT_CHARSET
-                Font.Color = clBlack
-                Font.Height = -11
-                Font.Name = 'Arial'
-                Font.Style = []
-                ParentFont = False
-                Text = ''
-              end
-              object RLDBText16: TRLDBText
-                Left = 471
-                Top = 1
-                Width = 68
-                Height = 14
-                Alignment = taRightJustify
-                DataField = 'ITEM_AMOUT'
-                DataSource = dsHeader
-                Font.Charset = DEFAULT_CHARSET
-                Font.Color = clBlack
-                Font.Height = -11
-                Font.Name = 'Arial'
-                Font.Style = []
-                ParentFont = False
-                Text = ''
-              end
-              object RLDBText17: TRLDBText
-                Left = 557
-                Top = 1
-                Width = 79
-                Height = 14
-                Alignment = taRightJustify
-                DataField = 'ITEM_TAXABLE'
-                DataSource = dsHeader
-                Font.Charset = DEFAULT_CHARSET
-                Font.Color = clBlack
-                Font.Height = -11
-                Font.Name = 'Arial'
-                Font.Style = []
-                ParentFont = False
-                Text = ''
-              end
-              object RLDBText18: TRLDBText
-                Left = 647
-                Top = 1
-                Width = 68
-                Height = 14
-                Alignment = taRightJustify
-                DataField = 'ITEM_AMOUT'
-                DataSource = dsHeader
-                Font.Charset = DEFAULT_CHARSET
-                Font.Color = clBlack
-                Font.Height = -11
-                Font.Name = 'Arial'
-                Font.Style = []
-                ParentFont = False
-                Text = ''
-              end
-            end
           end
-          object RLBand1: TRLBand
+          object RLSubDetail1: TRLSubDetail
             Left = 38
-            Top = 499
+            Top = 433
             Width = 718
-            Height = 72
-            BandType = btFooter
+            Height = 64
+            Borders.Sides = sdCustom
+            Borders.DrawLeft = False
+            Borders.DrawTop = True
+            Borders.DrawRight = False
+            Borders.DrawBottom = False
+            DataSource = dsParcelas
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
             Font.Height = -13
             Font.Name = 'Arial'
             Font.Style = []
             ParentFont = False
-            object RLSystemInfo1: TRLSystemInfo
-              Left = 44
-              Top = 6
-              Width = 39
-              Height = 16
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clBlack
-              Font.Height = -13
-              Font.Name = 'Arial'
-              Font.Style = []
-              ParentFont = False
-              Text = ''
-            end
-            object RLLabel25: TRLLabel
-              Left = 3
-              Top = 6
-              Width = 33
-              Height = 16
-              Caption = 'Date'
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clBlack
-              Font.Height = -13
-              Font.Name = 'Arial'
-              Font.Style = [fsBold]
-              ParentFont = False
-            end
-          end
-          object RLSubDetail1: TRLSubDetail
-            Left = 38
-            Top = 435
-            Width = 718
-            Height = 64
-            DataSource = dsParcelas
-            object RLGroup2: TRLGroup
+            object RLBand7: TRLBand
               Left = 0
-              Top = 0
+              Top = 1
               Width = 718
-              Height = 65
+              Height = 17
+              BandType = btHeader
               Font.Charset = DEFAULT_CHARSET
               Font.Color = clBlack
               Font.Height = -13
               Font.Name = 'Arial'
               Font.Style = []
               ParentFont = False
-              object RLBand7: TRLBand
-                Left = 0
+              object RLLabel16: TRLLabel
+                Left = 3
+                Top = 3
+                Width = 43
+                Height = 16
+                Caption = 'Terms'
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clBlack
+                Font.Height = -13
+                Font.Name = 'Arial'
+                Font.Style = [fsBold]
+                ParentFont = False
+              end
+              object RLLabel18: TRLLabel
+                Left = 89
+                Top = 3
+                Width = 53
+                Height = 16
+                Caption = 'Amount'
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clBlack
+                Font.Height = -13
+                Font.Name = 'Arial'
+                Font.Style = [fsBold]
+                ParentFont = False
+              end
+            end
+            object RLBand8: TRLBand
+              Left = 0
+              Top = 18
+              Width = 718
+              Height = 15
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clBlack
+              Font.Height = -13
+              Font.Name = 'Arial'
+              Font.Style = []
+              ParentFont = False
+              object RLDBText19: TRLDBText
+                Left = 104
                 Top = 0
-                Width = 718
-                Height = 22
-                BandType = btHeader
+                Width = 38
+                Height = 14
+                Alignment = taRightJustify
+                DataField = 'VALUE'
+                DataSource = dsParcelas
                 Font.Charset = DEFAULT_CHARSET
                 Font.Color = clBlack
-                Font.Height = -13
+                Font.Height = -11
                 Font.Name = 'Arial'
                 Font.Style = []
                 ParentFont = False
-                object RLLabel16: TRLLabel
-                  Left = 3
-                  Top = 3
-                  Width = 43
-                  Height = 16
-                  Caption = 'Terms'
-                  Font.Charset = DEFAULT_CHARSET
-                  Font.Color = clBlack
-                  Font.Height = -13
-                  Font.Name = 'Arial'
-                  Font.Style = [fsBold]
-                  ParentFont = False
-                end
-                object RLLabel17: TRLLabel
-                  Left = 186
-                  Top = 3
-                  Width = 62
-                  Height = 16
-                  Caption = 'Due Date'
-                  Font.Charset = DEFAULT_CHARSET
-                  Font.Color = clBlack
-                  Font.Height = -13
-                  Font.Name = 'Arial'
-                  Font.Style = [fsBold]
-                  ParentFont = False
-                end
-                object RLLabel18: TRLLabel
-                  Left = 89
-                  Top = 3
-                  Width = 53
-                  Height = 16
-                  Caption = 'Amount'
-                  Font.Charset = DEFAULT_CHARSET
-                  Font.Color = clBlack
-                  Font.Height = -13
-                  Font.Name = 'Arial'
-                  Font.Style = [fsBold]
-                  ParentFont = False
-                end
-                object RLDBText45: TRLDBText
-                  Left = 279
-                  Top = 6
-                  Width = 68
-                  Height = 14
-                  DataField = 'DESCRIPTION'
-                  DataSource = dsParcelas
-                  Font.Charset = DEFAULT_CHARSET
-                  Font.Color = clBlack
-                  Font.Height = -11
-                  Font.Name = 'Arial'
-                  Font.Style = []
-                  ParentFont = False
-                  Text = ''
-                end
+                Text = ''
               end
-              object RLBand8: TRLBand
-                Left = 0
-                Top = 22
-                Width = 718
-                Height = 15
+              object RLDBText45: TRLDBText
+                Left = 172
+                Top = 0
+                Width = 68
+                Height = 14
+                DataField = 'DESCRIPTION'
+                DataSource = dsParcelas
                 Font.Charset = DEFAULT_CHARSET
                 Font.Color = clBlack
-                Font.Height = -13
+                Font.Height = -11
                 Font.Name = 'Arial'
                 Font.Style = []
                 ParentFont = False
-                object RLDBText19: TRLDBText
-                  Left = 104
-                  Top = 0
-                  Width = 38
-                  Height = 14
-                  Alignment = taRightJustify
-                  DataField = 'VALUE'
-                  DataSource = dsParcelas
-                  Font.Charset = DEFAULT_CHARSET
-                  Font.Color = clBlack
-                  Font.Height = -11
-                  Font.Name = 'Arial'
-                  Font.Style = []
-                  ParentFont = False
-                  Text = ''
-                end
-                object RLDBText20: TRLDBText
-                  Left = 192
-                  Top = 0
-                  Width = 56
-                  Height = 14
-                  Alignment = taRightJustify
-                  DataField = 'DATE_DUE'
-                  DataSource = dsParcelas
-                  Font.Charset = DEFAULT_CHARSET
-                  Font.Color = clBlack
-                  Font.Height = -11
-                  Font.Name = 'Arial'
-                  Font.Style = []
-                  ParentFont = False
-                  Text = ''
-                end
+                Text = ''
               end
-              object RLBand9: TRLBand
-                Left = 0
-                Top = 37
-                Width = 718
-                Height = 18
-                BandType = btSummary
+            end
+            object RLBand9: TRLBand
+              Left = 0
+              Top = 33
+              Width = 718
+              Height = 18
+              BandType = btSummary
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clBlack
+              Font.Height = -13
+              Font.Name = 'Arial'
+              Font.Style = []
+              ParentFont = False
+              object RLDBResult6: TRLDBResult
+                Left = 67
+                Top = 3
+                Width = 75
+                Height = 14
+                Alignment = taRightJustify
+                DataField = 'VALUE'
+                DataSource = dsParcelas
+                DisplayMask = '0.00'
                 Font.Charset = DEFAULT_CHARSET
                 Font.Color = clBlack
-                Font.Height = -13
+                Font.Height = -11
                 Font.Name = 'Arial'
-                Font.Style = []
+                Font.Style = [fsBold]
+                Info = riSum
                 ParentFont = False
-                object RLDBResult6: TRLDBResult
-                  Left = 67
-                  Top = 3
-                  Width = 75
-                  Height = 14
-                  Alignment = taRightJustify
-                  DataField = 'VALUE'
-                  DataSource = dsParcelas
-                  DisplayMask = '0.00'
-                  Font.Charset = DEFAULT_CHARSET
-                  Font.Color = clBlack
-                  Font.Height = -11
-                  Font.Name = 'Arial'
-                  Font.Style = [fsBold]
-                  Info = riSum
-                  ParentFont = False
-                  Text = ''
-                end
+                Text = ''
               end
             end
           end
         end
       end
+    end
+    object cxTabSheet1: TcxTabSheet
+      Caption = 'cxTabSheet1'
+      ImageIndex = 2
       object pnlRelService: TPanel
-        Left = -16
-        Top = 15
-        Width = 888
-        Height = 745
+        Left = 3
+        Top = 13
+        Width = 800
+        Height = 616
         Caption = 'Service'
         Color = 16744448
         Font.Charset = DEFAULT_CHARSET
@@ -4964,7 +4912,7 @@ object frmEstimate: TfrmEstimate
         Font.Style = []
         ParentBackground = False
         ParentFont = False
-        TabOrder = 1
+        TabOrder = 0
         Visible = False
         object ReportService: TRLReport
           Tag = 1
@@ -5579,8 +5527,8 @@ object frmEstimate: TfrmEstimate
     Connection = DBDados.FDConnection
     UpdateOptions.UpdateTableName = 'TBCOMPANY'
     TableName = 'TBCOMPANY'
-    Left = 511
-    Top = 597
+    Left = 1031
+    Top = 581
     object TBCOMPANYID_COMPANY: TIntegerField
       FieldName = 'ID_COMPANY'
       Origin = 'ID_COMPANY'
@@ -5663,23 +5611,33 @@ object frmEstimate: TfrmEstimate
       Precision = 15
       Size = 2
     end
+    object TBCOMPANYIMAGEM: TBlobField
+      FieldName = 'IMAGEM'
+      Origin = 'IMAGEM'
+      Size = 2147483647
+    end
+    object TBCOMPANYCOUNTY: TStringField
+      FieldName = 'COUNTY'
+      Origin = 'COUNTY'
+      Size = 50
+    end
   end
   object DsCompany: TDataSource
     DataSet = TBCOMPANY
-    Left = 503
-    Top = 555
+    Left = 527
+    Top = 587
   end
   object DSPPRICELIST: TDataSource
     DataSet = STPPRICELIST
-    Left = 717
-    Top = 414
+    Left = 917
+    Top = 302
   end
   object STPPRICELIST: TFDStoredProc
     Connection = DBDados.FDConnection
     SchemaName = 'dbo'
     StoredProcName = 'FLOORDB.dbo.SP_VENDOR_PRICINGTABLE'
-    Left = 757
-    Top = 366
+    Left = 1037
+    Top = 326
     ParamData = <
       item
         Position = 1
@@ -5739,8 +5697,8 @@ object frmEstimate: TfrmEstimate
       'where A.TABLENAME = :TABLENAME '
       '&WHERE1'
       '&WHERE2')
-    Left = 588
-    Top = 600
+    Left = 676
+    Top = 664
     ParamData = <
       item
         Name = 'TABLENAME'
@@ -5910,8 +5868,8 @@ object frmEstimate: TfrmEstimate
   end
   object dsProcess: TDataSource
     DataSet = sqlProcess
-    Left = 580
-    Top = 552
+    Left = 692
+    Top = 608
   end
   object sqlProcessItem: TFDQuery
     Connection = DBDados.FDConnection
@@ -6125,7 +6083,7 @@ object frmEstimate: TfrmEstimate
     Connection = DBDados.FDConnection
     UpdateOptions.UpdateTableName = 'FLOORDB.dbo.TBMISCELLANEOUS'
     TableName = 'FLOORDB.dbo.TBMISCELLANEOUS'
-    Left = 449
+    Left = 457
     Top = 603
     object TBRoomID_MISCELLANEOUS: TFDAutoIncField
       FieldName = 'ID_MISCELLANEOUS'
@@ -6157,8 +6115,8 @@ object frmEstimate: TfrmEstimate
   end
   object DsRoom: TDataSource
     DataSet = TBRoom
-    Left = 441
-    Top = 555
+    Left = 465
+    Top = 659
   end
   object sqlTerms: TFDQuery
     AfterDelete = sqlTermsAfterDelete
@@ -6166,8 +6124,8 @@ object frmEstimate: TfrmEstimate
     SQL.Strings = (
       'select * from TBTERMS'
       'where tablename = :tablename and ID_PROCESS = :ID_PROCESS')
-    Left = 605
-    Top = 451
+    Left = 1005
+    Top = 619
     ParamData = <
       item
         Name = 'TABLENAME'
@@ -6234,16 +6192,16 @@ object frmEstimate: TfrmEstimate
   end
   object dsTerms: TDataSource
     DataSet = sqlTerms
-    Left = 653
-    Top = 411
+    Left = 965
+    Top = 635
   end
   object sqlParcelas: TFDQuery
     Connection = DBDados.FDConnection
     SQL.Strings = (
       'SELECT * FROM TBTERMS'
       'WHERE TABLENAME = :TABLENAME AND ID_PROCESS = :ID_PROCESS')
-    Left = 232
-    Top = 592
+    Left = 112
+    Top = 664
     ParamData = <
       item
         Name = 'TABLENAME'
@@ -6312,8 +6270,8 @@ object frmEstimate: TfrmEstimate
   end
   object dsParcelas: TDataSource
     DataSet = sqlParcelas
-    Left = 232
-    Top = 544
+    Left = 168
+    Top = 664
   end
   object sqlHeader: TFDQuery
     AutoCalcFields = False
@@ -6328,38 +6286,39 @@ object frmEstimate: TfrmEstimate
       #9'   H.SUBTOTAL AS ESTIMATE_SUBTOTAL,'
       #9'   H.DISCOUNT as ESTIMATE_DISCOUNT, '
       #9'   H.PONUMBER AS ESTIMATE_PONUMBER,  '
-      '           H.DT_SHIPPING AS ESTIMATE_SHIPPING,     '
+      '       H.DT_SHIPPING AS ESTIMATE_SHIPPING,     '
       #9'   H.CUSTOMER_NAME, '
       #9'   H.CUSTOMER_PHONE,'
       #9'   H.CUSTOMER_EMAIL,'
-      '           H.COMMENTS as ESTIMATE_COMMENTS,'
+      '       H.COMMENTS as ESTIMATE_COMMENTS,'
       #9'   H.ADDRESS1 AS CUSTOMER_ADDRESS,'
       #9'   H.ZIPCODE AS CUSTOMER_ZIPCODE,'
       #9'   H.CITY AS CUSTOMER_CITY,'
       #9'   H.ST AS CUSTOMER_ST,'
-      '           H.COUNTY AS CUSTOMER_COUNTY,'
+      '       H.COUNTY AS CUSTOMER_COUNTY,'
       #9'   H.PONUMBER AS CUSTOMER_PHNE,'
-      #9'   C.COMPANYNAME AS COMPANY_NAME,'
+      '       C.ID_COMPANY AS COMPANY_ID,'
+      '  '#9'   C.COMPANYNAME AS COMPANY_NAME,'
       #9'   C.ADDRESS1 AS COMPANY_ADRRESS,'
       #9'   C.CITY AS COMPANY_CITY,'
       #9'   C.PHONENUMBER AS COMPANY_PHONENUMBER,'
       #9'   C.EMAIL AS COMPANY_EMAIL,'
       #9'   C.ZIPCODE AS COMPANY_ZIPCODE,'
       #9'   C.ST AS COMPANY_ST,'
-      '           C.COUNTY AS COMPANY_COUNTY,'
+      '       C.COUNTY AS COMPANY_COUNTY,'
       #9'   CT.NAME AS VENDOR_NAME, '
       #9'   CT.EMAIL AS VENDOR_EMAIL, '
       #9'   CT.PHONE AS VENDOR_PHONE,'
       #9'   I.ID_PROCESS_ITEM AS ITEM_ID_ITEM,'#9'  '
       
-        '           P.PRODUCT_STYLE + '#39' '#39' +  P.PRODUCT_STYLE_NAME  + '#39' '#39' ' +
-        '+   P.COLOR  + '#39' '#39' +  P.COLOR_NAME AS ITEM_PRODUCT_NAME, '
-      '           I.QTY AS ITEM_QTY, '
+        '       P.PRODUCT_STYLE + '#39' '#39' +  P.PRODUCT_STYLE_NAME  + '#39' '#39' +   ' +
+        'P.COLOR  + '#39' '#39' +  P.COLOR_NAME AS ITEM_PRODUCT_NAME, '
+      '       I.QTY AS ITEM_QTY, '
       #9'   I.RATE AS ITEM_RATE, '
       #9'   I.AMOUT AS ITEM_AMOUT, '
-      '           I.WIDTH AS ITEM_WIDTH,'
-      '           I.HEIGHT AS ITEM_HEIGHT,'
-      '           I.TOTALAREA AS ITEM_TOTALAREA,'
+      '       I.WIDTH AS ITEM_WIDTH,'
+      '       I.HEIGHT AS ITEM_HEIGHT,'
+      '       I.TOTALAREA AS ITEM_TOTALAREA,'
       #9'   TP.DESCRIPTION AS ITEM_MATERIAL, '
       #9'   P.TAXBLE AS ITEM_TAXABLE, '
       #9'   P.STYLE AS ITEM_STYLE, '
@@ -6417,6 +6376,7 @@ object frmEstimate: TfrmEstimate
       #9'   H.ST AS CUSTOMER_ST,'
       '           H.COUNTY AS CUSTOMER_COUNTY,'
       #9'   H.PONUMBER AS CUSTOMER_PHNE,'
+      '           C.ID_COMPANY AS COMPANY_ID,'
       #9'   C.COMPANYNAME AS COMPANY_NAME,'
       #9'   C.ADDRESS1 AS COMPANY_ADRRESS,'
       #9'   C.CITY AS COMPANY_CITY,'
@@ -6428,43 +6388,36 @@ object frmEstimate: TfrmEstimate
       #9'   CT.NAME AS VENDOR_NAME, '
       #9'   CT.EMAIL AS VENDOR_EMAIL, '
       #9'   CT.PHONE AS VENDOR_PHONE,'
-      #9'   I.ID_PROCESS_ITEM AS ITEM_ID_ITEM,'#9'  '
-      '           P.PRODUCT_NAME AS ITEM_PRODUCT_NAME,  '
-      '           I.QTY AS ITEM_QTY, '
+      #9' '
+      #9'   I.ID_SERVICE_ITEM AS ITEM_ID_ITEM,'#9'  '
+      '       I.DESC_PRODUCT AS ITEM_PRODUCT_NAME,  '
+      '       I.QTY AS ITEM_QTY, '
       #9'   I.RATE AS ITEM_RATE, '
       #9'   I.AMOUT AS ITEM_AMOUT, '
-      '           I.WIDTH AS ITEM_WIDTH,'
-      '           I.HEIGHT AS ITEM_HEIGHT,'
-      '           I.TOTALAREA AS ITEM_TOTALAREA,'
-      #9'   TP.DESCRIPTION AS ITEM_MATERIAL, '
-      #9'   P.TAXBLE AS ITEM_TAXABLE, '
-      #9'   P.STYLE AS ITEM_STYLE, '
+      '       I.WIDTH AS ITEM_WIDTH,'
+      '       I.HEIGHT AS ITEM_HEIGHT,'
+      '       I.TOTALAREA AS ITEM_TOTALAREA,'
+      #9'   '#39#39' AS ITEM_MATERIAL, '
+      #9'   '#39'N'#39' AS ITEM_TAXABLE, '
+      #9'   '#39'N'#39' AS ITEM_STYLE, '
       #9'   I.ROOM AS ITEM_ROOM,'
-      '           I.REQ_PURCHASE_ORDER,'
-      '           P.TYPEOFPRODUCT,'
-      #9'   T.DESCRIPTION AS ITEM_CATEGORY,'
-      '           S.ID_SERVICE AS SERVICE_ID,'
-      '           S.ID_CONTRACTORS AS SERVICE_CONTRACTOR_ID,'
-      '           S.DT_SERVICE AS SERVICE_DT_SERVICE,'
-      '           S.SIDEMARK AS SERVICE_SIDEMARK,'
-      '           S.ADD_DATE AS SERVICE_START_DATE,'
-      #9'   IR.NAME AS INSTALLER_NAME'
-      'FROM TBPROCESS_ITEM I'
+      '       '#39'N'#39' AS REQ_PURCHASE_ORDER,'
+      '       '#39'SERVICE'#39' AS TYPEOFPRODUCT,'
+      #9'   '#39'A'#39' AS ITEM_CATEGORY,'
+      '      S.ID_SERVICE AS SERVICE_ID,'
+      '      S.ID_CONTRACTORS AS SERVICE_CONTRACTOR_ID,'
+      '      S.DT_SERVICE AS SERVICE_DT_SERVICE,'
+      '      S.SIDEMARK AS SERVICE_SIDEMARK,'
+      '      S.ADD_DATE AS SERVICE_START_DATE,'
+      #9'  IR.NAME AS INSTALLER_NAME'
+      'FROM TBSERVICE_ITEM I'
       
         'inner join TBPROCESS H on H.ID_PROCESS = i.ID_PROCESS  AND I.TAB' +
         'LENAME =  :TABLENAME + '#39'_ITEM'#39
       'INNER JOIN TBCOMPANY C ON C.ID_COMPANY = H.ID_COMPANY'
       
-        'INNER JOIN TBPRODUCT P ON P.ID_PRODUCT = I.ID_PRODUCT AND P.TYPE' +
-        'OFPRODUCT = '#39'SERVICE'#39
-      'INNER JOIN TBTYPEBRAND TP ON TP.ID_TYPEBRAND = P.ID_TYPE'
-      
         'INNER JOIN TBCONTRACTORS CT ON CT.ID_CONTRACTORS = H.ID_CONTRACT' +
         'ORS'
-      
-        'LEFT OUTER JOIN TBTYPEBRAND T ON T.ID_TYPEBRAND = P.ID_TYPE AND ' +
-        'T.CATEGORY = '#39'PRODUCT TYPE'#39
-      ''
       
         'LEFT OUTER JOIN TBSERVICE S ON S.ID_PROCESS = H.ID_PROCESS AND H' +
         '.TABLENAME = '#39'TBORDER'#39
@@ -6472,11 +6425,9 @@ object frmEstimate: TfrmEstimate
         'LEFT OUTER JOIN TBCONTRACTORS IR ON IR.ID_CONTRACTORS = S.ID_CON' +
         'TRACTORS AND IR.id_position = 4'
       'WHERE H.TABLENAME = :TABLENAME AND H.ID_PROCESS = :ID_PROCESS'
-      ''
-      'ORDER BY P.TYPEOFPRODUCT, H.ID_PROCESS, I.ID_PROCESS_ITEM'
-      '')
-    Left = 296
-    Top = 600
+      'ORDER BY P.TYPEOFPRODUCT, H.ID_PROCESS, I.ID_PROCESS_ITEM')
+    Left = 240
+    Top = 664
     ParamData = <
       item
         Name = 'TABLENAME'
@@ -6631,12 +6582,17 @@ object frmEstimate: TfrmEstimate
     object sqlHeaderITEM_RATE: TBCDField
       FieldName = 'ITEM_RATE'
       Origin = 'ITEM_RATE'
+      DisplayFormat = '0.00'
+      EditFormat = '0.00'
       Precision = 15
       Size = 2
     end
     object sqlHeaderITEM_AMOUT: TBCDField
       FieldName = 'ITEM_AMOUT'
       Origin = 'ITEM_AMOUT'
+      DisplayFormat = '0.00'
+      EditFormat = '0.00'
+      currency = True
       Precision = 15
       Size = 2
     end
@@ -6762,11 +6718,17 @@ object frmEstimate: TfrmEstimate
       ReadOnly = True
       Size = 50
     end
+    object sqlHeaderCOMPANY_ID: TIntegerField
+      FieldName = 'COMPANY_ID'
+      Origin = 'COMPANY_ID'
+      ReadOnly = True
+      Required = True
+    end
   end
   object dsHeader: TDataSource
     DataSet = sqlHeader
-    Left = 304
-    Top = 560
+    Left = 272
+    Top = 576
   end
   object RLHTMLFilter1: TRLHTMLFilter
     DocumentStyle = dsCSS2
@@ -6779,14 +6741,14 @@ object frmEstimate: TfrmEstimate
       'FortesReport Community Edition v4.0.0.1 \251 Copyright '#169' 1999-20' +
       '21 Fortes Inform'#225'tica'
     DisplayName = 'PDF Document'
-    Left = 931
-    Top = 449
+    Left = 915
+    Top = 625
   end
   object RLPreviewSetup1: TRLPreviewSetup
     Tag = -1
     OnSend = RLPreviewSetup1Send
-    Left = 838
-    Top = 464
+    Left = 870
+    Top = 616
   end
   object cxStyleRepository: TcxStyleRepository
     Left = 1064
@@ -6822,8 +6784,8 @@ object frmEstimate: TfrmEstimate
     Connection = DBDados.FDConnection
     SQL.Strings = (
       'select * from tbimage where id_product = :id_product')
-    Left = 807
-    Top = 413
+    Left = 975
+    Top = 317
     ParamData = <
       item
         Name = 'ID_PRODUCT'
@@ -6859,8 +6821,8 @@ object frmEstimate: TfrmEstimate
         'SELECT ID_CONTRACTORS, NAME, PHONE, EMAIL FROM [dbo].[TBCONTRACT' +
         'ORS]'
       'WHERE id_position = 4')
-    Left = 384
-    Top = 600
+    Left = 496
+    Top = 648
     object sqlWorkerID_CONTRACTORS: TIntegerField
       FieldName = 'ID_CONTRACTORS'
       Origin = 'ID_CONTRACTORS'
@@ -6885,8 +6847,8 @@ object frmEstimate: TfrmEstimate
   end
   object dsWorker: TDataSource
     DataSet = sqlWorker
-    Left = 384
-    Top = 560
+    Left = 424
+    Top = 672
   end
   object sqlService: TFDQuery
     Connection = DBDados.FDConnection
@@ -6912,8 +6874,8 @@ object frmEstimate: TfrmEstimate
       'INNER JOIN TBUSER D ON D.ID_USER = A.ID_USER'
       'LEFT OUTER JOIN TBADDRESS E ON E.ID_CUSTOMER = C.ID_CUSTOMER'
       'WHERE A.ID_CONTRACTORS = :ID_CONTRACTORS ')
-    Left = 144
-    Top = 600
+    Left = 24
+    Top = 672
     ParamData = <
       item
         Name = 'ID_CONTRACTORS'
@@ -7038,8 +7000,8 @@ object frmEstimate: TfrmEstimate
   end
   object dsService: TDataSource
     DataSet = sqlService
-    Left = 136
-    Top = 544
+    Left = 8
+    Top = 624
   end
   object cxEditRepository1: TcxEditRepository
     Left = 1032
@@ -7079,7 +7041,7 @@ object frmEstimate: TfrmEstimate
   object cxSmallImages: TcxImageList
     BkColor = 4227327
     FormatVersion = 1
-    DesignInfo = 39322850
+    DesignInfo = 35652858
     ImageInfo = <
       item
         Image.Data = {
@@ -9495,6 +9457,86 @@ object frmEstimate: TfrmEstimate
           3848000000010000000000000000000000000000000000000000000000000000
           00010B11192035557E974F7FBCE15990D5FF4F7EBBE23556809B0A1119200000
           0001000000000000000000000000000000000000000000000000}
+      end
+      item
+        Image.Data = {
+          36040000424D3604000000000000360000002800000010000000100000000100
+          2000000000000004000000000000000000000000000000000000D2DEFEFFD2DE
+          FEFFD2DFFFFFD2DDFCFFD5DCF3FFD8DFF6FFD8E2FEFFC8C3C6FFB1946FFFC6BE
+          BAFFD2C0ABFFD7BD9CFFC8B296FFC0AC92FFC2AE93FFC2AD93FFD2DEFDFFD2DE
+          FDFFD3E0FFFFD2DCF8FFB8A999FFBDA58AFFC8AE92FFBBA58CFFB89A74FFB1A0
+          92FFA89E9CFF7B746DFFA5998AFFCAB398FFC5B199FFC5B197FFC2B19EFFC5B5
+          A2FFC6B5A3FFCFBCA6FF968E84FF1D3D62FF244561FF99A3C5FFB4ACBCFFA3B1
+          F0FF225AA7FF0C3056FFBCA387FFCBB395FFC3AF96FFC5B197FFC0AA8DFFC0A9
+          8BFFC3AD90FFCCAE8BFFB4B0A4FF138FFAFF118EFAFF90AAF8FF529AF1FF679E
+          F5FF6AA2FCFF1892F5FF9AABB3FFCDB292FFC3AE92FFC8B59DFFECDDC9FFCCB9
+          A2FFC3B096FFD3B694FF9EADB4FF078EFFFF3E9BFDFFA2AEF8FF168AFAFF198C
+          F6FFAAB1F8FF519EFFFF068DFDFFBCBBB3FFD8C2A8FFD0C0ADFFFFF4E2FFE9DB
+          C9FFCBBDABFFE1C7AAFF90B2CBFF058BFDFF72A4FFFF9CACFFFF1087FAFF088C
+          F4FF6EA3F8FFA1ACFFFF3A98FFFFB4BCBBFFDCC7AEFFD0C1AEFFFBEEDCFFF3E5
+          D3FFD7C6B2FFE1C7A9FF77ACD4FF108FFFFF8CA8F1FF8AA6AEFF1B89D8FF1190
+          FEFF2B96F7FF8FA6F2FF8FA9F5FFC7C0B5FFD5C4AEFFD0C1AFFFF9EBD9FFFCEE
+          DCFFFDEDDAFFE2C7AAFF56A0E6FF188FE2FF81A727FF89A900FF3F97B0FF1291
+          FFFF2393E3FF7AA530FF81A72AFFB9B987FFD6C4B9FFD1C2B1FFF9EBD9FFFAEC
+          DAFFFDEEDCFFF3D8B9FF5FA2E0FF0187F5FF79A51EFF85AB20FF1B8FE9FF1791
+          FFFF2793E3FF7BA71BFF79A608FFB2B279FFCFB8ABFFC9B7A1FFF8E9D6FFF9EA
+          D8FFF9EBD9FFFFF0DBFFE7E4DEFFC4D7EFFFA3B93FFF54984EFF007DFFFF0084
+          FFFF0A87F3FF78A525FF7AA411FFDBD8AEFFFCE9DEFFF4E5D2FFFBF4EAFFF9EA
+          D8FFF8E9D5FFF8EAD7FFFFEED8FFFFF9E4FFD0D286FF1A8696FF4F9960FF4597
+          79FF1889D0FF73A331FF82A81CFFF4E9D2FFFFF1E4FFFBEEDCFFFFFFFFFFFEFC
+          FAFFFBF4EBFFFAEFE1FFF9EAD8FFFCEBD6FFFEEDE0FF8ABCC5FF8DAB3BFF95AF
+          10FF3D926FFF4C943BFFB2C25DFFFFF1EAFFFAECDBFFF9EBD9FFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFEFDFBFFFAF3EAFFFFF1DCFFFFF8E5FF969FDAFFA1AF
+          B0FF79B498FF80B297FFFDEBC9FFFEEEE0FFF9EBD9FFF9EBD9FFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFDFBFFA5ACD2FF7796EFFF796E
+          6EFFFCE3C9FFFFF7E9FFFCEDDFFFF8EAD7FFF9EBD9FFF9EBD9FFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFBFDFFFF2D4BDDFF132ED4FF3443
+          A0FFFFF7E7FFFFF4E1FFF9EAD8FFF9EAD7FFF9EAD7FFF9EAD7FFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF657BE6FF1421D6FF8499
+          F9FFFFFFFFFFFFFFFEFFFDFAF7FFFDF8F1FFFDF7EFFFFDF7EFFF}
+        Mask.Data = {
+          7E000000424D7E000000000000003E0000002800000010000000100000000100
+          010000000000400000000000000000000000020000000000000000000000FFFF
+          FF00000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000}
+      end
+      item
+        Image.Data = {
+          36040000424D3604000000000000360000002800000010000000100000000100
+          2000000000000004000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000010000000900000012000000120000
+          0009000000020000000000000000000000000000000000000000000000000000
+          0000000000030000000A0000000A0000000B2519156F68473BFF67443BFF1D13
+          0F700000000C0000000B0000000C000000050000000100000000000000000000
+          00030403021A543B33C738251EB30D0907454C362DC4B5A198FFAB958AFF3E29
+          23C50D080748311F1AB13A241ECE030202220000000400000000000000000000
+          00085A4138C9C7B9B0FFA8958BFF6C4F47FF715044FECABAB0FFC6B5AAFF6142
+          37FE6B5047FE9C857AFFA89388FF3B241FCB0000000B00000000000000000000
+          00074C3930ABC0AEA7FFE3DBD5FFD2C3BAFFC1AFA6FFCFC0B7FFCEBEB5FFBCAA
+          9FFFCAB9AEFFC9B8ADFF9F897FFF36221DB20000000A00000000000000010000
+          0007110C0B368D6F65FCEAE3DFFFDACDC6FFD8CCC3FFE3D9D3FFE7E0DAFFE1D6
+          D0FFD2C3B9FFCDBCB3FF705449FE0D0907410000000A00000002000000042A1E
+          1A6B4C372EBB846356FED9CEC8FFE3DAD5FFCDBEB7FF8E6F62FF947567FFD0C0
+          B9FFE3DAD3FFC8B7ADFF6A4940FF47312AC22418147100000007000000088D6D
+          60FFD8CCC7FFEEE8E5FFEBE6E0FFEAE3DDFF7F6257FF2219155E241B175E9374
+          67FFEBE4DFFFD6C8C0FFD3C6BDFFB9A59BFF78574BFF0000000D000000079373
+          64FFD9CECAFFF6F3F2FFFAF7F6FFEFEAE5FF76574DFF1D1411551E1613568869
+          5DFFEFE9E6FFDDD2CBFFD8CAC3FFC7B8B1FF7E5B4FFF0000000C000000033428
+          245F665046B5937467FEECE6E3FFF0ECE8FFCEC2BDFF856961FF886D65FFD2C7
+          C2FFECE4DFFFD9CFC9FF856458FD5A443AB92B201C6102010108000000000000
+          000316110F2EA78B7EFDF6F4F1FFF3EFECFFF2EEEAFFF3EFECFFF0EBE7FFEFEA
+          E6FFEFEBE7FFECE5E0FF83665BFD110C0B390000000600000001000000000000
+          0003685349AADCD1CBFFF8F6F3FFF8F5F3FFEBE4E1FFFDFCFBFFF3EEECFFE2D8
+          D3FFFAF9F8FFF9F7F5FFC8B9B3FF4E3931B00000000500000000000000000000
+          0002776055BDE5DDD8FFDCD0CBFFAC9183FD9E7E6EFDFBF8F8FFF5F1EEFF9979
+          6AFDA3897EFCD7CBC5FFE0D6D1FF6E564CC20000000500000000000000000000
+          00010605040D7C6458BF69544BA51713102B6F594EB2E1D7D2FFE0D6D1FF6D57
+          4DB314100E2B614D44A4775E53C7050404110000000100000000000000000000
+          0000000000000000000100000002000000023B302A5EA68676FFA58375FF3A2F
+          295F000000030000000300000003000000010000000000000000000000000000
+          0000000000000000000000000000000000000000000100000002000000030000
+          0001000000000000000000000000000000000000000000000000}
       end>
   end
   object sqlFollowup: TFDQuery
@@ -9502,8 +9544,8 @@ object frmEstimate: TfrmEstimate
     SQL.Strings = (
       'SELECT TOP 1 * FROM TBSERVICE_FOLLOWUP'
       'WHERE ID_SERVICE = :ID_SERVICE')
-    Left = 296
-    Top = 369
+    Left = 344
+    Top = 577
     ParamData = <
       item
         Name = 'ID_SERVICE'
@@ -9543,6 +9585,265 @@ object frmEstimate: TfrmEstimate
   object dsFollowup: TDataSource
     DataSet = sqlFollowup
     Left = 296
-    Top = 441
+    Top = 625
+  end
+  object ImageList1: TImageList
+    Left = 812
+    Top = 631
+    Bitmap = {
+      494C010101003000500010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      0000000000003600000028000000400000001000000001002000000000000010
+      000000000000000000000000000000000000D2DDFBFFD2DDFBFFD2DDFBFFD2DD
+      FCFFD3E0FFFFD3E0FFFFD3E0FFFFD0D5E8FFAB8D66FFD3DCF7FFC5B095FFC5B2
+      99FFC0AA8FFFC1AD92FFC1AD92FFC4AF96FF0000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000D2DEFDFFD2DEFDFFD2DEFDFFD0D7
+      EEFFCBB495FFCAB397FFC9B499FFB5976EFFB89F83FFB49770FFD4BB9BFFCBB5
+      98FFC6B199FFC5B299FFC5B199FFC4B097FF0000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000C7BAADFFC7BAAEFFC7BAAEFFD1C2
+      B5FF203956FF243650FF303640FFA1B5F5FFBB9C73FF90B1FFFF021F46FF0022
+      55FFCEB697FFBFAA8FFFC6B299FFC5B198FF0000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000C2AD93FFC5B198FFC4B198FFC4B0
+      98FFACB1AFFF1C96FFFF1D9BFFFF95AAFBFF6199C5FF9DACF8FF229AFFFF379A
+      F0FFD8B58EFFC5B299FFC2AD92FFC7B49CFF0000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000CFBCA5FFC4AF96FFC1AC91FFC5B0
+      96FF7BA3C2FF1B8DF3FF509CF8FF9CACF6FF0081F9FF68A0F6FF9EACF6FF0F8B
+      F3FF1691FCFFD6BEA2FFCCBCA6FFD1C1AEFF0000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000FCEEDCFFD6C7B4FFD3C6B5FFD4C3
+      AFFF58A3E2FF1691F8FF97ABF6FF9BACF6FF0080F6FF1592F9FF9BABF5FF98AB
+      F6FF098DFBFFDEC6ABFFD1C2B0FFCFBFABFF0000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000F9EBD9FFDFD0BDFFCDBDA9FFD6C4
+      AEFF3399F0FF1E93F8FF96AAFFFF8DA6FFFF037FEEFF1F93F8FF589EF8FF90A9
+      FCFF69A2FAFFDAC7B0FFD3C5B3FFD0C1AEFF0000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000F9EBD9FFFBEDDBFFFDEFDDFFD9C1
+      A7FF1B91FAFF3999C2FF81A820FF84AA05FF188BFFFF1F93F8FF2B96D6FF83A8
+      3AFF7CA646FFD4C0B2FFD1C2AFFFD1C2AFFF0000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000F9EBD9FFF9EBD9FFFCEEDCFFD7BE
+      A1FF0D8EFFFF228EE4FF81A81EFF90B026FF1690FFFF1E92F7FF2C93D7FF81A7
+      20FF77A51AFFD2BCB1FFCBBBA6FFCBBAA6FF0000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000F9EBD9FFF9EBD9FFF9EBD9FFFEF0
+      DFFFAFCDE2FFACCDF4FF76A315FF4F9970FF0984F6FF1E8FF5FF1588E0FF82A8
+      1FFF73A116FFFEEAE2FFF3E5D2FFF3E5D2FF0000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000F9E9D6FFF9EBD9FFF9EBD9FFF9EB
+      D9FFFAEBD9FFFFEFE2FF7FA615FF0383FFFF499980FF0185F9FF0B85EFFF82A8
+      1CFF76A31BFFFFF0E5FFF9EBD9FFF9EBD9FF0000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000FFFFFFFFFBF5ECFFF9EAD6FFF9E9
+      D6FFF9EBD9FFF9EBD9FFFFF1CBFF017FBCFF88AF1EFF89AA16FF1088DFFF88AB
+      20FFBBC981FFFAEBDAFFF9EBD9FFF9EBD9FF0000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFF
+      FFFFFCF7F0FFF9E9D6FFF7EAD9FFFFFDE4FF4D4973FF8AAF5FFF007EDEFF81A5
+      04FFFFF2EAFFF9EBD9FFF9EBD9FFF9EBD9FF0000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFF
+      FFFFFFFFFFFFFFFFFFFFFFFFF9FF96A5D7FF9BBBFFFFB19B7FFFFFF9DFFFFFEF
+      E6FFF9EBD9FFF9EBD9FFF9EBD9FFF9EBD9FF0000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFF
+      FFFFFFFFFFFFFFFFFFFFF6F8FDFF3250E3FF4059D4FF524B5CFFFDEDD8FFF9EA
+      D8FFF9EBD9FFF9EBD9FFF9EBD9FFF9EBD9FF0000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFF
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFF000FD3FF001ED5FFABB8F1FFFFFFFFFFFDFD
+      FBFFFCF5ECFFFAF0E4FFFBF0E1FFFBF0E2FF0000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000424D3E000000000000003E000000
+      2800000040000000100000000100010000000000800000000000000000000000
+      000000000000000000000000FFFFFF0000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000}
+  end
+  object sqlServicesItem: TFDQuery
+    BeforePost = sqlServicesItemBeforePost
+    AfterScroll = sqlServicesItemAfterScroll
+    OnCalcFields = sqlServicesItemCalcFields
+    Connection = DBDados.FDConnection
+    SQL.Strings = (
+      'Select * From TBSERVICE_ITEM'
+      'WHERE TABLENAME = :TABLENAME AND ID_PROCESS = :ID_PROCESS')
+    Left = 612
+    Top = 615
+    ParamData = <
+      item
+        Name = 'TABLENAME'
+        DataType = ftString
+        ADDataType = dtAnsiString
+        ParamType = ptInput
+      end
+      item
+        Name = 'ID_PROCESS'
+        DataType = ftInteger
+        ADDataType = dtInt32
+        ParamType = ptInput
+      end>
+    object sqlServicesItemID_SERVICE_ITEM: TIntegerField
+      FieldName = 'ID_SERVICE_ITEM'
+      Origin = 'ID_SERVICE_ITEM'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object sqlServicesItemTABLENAME: TStringField
+      FieldName = 'TABLENAME'
+      Origin = 'TABLENAME'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+      Size = 30
+    end
+    object sqlServicesItemID_PROCESS: TIntegerField
+      FieldName = 'ID_PROCESS'
+      Origin = 'ID_PROCESS'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object sqlServicesItemID_PRICELIST: TIntegerField
+      FieldName = 'ID_PRICELIST'
+      Origin = 'ID_PRICELIST'
+    end
+    object sqlServicesItemDESC_PRODUCT: TStringField
+      FieldName = 'DESC_PRODUCT'
+      Origin = 'DESC_PRODUCT'
+      Size = 100
+    end
+    object sqlServicesItemROOM: TMemoField
+      FieldName = 'ROOM'
+      Origin = 'ROOM'
+      BlobType = ftMemo
+      Size = 2147483647
+    end
+    object sqlServicesItemQTY: TBCDField
+      FieldName = 'QTY'
+      Origin = 'QTY'
+      Precision = 15
+      Size = 2
+    end
+    object sqlServicesItemRATE: TBCDField
+      FieldName = 'RATE'
+      Origin = 'RATE'
+      DisplayFormat = '0.00'
+      EditFormat = '0.00'
+      Precision = 15
+      Size = 2
+    end
+    object sqlServicesItemAMOUT: TBCDField
+      FieldName = 'AMOUT'
+      Origin = 'AMOUT'
+      DisplayFormat = '0.00'
+      EditFormat = '0.00'
+      Precision = 15
+      Size = 2
+    end
+    object sqlServicesItemID_USER: TIntegerField
+      FieldName = 'ID_USER'
+      Origin = 'ID_USER'
+    end
+    object sqlServicesItemADD_DATE: TSQLTimeStampField
+      FieldName = 'ADD_DATE'
+      Origin = 'ADD_DATE'
+    end
+    object sqlServicesItemUPD_DATE: TSQLTimeStampField
+      FieldName = 'UPD_DATE'
+      Origin = 'UPD_DATE'
+    end
+    object sqlServicesItemWIDTH: TFloatField
+      FieldName = 'WIDTH'
+      Origin = 'WIDTH'
+    end
+    object sqlServicesItemHEIGHT: TFloatField
+      FieldName = 'HEIGHT'
+      Origin = 'HEIGHT'
+    end
+    object sqlServicesItemTOTALAREA: TFloatField
+      FieldName = 'TOTALAREA'
+      Origin = 'TOTALAREA'
+    end
+    object sqlServicesItemSubTotal: TCurrencyField
+      FieldKind = fkCalculated
+      FieldName = 'SubTotal'
+      DisplayFormat = '0.00'
+      EditFormat = '0.00'
+      Calculated = True
+    end
+  end
+  object dsServicesItem: TDataSource
+    DataSet = sqlServicesItem
+    Left = 756
+    Top = 655
   end
 end

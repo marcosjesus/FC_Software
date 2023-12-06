@@ -73,9 +73,6 @@ Coordinates=1023,166,149,36
 [edtProductType]
 Coordinates=592,370,105,58
 
-[Label25]
-Coordinates=389,370,60,58
-
 [lblProductType]
 Coordinates=10,302,101,58
 
@@ -158,9 +155,6 @@ Coordinates=781,438,70,36
 [GroupBox1]
 Coordinates=731,302,79,58
 
-[Label26]
-Coordinates=488,438,60,58
-
 [Label23]
 Coordinates=558,234,60,58
 
@@ -241,4 +235,10 @@ Coordinates=451,10,122,58
 
 []
 Coordinates=836,370,85,58
+
+[lblUnidadeMedida]
+Coordinates=488,438,60,58
+
+[lblInfoQuant]
+Coordinates=389,370,60,58
 

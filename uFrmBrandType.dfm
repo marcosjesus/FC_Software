@@ -33,7 +33,7 @@ object FrmBrandType: TFrmBrandType
       Height = 644
       Align = alClient
       TabOrder = 0
-      Properties.ActivePage = TabMaterial
+      Properties.ActivePage = cxTabSheet1
       Properties.CustomButtons.Buttons = <>
       ClientRectBottom = 640
       ClientRectLeft = 4
@@ -50,6 +50,7 @@ object FrmBrandType: TFrmBrandType
           Align = alClient
           TabOrder = 0
           RootLevelOptions.DetailTabsPosition = dtpTop
+          ExplicitTop = -2
           object cxGridDBTableViewType: TcxGridDBTableView
             Navigator.Buttons.ConfirmDelete = True
             Navigator.Buttons.CustomButtons = <>
@@ -214,10 +215,6 @@ object FrmBrandType: TFrmBrandType
       object TabRoom: TcxTabSheet
         Caption = 'Room'
         ImageIndex = 2
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object cxGrid1: TcxGrid
           Left = 0
           Top = 0
@@ -285,10 +282,6 @@ object FrmBrandType: TFrmBrandType
       object TabDisplay: TcxTabSheet
         Caption = 'Sample Board'
         ImageIndex = 3
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object cxGrid2: TcxGrid
           Left = 0
           Top = 0
@@ -345,6 +338,76 @@ object FrmBrandType: TFrmBrandType
           object cxGridLevel2: TcxGridLevel
             Caption = 'Samples Board'
             GridView = cxGridDBTableView2
+          end
+        end
+      end
+      object cxTabSheet1: TcxTabSheet
+        Caption = 'Services'
+        ImageIndex = 4
+        ExplicitLeft = 3
+        ExplicitTop = 25
+        object cxGrid3: TcxGrid
+          Left = 0
+          Top = 0
+          Width = 964
+          Height = 616
+          Align = alClient
+          TabOrder = 0
+          RootLevelOptions.DetailTabsPosition = dtpTop
+          ExplicitTop = -2
+          object cxGridDBTableView3: TcxGridDBTableView
+            Navigator.Buttons.ConfirmDelete = True
+            Navigator.Buttons.CustomButtons = <>
+            Navigator.Buttons.First.Hint = 'Primeiro'
+            Navigator.Buttons.PriorPage.Visible = False
+            Navigator.Buttons.Prior.Hint = 'Anterior'
+            Navigator.Buttons.Next.Hint = 'Pr'#243'ximo'
+            Navigator.Buttons.NextPage.Visible = False
+            Navigator.Buttons.Last.Hint = #218'ltimo'
+            Navigator.Buttons.Insert.Hint = 'Inserir registro'
+            Navigator.Buttons.Append.Visible = False
+            Navigator.Buttons.Delete.Hint = 'Excluir'
+            Navigator.Buttons.Edit.Hint = 'Alterar'
+            Navigator.Buttons.Post.Hint = 'Salvar'
+            Navigator.Buttons.Cancel.Hint = 'Cancelar'
+            Navigator.Buttons.Refresh.Hint = 'Atualizar'
+            Navigator.Buttons.SaveBookmark.Visible = False
+            Navigator.Buttons.GotoBookmark.Visible = False
+            Navigator.Buttons.Filter.Hint = 'Filtro'
+            Navigator.InfoPanel.DisplayMask = '[RecordIndex] de [RecordCount]'
+            Navigator.InfoPanel.Visible = True
+            Navigator.Visible = True
+            DataController.DataSource = dsService
+            DataController.Filter.Active = True
+            DataController.KeyFieldNames = 'ID_LABOR'
+            DataController.Summary.DefaultGroupSummaryItems = <>
+            DataController.Summary.FooterSummaryItems = <>
+            DataController.Summary.SummaryGroups = <>
+            DateTimeHandling.IgnoreTimeForFiltering = True
+            DateTimeHandling.MonthFormat = 'mmm'
+            DateTimeHandling.YearFormat = 'yy'
+            DateTimeHandling.DateFormat = 'dd/mm/yyyy'
+            DateTimeHandling.HourFormat = 'hh:nn:ss'
+            FilterRow.InfoText = 'Filter here'
+            FilterRow.Visible = True
+            NewItemRow.InfoText = 'Add New Type'
+            NewItemRow.Visible = True
+            OptionsCustomize.ColumnsQuickCustomization = True
+            OptionsData.Appending = True
+            OptionsSelection.InvertSelect = False
+            OptionsSelection.MultiSelect = True
+            OptionsSelection.CellMultiSelect = True
+            OptionsView.NoDataToDisplayInfoText = '<No Data>'
+            OptionsView.Indicator = True
+            object cxGridDBTableView3DESCRIPTION: TcxGridDBColumn
+              Caption = 'Service Description'
+              DataBinding.FieldName = 'DESCRIPTION'
+              Width = 532
+            end
+          end
+          object cxGridLevel3: TcxGridLevel
+            Caption = 'Services'
+            GridView = cxGridDBTableView3
           end
         end
       end
@@ -503,12 +566,35 @@ object FrmBrandType: TFrmBrandType
   end
   object sqlSupplier: TFDQuery
     Connection = DBDados.FDConnection
-    Left = 421
-    Top = 265
+    Left = 405
+    Top = 169
   end
   object dsSupplier: TDataSource
     DataSet = sqlSupplier
-    Left = 421
-    Top = 353
+    Left = 405
+    Top = 257
+  end
+  object sqlService: TFDQuery
+    Connection = DBDados.FDConnection
+    SQL.Strings = (
+      'SELECT ID_LABOR, DESCRIPTION FROM TBLABOR')
+    Left = 181
+    Top = 241
+    object sqlServiceID_LABOR: TFDAutoIncField
+      FieldName = 'ID_LABOR'
+      Origin = 'ID_LABOR'
+      ProviderFlags = [pfInWhere, pfInKey]
+      ReadOnly = True
+    end
+    object sqlServiceDESCRIPTION: TStringField
+      FieldName = 'DESCRIPTION'
+      Origin = 'DESCRIPTION'
+      Size = 100
+    end
+  end
+  object dsService: TDataSource
+    DataSet = sqlService
+    Left = 245
+    Top = 257
   end
 end

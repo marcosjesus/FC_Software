@@ -177,6 +177,13 @@ begin
 end;
 
 procedure TfrmMenuPrincipal.dxBarLargeButtonMiscClick(Sender: TObject);
+  procedure SetupForm;
+  begin
+
+    FrmBrandType.SetupForm; // Estimate
+
+  end;
+
 begin
   if DBDados.varLogado = False  then Exit;
 
@@ -187,6 +194,8 @@ begin
     FrmBrandType.Visible := True;
     FrmBrandType.BringToFront;
     FrmBrandType.Update;
+
+    LocalAsyncVclCall( @SetupForm );
 end;
 
 procedure TfrmMenuPrincipal.dxBarLargeButtonCustomerLPClick(Sender: TObject);

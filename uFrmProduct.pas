@@ -207,6 +207,7 @@ type
     procedure cxLookupComboBoxTypePropertiesChange(Sender: TObject);
     procedure btnSaveImageClick(Sender: TObject);
     procedure edtHeightExit(Sender: TObject);
+    procedure edtWidthExit(Sender: TObject);
   private
     { Private declarations }
     myBlobField : TBlobField;
@@ -249,7 +250,6 @@ begin
 
        if (Components[i] is TcxLookupComboBox) then
           TcxLookupComboBox(Components[i]).Clear;
-
 
 
        if (Components[i] is TcxMaskEdit) then
@@ -342,8 +342,9 @@ end;
 
 procedure TfrmProduct.ButCancelarClick(Sender: TObject);
 begin
-  cxPageControl.ActivePage := cxTabSheetList;
+  varOption := 'X';
   LimpaEdits;
+  cxPageControl.ActivePage := cxTabSheetList;
 end;
 
 procedure TfrmProduct.ButExcluirClick(Sender: TObject);
@@ -497,7 +498,7 @@ begin
             Product.Active := 'Y'
       else Product.Active := 'N';
 
-     
+
       if varOption = 'I' then
         Product.Save
       else if varOption = 'U' then
@@ -819,7 +820,7 @@ end;
 procedure TfrmProduct.edtHeightExit(Sender: TObject);
 begin
   if ((edtWidth.Text <> '') and (edtHeight.Text <> '')) then
-    edtAreaSquareFeetPerBox.text := FormatFloat('0.00', (edtWidth.Value * edtHeight.Value) / 9);
+    edtAreaSquareFeetPerBox.text := FormatFloat('0.000', edtHeight.Value * 1.334);
 end;
 
 procedure TfrmProduct.edtMskQtyKeyPress(Sender: TObject; var Key: Char);
@@ -844,6 +845,19 @@ begin
   if ((edtSupplier.Text <> '') and (edtSupplier.bs_KeyValues.Count > 0)) Then
    Product.id_supplier := StrToInt(VarToStr(edtSupplier.bs_KeyValue))
   else   Product.id_supplier := 0;
+end;
+
+procedure TfrmProduct.edtWidthExit(Sender: TObject);
+begin
+   if ((edtWidth.Value <> 6) AND
+        (edtWidth.Value <> 12) AND
+        (edtWidth.Value <> 15) AND
+        (edtWidth.Value <> 16)) then
+   begin
+     Mens_MensInf('Invalid feet value! Try again.') ;
+     edtWidth.Value := 0;
+     edtWidth.SetFocus;
+   end;
 end;
 
 procedure TfrmProduct.FormClose(Sender: TObject; var Action: TCloseAction);

@@ -13,6 +13,7 @@ object frmRoom: TfrmRoom
   KeyPreview = True
   OldCreateOrder = False
   Position = poScreenCenter
+  WindowState = wsMaximized
   PixelsPerInch = 96
   TextHeight = 13
   object chklistRoom: TCheckListBox
@@ -29,10 +30,7 @@ object frmRoom: TfrmRoom
     Font.Style = []
     ParentFont = False
     TabOrder = 0
-    ExplicitLeft = 8
-    ExplicitTop = 27
-    ExplicitWidth = 689
-    ExplicitHeight = 97
+    ExplicitTop = -6
   end
   object Panel27: TPanel
     Left = 0
@@ -48,9 +46,6 @@ object frmRoom: TfrmRoom
     Font.Style = []
     ParentFont = False
     TabOrder = 1
-    ExplicitLeft = -139
-    ExplicitTop = 267
-    ExplicitWidth = 969
     object ButCancelar: TcxButton
       Left = 794
       Top = 0
@@ -122,7 +117,7 @@ object frmRoom: TfrmRoom
       ShowHint = True
       TabOrder = 0
       OnClick = ButCancelarClick
-      ExplicitLeft = 933
+      ExplicitTop = 6
     end
   end
   object TBRoom: TFDTable

@@ -35,7 +35,7 @@ uses
   FireDAC.Comp.Client, cxCurrencyEdit, Vcl.Mask, RLReport, RLPDFFilter,
   RLFilters, RLHTMLFilter, RLPreviewForm, cxCheckListBox, cxDBCheckListBox,
   Vcl.CheckLst, Vcl.Samples.Spin, Vcl.DBCtrls, Vcl.ExtDlgs, cxButtonEdit,
-  Vcl.ImgList, cxEditRepositoryItems, cxSpinEdit;
+  Vcl.ImgList, cxEditRepositoryItems, cxSpinEdit, cxSplitter;
 
 
 
@@ -201,74 +201,6 @@ type
     pnlRelatorio: TPanel;
     ReportSale: TRLReport;
     RLBand3: TRLBand;
-    LblProcess: TRLLabel;
-    RLDraw1: TRLDraw;
-    RLDBText1: TRLDBText;
-    RLGroup1: TRLGroup;
-    RLBand2: TRLBand;
-    RLLabel2: TRLLabel;
-    RLLabel3: TRLLabel;
-    RLBand4: TRLBand;
-    RLDBText2: TRLDBText;
-    RLDBText3: TRLDBText;
-    RLDBText4: TRLDBText;
-    RLDBText5: TRLDBText;
-    RLDBText6: TRLDBText;
-    RLDBText7: TRLDBText;
-    RLDBText8: TRLDBText;
-    RLDBText9: TRLDBText;
-    RLDBText10: TRLDBText;
-    RLDBText11: TRLDBText;
-    RLLabel4: TRLLabel;
-    RLLabel5: TRLLabel;
-    RLLabel6: TRLLabel;
-    RLLabel7: TRLLabel;
-    RLLabel8: TRLLabel;
-    RLLabel9: TRLLabel;
-    RLLabel10: TRLLabel;
-    RLDraw2: TRLDraw;
-    RLLabel19: TRLLabel;
-    RLDBText21: TRLDBText;
-    RLLabel20: TRLLabel;
-    RLDBText22: TRLDBText;
-    RLLabel21: TRLLabel;
-    RLLabel22: TRLLabel;
-    RLLabel23: TRLLabel;
-    RLLabel24: TRLLabel;
-    RLDBText23: TRLDBText;
-    RLBand5: TRLBand;
-    RLDBResult1: TRLDBResult;
-    RLDBResult2: TRLDBResult;
-    RLLabel11: TRLLabel;
-    RLLabel12: TRLLabel;
-    RLLabel13: TRLLabel;
-    RLLabel14: TRLLabel;
-    RLLabel15: TRLLabel;
-    RLDBResult3: TRLDBResult;
-    RLDBResult4: TRLDBResult;
-    RLDBResult5: TRLDBResult;
-    RLBand6: TRLBand;
-    RLDBText12: TRLDBText;
-    RLDBText13: TRLDBText;
-    RLDBText14: TRLDBText;
-    RLDBText15: TRLDBText;
-    RLDBText16: TRLDBText;
-    RLDBText17: TRLDBText;
-    RLDBText18: TRLDBText;
-    RLBand1: TRLBand;
-    RLSystemInfo1: TRLSystemInfo;
-    RLLabel25: TRLLabel;
-    RLSubDetail1: TRLSubDetail;
-    RLGroup2: TRLGroup;
-    RLBand7: TRLBand;
-    RLLabel16: TRLLabel;
-    RLLabel17: TRLLabel;
-    RLLabel18: TRLLabel;
-    RLBand8: TRLBand;
-    RLDBText19: TRLDBText;
-    RLDBText20: TRLDBText;
-    RLBand9: TRLBand;
-    RLDBResult6: TRLDBResult;
     sqlHeaderESTIMATE_SHIPPING_1: TSQLTimeStampField;
     sqlProcessDT_SHIPPING: TSQLTimeStampField;
     cxPageForm2: TcxPageControl;
@@ -306,14 +238,6 @@ type
     edtPhone: TMaskEdit;
     Panel4: TPanel;
     lblProcessName: TLabel;
-    pnlTerms: TPanel;
-    Label36: TLabel;
-    btnTerms: TcxButton;
-    cxGrid3: TcxGrid;
-    cxGrid3DBTableView1: TcxGridDBTableView;
-    cxGrid3DBTableView1DATE_DUE: TcxGridDBColumn;
-    cxGrid3DBTableView1VALUE: TcxGridDBColumn;
-    cxGrid3Level1: TcxGridLevel;
     Panel6: TPanel;
     Panel7: TPanel;
     cxDateShippingDate: TcxDateEdit;
@@ -326,7 +250,7 @@ type
     Page: TcxPageControl;
     cxTabSheetGrade: TcxTabSheet;
     cxGrid1: TcxGrid;
-    cxGrid1DBTableView1: TcxGridDBTableView;
+    cxGrid1DBTableViewItem: TcxGridDBTableView;
     cxGrid1Level1: TcxGridLevel;
     Panel3: TPanel;
     Label21: TLabel;
@@ -338,12 +262,10 @@ type
     lblTax: TLabel;
     lblTotal: TLabel;
     lblDiscount: TLabel;
-    Label37: TLabel;
     GroupBox1: TGroupBox;
     memComments: TMemo;
     edtmskDiscount: TcxCurrencyEdit;
     edtShipping: TcxCurrencyEdit;
-    cmbStatus: TcxComboBox;
     cxTabSheetEdit: TcxTabSheet;
     pnlLateral: TPanel;
     RLPreviewSetup1: TRLPreviewSetup;
@@ -362,14 +284,14 @@ type
     sqlProcessItemRATE: TBCDField;
     sqlProcessItemAMOUT: TBCDField;
     sqlProcessItemTAXBLE: TStringField;
-    cxGrid1DBTableView1TRADININGNAME: TcxGridDBColumn;
-    cxGrid1DBTableView1DESCRIPTION: TcxGridDBColumn;
-    cxGrid1DBTableView1STYLE: TcxGridDBColumn;
-    cxGrid1DBTableView1QTY: TcxGridDBColumn;
-    cxGrid1DBTableView1RATE: TcxGridDBColumn;
-    cxGrid1DBTableView1AMOUT: TcxGridDBColumn;
-    cxGrid1DBTableView1TAXBLE: TcxGridDBColumn;
-    cxGrid1DBTableView1ROOM: TcxGridDBColumn;
+    cxGrid1DBTableViewItemTRADININGNAME: TcxGridDBColumn;
+    cxGrid1DBTableViewItemDESCRIPTION: TcxGridDBColumn;
+    cxGrid1DBTableViewItemSTYLE: TcxGridDBColumn;
+    cxGrid1DBTableViewItemQTY: TcxGridDBColumn;
+    cxGrid1DBTableViewItemRATE: TcxGridDBColumn;
+    cxGrid1DBTableViewItemAMOUT: TcxGridDBColumn;
+    cxGrid1DBTableViewItemTAXBLE: TcxGridDBColumn;
+    cxGrid1DBTableViewItemROOM: TcxGridDBColumn;
     sqlProcessItemWIDTH: TFloatField;
     sqlProcessItemHEIGHT: TFloatField;
     sqlProcessItemTOTALAREA: TFloatField;
@@ -378,20 +300,18 @@ type
     sqlHeaderITEM_WIDTH: TFloatField;
     sqlHeaderITEM_HEIGHT: TFloatField;
     sqlHeaderITEM_TOTALAREA: TFloatField;
-    RLDBText26: TRLDBText;
     sqlProcessItemREQ_PURCHASE_ORDER: TStringField;
     sqlHeaderREQ_PURCHASE_ORDER: TStringField;
     cxStyleRepository: TcxStyleRepository;
     cxStyleReq_PurchaseOrder: TcxStyle;
     cxStyleCondicional: TcxStyle;
     cxStyleSatisfatorio: TcxStyle;
-    cxGrid1DBTableView1WIDTH: TcxGridDBColumn;
-    cxGrid1DBTableView1HEIGHT: TcxGridDBColumn;
-    cxGrid1DBTableView1TOTALAREA: TcxGridDBColumn;
-    cxGrid1DBTableView1REQ_PURCHASE_ORDER: TcxGridDBColumn;
+    cxGrid1DBTableViewItemWIDTH: TcxGridDBColumn;
+    cxGrid1DBTableViewItemHEIGHT: TcxGridDBColumn;
+    cxGrid1DBTableViewItemTOTALAREA: TcxGridDBColumn;
+    cxGrid1DBTableViewItemREQ_PURCHASE_ORDER: TcxGridDBColumn;
     TBCOMPANYESTIMATEDAYS: TIntegerField;
     TBCOMPANYTAX: TBCDField;
-    edtTotal: TcxMaskEdit;
     btnCart: TcxButton;
     STPPRICELISTACTIVE: TStringField;
     Panel1: TPanel;
@@ -406,8 +326,8 @@ type
     Label15: TLabel;
     Label40: TLabel;
     Label41: TLabel;
-    Label45: TLabel;
-    Label46: TLabel;
+    lblInfoQuant: TLabel;
+    lblUnidadeMedida: TLabel;
     edtProduto: TEditBusca;
     edtheight: TcxCurrencyEdit;
     edtweidth: TcxCurrencyEdit;
@@ -445,17 +365,17 @@ type
     lblEP: TLabel;
     lblOP: TLabel;
     lblAV: TLabel;
-    Image1: TImage;
+    ImageProduct: TImage;
     sqlImage: TFDQuery;
     sqlImageID_IMAGE: TFDAutoIncField;
     sqlImageiD_PRODUCT: TIntegerField;
     sqlImageImagem: TBlobField;
     cbxCustomerType: TComboBox;
-    RLImage1: TRLImage;
-    cxGrid1DBTableView1ID_PRODUCT: TcxGridDBColumn;
+    RLImageLogo: TRLImage;
+    cxGrid1DBTableViewItemID_PRODUCT: TcxGridDBColumn;
     OpenPictureDialog: TOpenPictureDialog;
     sqlProcessItemPRODUCT: TStringField;
-    cxGrid1DBTableView1PRODUCT: TcxGridDBColumn;
+    cxGrid1DBTableViewItemPRODUCT: TcxGridDBColumn;
     sqlHeaderITEM_PRODUCT_NAME: TStringField;
     sqlHeaderTYPEOFPRODUCT: TStringField;
     sqlWorker: TFDQuery;
@@ -527,64 +447,22 @@ type
     cxTableViewPositionSTATUS: TcxGridDBColumn;
     cxTableViewPositionUSERX: TcxGridDBColumn;
     cxTableViewPositionbtnImprimir: TcxGridDBColumn;
-    pnlRelService: TPanel;
-    ReportService: TRLReport;
-    RLBand10: TRLBand;
-    RLBand11: TRLBand;
-    RLLabel26: TRLLabel;
-    RLLabel27: TRLLabel;
-    RLLabel28: TRLLabel;
-    RLLabel29: TRLLabel;
     sqlServiceADDRESS1: TStringField;
     sqlServiceZIPCODE: TStringField;
     sqlServiceCITY: TStringField;
     sqlServiceCOUNTY: TStringField;
     sqlServiceSTATEE: TStringField;
-    RLDBText32: TRLDBText;
-    RLDBText33: TRLDBText;
-    RLDBText34: TRLDBText;
-    RLLabel30: TRLLabel;
     Label57: TLabel;
     edtCounty: TEdit;
     sqlHeaderITEM_CATEGORY: TStringField;
     sqlHeaderCUSTOMER_COUNTY: TStringField;
     sqlHeaderCOMPANY_COUNTY: TStringField;
-    RLDBText35: TRLDBText;
-    RLDBText36: TRLDBText;
     sqlHeaderSERVICE_ID: TIntegerField;
     sqlHeaderSERVICE_CONTRACTOR_ID: TIntegerField;
     sqlHeaderSERVICE_DT_SERVICE: TSQLTimeStampField;
     sqlHeaderSERVICE_SIDEMARK: TStringField;
     sqlHeaderSERVICE_START_DATE: TSQLTimeStampField;
     sqlHeaderINSTALLER_NAME: TStringField;
-    RLDBText24: TRLDBText;
-    RLDBText25: TRLDBText;
-    RLDBText27: TRLDBText;
-    RLDBText28: TRLDBText;
-    RLDBText29: TRLDBText;
-    RLDBText30: TRLDBText;
-    RLBand12: TRLBand;
-    RLGroup3: TRLGroup;
-    RLBand13: TRLBand;
-    RLBand14: TRLBand;
-    RLBand15: TRLBand;
-    RLBand16: TRLBand;
-    RLDBText37: TRLDBText;
-    RLLabel31: TRLLabel;
-    RLLabel32: TRLLabel;
-    RLLabel33: TRLLabel;
-    RLDBText38: TRLDBText;
-    RLDBText39: TRLDBText;
-    RLDBText40: TRLDBText;
-    RLLabel34: TRLLabel;
-    RLDBText41: TRLDBText;
-    RLDBText31: TRLDBText;
-    RLLabel1: TRLLabel;
-    RLLabel35: TRLLabel;
-    RLDBText42: TRLDBText;
-    RLDBText43: TRLDBText;
-    RLLabel36: TRLLabel;
-    RLDBText44: TRLDBText;
     sqlFollowup: TFDQuery;
     sqlFollowupID_SERVICE_FOLLOWUP: TFDAutoIncField;
     sqlFollowupID_SERVICE: TIntegerField;
@@ -593,18 +471,170 @@ type
     sqlFollowupUPD_DATE: TSQLTimeStampField;
     sqlFollowupID_USER: TIntegerField;
     dsFollowup: TDataSource;
+    sqlTermsDESCRIPTION: TStringField;
+    sqlParcelasDESCRIPTION: TStringField;
+    cxGrid4: TcxGrid;
+    cxGridDBTableViewServiceItem: TcxGridDBTableView;
+    cxGridLevel1: TcxGridLevel;
+    ImageList1: TImageList;
+    Shape1: TShape;
+    btnLoadService: TcxButton;
+    sqlServicesItem: TFDQuery;
+    dsServicesItem: TDataSource;
+    sqlServicesItemID_SERVICE_ITEM: TIntegerField;
+    sqlServicesItemTABLENAME: TStringField;
+    sqlServicesItemID_PROCESS: TIntegerField;
+    sqlServicesItemID_PRICELIST: TIntegerField;
+    sqlServicesItemDESC_PRODUCT: TStringField;
+    sqlServicesItemROOM: TMemoField;
+    sqlServicesItemQTY: TBCDField;
+    sqlServicesItemRATE: TBCDField;
+    sqlServicesItemAMOUT: TBCDField;
+    sqlServicesItemID_USER: TIntegerField;
+    sqlServicesItemADD_DATE: TSQLTimeStampField;
+    sqlServicesItemUPD_DATE: TSQLTimeStampField;
+    sqlServicesItemWIDTH: TFloatField;
+    sqlServicesItemHEIGHT: TFloatField;
+    sqlServicesItemTOTALAREA: TFloatField;
+    cxGridDBTableViewServiceItemDESC_PRODUCT: TcxGridDBColumn;
+    cxGridDBTableViewServiceItemROOM: TcxGridDBColumn;
+    cxGridDBTableViewServiceItemRATE: TcxGridDBColumn;
+    cxGridDBTableViewServiceItemTOTALAREA: TcxGridDBColumn;
+    cxSplitter1: TcxSplitter;
+    sqlServicesItemSubTotal: TCurrencyField;
+    cxGridDBTableViewServiceItemSubTotal: TcxGridDBColumn;
+    pnlTerms: TPanel;
+    Label36: TLabel;
+    Label58: TLabel;
+    btnTerms: TcxButton;
+    cxGrid3: TcxGrid;
+    cxGrid3DBTableView1: TcxGridDBTableView;
+    cxGrid3DBTableView1DATE_DUE: TcxGridDBColumn;
+    cxGrid3DBTableView1VALUE: TcxGridDBColumn;
+    cxGrid3Level1: TcxGridLevel;
+    edtTotal: TcxMaskEdit;
+    edtDays: TcxSpinEdit;
+    edtTermsDesc: TcxTextEdit;
+    Label45: TLabel;
+    cxGrid3DBTableView1DESCRIPTION: TcxGridDBColumn;
+    Label37: TLabel;
+    cmbStatus: TcxComboBox;
+    RLDBText2: TRLDBText;
+    RLDBText3: TRLDBText;
+    RLDBText4: TRLDBText;
+    RLDBText5: TRLDBText;
+    RLDBText36: TRLDBText;
+    RLDBText6: TRLDBText;
+    RLDBText16: TRLDBText;
+    TBCOMPANYIMAGEM: TBlobField;
+    TBCOMPANYCOUNTY: TStringField;
+    sqlHeaderCOMPANY_ID: TIntegerField;
+    cxTabSheet1: TcxTabSheet;
+    pnlRelService: TPanel;
+    ReportService: TRLReport;
+    RLBand10: TRLBand;
+    RLLabel30: TRLLabel;
+    RLDBText31: TRLDBText;
+    RLLabel1: TRLLabel;
+    RLBand11: TRLBand;
+    RLLabel26: TRLLabel;
+    RLLabel27: TRLLabel;
+    RLLabel28: TRLLabel;
+    RLLabel29: TRLLabel;
+    RLDBText32: TRLDBText;
+    RLDBText33: TRLDBText;
+    RLDBText34: TRLDBText;
+    RLDBText24: TRLDBText;
+    RLDBText25: TRLDBText;
+    RLDBText27: TRLDBText;
+    RLDBText28: TRLDBText;
+    RLDBText29: TRLDBText;
+    RLDBText30: TRLDBText;
+    RLLabel35: TRLLabel;
+    RLDBText42: TRLDBText;
+    RLBand12: TRLBand;
+    RLGroup3: TRLGroup;
+    RLBand13: TRLBand;
+    RLDBText37: TRLDBText;
+    RLBand14: TRLBand;
+    RLLabel31: TRLLabel;
+    RLLabel32: TRLLabel;
+    RLLabel33: TRLLabel;
+    RLLabel34: TRLLabel;
+    RLBand15: TRLBand;
+    RLDBText38: TRLDBText;
+    RLDBText39: TRLDBText;
+    RLDBText40: TRLDBText;
+    RLDBText41: TRLDBText;
+    RLDBText43: TRLDBText;
+    RLLabel36: TRLLabel;
+    RLBand16: TRLBand;
     RLSubDetail2: TRLSubDetail;
     RLGroup4: TRLGroup;
     RLBand17: TRLBand;
-    RLBand18: TRLBand;
     RLLabel37: TRLLabel;
+    RLBand18: TRLBand;
     RLDBMemo1: TRLDBMemo;
-    edtDays: TcxSpinEdit;
-    edtTermsDesc: TcxTextEdit;
-    Label58: TLabel;
-    sqlTermsDESCRIPTION: TStringField;
-    sqlParcelasDESCRIPTION: TStringField;
+    RLBand1: TRLBand;
+    RLDBText7: TRLDBText;
+    RLDBText8: TRLDBText;
+    RLDBText9: TRLDBText;
+    RLDBText10: TRLDBText;
+    RLDBText11: TRLDBText;
+    RLLabel19: TRLLabel;
+    RLDBText21: TRLDBText;
+    RLLabel20: TRLLabel;
+    RLDBText22: TRLDBText;
+    RLLabel21: TRLLabel;
+    RLLabel22: TRLLabel;
+    RLLabel23: TRLLabel;
+    RLLabel24: TRLLabel;
+    RLDBText23: TRLDBText;
+    RLDBText26: TRLDBText;
+    RLDBText35: TRLDBText;
+    RLDBText44: TRLDBText;
+    RLDBText1: TRLDBText;
+    LblProcess: TRLLabel;
+    RLLabel2: TRLLabel;
+    RLDBText46: TRLDBText;
+    RLSubDetail3: TRLSubDetail;
+    RLGroup1: TRLGroup;
+    RLBand4: TRLBand;
+    RLDraw2: TRLDraw;
+    RLLabel3: TRLLabel;
+    RLDBText20: TRLDBText;
+    RLBand19: TRLBand;
+    RLLabel4: TRLLabel;
+    RLLabel5: TRLLabel;
+    RLLabel7: TRLLabel;
+    RLLabel9: TRLLabel;
+    RLLabel10: TRLLabel;
+    RLBand6: TRLBand;
+    RLDBText13: TRLDBText;
+    RLDBText14: TRLDBText;
+    RLDBText15: TRLDBText;
+    RLDBText17: TRLDBText;
+    RLDBText18: TRLDBText;
+    RLSubDetail1: TRLSubDetail;
+    RLBand7: TRLBand;
+    RLLabel16: TRLLabel;
+    RLLabel18: TRLLabel;
+    RLBand8: TRLBand;
+    RLDBText19: TRLDBText;
     RLDBText45: TRLDBText;
+    RLBand9: TRLBand;
+    RLDBResult6: TRLDBResult;
+    RLBand5: TRLBand;
+    RLDBResult1: TRLDBResult;
+    RLDBResult2: TRLDBResult;
+    RLLabel11: TRLLabel;
+    RLLabel12: TRLLabel;
+    RLLabel13: TRLLabel;
+    RLLabel14: TRLLabel;
+    RLLabel15: TRLLabel;
+    RLDBResult3: TRLDBResult;
+    RLDBResult4: TRLDBResult;
+    RLDBResult5: TRLDBResult;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure spbCleanCustomerClick(Sender: TObject);
@@ -623,7 +653,7 @@ type
     procedure ButSairClick(Sender: TObject);
     procedure ButAlterarClick(Sender: TObject);
     procedure ButCancelarClick(Sender: TObject);
-    procedure cxGrid1DBTableView1DblClick(Sender: TObject);
+    procedure cxGrid1DBTableViewItemDblClick(Sender: TObject);
     procedure cxGrid2DBTableView1DblClick(Sender: TObject);
     procedure edtTotalKeyPress(Sender: TObject; var Key: Char);
     procedure btnTermsClick(Sender: TObject);
@@ -632,9 +662,11 @@ type
     procedure ButImprimirClick(Sender: TObject);
     procedure ReportSaleBeforePrint(Sender: TObject; var PrintIt: Boolean);
     procedure edtheightExit(Sender: TObject);
+{
     procedure cxGrid1DBTableView1StylesGetContentStyle(
       Sender: TcxCustomGridTableView; ARecord: TcxCustomGridRecord;
       AItem: TcxCustomGridTableItem; var AStyle: TcxStyle);
+ }
     procedure cxLookupComboBoxCompanyClick(Sender: TObject);
     procedure edtSalesRepClick(Sender: TObject);
     procedure edttotalareaExit(Sender: TObject);
@@ -655,8 +687,22 @@ type
       AButtonIndex: Integer);
     procedure ReportServiceBeforePrint(Sender: TObject; var PrintIt: Boolean);
     procedure RLPreviewSetup1Send(Sender: TObject);
+    procedure edtweidthExit(Sender: TObject);
+    procedure btnLoadServiceClick(Sender: TObject);
+    procedure sqlServicesItemCalcFields(DataSet: TDataSet);
+    procedure sqlServicesItemBeforePost(DataSet: TDataSet);
+    procedure sqlServicesItemAfterScroll(DataSet: TDataSet);
   private
     { Private declarations }
+
+    varProcessTotal    : Double;
+    varProcessSubTotal : Double;
+    varProcessTaxble   : Double;
+    varProcessDiscount : Double;
+    varProcessShipping : Double;
+
+
+    varServiceTotal : Double;
     varID_SERVICE : Integer;
     varGravaService : ShortString;
     varFiltroCompanyPadrao : String;
@@ -690,10 +736,12 @@ type
     function ValidCustomer : Boolean;
     function ValidItemPendingonPurchaseOrder : Boolean;
     procedure ShowImagem;
+    procedure ShowLogo;
     procedure LoadItemToHeader;
     procedure SetaConsultaProduto(varID_PRODUCT : String = '');
     procedure LoadService;
     procedure PreDefineEmail(Sender: TObject);
+    procedure CalculaServiceSubTotal;
 
   public
     { Public declarations }
@@ -709,7 +757,7 @@ implementation
 {$R *.dfm}
 
 uses SetParametro, MensFun, uDMConectDB, ufrmRelEstimate, ufrmInventory,
-  ufrmFollowUP, uSetupFolder;
+  ufrmFollowUP, uSetupFolder, ufrmLabor, AsyncCalls;
 
 Const
 
@@ -742,8 +790,8 @@ begin
      if sqlimage.FieldByName('IMAGEM').AsVariant = Null then
      begin
         OpenPictureDialog.FileName := ExtractFilePath(Application.ExeName) + 'noimage.jpg';
-        Image1.Picture.LoadFromFile(OpenPictureDialog.FileName);
-        Image1.Picture.Graphic.SaveToStream(S);
+        ImageProduct.Picture.LoadFromFile(OpenPictureDialog.FileName);
+        ImageProduct.Picture.Graphic.SaveToStream(S);
      end
      else
         TBlobField(sqlimage.FieldByName('IMAGEM')).SaveToStream(S);
@@ -765,7 +813,7 @@ begin
 
      try
       Graphic.LoadFromStream(S);
-      Image1.Picture.Assign(Graphic);
+      ImageProduct.Picture.Assign(Graphic);
     finally
       Graphic.Free;
     end;
@@ -778,6 +826,58 @@ begin
 
 end;
 
+
+procedure TfrmEstimate.ShowLogo;
+var
+  Jpg         : TJPEGImage;
+  foto        : TMemoryStream;
+  S           : TMemoryStream;
+  Graphic     : TGraphic;
+  GraphicType : String;
+begin
+    foto:=TMemoryStream.Create;
+    Jpg:= TJPEGImage.Create;
+
+    S := TMemoryStream.Create;
+    try
+     if   TBCOMPANY.FieldByName('IMAGEM').AsVariant = Null then
+     begin
+        OpenPictureDialog.FileName := ExtractFilePath(Application.ExeName) + 'noimage.jpg';
+        RLImageLogo.Picture.LoadFromFile(OpenPictureDialog.FileName);
+        RLImageLogo.Picture.Graphic.SaveToStream(S);
+     end
+     else
+        TBlobField(TBCOMPANY.FieldByName('IMAGEM')).SaveToStream(S);
+
+     S.Position := 0;
+
+     GraphicType  := 'jpg';
+
+    if GraphicType = 'jpg' then
+      Graphic := TJPEGImage.Create
+    else if GraphicType = 'png' then
+      Graphic := TPNGImage.Create
+//    else if GraphicType = 'gif' then
+  //    Graphic := TGifImage.Create
+    else if GraphicType = 'bmp' then
+      Graphic := TBitmap.Create
+    else
+      raise Exception.Create('Cannot load unsupported image type from DB');
+
+     try
+      Graphic.LoadFromStream(S);
+      RLImageLogo.Picture.Assign(Graphic);
+    finally
+      Graphic.Free;
+    end;
+
+      //DBGridUsers.Canvas.Draw(Rect.left, Rect.Top, bmp);
+    finally
+      Jpg.Free;
+      foto.Free;
+    end;
+
+end;
 
 procedure TfrmEstimate.ButCancelarClick(Sender: TObject);
 begin
@@ -1047,11 +1147,14 @@ end;
 procedure TfrmEstimate.ReportSaleBeforePrint(Sender: TObject; var PrintIt: Boolean);
 begin
 
+
    sqlHeader.Close;
    sqlHeader.Params.ParamByName('ID_PROCESS').AsInteger :=  sqlProcessID_PROCESS.AsInteger;
    sqlHeader.Params.ParamByName('TABLENAME').AsString   :=  TBHeader;
    sqlHeader.Open;
 
+   if TBCOMPANY.Locate('ID_COMPANY',sqlHeaderCOMPANY_ID.AsInteger, []) Then
+      ShowLogo;
 
 
    sqlParcelas.Close;
@@ -1221,6 +1324,12 @@ begin
   sqlProcessItem.Params.ParamByName('ID_PROCESS').AsInteger := Process.id_process;
   sqlProcessItem.Params.ParamByName('TABLENAME').AsString   := TBItem;
   sqlProcessItem.Open;
+
+  sqlServicesItem.Close;
+  sqlServicesItem.Params.ParamByName('ID_PROCESS').AsInteger := Process.id_process;
+  sqlServicesItem.Params.ParamByName('TABLENAME').AsString   := TBItem;
+  sqlServicesItem.Open;
+
 end;
 
 procedure TfrmEstimate.AtualizTerms;
@@ -1305,6 +1414,64 @@ begin
 
       end;
 
+end;
+
+procedure TfrmEstimate.btnLoadServiceClick(Sender: TObject);
+
+
+  procedure LoadService;
+  var
+    I : Integer;
+  begin
+
+     frmLabor.LoadService;
+
+     if TBHeader = ESTIMATE_HEADER then
+       frmLabor.Caption := 'Quotation [ ' + sqlProcessID_PROCESS.AsString + ']'
+     else if TBHeader = ORDER_HEADER  then
+          frmLabor.Caption := 'Order [ ' + sqlProcessID_PROCESS.AsString + ']'
+          else frmLabor.Caption := ' Invoice [' + sqlProcessID_PROCESS.AsString + ']';
+
+     frmLabor.Panel1.Caption := 'Customer Name: ' + edtCustomerName.Text;
+
+     sqlServicesItem.First;
+     while not sqlServicesItem.Eof do
+     begin
+       for I:= 0 to frmLabor.chklistService.Items.Count - 1 do
+          if frmLabor.chklistService.Items[I]    =  sqlServicesItemDESC_PRODUCT.AsString  then
+             frmLabor.chklistService.Checked[I] := True;
+         sqlServicesItem.Next;
+     end;
+
+     frmLabor.Process_ID     := sqlProcessID_PROCESS.AsInteger;
+     frmLabor.TableName      := TBItem;
+  end;
+
+begin
+
+  if sqlProcessItem.IsEmpty then Exit;
+
+
+  if not Assigned(frmLabor) then
+    frmLabor := TfrmLabor.Create(Self);
+    frmLabor.Show;
+
+    frmLabor.Visible := True;
+    frmLabor.BringToFront;
+    frmLabor.Update;
+
+    LocalAsyncVclCall( @LoadService );
+
+{
+    try
+       Application.CreateForm(TfrmLabor,  frmLabor);
+       LocalAsyncVclCall( @LoadService );
+       frmLabor.ShowModal;
+    finally
+
+        FreeAndNil(frmLabor);
+    end;
+ }
 end;
 
 procedure TfrmEstimate.btnSaveServiceClick(Sender: TObject);
@@ -1425,9 +1592,6 @@ begin
     Exit;
    end;
 
-
-
-
    if StrToInt(edtDays.Text) > Contractor.Company.estimateDays then
    begin
        Mens_MensInf('Terms can not be greater than Date Valid Until.') ;
@@ -1438,7 +1602,6 @@ begin
    if ValidTotalTerm then
    begin
        varDateDue := cxDateProcess.Date + StrToInt(edtDays.Text);
-
 
        sqlDados := TFDQuery.Create(Nil);
        Try
@@ -1551,6 +1714,8 @@ begin
 
    AtualizaGradeItem;
 
+   CalculaServiceSubTotal;
+
    cxLookupComboBoxPrincing.EditValue := sqlProcessItemID_PRICELIST.AsInteger;
 
    edtmskDiscount.EditValue := sqlProcessPERCENT_DISCOUNT.AsFloat;
@@ -1636,7 +1801,8 @@ begin
  // edtProduto.bs_Filter := 'P.ACTIVE = ''Y'' AND  I.ID_PRICELIST = ' +  QuotedStr(cxLookupComboBoxPrincing.EditValue);
 
   Page.ActivePage := cxTabSheetEdit;
-
+  lblInfoQuant.Caption     := '-';
+  lblUnidadeMedida.Caption := '-';
   Item := TSalesProcessItem.Create(Self);
   item.id_process      := Process.id_process;
   Item.tablename       := Process.tablename;
@@ -1694,6 +1860,8 @@ begin
     Process := TSalesProcess.Create(Self);
     Process.id_process := varNewKey;
     Process.tablename  := TBHeader;
+
+
 
   finally
     FreeAndNil(varNextKey);
@@ -1780,6 +1948,8 @@ begin
 
   varOptionItem := 'I';
   Page.ActivePage := cxTabSheetEdit;
+  lblInfoQuant.Caption     := '-';
+  lblUnidadeMedida.Caption := '-';
 
   varNextKey      := TDBNextKey.Create(TBItem);
   Try
@@ -1952,13 +2122,9 @@ end;
 
 procedure TfrmEstimate.ButSalvarClick(Sender: TObject);
 begin
-
-
-
   if ValidItemPendingonPurchaseOrder = False then Exit;
 
   if ValidCustomer = False then Exit;
-
 
   pnlTop.Enabled        := True;
   pnlTerms.Enabled      := True;
@@ -1972,8 +2138,8 @@ begin
      Mens_MensInf('The Form not in edit or insert mode.') ;
      Exit;
   end;
-  if lblTotal.Caption <> '0.00' then
-     Process.total                     := StrToFloat(lblTotal.Caption)
+  if varProcessTotal <> 0 then
+     Process.total    := varProcessTotal
   else  Process.total := 0.00;
 
   if ValidTerms = False then Exit;
@@ -1982,6 +2148,8 @@ begin
   LimpaEdits;
   cxPageEstimate.ActivePage := cxTabEstimateList;
   AtualizaGrade;
+  CalculaServiceSubTotal;
+
   edtTotal.EditValue := sqlProcessTOTAL.AsFloat;
 
   if  Process <> Nil then
@@ -2082,7 +2250,7 @@ begin
    Process.ponumber                  := edtPONumber.Text;
    Process.comments                  := Trim(memComments.Lines.Text);
 
-   Process.subtotal                  := StrToFloat(lblSubTotal.Caption);
+   Process.subtotal                  := varProcessSubTotal;
    Process.status                    := cmbStatus.Text;
    if TBHeader <> ESTIMATE_HEADER then
      Process.dt_shippingDate         := cxDateShippingDate.Date
@@ -2093,19 +2261,19 @@ begin
    else Process.percent_discount   := 0.00;
 
    if lblDiscount.Caption <> '' then
-     Process.discount                  := StrToFloat(lblDiscount.Caption)
+     Process.discount                  := varProcessDiscount
    else  Process.discount   := 0.00;
 
    if lblTax.Caption <> '' then
-     Process.tax                       := StrToFloat(lblTax.Caption)
+     Process.tax                       := varProcessTaxble
    else   Process.tax  := 0.00;
 
    if (Trim(edtShipping.Text) <> '') then
-      Process.shipping                  := StrToFloat(edtShipping.Text)
+      Process.shipping                  := varProcessShipping
    else Process.shipping   := 0.00;
 
-   if lblTotal.Caption <> '0.00' then
-     Process.total                     := StrToFloat(lblTotal.Caption)
+   if varProcessTotal <> 0 then
+     Process.total                     := varProcessTotal
    else  Process.total := 0.00;
 
    Process.User.id_user              := DBDados.varID_USER;
@@ -2221,50 +2389,45 @@ begin
 end;
 
 procedure TfrmEstimate.CalculaProcess;
-Var
-  varSubTotal : Double;
-  varTaxble   : Double;
-  varDiscount : Double;
-  varShipping : Double;
-  varTotal    : Double;
 begin
-  varSubTotal := 0;
-  varTaxble   := 0;
-  varDiscount := 0;
-  varShipping := 0;
+  varProcessSubTotal := 0;
+  varProcessTaxble   := 0;
+  varProcessDiscount := 0;
+  varProcessShipping := 0;
+  varProcessTotal    := 0;
 
   sqlProcessItem.First;
   sqlProcessItem.DisableControls;
   while not sqlProcessItem.Eof do
   begin
-    varSubTotal := varSubTotal + sqlProcessItemAMOUT.AsFloat;
+    varProcessSubTotal := varProcessSubTotal + sqlProcessItemAMOUT.AsFloat;
 
     if sqlProcessItemTAXBLE.AsString = 'Y' then
     begin
-       varTaxble := varTaxble + ((sqlProcessItemAMOUT.AsFloat / 100) *  Process.Company.Tax);
+       varProcessTaxble := varProcessTaxble + ((sqlProcessItemAMOUT.AsFloat / 100) *  Process.Company.Tax);
     end;
 
     sqlProcessItem.Next;
   end;
 
-  lblSubTotal.Caption := FormatFloat('0.00',varSubTotal);
-  lblTax.Caption      := FormatFloat('0.00',varTaxble);
+  lblSubTotal.Caption := CurrToStrF(varProcessSubTotal, ffCurrency, 2);
+  lblTax.Caption      := CurrToStrF(varProcessTaxble, ffCurrency, 2);
 
   if edtmskDiscount.Text <> '' then
   begin
 
-     varDiscount         := (((sqlProcessItemAMOUT.AsFloat / 100) *  StrToFloat(edtmskDiscount.Text)));
-     lblDiscount.Caption := FormatFloat('0.00',varDiscount);
+     varProcessDiscount         := (((sqlProcessItemAMOUT.AsFloat / 100) *  StrToFloat(edtmskDiscount.Text)));
+     lblDiscount.Caption := CurrToStrF(varProcessDiscount, ffCurrency, 2);
 
   end;
 
   if edtShipping.Text <> '' then
-    varShipping      := StrToFloat(edtShipping.Text);
+    varProcessShipping      := StrToFloat(edtShipping.Text);
 
-  varSubTotal      := varSubTotal - varDiscount;
-  varTotal         := varSubTotal + varTaxble +  varShipping;
+  varProcessSubTotal      := varProcessSubTotal - varProcessDiscount;
+  varProcessTotal         := varProcessSubTotal + varProcessTaxble +  varProcessShipping + varServiceTotal;
 
-  lblTotal.Caption := FormatFloat('0.00',varTotal);
+  lblTotal.Caption := CurrToStrF(varProcessTotal, ffCurrency, 2);
 
   sqlProcessItem.EnableControls;
   sqlProcessItem.First;
@@ -2322,11 +2485,11 @@ begin
   ReportService.Preview;
 end;
 
-procedure TfrmEstimate.cxGrid1DBTableView1DblClick(Sender: TObject);
+procedure TfrmEstimate.cxGrid1DBTableViewItemDblClick(Sender: TObject);
 begin
    ButAlterarItemClick(Self);
 end;
-
+{
 procedure TfrmEstimate.cxGrid1DBTableView1StylesGetContentStyle(
   Sender: TcxCustomGridTableView; ARecord: TcxCustomGridRecord;
   AItem: TcxCustomGridTableItem; var AStyle: TcxStyle);
@@ -2349,6 +2512,7 @@ begin
   end;
 
 end;
+ }
 
 procedure TfrmEstimate.cxGrid2DBTableView1DblClick(Sender: TObject);
 begin
@@ -2502,9 +2666,16 @@ begin
                 else
                 begin
                   edttotalarea.Value := EdtQty.Value * edtAreaSquareFeetPerBox.Value;
+                  lblInfoQuant.Caption     := 'Quantity Per Carton';
+                  lblUnidadeMedida.Caption := 'sqft';
                 end;
             end;
-          end else edttotalarea.value := Item.width * Item.height;
+          end else
+          begin
+            edttotalarea.text        := FormatFloat('0.000', Item.height * 1.334);
+            lblInfoQuant.Caption     := 'Quantity Per Roll';
+            lblUnidadeMedida.Caption := 'yds';
+          end;
 
           if UpperCase(edtProduto.bs_KeyValues[24])  = 'PRODUCT'  Then
           begin
@@ -2712,6 +2883,22 @@ begin
     Item.req_purchase_order := 'N';
   EdtQty.Value := 0;
   varTempAreaTotal := 0;
+end;
+
+procedure TfrmEstimate.edtweidthExit(Sender: TObject);
+begin
+  if ((UpperCase(edtProduto.bs_KeyValues[1]) = 'CARPET') OR (UpperCase(edtProduto.bs_KeyValues[1]) = 'VINYL')) then
+  begin
+    if ((edtweidth.Value <> 6) AND
+        (edtweidth.Value <> 12) AND
+        (edtweidth.Value <> 15) AND
+        (edtweidth.Value <> 16)) then
+       begin
+         Mens_MensInf('Invalid feet value! Try again.') ;
+         edtweidth.Value := 0;
+         edtweidth.SetFocus;
+       end;
+  end;
 end;
 
 procedure TfrmEstimate.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -2957,7 +3144,7 @@ begin
   lblAV.Caption := '0';
   varTempAreaTotal := 0;
 
-  Image1.Picture.Graphic := Nil;
+  ImageProduct.Picture.Graphic := Nil;
 end;
 
 procedure TfrmEstimate.FormKeyDown(Sender: TObject; var Key: Word;
@@ -3045,6 +3232,57 @@ begin
  edtPhone.Text        := '';
  edtCustomerName.SetFocus;
 
+end;
+
+procedure TfrmEstimate.sqlServicesItemAfterScroll(DataSet: TDataSet);
+begin
+  CalculaServiceSubTotal;
+  CalculaProcess;
+end;
+
+procedure TfrmEstimate.sqlServicesItemBeforePost(DataSet: TDataSet);
+var
+  ServiceItem  : TDBNextKey;
+  varServiceID : Integer;
+begin
+    ServiceItem  := TDBNextKey.Create('TBSERVICE_ITEM');
+    Try
+      varServiceID := ServiceItem.Key;
+      sqlServicesItemID_SERVICE_ITEM.AsInteger := varServiceID;
+      ServiceItem.UpdateKey(varServiceID, 'TBSERVICE_ITEM');
+
+      sqlServicesItemID_PROCESS.AsInteger := Process.id_process;
+      sqlServicesItemTABLENAME.AsString   := TBItem;
+
+      sqlServicesItemAMOUT.AsFloat := sqlServicesItemSubTotal.AsFloat;
+    Finally
+       FreeAndNil(ServiceItem);
+    End;
+end;
+
+procedure TfrmEstimate.sqlServicesItemCalcFields(DataSet: TDataSet);
+begin
+   sqlServicesItemSubTotal.AsFloat := sqlServicesItemRATE.AsFloat * sqlServicesItemTOTALAREA.AsFloat;
+end;
+
+procedure TfrmEstimate.CalculaServiceSubTotal;
+var
+  AIndex      : Integer;
+  Value       : Variant;
+
+begin
+  varServiceTotal := 0;
+
+  with cxGrid4 do
+  begin
+       with cxGridDBTableViewServiceItem.DataController.Summary do
+       begin
+          AIndex :=  FooterSummaryItems.IndexOfItemLink(cxGridDBTableViewServiceItemSubTotal);
+          Value :=  FooterSummaryValues[AIndex]
+       end;
+       if Value <> Null then
+         varServiceTotal  := Value;
+  end;
 end;
 
 procedure TfrmEstimate.sqlTermsAfterDelete(DataSet: TDataSet);
