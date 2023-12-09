@@ -1210,6 +1210,12 @@ object FrmCreditors: TFrmCreditors
         6666666666666666666666666666666666666666666666666666}
       OptionsImage.Margin = 5
       TabOrder = 4
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
       OnClick = ButSalvarClick
     end
     object ButCancelar: TcxButton

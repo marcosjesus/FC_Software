@@ -42,7 +42,7 @@ object DBDados: TDBDados
       'DriverID=SQL13')
     LoginPrompt = False
     Left = 440
-    Top = 176
+    Top = 184
   end
   object FDPhysSQLiteDriverLink: TFDPhysSQLiteDriverLink
     DriverID = 'SQLite'
@@ -66,5 +66,10 @@ object DBDados: TDBDados
     Connection = FDConnection
     Left = 192
     Top = 80
+  end
+  object FDMoniFlatFileClientLink1: TFDMoniFlatFileClientLink
+    FileName = 'C:\Temp\trace1.sql'
+    Left = 64
+    Top = 184
   end
 end

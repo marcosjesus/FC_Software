@@ -160,21 +160,28 @@ begin
     CaixaTexto.bs_Caption := 'Customers';
     CaixaTexto.bs_Table := 'TBCUSTOMER C With (NOLOCK)';
 
-    CaixaTexto.bs_Fields.Add('C.LAST_NAME;LastName;;' + inttostr(WIDTH_NOME220));           //0
-    CaixaTexto.bs_Fields.Add('C.FIRST_NAME;First Name;;' + inttostr(WIDTH_NOME220));        //1
-    CaixaTexto.bs_Fields.Add('C.Phone1;Phone #;;' + inttostr(WIDTH_NOME220));               //2
-    CaixaTexto.bs_Fields.Add('C.Email;#;;' + inttostr(WIDTH_NOME220));                      //3
-    CaixaTexto.bs_Fields.Add('A.ADDRESS1;#;;' + inttostr(WIDTH_NOME220));                   //4
-    CaixaTexto.bs_Fields.Add('A.ZIPCODE;#;;' + inttostr(WIDTH_NOME220));                    //5
-    CaixaTexto.bs_Fields.Add('A.CITY;City;;' + inttostr(WIDTH_NOME220));                    //6
-    CaixaTexto.bs_Fields.Add('A.STATEE;ST;;' + inttostr(WIDTH_NOME220));                    //7
-    CaixaTexto.bs_Fields.Add('v.NAME;#;;' + inttostr(WIDTH_NOME220));                       //8
-    CaixaTexto.bs_Fields.Add('C.FOLDER;#;;' + inttostr(WIDTH_NOME220));                     //9
-    CaixaTexto.bs_Fields.Add('C.ID_CONTRACTORS;#;;' + inttostr(WIDTH_NOME220));             //10
-    CaixaTexto.bs_Fields.Add('C.ID_CUSTOMER;#;;' + inttostr(WIDTH_DOCUMENTO));              //11
-    CaixaTexto.bs_Fields.Add('C.ID_COMPANY;#;;' + inttostr(WIDTH_DOCUMENTO));               //12
-    CaixaTexto.bs_Fields.Add('C.TYPEPERSON;#;;' + inttostr(WIDTH_DOCUMENTO));               //13
-    CaixaTexto.bs_Fields.Add('A.COUNTY;#;;' + inttostr(WIDTH_DOCUMENTO));                   //14
+    CaixaTexto.bs_Fields.Add('CASE ' +
+          'WHEN (A.TYPEADDRESS=''C'') THEN ''Correspondance address'' ' +
+          'WHEN (A.TYPEADDRESS=''R'') THEN ''Registered office address'' ' +
+          'WHEN (A.TYPEADDRESS=''O'') THEN ''Shipping address'' ' +
+          'END;TypAdress;;' + inttostr(WIDTH_DOCUMENTO));                                   //0
+    CaixaTexto.bs_Fields.Add('C.LAST_NAME;LastName;;' + inttostr(WIDTH_NOME220));           //1
+    CaixaTexto.bs_Fields.Add('C.FIRST_NAME;First Name;;' + inttostr(WIDTH_NOME220));        //2
+    CaixaTexto.bs_Fields.Add('C.Phone1;Phone #;;' + inttostr(WIDTH_NOME220));               //3
+    CaixaTexto.bs_Fields.Add('C.Email;#;;' + inttostr(WIDTH_NOME220));                      //4
+
+    CaixaTexto.bs_Fields.Add('A.ADDRESS1;#;;' + inttostr(WIDTH_NOME220));                   //5
+    CaixaTexto.bs_Fields.Add('A.ZIPCODE;#;;' + inttostr(WIDTH_NOME220));                    //6
+    CaixaTexto.bs_Fields.Add('A.CITY;City;;' + inttostr(WIDTH_NOME220));                    //7
+    CaixaTexto.bs_Fields.Add('A.STATEE;ST;;' + inttostr(WIDTH_NOME220));                    //8
+    CaixaTexto.bs_Fields.Add('v.NAME;#;;' + inttostr(WIDTH_NOME220));                       //9
+    CaixaTexto.bs_Fields.Add('C.FOLDER;#;;' + inttostr(WIDTH_NOME220));                     //10
+    CaixaTexto.bs_Fields.Add('C.ID_CONTRACTORS;#;;' + inttostr(WIDTH_NOME220));             //11
+    CaixaTexto.bs_Fields.Add('C.ID_CUSTOMER;#;;' + inttostr(WIDTH_DOCUMENTO));              //12
+    CaixaTexto.bs_Fields.Add('C.ID_COMPANY;#;;' + inttostr(WIDTH_DOCUMENTO));               //13
+    CaixaTexto.bs_Fields.Add('C.TYPEPERSON;#;;' + inttostr(WIDTH_DOCUMENTO));               //14
+    CaixaTexto.bs_Fields.Add('A.COUNTY;#;;' + inttostr(WIDTH_DOCUMENTO));                   //15
+    CaixaTexto.bs_Fields.Add('C.ID_PRICELIST;#;;' + inttostr(WIDTH_DOCUMENTO));             //16
 
     CaixaTexto.bs_Join := ' LEFT OUTER JOIN TBADDRESS A ON A.ID_CUSTOMER = C.ID_CUSTOMER ' +
                           ' LEFT OUTER JOIN TBCONTRACTORS v on v.ID_CONTRACTORS = c.ID_CONTRACTORS ';

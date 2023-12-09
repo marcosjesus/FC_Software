@@ -118,6 +118,7 @@ type
     FItens          : TList;
     FItensNF        : TItensNF;
     Fstatus         : String;
+    Fid_payment_method : Integer;
 
     function GetNroItens: Integer;
     function getItens(index: Integer): TInvoiceItem;
@@ -135,6 +136,7 @@ type
     procedure setFupd_date(const Value: TDatetime);
     procedure setFmerchandise(const Value: Double);
     procedure setFStatus(const Value: String);
+    procedure setFid_payment_method(const Value: Integer);
 
   public
     procedure setItens(index: Integer; const Value: TInvoiceItem);
@@ -152,12 +154,14 @@ type
     property upd_date       : TDatetime read Fupd_date       write setFupd_date;
     property id_user        : Integer   read Fid_user        write setFid_user;
     property status         : String    read Fstatus         write setFStatus;
+    property id_payment_method : Integer read Fid_payment_method write setFid_payment_method;
 
     property Itens[index: Integer]: TInvoiceItem read getItens   write setItens; default;
     property ItensNF              : TItensNF     read FItensNF   write FItensNF;
     constructor Create(AOwner: TComponent); override;
     procedure Save;
     procedure Update;
+    procedure Search(varId_sup_invoice : Integer);
     function ValidInvoiceDuplicty : Boolean;
 
   end;
@@ -185,6 +189,7 @@ begin
     upd_date          := Date;
     id_user           := 0;
     status            := 'PENDING';
+    id_payment_method := 0;
 end;
 
 function TInvoice.getItens(index: Integer): TInvoiceItem;
@@ -219,6 +224,7 @@ begin
       sqlDados.SQL.Add(',merchandise  ');
       sqlDados.SQL.Add(',total ');
       sqlDados.SQL.Add(',id_user ');
+      sqlDados.SQL.Add(',id_payment_method ');
       sqlDados.SQL.Add(',status) ');
 
       sqlDados.SQL.Add(' Values ( ');
@@ -233,6 +239,7 @@ begin
       sqlDados.SQL.Add(  QuotedStr( FloatToStr( merchandise )) +  ',' );
       sqlDados.SQL.Add(  QuotedStr( FloatToStr( total )) +  ',' );
       sqlDados.SQL.Add(  IntToStr(DBDados.varID_USER) + ',' );
+      sqlDados.SQL.Add(  IntToStr(id_payment_method) + ',' );
       sqlDados.SQL.Add(  QuotedStr(status) + ')' );
 
       Try
@@ -244,6 +251,61 @@ begin
 
       end;
 
+    Finally
+      FreeAndNil(sqlDados);
+    End;
+  end;
+end;
+
+procedure TInvoice.Search(varId_sup_invoice: Integer);
+var
+ sqlDados : TFDQuery;
+begin
+  with DBDados do
+  begin
+    sqlDados := TFDQuery.Create(Nil);
+    Try
+      sqlDados.Connection := FDConnection;
+      sqlDados.Close;
+      sqlDados.SQL.Clear;
+      sqlDados.SQL.Add('SELECT ID_SUP_INVOICE ');
+      sqlDados.SQL.Add(',ID_SUPPLIER ');
+      sqlDados.SQL.Add(',ID_COMPANY ');
+      sqlDados.SQL.Add(',DATE_INVOICE ');
+      sqlDados.SQL.Add(',INVOICE_ID ');
+      sqlDados.SQL.Add(',SALESREP ');
+      sqlDados.SQL.Add(',FREIGHT ');
+      sqlDados.SQL.Add(',TAX ');
+      sqlDados.SQL.Add(',MERCHANDISE ');
+      sqlDados.SQL.Add(',TOTAL ');
+      sqlDados.SQL.Add(',ADD_DATE ');
+      sqlDados.SQL.Add(',UPD_DATE ');
+      sqlDados.SQL.Add(',ID_USER ');
+      sqlDados.SQL.Add(',STATUS ');
+      sqlDados.SQL.Add(',ID_PAYMENT_METHOD ');
+      sqlDados.SQL.Add('FROM TBSUP_INVOICE ');
+      sqlDados.SQL.Add(' Where  ID_SUP_INVOICE = :ID_SUP_INVOICE ');
+      sqlDados.Params.ParamByName('ID_SUP_INVOICE').AsInteger := varId_sup_invoice;
+      sqlDados.Open;
+      if not sqlDados.IsEmpty  then
+      begin
+         id_sup_invoice := sqlDados.FieldByName('ID_SUP_INVOICE').AsInteger;
+         id_supplier    := sqlDados.FieldByName('ID_SUPPLIER').AsInteger;
+         id_company     := sqlDados.FieldByName('ID_COMPANY').AsInteger;
+         date_invoice   := sqlDados.FieldByName('DATE_INVOICE').AsDateTime;
+         invoice_id     := sqlDados.FieldByName('INVOICE_ID').AsString;
+         salesrep       := sqlDados.FieldByName('SALESREP').AsString;
+         freight        := sqlDados.FieldByName('FREIGHT').AsFloat;
+         tax            := sqlDados.FieldByName('TAX').AsFloat;
+         merchandise    := sqlDados.FieldByName('MERCHANDISE').AsFloat;
+         total          := sqlDados.FieldByName('TOTAL').AsFloat;
+         add_date       := sqlDados.FieldByName('ADD_DATE').AsDateTime;
+         upd_date       := sqlDados.FieldByName('UPD_DATE').AsDateTime;
+         id_user        := sqlDados.FieldByName('ID_USER').AsInteger;
+         status         := sqlDados.FieldByName('STATUS').AsString;
+         id_payment_method := sqlDados.FieldByName('ID_PAYMENT_METHOD').AsInteger;
+
+      end;
     Finally
       FreeAndNil(sqlDados);
     End;
@@ -268,6 +330,11 @@ end;
 procedure TInvoice.setFid_company(const Value: Integer);
 begin
   Fid_company := Value;
+end;
+
+procedure TInvoice.setFid_payment_method(const Value: Integer);
+begin
+  Fid_payment_method := Value;
 end;
 
 procedure TInvoice.setFid_supplier(const Value: Integer);
@@ -349,6 +416,7 @@ begin
         sqlDados.SQL.Add(',TOTAL        = :TOTAL ');
         sqlDados.SQL.Add(',UPD_DATE     = :UPD_DATE  ');
         sqlDados.SQL.Add(',ID_USER      = :ID_USER  ');
+        sqlDados.SQL.Add(',ID_PAYMENT_METHOD = :ID_PAYMENT_METHOD  ');
         sqlDados.SQL.Add(',STATUS       = :STATUS  ');
         sqlDados.SQL.Add(' Where ID_SUPPLIER = :ID_SUPPLIER and  INVOICE_ID = :INVOICE_ID');
         {KEYS}
@@ -364,6 +432,8 @@ begin
         sqlDados.Params.ParamByName('TOTAL').AsFloat            := total;
         sqlDados.Params.ParamByName('UPD_DATE').AsString        := FormatDateTime('mm/dd/yyyy hh:mm:ss', upd_date);
         sqlDados.Params.ParamByName('ID_USER').AsInteger        := id_user;
+        sqlDados.Params.ParamByName('ID_PAYMENT_METHOD').AsInteger := id_payment_method;
+
         sqlDados.Params.ParamByName('STATUS').AsString          := status;
 
 

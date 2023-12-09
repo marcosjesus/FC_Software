@@ -12,6 +12,8 @@ uses uDMConectDB, Messages, MensFun, System.DateUtils, Data.SqlTimSt,
 Type
   TFinance = class
     private
+       Fid_receivable       : Integer;
+       Fid_customer         : Integer;
        Fid_payable          : Integer;
        Fid_company          : Integer;
        Finvoice_id          : String;
@@ -42,6 +44,8 @@ Type
     procedure SetFpayment_status(const Value: String);
     procedure SetFupd_date(const Value: TDateTime);
     procedure setFid_payable(const Value: Integer);
+    procedure setFid_customer(const Value: Integer);
+    procedure setFid_receivable(const Value: Integer);
 
     public
      property  id_payable          : Integer     read Fid_payable          write setFid_payable;
@@ -60,9 +64,15 @@ Type
      property  upd_date            : TDateTime   read Fupd_date            write SetFupd_date;
      property  id_user             : Integer     read Fid_user             write SetFid_user;
 
+     property id_receivable        : Integer     read Fid_receivable      write setFid_receivable;
+     property id_customer          : Integer     read Fid_customer        write setFid_customer;
+
      Constructor Create;
-     procedure Save;
-     procedure Update;
+     procedure SavePAYABLE;
+     procedure UpdatePAYABLE;
+
+     procedure SaveRECEIVABLE;
+     procedure UpdateRECEIVABLE;
 
   end;
 implementation
@@ -71,6 +81,8 @@ implementation
 
 constructor TFinance.Create;
 begin
+   id_receivable       := 0;
+   id_customer         := 0;
    id_payable          := 0;
    id_company          := 0;
    invoice_id          := '';
@@ -88,7 +100,7 @@ begin
    id_user             := 0;
 end;
 
-procedure TFinance.Save;
+procedure TFinance.SavePAYABLE;
 var
  sqlAux : TFDQuery;
 begin
@@ -157,6 +169,75 @@ begin
    End;
 end;
 
+procedure TFinance.SaveRECEIVABLE;
+var
+ sqlAux : TFDQuery;
+begin
+   sqlAux := TFDQuery.Create(nil);
+   Try
+    sqlAux.Connection := DBDados.Connection;
+    SqlAux.Close;
+    SqlAux.SQL.Clear;
+    SqlAux.SQL.Add('INSERT INTO TBRECEIVABLE ');
+    SqlAux.SQL.Add('(INVOICE_ID');
+    SqlAux.SQL.Add(',ID_COMPANY ');
+    SqlAux.SQL.Add(',INVOICE_DATE');
+    SqlAux.SQL.Add(',ID_CUSTOMER ');
+    SqlAux.SQL.Add(',DATE_DUE ');
+    SqlAux.SQL.Add(',PAYMENT_AMOUNT');
+    SqlAux.SQL.Add(',PAYMENT_STATUS');
+    SqlAux.SQL.Add(',PAYMENT_DESCRIPTION');
+    SqlAux.SQL.Add(',ID_PAYMENT_METHOD');
+    SqlAux.SQL.Add(',ID_EXPENSECATEGORY');
+    SqlAux.SQL.Add(',NOTES');
+    SqlAux.SQL.Add(',ID_TERM');
+    SqlAux.SQL.Add(',ADD_DATE');
+    SqlAux.SQL.Add(',ID_USER)');
+    SqlAux.SQL.Add('VALUES ');
+    SqlAux.SQL.Add('(:INVOICE_ID');
+    SqlAux.SQL.Add(',:ID_COMPANY ');
+    SqlAux.SQL.Add(',:INVOICE_DATE');
+    SqlAux.SQL.Add(',:ID_CUSTOMER ');
+    SqlAux.SQL.Add(',:DATE_DUE ');
+    SqlAux.SQL.Add(',:PAYMENT_AMOUNT');
+    SqlAux.SQL.Add(',:PAYMENT_STATUS');
+    SqlAux.SQL.Add(',:PAYMENT_DESCRIPTION');
+    SqlAux.SQL.Add(',:ID_PAYMENT_METHOD');
+    SqlAux.SQL.Add(',:ID_EXPENSECATEGORY');
+    SqlAux.SQL.Add(',:NOTES');
+    SqlAux.SQL.Add(',:ID_TERM');
+    SqlAux.SQL.Add(',:ADD_DATE');
+    SqlAux.SQL.Add(',:ID_USER)');
+
+    SqlAux.Params.ParamByName('INVOICE_ID').AsString           := invoice_id;
+    SqlAux.Params.ParamByName('ID_COMPANY').AsInteger          := id_company;
+    SqlAux.Params.ParamByName('INVOICE_DATE').AsString         := FormatDateTime('mm/dd/yyyy hh:mm:ss', invoice_date);
+    SqlAux.Params.ParamByName('ID_CUSTOMER').AsInteger         := id_customer;
+    SqlAux.Params.ParamByName('DATE_DUE').AsString             := FormatDateTime('mm/dd/yyyy hh:mm:ss', date_due);
+    SqlAux.Params.ParamByName('PAYMENT_AMOUNT').AsFloat        := payment_amount;
+    SqlAux.Params.ParamByName('PAYMENT_STATUS').AsString       := payment_status;
+    SqlAux.Params.ParamByName('PAYMENT_DESCRIPTION').AsString  := payment_description;
+    SqlAux.Params.ParamByName('ID_PAYMENT_METHOD').AsInteger   := id_payment_method;
+    SqlAux.Params.ParamByName('ID_EXPENSECATEGORY').AsInteger  := id_expensecategory;
+    SqlAux.Params.ParamByName('NOTES').AsString                := notes;
+    SqlAux.Params.ParamByName('ID_TERM').AsInteger             := 0;
+    SqlAux.Params.ParamByName('ADD_DATE').AsString             := FormatDateTime('mm/dd/yyyy hh:mm:ss', now);
+    SqlAux.Params.ParamByName('ID_USER').AsInteger             := id_user;
+
+    Try
+       SqlAux.ExecSQL;
+
+    except
+        on E: EDatabaseError do
+          Mens_MensErro(E.ClassName+' error raised, with message : '+E.Message);
+
+    end;
+
+   Finally
+      FreeAndNil(sqlAux);
+   End;
+end;
+
 procedure TFinance.SetFadd_date(const Value: TDateTime);
 begin
   Fadd_date := Value;
@@ -172,6 +253,11 @@ begin
   Fid_company := Value;
 end;
 
+procedure TFinance.setFid_customer(const Value: Integer);
+begin
+  Fid_customer := Value;
+end;
+
 procedure TFinance.SetFid_expensecategory(const Value: Integer);
 begin
   Fid_expensecategory := Value;
@@ -185,6 +271,11 @@ end;
 procedure TFinance.SetFid_payment_method(const Value: Integer);
 begin
   Fid_payment_method := Value;
+end;
+
+procedure TFinance.setFid_receivable(const Value: Integer);
+begin
+  Fid_receivable := Value;
 end;
 
 procedure TFinance.SetFid_supplier(const Value: Integer);
@@ -232,7 +323,7 @@ begin
   Fupd_date := Value;
 end;
 
-procedure TFinance.Update;
+procedure TFinance.UpdatePAYABLE;
 var
  sqlAux : TFDQuery;
 begin
@@ -287,6 +378,64 @@ begin
    Finally
     FreeAndNil(sqlAux);
    End;
+end;
+
+procedure TFinance.UpdateRECEIVABLE;
+var
+ sqlAux : TFDQuery;
+begin
+   sqlAux := TFDQuery.Create(nil);
+   Try
+    sqlAux.Connection := DBDados.Connection;
+    SqlAux.Close;
+    SqlAux.SQL.Clear;
+    SqlAux.SQL.Add('UPDATE RECEIVABLE ');
+    SqlAux.SQL.Add(' SET INVOICE_ID = :INVOICE_ID');
+    SqlAux.SQL.Add(',ID_COMPANY = :ID_COMPANY');
+    SqlAux.SQL.Add(',INVOICE_DATE = :INVOICE_DATE');
+    SqlAux.SQL.Add(',ID_CUSTOMER = :ID_CUSTOMER');
+    SqlAux.SQL.Add(',DATE_DUE  = :DATE_DUE');
+    SqlAux.SQL.Add(',PAYMENT_AMOUNT = :PAYMENT_AMOUNT');
+    SqlAux.SQL.Add(',PAYMENT_STATUS = :PAYMENT_STATUS');
+    SqlAux.SQL.Add(',PAYMENT_DESCRIPTION = :PAYMENT_DESCRIPTION');
+    SqlAux.SQL.Add(',ID_PAYMENT_METHOD = :ID_PAYMENT_METHOD');
+    SqlAux.SQL.Add(',ID_EXPENSECATEGORY = :ID_EXPENSECATEGORY');
+    SqlAux.SQL.Add(',NOTES = :NOTES');
+    SqlAux.SQL.Add(',ID_TERM = :ID_TERM');
+    SqlAux.SQL.Add(',UPD_DATE = :UPD_DATE ');
+    SqlAux.SQL.Add(',ID_USER = :ID_USER');
+    SqlAux.SQL.Add(' WHERE ID_RECEIVABLE = :ID_RECEIVABLE');
+
+    SqlAux.Params.ParamByName('ID_RECEIVABLE').AsInteger       := id_receivable;
+    SqlAux.Params.ParamByName('INVOICE_ID').AsString           := invoice_id;
+    SqlAux.Params.ParamByName('ID_COMPANY').AsInteger          := id_company;
+    SqlAux.Params.ParamByName('INVOICE_DATE').AsString         := FormatDateTime('mm/dd/yyyy hh:mm:ss', invoice_date);
+    SqlAux.Params.ParamByName('ID_CUSTOMER').AsInteger         := id_customer;
+    SqlAux.Params.ParamByName('DATE_DUE').AsString             := FormatDateTime('mm/dd/yyyy hh:mm:ss', date_due);
+    SqlAux.Params.ParamByName('PAYMENT_AMOUNT').AsFloat        := payment_amount;
+    SqlAux.Params.ParamByName('PAYMENT_STATUS').AsString       := payment_status;
+    SqlAux.Params.ParamByName('PAYMENT_DESCRIPTION').AsString  := payment_description;
+    SqlAux.Params.ParamByName('ID_PAYMENT_METHOD').AsInteger   := id_payment_method;
+    SqlAux.Params.ParamByName('ID_EXPENSECATEGORY').AsInteger  := id_expensecategory;
+    SqlAux.Params.ParamByName('NOTES').AsString                := notes;
+    SqlAux.Params.ParamByName('ID_TERM').AsInteger             := 0;
+    SqlAux.Params.ParamByName('UPD_DATE').AsString             := FormatDateTime('mm/dd/yyyy hh:mm:ss', now);
+    SqlAux.Params.ParamByName('ID_USER').AsInteger             := id_user;
+
+    Try
+       SqlAux.ExecSQL;
+
+    except
+        on E: EDatabaseError do
+          Mens_MensErro(E.ClassName+' error raised, with message : '+E.Message);
+
+    end;
+
+
+   Finally
+    FreeAndNil(sqlAux);
+   End;
+
 end;
 
 end.

@@ -1,9 +1,6 @@
 ﻿[lblProductID]
 Coordinates=80,234,85,58
 
-[cmbProduct]
-Coordinates=421,506,83,36
-
 [lblTax]
 Coordinates=629,438,49,58
 
@@ -234,7 +231,7 @@ Coordinates=288,10,153,58
 Coordinates=451,10,122,58
 
 []
-Coordinates=836,370,85,58
+Coordinates=421,506,83,36
 
 [lblUnidadeMedida]
 Coordinates=488,438,60,58

@@ -29,6 +29,7 @@ Type
      Fid_contractors      : Integer;
      Ffolder              : TFolder;
      Ftypeperson          : string;
+     Fid_pricelist        : integer;
 
     procedure setFadd_date(const Value: string);
     procedure setFId_Customer(const Value: integer);
@@ -43,6 +44,7 @@ Type
     procedure setFPhone2(const Value: string);
     procedure SetFid_contractors(const Value: integer);
     procedure SetFtypeperson(const Value: String);
+    procedure SetFid_pricelist(const Value: integer);
 
     public
       property Id_customer          : integer read FId_Customer          write setFId_Customer;
@@ -62,6 +64,7 @@ Type
       property id_contractors       : integer read Fid_contractors      write SetFid_contractors;
       property folder               : TFolder read FFolder;
       property typeperson           : String read Ftypeperson           write SetFtypeperson;
+      property id_pricelist         : integer read Fid_pricelist        write SetFid_pricelist;
 
       constructor Create;
       procedure Save;
@@ -91,9 +94,10 @@ begin
    FAddress             := TObjectList<TAddress>.Create;
    FUser                := TUser.Create;
    FCompany             := TCompany.Create;
-   Fid_contractors      := 0;
+   id_contractors      := 0;
    FFolder              := TFolder.Create;
-   Ftypeperson          := '';
+   typeperson          := '';
+   id_pricelist        := -1;
 end;
 
 procedure TCustomer.Delete;
@@ -152,6 +156,7 @@ begin
         sqlDados.SQL.Add(',id_contractors ');
         sqlDados.SQL.Add(',folder ');
         sqlDados.SQL.Add(',typeperson ');
+        sqlDados.SQL.Add(',id_pricelist ');
         sqlDados.SQL.Add(',id_user )');
         sqlDados.SQL.Add(' Values (');
         sqlDados.SQL.Add( IntToStr(Id_customer) + ',' );
@@ -167,6 +172,7 @@ begin
         sqlDados.SQL.Add( IntToStr(id_contractors) +  ',' );
         sqlDados.SQL.Add( QuotedStr(folder.pasta) +  ',' );
         sqlDados.SQL.Add( QuotedStr(typeperson) + ',' );
+        sqlDados.SQL.Add( IntToStr(id_pricelist) + ',' );
         sqlDados.SQL.Add( IntToStr(ID_USER) +  ')' );
 
         Try
@@ -201,7 +207,7 @@ begin
       Try
         sqlDados.SQL.Clear;
         sqlDados.SQL.Add('Select id_customer, id_company, add_date, upd_date, last_name, middle_name, first_name, email,');
-        sqlDados.SQL.Add(' phone1, phone2, addition_information, id_user, id_contractors, folder, typeperson');
+        sqlDados.SQL.Add(' phone1, phone2, addition_information, id_user, id_contractors, folder, typeperson, id_pricelist');
         sqlDados.SQL.Add(' From TBCUSTOMER WITH (NOLOCK) Where id_customer = :id_customer');
         sqlDados.Params.ParamByName('id_customer').AsInteger := varID_Customer;
         sqlDados.Open;
@@ -222,6 +228,7 @@ begin
           id_contractors      := sqlDados.FieldByName('id_contractors').AsInteger;
           folder.pasta        := sqlDados.FieldByName('folder').AsString;
           typeperson          := sqlDados.FieldByName('typeperson').AsString;
+          id_pricelist        := sqlDados.FieldByName('id_pricelist').AsInteger;
           User.Search(id_user);
           Company.Search(sqlDados.FieldByName('Id_Company').AsInteger);
 
@@ -300,6 +307,11 @@ begin
   FId_Customer := Value;
 end;
 
+procedure TCustomer.SetFid_pricelist(const Value: integer);
+begin
+  Fid_pricelist := Value;
+end;
+
 procedure TCustomer.setFId_User(const Value: integer);
 begin
   FId_User := Value;
@@ -358,6 +370,7 @@ begin
         sqldados.sql.add(',id_company = :id_company ');
         sqldados.sql.add(',ADDITION_INFORMATION = :AdditionInformation ');
         sqldados.sql.add(',id_contractors = :id_contractors ');
+        sqldados.sql.add(',id_pricelist = :id_pricelist ');
         sqldados.sql.add(',typeperson = :typeperson ');
         sqlDados.SQL.Add(' Where Id_customer = :Id_customer ');
 
@@ -372,6 +385,7 @@ begin
         sqlDados.Params.ParamByName('id_company').AsInteger          := Company.id_company;
         sqlDados.Params.ParamByName('AdditionInformation').AsString  := AdditionInformation;
         sqlDados.Params.ParamByName('id_contractors').AsInteger      := id_contractors;
+        sqlDados.Params.ParamByName('id_pricelist').AsInteger        := id_pricelist;
         sqlDados.Params.ParamByName('typeperson').AsString           := typeperson;
         sqlDados.Params.ParamByName('Id_customer').AsInteger         := Id_customer;
 

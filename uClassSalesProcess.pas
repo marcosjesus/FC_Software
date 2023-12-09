@@ -105,7 +105,7 @@ type
      procedure Update;
      procedure Delete;
 
-     function ProductPending(varTableName : String; varId_product: integer) : String;
+     function ProductPending(varTableName : String; varId_product: integer) : Double;
 
   end;
 
@@ -162,6 +162,7 @@ type
        Fdt_completed      : TDateTime;
        FItens             : TList;
        FItensNF           : TItensNF;
+       Fid_payment_method : Integer;
 
     procedure setFaddress1(const Value: string);
     procedure setFcity(const Value: string);
@@ -192,6 +193,7 @@ type
     procedure setFdt_completed(const Value: TDateTime);
     function getItens(index: Integer): TSalesProcessItem;
     function GetNroItens: Integer;
+    procedure setFid_payment_method(const Value: Integer);
 
     public
        procedure setItens(index: Integer; const Value: TSalesProcessItem);
@@ -226,6 +228,7 @@ type
        property status            : string read Fstatus            write setFstatus;
        property dt_shippingDate   : TDateTime read Fdt_shippingDate   write setFdt_shippingDate;
        property dt_completed      : TDateTime read Fdt_completed write setFdt_completed;
+       property id_payment_method : Integer read Fid_payment_method write setFid_payment_method;
 
         property Itens[index: Integer]: TSalesProcessItem read getItens
       write setItens; default;
@@ -280,6 +283,7 @@ begin
     upd_date          := 0;
     id_origen         := 0;
     status            := '';
+    id_payment_method := 0;
 end;
 
 procedure TSalesProcess.Delete;
@@ -290,6 +294,35 @@ begin
   begin
     sqlDados := TFDQuery.Create(Nil);
     Try
+
+
+        sqlDados.Connection := FDConnection;
+        sqlDados.Close;
+        sqlDados.SQL.Clear;
+        sqlDados.SQL.Add('Delete From TBREQUESTORDER Where TableName = :tablename and id_process = :id_process');
+        sqlDados.Params.ParamByName('tablename').AsString   := tablename + '_ITEM';
+        sqlDados.Params.ParamByName('id_process').AsInteger := id_process;
+        Try
+           sqlDados.ExecSQL;
+        except
+            on E: EDatabaseError do
+              Mens_MensErro(E.ClassName+' error raised, with message : '+E.Message);
+        end;
+
+
+        sqlDados.Connection := FDConnection;
+        sqlDados.Close;
+        sqlDados.SQL.Clear;
+        sqlDados.SQL.Add('Delete From TBSERVICE_ITEM Where TableName = :tablename and id_process = :id_process');
+        sqlDados.Params.ParamByName('tablename').AsString   := tablename + '_ITEM';
+        sqlDados.Params.ParamByName('id_process').AsInteger := id_process;
+        Try
+           sqlDados.ExecSQL;
+        except
+            on E: EDatabaseError do
+              Mens_MensErro(E.ClassName+' error raised, with message : '+E.Message);
+        end;
+
 
         sqlDados.Connection := FDConnection;
         sqlDados.Close;
@@ -383,6 +416,8 @@ begin
         sqlDados.SQL.Add(',status');
         sqlDados.SQL.Add(',id_user');
         sqlDados.SQL.Add(',add_date');
+        sqlDados.SQL.Add(',id_payment_method');
+
         if id_customer <> 0 then
           sqlDados.SQL.Add(',id_customer');
         sqlDados.SQL.Add(') Values (');
@@ -413,7 +448,9 @@ begin
         sqlDados.SQL.Add( IntToStr(id_origen) +  ',' );
         sqlDados.SQL.Add( QuotedStr(status) +  ',' );
         sqlDados.SQL.Add( IntToStr(FUser.id_user) + ',' );
-        sqlDados.SQL.Add( QuotedStr(FormatDateTime('mm/dd/yyyy hh:mm:ss', now)));
+        sqlDados.SQL.Add( QuotedStr(FormatDateTime('mm/dd/yyyy hh:mm:ss', now)) + ',' );
+        sqlDados.SQL.Add( IntToStr(id_payment_method) );
+
         if id_customer <> 0 then
           sqlDados.SQL.Add(', ' + IntToStr(id_customer));
         sqlDados.SQL.Add(')');
@@ -447,11 +484,12 @@ begin
       sqlDados.Connection := FDConnection;
 
       Try
+        sqlDados.Close;
         sqlDados.SQL.Clear;
         sqlDados.SQL.Add('Select tablename, id_process, id_customer, id_company, id_contractors, dt_process, dt_process_valid, ');
         sqlDados.SQL.Add(' dt_shipping, customer_name, customer_phone, customer_email, address1, ');
         sqlDados.SQL.Add(' zipcode, st, city, county, ponumber, comments, subtotal, percent_discount,');
-        sqlDados.SQL.Add(' discount, tax, shipping, total, id_origen, status, id_user, add_date, upd_date');
+        sqlDados.SQL.Add(' discount, tax, shipping, total, id_origen, status, id_user, add_date, upd_date, id_payment_method');
         sqlDados.SQL.Add('From TBPROCESS With (NOLOCK) Where id_process = :id_process and tablename = :tablename');
         sqlDados.Params.ParamByName('tablename').AsString   := varTableName;
         sqlDados.Params.ParamByName('id_process').AsInteger := varID_Process;
@@ -491,6 +529,7 @@ begin
            total             := sqlDados.FieldByName('total').AsFloat;
            id_origen         := sqlDados.FieldByName('id_origen').AsInteger;
            status            := sqlDados.FieldByName('status').AsString;
+           id_payment_method := sqlDados.FieldByName('id_payment_method').AsInteger;
 
            if sqlDados.FieldByName('id_user').AsInteger > 0 then
              User.Search(sqlDados.FieldByName('id_user').AsInteger);
@@ -590,6 +629,11 @@ end;
 procedure TSalesProcess.setFid_origen(const Value: Integer);
 begin
   Fid_origen := Value;
+end;
+
+procedure TSalesProcess.setFid_payment_method(const Value: Integer);
+begin
+  Fid_payment_method := Value;
 end;
 
 procedure TSalesProcess.setFid_process(const Value: integer);
@@ -693,6 +737,8 @@ begin
         sqlDados.SQL.Add(',id_origen = :id_origen');
         sqlDados.SQL.Add(',status = :status ');
         sqlDados.SQL.Add(',upd_date = :upd_date');
+        sqlDados.SQL.Add(',id_payment_method = :id_payment_method');
+
         if id_customer <> 0 then
            sqlDados.SQL.Add(',id_customer = :id_customer');
 
@@ -726,6 +772,8 @@ begin
         sqlDados.Params.ParamByName('upd_date').AsString             := FormatDateTime('mm/dd/yyyy hh:mm:ss', now);
         sqlDados.Params.ParamByName('id_process').AsInteger          := id_process;
         sqlDados.Params.ParamByName('tablename').AsString            := tablename;
+        sqlDados.Params.ParamByName('id_payment_method').AsInteger   := id_payment_method;
+
         if id_customer <> 0 then
           sqlDados.Params.ParamByName('id_customer').AsInteger       := id_customer;
 
@@ -846,12 +894,12 @@ begin
     dif_totalarea      := 0.0;
 end;
 
-function TSalesProcessItem.ProductPending(varTableName : String; varId_product: integer): String;
+function TSalesProcessItem.ProductPending(varTableName : String; varId_product: integer): Double;
 var
-  sqlDados : TFDQuery;
-  varResultado : String;
+  sqlDados     : TFDQuery;
+  varResultado : Double;
 begin
-   varResultado := '0';
+   varResultado := 0;
    with DBDados do
    begin
        sqlDados := TFDQuery.Create(Nil);
@@ -875,7 +923,7 @@ begin
         sqlDados.Params.ParamByName('TABLEITEM').AsString   := varTableName + '_ITEM';
         sqlDados.Params.ParamByName('ID_PROCESS').AsInteger := id_process;
         sqlDados.Open;
-        varResultado := sqlDados.FieldByName('SQUAREFEET').AsString;
+        varResultado := sqlDados.FieldByName('SQUAREFEET').AsFloat;
        Finally
          FreeAndNil(sqlDados);
        End;

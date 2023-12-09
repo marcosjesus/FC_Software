@@ -163,6 +163,16 @@ type
     cxSmallImages: TcxImageList;
     sqlAddressTYPEADDRESS: TStringField;
     cxTableViewAddressTYPEADDRESS: TcxGridDBColumn;
+    Panel5: TPanel;
+    Label19: TLabel;
+    cxLookupComboBoxPrincing: TcxLookupComboBox;
+    STPPRICELIST: TFDStoredProc;
+    STPPRICELISTID_PRICELIST: TFDAutoIncField;
+    STPPRICELISTNAME: TStringField;
+    STPPRICELISTEXPIREDDATE: TDateField;
+    STPPRICELISTACTIVE: TStringField;
+    DSPPRICELIST: TDataSource;
+    spbCleanCustomer: TcxButton;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure ButNovoClick(Sender: TObject);
     procedure sqlAddressAfterEdit(DataSet: TDataSet);
@@ -178,6 +188,7 @@ type
     procedure cxPageControlChange(Sender: TObject);
     procedure ButExcluirClick(Sender: TObject);
     procedure cxLookupComboBoxCompanyClick(Sender: TObject);
+    procedure spbCleanCustomerClick(Sender: TObject);
   private
     { Private declarations }
     varOption : char;  // I = Insert / U = Update
@@ -296,6 +307,7 @@ begin
       Customer.AdditionInformation  := memObservacao.Lines.Text;
       Customer.Company.id_company   := cxLookupComboBoxCompany.EditValue;
       Customer.id_contractors       := cxLookupComboBoxVendor.EditValue;
+      Customer.id_pricelist         := cxLookupComboBoxPrincing.EditValue;
 
       GenerateFolder('NP', IntToStr(varNewKey));
       Customer.folder.pasta := Folder_Documents + '\NP_' + ZeroLeft(IntToStr(varNewKey),7);
@@ -451,6 +463,14 @@ begin
     memObservacao.Lines.Text           := Customer.AdditionInformation;
     cxLookupComboBoxVendor.EditValue   := Customer.id_contractors;
     cxLookupComboBoxVendor.Enabled     := Customer.id_contractors = DBDados.varID_USER;
+    STPPRICELIST.Close;
+    STPPRICELIST.Prepare;
+    STPPRICELIST.ParamByName( '@ID_CONTRACTOR' ).AsInteger := Customer.id_contractors;
+    STPPRICELIST.Open;
+    cxLookupComboBoxPrincing.EditValue  := -1;
+
+
+    cxLookupComboBoxPrincing.EditValue := Customer.id_pricelist;
     cxPageControl.ActivePage           := cxTabSheetForm;
     edtLastName.SetFocus;
 end;
@@ -530,6 +550,20 @@ begin
    Try
     Vendor.Search(DBDados.varID_USER);
     cxLookupComboBoxVendor.EditValue := Vendor.id_contractor;
+
+    STPPRICELIST.Close;
+    STPPRICELIST.Prepare;
+    STPPRICELIST.ParamByName( '@ID_CONTRACTOR' ).AsInteger := Vendor.id_contractor;
+    STPPRICELIST.Open;
+    cxLookupComboBoxPrincing.EditValue  := -1;
+{
+    while not STPPRICELIST.Eof do
+    begin
+        if STPPRICELISTACTIVE.AsString = 'Y' then
+           cxLookupComboBoxPrincing.EditValue := STPPRICELISTID_PRICELIST.AsInteger;
+        STPPRICELIST.Next;
+    end;
+ }
    Finally
     FreeAndNil(Vendor);
    End;
@@ -560,6 +594,12 @@ begin
      end;
    end;
 
+end;
+
+procedure TFrmCustomer.spbCleanCustomerClick(Sender: TObject);
+begin
+ cxLookupComboBoxPrincing.EditValue := -1;
+ cxLookupComboBoxPrincing.SetFocus;
 end;
 
 procedure TFrmCustomer.sqlAddressAfterEdit(DataSet: TDataSet);

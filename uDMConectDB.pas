@@ -10,7 +10,8 @@ uses
   Data.DB, FireDAC.Comp.Client, FireDAC.Phys.ODBCBase, FireDAC.Phys.MSSQL,
   FireDAC.Comp.UI, FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf,
   FireDAC.DApt, FireDAC.Comp.DataSet, FireDAC.Stan.ExprFuncs,
-  FireDAC.Phys.SQLite, IniFiles,  Vcl.Forms, Vcl.Dialogs, uFunctions;
+  FireDAC.Phys.SQLite, IniFiles,  Vcl.Forms, Vcl.Dialogs, uFunctions,
+  FireDAC.Moni.Base, FireDAC.Moni.FlatFile;
 
 type
   TDBDados = class(TDataModule)
@@ -24,6 +25,7 @@ type
     SqlAux: TFDQuery;
     sqlAux2: TFDQuery;
     sqlSaldo: TFDQuery;
+    FDMoniFlatFileClientLink1: TFDMoniFlatFileClientLink;
     procedure DataModuleCreate(Sender: TObject);
   private
     Arq : TIniFile;
@@ -337,9 +339,11 @@ begin
     FDConnection.Params.Add('DATABASE=FLOORDB');
     FDConnection.Params.Add('MARS=yes');
     FDConnection.Params.Add('DriverID=SQL13');
+    FDConnection.Params.Add('MonitorBy=FlatFile');
 
     Try
       FDConnection.Open;
+      FDConnection.ConnectionIntf.Tracing := True;
     except
               on E : Exception do
                 Mens_MensErro(E.ClassName+' error raised, with message : '+E.Message);

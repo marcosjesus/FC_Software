@@ -371,18 +371,6 @@ object frmInventory: TfrmInventory
         OnClick = cxLookupComboBoxPrincingClick
         Width = 235
       end
-      object cmbProduct: TcxComboBox
-        Left = 1191
-        Top = 21
-        Properties.ImmediateDropDownWhenKeyPressed = False
-        Properties.Items.Strings = (
-          'PRODUCT'
-          'LABOR')
-        TabOrder = 5
-        Text = 'PRODUCT'
-        OnClick = cmbProductClick
-        Width = 121
-      end
       object edtProductID: TEdit
         Left = 14
         Top = 21
@@ -882,7 +870,7 @@ object frmInventory: TfrmInventory
       end
       object btnRoom: TcxButton
         Left = 512
-        Top = 141
+        Top = 142
         Width = 89
         Height = 66
         Hint = 'Rooms'
@@ -2097,7 +2085,6 @@ object frmInventory: TfrmInventory
     Height = 5
     AlignSplitter = salTop
     Control = pnlTop
-    ExplicitTop = 375
   end
   object sqlInventoty: TFDQuery
     Connection = DBDados.FDConnection

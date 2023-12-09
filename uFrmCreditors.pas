@@ -264,9 +264,9 @@ begin
     Finance.id_payment_method   := cxLookupComboBoxPaymentMethod.EditValue;
 
     if varOption = 'I' then
-      Finance.Save
+      Finance.SavePAYABLE
     else if varOption = 'U' then
-         Finance.Update;
+         Finance.UpdatePAYABLE;
 
  Finally
   FreeAndNil(Finance);

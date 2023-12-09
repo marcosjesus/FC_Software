@@ -52,32 +52,12 @@ type
     cxGrid1: TcxGrid;
     sqlGrid: TFDQuery;
     dsGrid: TDataSource;
-    pnlTop: TPanel;
-    edtManufactory: TEditBusca;
-    Label1: TLabel;
-    Label13: TLabel;
-    cxDateProcess: TcxDateEdit;
-    pnlTerms: TPanel;
-    Label36: TLabel;
-    edtDays: TEdit;
-    btnTerms: TcxButton;
-    cxGrid3: TcxGrid;
-    cxGrid3DBTableView1: TcxGridDBTableView;
-    cxGrid3DBTableView1DATE_DUE: TcxGridDBColumn;
-    cxGrid3DBTableView1VALUE: TcxGridDBColumn;
-    cxGrid3Level1: TcxGridLevel;
     pnlBtnLateral: TPanel;
     ButNovoItem: TcxButton;
     ButAlterarItem: TcxButton;
     ButExcluirItem: TcxButton;
     ButSalvarItem: TcxButton;
     ButCAncelarItem: TcxButton;
-    Label2: TLabel;
-    edtInvoiceNum: TcxTextEdit;
-    cxLookupComboBoxCompany: TcxLookupComboBox;
-    Label3: TLabel;
-    Label4: TLabel;
-    edtSalesRep: TcxTextEdit;
     cxPageItem: TcxPageControl;
     cxTabSheetGrade: TcxTabSheet;
     cxTabSheetItemForm: TcxTabSheet;
@@ -116,15 +96,6 @@ type
     cxGrid1DBTableView1SUBTOTAL: TcxGridDBColumn;
     cxGrid1DBTableView1TOTAL: TcxGridDBColumn;
     cxGrid1DBTableView1STATUS: TcxGridDBColumn;
-    lbladdress: TLabel;
-    edtFreight: TcxCurrencyEdit;
-    edtTax: TcxCurrencyEdit;
-    edtMerchandise: TcxCurrencyEdit;
-    edtTotal: TcxCurrencyEdit;
-    Label8: TLabel;
-    Label9: TLabel;
-    Label10: TLabel;
-    Label11: TLabel;
     TBCOMPANY: TFDTable;
     TBCOMPANYID_COMPANY: TIntegerField;
     TBCOMPANYADD_DATE: TSQLTimeStampField;
@@ -146,8 +117,6 @@ type
     TBCOMPANYIMAGEM: TBlobField;
     DsCompany: TDataSource;
     sqlGridMERCHANDISE: TBCDField;
-    Label37: TLabel;
-    cmbStatus: TcxComboBox;
     Label45: TLabel;
     edtAreaSquareFeetPerBox: TcxCurrencyEdit;
     Label46: TLabel;
@@ -202,8 +171,53 @@ type
     edtDyeLot: TcxTextEdit;
     Label12: TLabel;
     Label14: TLabel;
-    cxTextEdit1: TcxTextEdit;
+    edtLocator: TcxTextEdit;
+    btnGetRequestOrder: TcxButton;
+    Label18: TLabel;
+    Label19: TLabel;
+    edtManufactInvoice: TcxTextEdit;
+    sqlPaymentMethod: TFDQuery;
+    dsPaymentMethod: TDataSource;
+    sqlGridID_PAYMENT_METHOD: TIntegerField;
+    Panel1: TPanel;
+    pnlTop: TPanel;
+    Label1: TLabel;
+    Label13: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    lbladdress: TLabel;
+    Label8: TLabel;
+    Label9: TLabel;
+    Label10: TLabel;
+    Label11: TLabel;
+    Label37: TLabel;
+    Label20: TLabel;
+    Label21: TLabel;
+    edtManufactory: TEditBusca;
+    cxDateProcess: TcxDateEdit;
+    edtInvoiceNum: TcxTextEdit;
+    cxLookupComboBoxCompany: TcxLookupComboBox;
+    edtSalesRep: TcxTextEdit;
+    edtFreight: TcxCurrencyEdit;
+    edtTax: TcxCurrencyEdit;
+    edtMerchandise: TcxCurrencyEdit;
+    edtTotal: TcxCurrencyEdit;
+    cmbStatus: TcxComboBox;
+    cxLookupComboBoxPaymentMethod: TcxLookupComboBox;
+    Panel2: TPanel;
+    cxGrid3: TcxGrid;
+    cxGrid3DBTableView1: TcxGridDBTableView;
+    cxGrid3DBTableView1DATE_DUE: TcxGridDBColumn;
+    cxGrid3DBTableView1VALUE: TcxGridDBColumn;
+    cxGrid3Level1: TcxGridLevel;
+    btnTerms: TcxButton;
+    edtDays: TEdit;
+    Label36: TLabel;
     Label17: TLabel;
+    edtTermDescription: TcxTextEdit;
+    sqlTermsDESCRIPTION: TStringField;
+    cxGrid3DBTableView1DESCRIPTION: TcxGridDBColumn;
     procedure ButSairClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure ButNovoClick(Sender: TObject);
@@ -226,8 +240,12 @@ type
     procedure edtInvoiceNumExit(Sender: TObject);
     procedure ButCancelarClick(Sender: TObject);
     procedure ButAlterarItemClick(Sender: TObject);
+    procedure btnGetRequestOrderClick(Sender: TObject);
+    procedure edtProductClick(Sender: TObject);
   private
     { Private declarations }
+    varLocateRequest : Boolean;
+    varLocateID : Integer;
     Invoice   : TInvoice;
     Item      : TInvoiceItem;
     varNewKey : Integer;
@@ -378,6 +396,7 @@ begin
    edtManufactoryClick(Self);
    edtInvoiceNum.Text     := sqlGridINVOICE.AsString;
    Invoice                := TInvoice.Create(Self);
+   Invoice.Search(sqlGridID.AsInteger);
 
    Invoice.id_sup_invoice := sqlGridID.AsInteger;
    Invoice.id_supplier    := sqlGridID_SUPPLIER.AsInteger;
@@ -389,6 +408,7 @@ begin
    edtSalesRep.Text      := sqlGridSALESREP.AsString;
    cmbStatus.ItemIndex   := cmbStatus.Properties.Items.IndexOf(sqlGridSTATUS.AsString);
    edtMerchandise.Value  := sqlGridMERCHANDISE.AsFloat;
+   cxLookupComboBoxPaymentMethod.EditValue := sqlGridID_PAYMENT_METHOD.AsInteger;
 
    edtFreight.Value      := sqlGridFREIGHT.AsFloat;
    edtTax.Value          := sqlGridTAX.AsFloat;
@@ -452,6 +472,7 @@ begin
   pnlTop.Enabled := False;
   cxPageItem.ActivePage := cxTabSheetItemForm;
   edtProduct.SetValue('P.ID_PRODUCT = ' + IntToStr(sqlItemID_PRODUCT.AsInteger));
+  edtProductClick(Self);
   edtRoolNumber.Text := sqlItemROLLNUMBER.AsString;
   edtDyeLot.Text     := sqlItemDYELOT.AsString;
   edtwidth.Value     := sqlItemWIDTH.AsFloat;
@@ -523,6 +544,7 @@ begin
  edtTotal.Text := '';
  edtDays.Text := '';
 end;
+
 
 
 procedure TfrmSupplierInvoice.ButItensOnOff(S: String);
@@ -687,6 +709,8 @@ begin
   sqlItem.Params.ParamByName('INVOICE_ID').AsString      := Invoice.invoice_id;
   sqlItem.Open;
 
+  sqlPaymentMethod.Close;
+  sqlPaymentMethod.Open;
 end;
 
 function TfrmSupplierInvoice.ValidTotalTerm: Boolean;
@@ -728,6 +752,13 @@ var
   varDateDue : TDateTime;
 begin
 
+   if edtTermDescription.Text = '' then
+   begin
+    Mens_MensInf('The Description field is required.') ;
+    edtTermDescription.SetFocus;
+    Exit;
+   end;
+
    if sqlItem.IsEmpty then
    begin
      Mens_MensInf('Data not found.') ;
@@ -749,6 +780,9 @@ begin
     Exit;
    end;
 
+
+
+
    if ValidTotalTerm then
    begin
        varDateDue := cxDateProcess.Date + StrToInt(edtDays.Text);
@@ -763,6 +797,7 @@ begin
          sqlDados.SQL.Add('TABLENAME');
          sqlDados.SQL.Add(',ID_PROCESS');
          sqlDados.SQL.Add(',DT_PROCESS');
+         sqlDados.SQL.Add(',DESCRIPTION');
          sqlDados.SQL.Add(',NUM_DAYS');
          sqlDados.SQL.Add(',DATE_DUE');
          sqlDados.SQL.Add(',VALUE');
@@ -773,6 +808,7 @@ begin
          sqlDados.SQL.Add(':TABLENAME');
          sqlDados.SQL.Add(',:ID_PROCESS');
          sqlDados.SQL.Add(',:DT_PROCESS');
+         sqlDados.SQL.Add(',:DESCRIPTION');
          sqlDados.SQL.Add(',:NUM_DAYS');
          sqlDados.SQL.Add(',:DATE_DUE');
          sqlDados.SQL.Add(',:VALUE');
@@ -783,6 +819,7 @@ begin
          sqlDados.Params.ParamByName('TABLENAME').AsString   := SUP_INVOICE_HEADER;
          sqlDados.Params.ParamByName('ID_PROCESS').AsInteger := Invoice.id_sup_invoice;
          sqlDados.Params.ParamByName('DT_PROCESS').AsString  := FormatDateTime('mm/dd/yyyy hh:mm:ss', cxDateProcess.Date);
+         sqlDados.Params.ParamByName('DESCRIPTION').AsString := edtTermDescription.Text;
          sqlDados.Params.ParamByName('NUM_DAYS').AsInteger   := StrToInt(edtDays.Text);
          sqlDados.Params.ParamByName('DATE_DUE').AsString    := FormatDateTime('mm/dd/yyyy hh:mm:ss', varDateDue);
          sqlDados.Params.ParamByName('VALUE').AsFloat        := edtTotal.EditValue;
@@ -982,6 +1019,14 @@ begin
    CalculaValorTotal;
 end;
 
+procedure TfrmSupplierInvoice.edtProductClick(Sender: TObject);
+begin
+     if ((edtProduct.Text <> '') and (edtProduct.bs_KeyValues.Count > 0)) then
+     begin
+        edtAreaSquareFeetPerBox.EditValue := edtProduct.bs_KeyValues[6];
+     end;
+end;
+
 procedure TfrmSupplierInvoice.EdtQtyChange(Sender: TObject);
 begin
    if EdtQty.Value > 0 then
@@ -1009,6 +1054,7 @@ begin
    Invoice.merchandise    := edtMerchandise.Value;
    Invoice.id_user        := DBDados.varID_USER;
    Invoice.status         := cmbStatus.Text;
+   Invoice.id_payment_method  := cxLookupComboBoxPaymentMethod.EditValue;
 
    if varOption = 'I' then
      Invoice.Save
@@ -1053,16 +1099,24 @@ begin
   TBCOMPANY.Filter   := DBDados.varReturnCompanies ;
   TBCOMPANY.Filtered := True;
   TBCOMPANY.Open;
-
+  varLocateRequest := False;
+  varLocateID := -1;
 end;
 
 procedure TfrmSupplierInvoice.AtualizaGrade;
 begin
   sqlGrid.Close;
-  sqlGrid.MacroByName( 'WHERE1' ).AsRaw := ' A.' + DBDados.varReturnCompanies;
+  sqlGrid.MacroByName( 'WHERE1' ).AsRaw := ' AND A.' + DBDados.varReturnCompanies;
+
   if DBDados.varView_All_CustomersNaturalPerson = False then
-     sqlGrid.MacroByName( 'WHERE2' ).AsRaw := ' AND A.ID_USER = ' + IntToStr(DBDados.varID_USER);
+     sqlGrid.MacroByName( 'WHERE2' ).AsRaw := ' AND A.ID_USER = ' + QuotedStr(IntToStr(DBDados.varID_USER));
+
+  if varLocateRequest then
+     sqlGrid.MacroByName( 'WHERE3' ).AsRaw := ' AND A.ID_SUP_INVOICE = ' + QuotedStr(IntToStr(varLocateID));
+
+
   sqlGrid.Open;
+
 end;
 
 
@@ -1103,5 +1157,124 @@ begin
 
 end;
 
+
+procedure TfrmSupplierInvoice.btnGetRequestOrderClick(Sender: TObject);
+var
+ sqlAbre, sqlSave : TFDQuery;
+ varNextKey : TDBNextKey;
+begin
+    if edtManufactInvoice.Text = '' then
+    begin
+        Mens_MensInf('The Manufactorer Invoice Number is required.') ;
+        edtManufactInvoice.SetFocus;
+        exit;
+    end;
+
+    if edtLocator.Text = '' then
+    begin
+        Mens_MensInf('The Request Order Number is required.') ;
+        edtLocator.SetFocus;
+        exit;
+    end;
+
+    sqlAbre := TFDQuery.Create(Nil);
+    sqlSave  := TFDQuery.Create(Nil);
+
+    Try
+      sqlAbre.Connection := DBDados.FDConnection;
+      sqlSave.Connection := DBDados.FDConnection;
+
+      sqlAbre.Close;
+      sqlAbre.SQL.Clear;
+      sqlAbre.SQL.Add('SELECT  A.ID_COMPANY ,A.ID_SUPPLIER, A.ID_PRODUCT, B.AREASQUAREFEETPERBOX FROM TBREQUESTORDER A ');
+      sqlAbre.SQL.Add(' LEFT OUTER JOIN TBPRODUCT B ON B.ID_PRODUCT = A.ID_PRODUCT ');
+      sqlAbre.SQL.Add(' WHERE A.ID_REQUESTORDER = :ID_REQUESTORDER ');
+      sqlAbre.Params.ParamByName('ID_REQUESTORDER').AsInteger := edtLocator.EditValue;
+      sqlAbre.Open;
+      if not sqlAbre.IsEmpty then
+      begin
+        sqlAbre.First;
+        varNextKey               := TDBNextKey.Create(SUP_INVOICE_HEADER);
+        Try
+          varNewKey              := varNextKey.Key;
+          varLocateID            := varNewKey;
+          varNextKey.UpdateKey(varNewKey, SUP_INVOICE_HEADER); // atualiza a nova chave no banco
+        finally
+          FreeAndNil(varNextKey);
+        End;
+
+        sqlSave.Close;
+        sqlSave.SQL.Clear;
+        sqlSave.SQL.Add('Insert Into TBSUP_INVOICE (ID_SUP_INVOICE, ID_SUPPLIER, ID_COMPANY, STATUS, ID_USER, INVOICE_ID)');
+        sqlSave.SQL.Add('Values (:ID_SUP_INVOICE, :ID_SUPPLIER, :ID_COMPANY, :STATUS, :ID_USER, :INVOICE_ID)');
+        sqlSave.Params.ParamByName('ID_SUP_INVOICE').AsInteger := varNewKey;
+        sqlSave.Params.ParamByName('ID_SUPPLIER').AsInteger    := sqlAbre.FieldByName('ID_SUPPLIER').AsInteger;
+        sqlSave.Params.ParamByName('ID_COMPANY').AsInteger     := sqlAbre.FieldByName('ID_COMPANY').AsInteger;
+        sqlSave.Params.ParamByName('STATUS').AsString          := 'Pending';
+        sqlSave.Params.ParamByName('ID_USER').AsInteger        := DBDados.varID_USER;
+        sqlSave.Params.ParamByName('INVOICE_ID').AsString      := edtManufactInvoice.Text;
+
+
+        Try
+           sqlSave.ExecSQL;
+
+
+        except
+            on E: EDatabaseError do
+              Mens_MensErro(E.ClassName+' error raised, with message : '+E.Message);
+
+        end;
+
+        while not sqlAbre.Eof do
+        begin
+
+          varNextKey      := TDBNextKey.Create(SUP_INVOICE_ITEM);
+          Try
+            varNewKeyItem := varNextKey.Key;
+            varNextKey.UpdateKey(varNewKeyItem, SUP_INVOICE_ITEM); // atualiza a nova chave no bancO
+          finally
+            FreeAndNil(varNextKey);
+          End;
+
+          sqlSave.Close;
+          sqlSave.SQL.Clear;
+          sqlSave.SQL.Add('Insert Into TBSUP_INVOICEITEM (ID_SUP_INVOICEITEM, ID_SUP_INVOICE, ID_SUPPLIER, ID_PRODUCT, ID_USER, INVOICE_ID, AREASQUAREFEET)');
+          sqlSave.SQL.Add(' Values (:ID_SUP_INVOICEITEM, :ID_SUP_INVOICE, :ID_SUPPLIER, :ID_PRODUCT, :ID_USER, :INVOICE_ID, :AREASQUAREFEET)');
+          sqlSave.Params.ParamByName('ID_SUP_INVOICEITEM').AsInteger :=  varNewKeyItem;
+          sqlSave.Params.ParamByName('ID_SUP_INVOICE').AsInteger :=  varNewKey;
+          sqlSave.Params.ParamByName('ID_SUPPLIER').AsInteger := sqlAbre.FieldByName('ID_SUPPLIER').AsInteger;
+          sqlSave.Params.ParamByName('ID_PRODUCT').AsInteger := sqlAbre.FieldByName('ID_PRODUCT').AsInteger;
+          sqlSave.Params.ParamByName('ID_USER').AsInteger        := DBDados.varID_USER;
+          sqlSave.Params.ParamByName('INVOICE_ID').AsString      := edtManufactInvoice.Text;
+          sqlSave.Params.ParamByName('AREASQUAREFEET').AsFloat      := sqlAbre.FieldByName('AREASQUAREFEETPERBOX').AsFloat;
+
+          Try
+             sqlSave.ExecSQL;
+             Mens_MensInf('The Request Order and The Manufactorer Invoice has been linked.') ;
+
+          except
+              on E: EDatabaseError do
+                Mens_MensErro(E.ClassName+' error raised, with message : '+E.Message);
+
+          end;
+          sqlAbre.Next;
+        end;
+      end;
+
+    Finally
+      sqlAbre.Close;
+      sqlSave.Close;
+      FreeAndNil(sqlAbre);
+      FreeAndNil(sqlSave);
+    End;
+
+    edtManufactInvoice.Text := '';
+    edtLocator.Text := '';
+    varLocateRequest := True;
+    AtualizaGrade;
+    varLocateRequest := False;
+    varLocateID := -1;
+
+end;
 
 end.

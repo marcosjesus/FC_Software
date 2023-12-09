@@ -2,8 +2,8 @@ object frmSupplierInvoice: TfrmSupplierInvoice
   Left = 0
   Top = 0
   Caption = 'Manufactory Invoice'
-  ClientHeight = 525
-  ClientWidth = 1138
+  ClientHeight = 543
+  ClientWidth = 1154
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -22,15 +22,16 @@ object frmSupplierInvoice: TfrmSupplierInvoice
   object cxPageMaster: TcxPageControl
     Left = 0
     Top = 0
-    Width = 1138
-    Height = 490
+    Width = 1154
+    Height = 508
     Align = alClient
     TabOrder = 0
     Properties.ActivePage = cxTabSheetList
     Properties.CustomButtons.Buttons = <>
-    ClientRectBottom = 486
+    ExplicitTop = 2
+    ClientRectBottom = 504
     ClientRectLeft = 4
-    ClientRectRight = 1134
+    ClientRectRight = 1150
     ClientRectTop = 24
     object cxTabSheetList: TcxTabSheet
       Caption = 'Invoice List'
@@ -41,11 +42,13 @@ object frmSupplierInvoice: TfrmSupplierInvoice
       Font.Style = []
       ImageIndex = 0
       ParentFont = False
+      ExplicitWidth = 1130
+      ExplicitHeight = 462
       object cxGrid1: TcxGrid
         Left = 0
         Top = 0
-        Width = 1130
-        Height = 462
+        Width = 1146
+        Height = 480
         Align = alClient
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -54,6 +57,8 @@ object frmSupplierInvoice: TfrmSupplierInvoice
         Font.Style = []
         ParentFont = False
         TabOrder = 0
+        ExplicitWidth = 1130
+        ExplicitHeight = 462
         object cxGrid1DBTableView1: TcxGridDBTableView
           Navigator.Buttons.CustomButtons = <>
           DataController.DataSource = dsGrid
@@ -130,165 +135,556 @@ object frmSupplierInvoice: TfrmSupplierInvoice
     end
     object cxTabSheetForm: TcxTabSheet
       Caption = 'Invoice Form'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
       ImageIndex = 1
+      ParentFont = False
       TabVisible = False
-      object pnlTop: TPanel
-        Left = 0
-        Top = 0
-        Width = 1130
-        Height = 185
-        Align = alTop
+      ExplicitWidth = 1130
+      ExplicitHeight = 462
+      object pnlBtnLateral: TPanel
+        Left = 1064
+        Top = 179
+        Width = 82
+        Height = 301
+        Align = alRight
+        BevelOuter = bvLowered
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -11
-        Font.Name = 'Tahoma'
-        Font.Style = []
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
         ParentFont = False
         TabOrder = 0
-        object Label1: TLabel
-          Left = 32
-          Top = 20
-          Width = 61
-          Height = 13
-          Caption = 'Manufactory'
+        ExplicitLeft = 1050
+        ExplicitTop = 185
+        ExplicitHeight = 277
+        object ButNovoItem: TcxButton
+          Left = 2
+          Top = 6
+          Width = 74
+          Height = 25
+          Hint = '|Inclui novo contato para esse cliente.'
+          Caption = 'New'
+          ParentShowHint = False
+          ShowHint = True
+          TabOrder = 0
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          OnClick = ButNovoItemClick
+        end
+        object ButAlterarItem: TcxButton
+          Left = 2
+          Top = 33
+          Width = 74
+          Height = 25
+          Hint = '|Altera os dados do contato selecionado.'
+          Caption = 'Edit'
+          ParentShowHint = False
+          ShowHint = True
+          TabOrder = 1
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          OnClick = ButAlterarItemClick
+        end
+        object ButExcluirItem: TcxButton
+          Left = 2
+          Top = 59
+          Width = 74
+          Height = 25
+          Hint = '|Apaga os dados do contato selecionado.'
+          Caption = 'Delete'
+          ParentShowHint = False
+          ShowHint = True
+          TabOrder = 2
+        end
+        object ButSalvarItem: TcxButton
+          Left = 2
+          Top = 115
+          Width = 74
+          Height = 25
+          Hint = '|Confirma Inclus'#227'o/Altera'#231#227'o do contato.'
+          Caption = 'Save'
+          Enabled = False
+          ParentShowHint = False
+          ShowHint = True
+          TabOrder = 3
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          OnClick = ButSalvarItemClick
+        end
+        object ButCAncelarItem: TcxButton
+          Left = 2
+          Top = 146
+          Width = 74
+          Height = 25
+          Hint = '|Ignora Inclus'#227'o/Altera'#231#227'o do contato.'
+          Caption = 'Cancel'
+          Enabled = False
+          ParentShowHint = False
+          ShowHint = True
+          TabOrder = 4
+          OnClick = ButCAncelarItemClick
+        end
+      end
+      object cxPageItem: TcxPageControl
+        Left = 0
+        Top = 179
+        Width = 1064
+        Height = 301
+        Align = alClient
+        TabOrder = 1
+        Properties.ActivePage = cxTabSheetGrade
+        Properties.CustomButtons.Buttons = <>
+        ExplicitTop = 185
+        ExplicitWidth = 1048
+        ExplicitHeight = 277
+        ClientRectBottom = 297
+        ClientRectLeft = 4
+        ClientRectRight = 1060
+        ClientRectTop = 24
+        object cxTabSheetGrade: TcxTabSheet
+          Caption = 'Items'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
           Font.Name = 'Tahoma'
           Font.Style = []
+          ImageIndex = 0
           ParentFont = False
+          ExplicitWidth = 1040
+          ExplicitHeight = 249
+          object cxGrid2: TcxGrid
+            Left = 0
+            Top = 0
+            Width = 1056
+            Height = 273
+            Align = alClient
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 0
+            ExplicitLeft = -58
+            ExplicitTop = 40
+            ExplicitWidth = 1040
+            ExplicitHeight = 249
+            object cxGrid2DBTableView1: TcxGridDBTableView
+              Navigator.Buttons.CustomButtons = <>
+              DataController.DataSource = dsItem
+              DataController.Summary.DefaultGroupSummaryItems = <>
+              DataController.Summary.FooterSummaryItems = <
+                item
+                  Kind = skSum
+                  FieldName = 'AMOUNT'
+                  Column = cxGrid2DBTableView1AMOUNT
+                end>
+              DataController.Summary.SummaryGroups = <>
+              OptionsData.CancelOnExit = False
+              OptionsData.Deleting = False
+              OptionsData.DeletingConfirmation = False
+              OptionsData.Editing = False
+              OptionsData.Inserting = False
+              OptionsView.FocusRect = False
+              OptionsView.Footer = True
+              OptionsView.GroupByBox = False
+              OptionsView.Indicator = True
+              object cxGrid2DBTableView1ID_SUP_INVOICEITEM: TcxGridDBColumn
+                Caption = 'Item ID'
+                DataBinding.FieldName = 'ID_SUP_INVOICEITEM'
+                Width = 100
+              end
+              object cxGrid2DBTableView1ID_PRODUCT: TcxGridDBColumn
+                Caption = 'Product ID'
+                DataBinding.FieldName = 'ID_PRODUCT'
+                Width = 100
+              end
+              object cxGrid2DBTableView1PRODUCTTYPE: TcxGridDBColumn
+                Caption = 'Product Type'
+                DataBinding.FieldName = 'PRODUCT TYPE'
+                Width = 100
+              end
+              object cxGrid2DBTableView1PRODUCTSTYLE: TcxGridDBColumn
+                Caption = 'Product Style'
+                DataBinding.FieldName = 'PRODUCT STYLE'
+                Width = 100
+              end
+              object cxGrid2DBTableView1PRODUCT_NAME: TcxGridDBColumn
+                Caption = 'Product'
+                DataBinding.FieldName = 'PRODUCT_NAME'
+                Width = 200
+              end
+              object cxGrid2DBTableView1WIDTH: TcxGridDBColumn
+                Caption = 'Width'
+                DataBinding.FieldName = 'WIDTH'
+                Width = 100
+              end
+              object cxGrid2DBTableView1HEIGHT: TcxGridDBColumn
+                Caption = 'Length'
+                DataBinding.FieldName = 'HEIGHT'
+                Width = 100
+              end
+              object cxGrid2DBTableView1QTY: TcxGridDBColumn
+                Caption = 'Qty'
+                DataBinding.FieldName = 'QTY'
+                Width = 100
+              end
+              object cxGrid2DBTableView1TOTALAREA: TcxGridDBColumn
+                Caption = 'Total Area'
+                DataBinding.FieldName = 'TOTALAREA'
+                Width = 100
+              end
+              object cxGrid2DBTableView1UNITPRICE: TcxGridDBColumn
+                Caption = 'Unit Price'
+                DataBinding.FieldName = 'UNITPRICE'
+              end
+              object cxGrid2DBTableView1AMOUNT: TcxGridDBColumn
+                Caption = 'Amount'
+                DataBinding.FieldName = 'AMOUNT'
+              end
+              object cxGrid2DBTableView1ROLLNUMBER: TcxGridDBColumn
+                Caption = 'RollNumber'
+                DataBinding.FieldName = 'ROLLNUMBER'
+                Width = 100
+              end
+              object cxGrid2DBTableView1DYELOT: TcxGridDBColumn
+                Caption = 'Dye Lot'
+                DataBinding.FieldName = 'DYELOT'
+                Width = 100
+              end
+            end
+            object cxGrid2Level1: TcxGridLevel
+              GridView = cxGrid2DBTableView1
+            end
+          end
         end
-        object Label13: TLabel
-          Left = 296
-          Top = 72
-          Width = 61
-          Height = 13
-          Caption = 'Invoice Date'
+        object cxTabSheetItemForm: TcxTabSheet
+          Caption = 'Form'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
           Font.Name = 'Tahoma'
           Font.Style = []
+          ImageIndex = 1
           ParentFont = False
+          TabVisible = False
+          ExplicitLeft = 5
+          ExplicitTop = 25
+          object Label5: TLabel
+            Left = 17
+            Top = 14
+            Width = 37
+            Height = 13
+            Caption = 'Product'
+          end
+          object Label40: TLabel
+            Left = 17
+            Top = 66
+            Width = 33
+            Height = 16
+            Caption = 'Width'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            ParentFont = False
+          end
+          object Label15: TLabel
+            Left = 135
+            Top = 66
+            Width = 38
+            Height = 16
+            Caption = 'Lenght'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            ParentFont = False
+          end
+          object Label41: TLabel
+            Left = 247
+            Top = 66
+            Width = 60
+            Height = 16
+            Caption = 'Total Area'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            ParentFont = False
+          end
+          object Label16: TLabel
+            Left = 357
+            Top = 66
+            Width = 110
+            Height = 16
+            Caption = 'Number of Box/Roll'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            ParentFont = False
+          end
+          object Label6: TLabel
+            Left = 494
+            Top = 66
+            Width = 54
+            Height = 16
+            Caption = 'Unit Price'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            ParentFont = False
+          end
+          object Label45: TLabel
+            Left = 322
+            Top = 130
+            Width = 39
+            Height = 13
+            Caption = 'Quantity'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+          end
+          object Label46: TLabel
+            Left = 461
+            Top = 131
+            Width = 17
+            Height = 13
+            Caption = 'sqft'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+          end
+          object Label7: TLabel
+            Left = 649
+            Top = 66
+            Width = 51
+            Height = 16
+            Caption = 'SubTotal'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            ParentFont = False
+          end
+          object Label12: TLabel
+            Left = 17
+            Top = 154
+            Width = 70
+            Height = 16
+            Caption = 'Roll Number'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            ParentFont = False
+          end
+          object Label14: TLabel
+            Left = 169
+            Top = 154
+            Width = 42
+            Height = 16
+            Caption = 'Dye Lot'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            ParentFont = False
+          end
+          object edtProduct: TEditBusca
+            Left = 17
+            Top = 33
+            Width = 492
+            Height = 21
+            CharCase = ecUpperCase
+            TabOrder = 0
+            OnClick = edtProductClick
+            ClickOnArrow = True
+            ClickOnReturn = False
+            bs_HeightForm = 0
+            bs_WidthForm = 0
+            bs_SetCPF = False
+            bs_SetCNPJ = False
+            bs_SetPlaca = False
+            bs_LoadConsulta = False
+            bs_Distinct = False
+            bs_SetColor = False
+            bs_NomeCor = clBlack
+            bs_IndiceCampo = 0
+            bs_Imagem = False
+            bs_HideTop = False
+            bs_Top100 = False
+            bs_Script = False
+          end
+          object edtwidth: TcxCurrencyEdit
+            Left = 17
+            Top = 88
+            ParentFont = False
+            Properties.MaxLength = 5
+            Style.Font.Charset = DEFAULT_CHARSET
+            Style.Font.Color = clWindowText
+            Style.Font.Height = -16
+            Style.Font.Name = 'Tahoma'
+            Style.Font.Style = []
+            Style.IsFontAssigned = True
+            TabOrder = 1
+            OnEnter = edtwidthEnter
+            Width = 64
+          end
+          object edtheight: TcxCurrencyEdit
+            Left = 135
+            Top = 88
+            ParentFont = False
+            Properties.MaxLength = 5
+            Style.Font.Charset = DEFAULT_CHARSET
+            Style.Font.Color = clWindowText
+            Style.Font.Height = -16
+            Style.Font.Name = 'Tahoma'
+            Style.Font.Style = []
+            Style.IsFontAssigned = True
+            TabOrder = 2
+            OnEnter = edtheightEnter
+            OnExit = edtheightExit
+            Width = 66
+          end
+          object edttotalarea: TcxCurrencyEdit
+            Left = 247
+            Top = 88
+            ParentFont = False
+            Properties.MaxLength = 5
+            Style.Font.Charset = DEFAULT_CHARSET
+            Style.Font.Color = clWindowText
+            Style.Font.Height = -16
+            Style.Font.Name = 'Tahoma'
+            Style.Font.Style = []
+            Style.IsFontAssigned = True
+            TabOrder = 3
+            Width = 85
+          end
+          object EdtQty: TSpinEdit
+            Left = 371
+            Top = 88
+            Width = 84
+            Height = 29
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            MaxValue = 0
+            MinValue = 0
+            ParentFont = False
+            TabOrder = 4
+            Value = 0
+            OnChange = EdtQtyChange
+          end
+          object edtUnitPrice: TcxCurrencyEdit
+            Left = 494
+            Top = 88
+            ParentFont = False
+            Style.Font.Charset = DEFAULT_CHARSET
+            Style.Font.Color = clWindowText
+            Style.Font.Height = -16
+            Style.Font.Name = 'Tahoma'
+            Style.Font.Style = []
+            Style.IsFontAssigned = True
+            TabOrder = 5
+            OnExit = edtUnitPriceExit
+            Width = 121
+          end
+          object edtAreaSquareFeetPerBox: TcxCurrencyEdit
+            Left = 370
+            Top = 123
+            TabOrder = 6
+            Width = 85
+          end
+          object edtSubTotal: TcxCurrencyEdit
+            Left = 651
+            Top = 88
+            ParentFont = False
+            Style.Font.Charset = DEFAULT_CHARSET
+            Style.Font.Color = clWindowText
+            Style.Font.Height = -16
+            Style.Font.Name = 'Tahoma'
+            Style.Font.Style = []
+            Style.IsFontAssigned = True
+            TabOrder = 7
+            Width = 121
+          end
+          object edtRoolNumber: TcxTextEdit
+            Left = 17
+            Top = 176
+            ParentFont = False
+            Style.Font.Charset = DEFAULT_CHARSET
+            Style.Font.Color = clWindowText
+            Style.Font.Height = -16
+            Style.Font.Name = 'Tahoma'
+            Style.Font.Style = []
+            Style.IsFontAssigned = True
+            TabOrder = 8
+            Width = 121
+          end
+          object edtDyeLot: TcxTextEdit
+            Left = 169
+            Top = 176
+            ParentFont = False
+            Style.Font.Charset = DEFAULT_CHARSET
+            Style.Font.Color = clWindowText
+            Style.Font.Height = -16
+            Style.Font.Name = 'Tahoma'
+            Style.Font.Style = []
+            Style.IsFontAssigned = True
+            TabOrder = 9
+            Width = 121
+          end
         end
-        object Label2: TLabel
-          Left = 58
-          Top = 72
-          Width = 35
-          Height = 13
-          Caption = 'Invoice'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'Tahoma'
-          Font.Style = []
-          ParentFont = False
-        end
-        object Label3: TLabel
-          Left = 48
-          Top = 99
-          Width = 45
-          Height = 13
-          Caption = 'Company'
-        end
-        object Label4: TLabel
-          Left = 46
-          Top = 125
-          Width = 47
-          Height = 13
-          Caption = 'Sales Rep'
-        end
-        object lbladdress: TLabel
-          Left = 100
-          Top = 45
-          Width = 4
-          Height = 13
-          Caption = '-'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'Tahoma'
-          Font.Style = []
-          ParentFont = False
-        end
-        object Label8: TLabel
-          Left = 534
-          Top = 72
-          Width = 43
-          Height = 13
-          Caption = 'Freight $'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'Tahoma'
-          Font.Style = []
-          ParentFont = False
-        end
-        object Label9: TLabel
-          Left = 550
-          Top = 99
-          Width = 27
-          Height = 13
-          Caption = 'Tax $'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'Tahoma'
-          Font.Style = []
-          ParentFont = False
-        end
-        object Label10: TLabel
-          Left = 508
-          Top = 20
-          Width = 69
-          Height = 13
-          Caption = 'Merchandise $'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'Tahoma'
-          Font.Style = []
-          ParentFont = False
-        end
-        object Label11: TLabel
-          Left = 544
-          Top = 125
-          Width = 33
-          Height = 13
-          Caption = 'Total $'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'Tahoma'
-          Font.Style = []
-          ParentFont = False
-        end
-        object Label37: TLabel
-          Left = 62
-          Top = 151
-          Width = 31
-          Height = 13
-          Caption = 'Status'
-        end
-        object Label17: TLabel
-          Left = 334
-          Top = 154
-          Width = 85
-          Height = 13
-          Caption = 'Terms Description'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'Tahoma'
-          Font.Style = []
-          ParentFont = False
-        end
-        object edtManufactory: TEditBusca
-          Left = 99
-          Top = 20
-          Width = 369
-          Height = 21
-          CharCase = ecUpperCase
+      end
+      object Panel1: TPanel
+        Left = 0
+        Top = 0
+        Width = 1146
+        Height = 179
+        Align = alTop
+        TabOrder = 2
+        object pnlTop: TPanel
+          Left = 1
+          Top = 1
+          Width = 728
+          Height = 177
+          Align = alLeft
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
@@ -296,53 +692,310 @@ object frmSupplierInvoice: TfrmSupplierInvoice
           Font.Style = []
           ParentFont = False
           TabOrder = 0
-          OnClick = edtManufactoryClick
-          ClickOnArrow = True
-          ClickOnReturn = False
-          bs_HeightForm = 0
-          bs_WidthForm = 0
-          bs_SetCPF = False
-          bs_SetCNPJ = False
-          bs_SetPlaca = False
-          bs_LoadConsulta = False
-          bs_Distinct = False
-          bs_SetColor = False
-          bs_NomeCor = clBlack
-          bs_IndiceCampo = 0
-          bs_Imagem = False
-          bs_HideTop = False
-          bs_Top100 = False
-          bs_Script = False
+          ExplicitTop = -4
+          object Label1: TLabel
+            Left = 32
+            Top = 20
+            Width = 61
+            Height = 13
+            Caption = 'Manufactory'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            ParentFont = False
+          end
+          object Label13: TLabel
+            Left = 296
+            Top = 72
+            Width = 61
+            Height = 13
+            Caption = 'Invoice Date'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            ParentFont = False
+          end
+          object Label2: TLabel
+            Left = 58
+            Top = 72
+            Width = 35
+            Height = 13
+            Caption = 'Invoice'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            ParentFont = False
+          end
+          object Label3: TLabel
+            Left = 48
+            Top = 99
+            Width = 45
+            Height = 13
+            Caption = 'Company'
+          end
+          object Label4: TLabel
+            Left = 46
+            Top = 125
+            Width = 47
+            Height = 13
+            Caption = 'Sales Rep'
+          end
+          object lbladdress: TLabel
+            Left = 100
+            Top = 45
+            Width = 4
+            Height = 13
+            Caption = '-'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            ParentFont = False
+          end
+          object Label8: TLabel
+            Left = 534
+            Top = 72
+            Width = 43
+            Height = 13
+            Caption = 'Freight $'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            ParentFont = False
+          end
+          object Label9: TLabel
+            Left = 550
+            Top = 99
+            Width = 27
+            Height = 13
+            Caption = 'Tax $'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            ParentFont = False
+          end
+          object Label10: TLabel
+            Left = 508
+            Top = 20
+            Width = 69
+            Height = 13
+            Caption = 'Merchandise $'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            ParentFont = False
+          end
+          object Label11: TLabel
+            Left = 544
+            Top = 125
+            Width = 33
+            Height = 13
+            Caption = 'Total $'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            ParentFont = False
+          end
+          object Label37: TLabel
+            Left = 62
+            Top = 151
+            Width = 31
+            Height = 13
+            Caption = 'Status'
+          end
+          object Label20: TLabel
+            Left = 738
+            Top = -15
+            Width = 79
+            Height = 14
+            Caption = 'Payment Method'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'Arial'
+            Font.Style = []
+            ParentFont = False
+          end
+          object Label21: TLabel
+            Left = 496
+            Top = 151
+            Width = 81
+            Height = 13
+            Caption = 'Payment Method'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            ParentFont = False
+          end
+          object edtManufactory: TEditBusca
+            Left = 99
+            Top = 20
+            Width = 369
+            Height = 21
+            CharCase = ecUpperCase
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 0
+            OnClick = edtManufactoryClick
+            ClickOnArrow = True
+            ClickOnReturn = False
+            bs_HeightForm = 0
+            bs_WidthForm = 0
+            bs_SetCPF = False
+            bs_SetCNPJ = False
+            bs_SetPlaca = False
+            bs_LoadConsulta = False
+            bs_Distinct = False
+            bs_SetColor = False
+            bs_NomeCor = clBlack
+            bs_IndiceCampo = 0
+            bs_Imagem = False
+            bs_HideTop = False
+            bs_Top100 = False
+            bs_Script = False
+          end
+          object cxDateProcess: TcxDateEdit
+            Left = 373
+            Top = 69
+            ParentFont = False
+            Style.Font.Charset = DEFAULT_CHARSET
+            Style.Font.Color = clWindowText
+            Style.Font.Height = -11
+            Style.Font.Name = 'Tahoma'
+            Style.Font.Style = []
+            Style.IsFontAssigned = True
+            TabOrder = 2
+            Width = 95
+          end
+          object edtInvoiceNum: TcxTextEdit
+            Left = 99
+            Top = 69
+            ParentFont = False
+            Properties.CharCase = ecUpperCase
+            Properties.MaxLength = 20
+            Style.Font.Charset = DEFAULT_CHARSET
+            Style.Font.Color = clWindowText
+            Style.Font.Height = -11
+            Style.Font.Name = 'Tahoma'
+            Style.Font.Style = []
+            Style.IsFontAssigned = True
+            TabOrder = 1
+            OnExit = edtInvoiceNumExit
+            Width = 174
+          end
+          object cxLookupComboBoxCompany: TcxLookupComboBox
+            Left = 99
+            Top = 96
+            Properties.KeyFieldNames = 'ID_COMPANY'
+            Properties.ListColumns = <
+              item
+                FieldName = 'COMPANYNAME'
+              end>
+            Properties.ListSource = DsCompany
+            TabOrder = 3
+            Width = 369
+          end
+          object edtSalesRep: TcxTextEdit
+            Left = 99
+            Top = 123
+            Properties.CharCase = ecUpperCase
+            Properties.MaxLength = 30
+            TabOrder = 4
+            Width = 369
+          end
+          object edtFreight: TcxCurrencyEdit
+            Left = 579
+            Top = 69
+            Style.Color = clWhite
+            TabOrder = 6
+            OnExit = edtFreightExit
+            Width = 130
+          end
+          object edtTax: TcxCurrencyEdit
+            Left = 579
+            Top = 96
+            Style.Color = clWhite
+            TabOrder = 7
+            OnExit = edtTaxExit
+            Width = 130
+          end
+          object edtMerchandise: TcxCurrencyEdit
+            Left = 579
+            Top = 20
+            Enabled = False
+            Style.Color = clWhite
+            TabOrder = 5
+            OnExit = edtMerchandiseExit
+            Width = 130
+          end
+          object edtTotal: TcxCurrencyEdit
+            Left = 579
+            Top = 123
+            Style.Color = clWhite
+            TabOrder = 8
+            Width = 130
+          end
+          object cmbStatus: TcxComboBox
+            Left = 99
+            Top = 150
+            Properties.DropDownListStyle = lsFixedList
+            Properties.Items.Strings = (
+              'Pending'
+              'Approval'
+              'Reject')
+            Properties.MaxLength = 0
+            Properties.ReadOnly = False
+            TabOrder = 9
+            Width = 147
+          end
+          object cxLookupComboBoxPaymentMethod: TcxLookupComboBox
+            Left = 579
+            Top = 150
+            Properties.KeyFieldNames = 'ID_PAYMENT_METHOD'
+            Properties.ListColumns = <
+              item
+                FieldName = 'PAYMENT_DESCRIPTION'
+              end>
+            Properties.ListSource = dsPaymentMethod
+            TabOrder = 10
+            Width = 130
+          end
         end
-        object cxDateProcess: TcxDateEdit
-          Left = 373
-          Top = 69
-          ParentFont = False
-          Style.Font.Charset = DEFAULT_CHARSET
-          Style.Font.Color = clWindowText
-          Style.Font.Height = -11
-          Style.Font.Name = 'Tahoma'
-          Style.Font.Style = []
-          Style.IsFontAssigned = True
-          TabOrder = 2
-          Width = 95
-        end
-        object pnlTerms: TPanel
-          Left = 728
+        object Panel2: TPanel
+          Left = 729
           Top = 1
-          Width = 401
-          Height = 183
-          Align = alRight
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'Tahoma'
-          Font.Style = []
-          ParentFont = False
-          TabOrder = 9
+          Width = 416
+          Height = 177
+          Align = alClient
+          TabOrder = 1
+          ExplicitLeft = 953
+          ExplicitTop = 85
+          ExplicitWidth = 185
+          ExplicitHeight = 41
           object Label36: TLabel
-            Left = 14
-            Top = 130
+            Left = 23
+            Top = 30
             Width = 64
             Height = 13
             Caption = 'Terms (Days)'
@@ -353,11 +1006,25 @@ object frmSupplierInvoice: TfrmSupplierInvoice
             Font.Style = []
             ParentFont = False
           end
-          object edtDays: TEdit
-            Left = 14
-            Top = 149
-            Width = 89
-            Height = 21
+          object Label17: TLabel
+            Left = 6
+            Top = 2
+            Width = 85
+            Height = 13
+            Caption = 'Terms Description'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            ParentFont = False
+          end
+          object cxGrid3: TcxGrid
+            Left = 1
+            Top = 68
+            Width = 414
+            Height = 108
+            Align = alBottom
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
             Font.Height = -11
@@ -365,10 +1032,49 @@ object frmSupplierInvoice: TfrmSupplierInvoice
             Font.Style = []
             ParentFont = False
             TabOrder = 0
+            object cxGrid3DBTableView1: TcxGridDBTableView
+              Navigator.Buttons.CustomButtons = <>
+              Navigator.Buttons.Insert.Enabled = False
+              Navigator.Visible = True
+              DataController.DataSource = dsTerms
+              DataController.KeyFieldNames = 'ID_TERMS'
+              DataController.Summary.DefaultGroupSummaryItems = <>
+              DataController.Summary.FooterSummaryItems = <
+                item
+                  Kind = skSum
+                  FieldName = 'VALUE'
+                  Column = cxGrid3DBTableView1VALUE
+                  DisplayText = 'Total'
+                end>
+              DataController.Summary.SummaryGroups = <>
+              OptionsData.CancelOnExit = False
+              OptionsData.DeletingConfirmation = False
+              OptionsData.Editing = False
+              OptionsData.Inserting = False
+              OptionsView.Footer = True
+              OptionsView.GroupByBox = False
+              OptionsView.Indicator = True
+              object cxGrid3DBTableView1DESCRIPTION: TcxGridDBColumn
+                Caption = 'Description'
+                DataBinding.FieldName = 'DESCRIPTION'
+                Width = 150
+              end
+              object cxGrid3DBTableView1DATE_DUE: TcxGridDBColumn
+                Caption = 'Date Due'
+                DataBinding.FieldName = 'DATE_DUE'
+              end
+              object cxGrid3DBTableView1VALUE: TcxGridDBColumn
+                Caption = 'Total'
+                DataBinding.FieldName = 'VALUE'
+              end
+            end
+            object cxGrid3Level1: TcxGridLevel
+              GridView = cxGrid3DBTableView1
+            end
           end
           object btnTerms: TcxButton
-            Left = 120
-            Top = 145
+            Left = 193
+            Top = 26
             Width = 42
             Height = 33
             LookAndFeel.Kind = lfOffice11
@@ -515,648 +1221,26 @@ object frmSupplierInvoice: TfrmSupplierInvoice
             ParentFont = False
             OnClick = btnTermsClick
           end
-          object cxGrid3: TcxGrid
-            Left = 168
-            Top = 1
-            Width = 232
-            Height = 181
-            Align = alRight
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -11
-            Font.Name = 'Tahoma'
-            Font.Style = []
-            ParentFont = False
-            TabOrder = 2
-            object cxGrid3DBTableView1: TcxGridDBTableView
-              Navigator.Buttons.CustomButtons = <>
-              Navigator.Buttons.Insert.Enabled = False
-              Navigator.Visible = True
-              DataController.DataSource = dsTerms
-              DataController.KeyFieldNames = 'ID_TERMS'
-              DataController.Summary.DefaultGroupSummaryItems = <>
-              DataController.Summary.FooterSummaryItems = <
-                item
-                  Kind = skSum
-                  FieldName = 'VALUE'
-                  Column = cxGrid3DBTableView1VALUE
-                  DisplayText = 'Total'
-                end>
-              DataController.Summary.SummaryGroups = <>
-              OptionsData.CancelOnExit = False
-              OptionsData.DeletingConfirmation = False
-              OptionsData.Editing = False
-              OptionsData.Inserting = False
-              OptionsView.Footer = True
-              OptionsView.GroupByBox = False
-              OptionsView.Indicator = True
-              object cxGrid3DBTableView1DATE_DUE: TcxGridDBColumn
-                Caption = 'Date Due'
-                DataBinding.FieldName = 'DATE_DUE'
-              end
-              object cxGrid3DBTableView1VALUE: TcxGridDBColumn
-                Caption = 'Total'
-                DataBinding.FieldName = 'VALUE'
-              end
-            end
-            object cxGrid3Level1: TcxGridLevel
-              GridView = cxGrid3DBTableView1
-            end
-          end
-        end
-        object edtInvoiceNum: TcxTextEdit
-          Left = 99
-          Top = 69
-          ParentFont = False
-          Properties.CharCase = ecUpperCase
-          Properties.MaxLength = 20
-          Style.Font.Charset = DEFAULT_CHARSET
-          Style.Font.Color = clWindowText
-          Style.Font.Height = -11
-          Style.Font.Name = 'Tahoma'
-          Style.Font.Style = []
-          Style.IsFontAssigned = True
-          TabOrder = 1
-          OnExit = edtInvoiceNumExit
-          Width = 174
-        end
-        object cxLookupComboBoxCompany: TcxLookupComboBox
-          Left = 99
-          Top = 96
-          Properties.KeyFieldNames = 'ID_COMPANY'
-          Properties.ListColumns = <
-            item
-              FieldName = 'COMPANYNAME'
-            end>
-          Properties.ListSource = DsCompany
-          TabOrder = 3
-          Width = 369
-        end
-        object edtSalesRep: TcxTextEdit
-          Left = 99
-          Top = 123
-          Properties.CharCase = ecUpperCase
-          Properties.MaxLength = 30
-          TabOrder = 4
-          Width = 369
-        end
-        object edtFreight: TcxCurrencyEdit
-          Left = 579
-          Top = 69
-          Style.Color = clWhite
-          TabOrder = 6
-          OnExit = edtFreightExit
-          Width = 130
-        end
-        object edtTax: TcxCurrencyEdit
-          Left = 579
-          Top = 96
-          Style.Color = clWhite
-          TabOrder = 7
-          OnExit = edtTaxExit
-          Width = 130
-        end
-        object edtMerchandise: TcxCurrencyEdit
-          Left = 579
-          Top = 20
-          Enabled = False
-          Style.Color = clWhite
-          TabOrder = 5
-          OnExit = edtMerchandiseExit
-          Width = 130
-        end
-        object edtTotal: TcxCurrencyEdit
-          Left = 579
-          Top = 123
-          Style.Color = clWhite
-          TabOrder = 8
-          Width = 130
-        end
-        object cmbStatus: TcxComboBox
-          Left = 99
-          Top = 150
-          Properties.DropDownListStyle = lsFixedList
-          Properties.Items.Strings = (
-            'Pending'
-            'Approval'
-            'Reject')
-          Properties.MaxLength = 0
-          Properties.ReadOnly = False
-          TabOrder = 10
-          Width = 147
-        end
-        object cxTextEdit1: TcxTextEdit
-          Left = 427
-          Top = 150
-          Properties.CharCase = ecUpperCase
-          Properties.MaxLength = 30
-          TabOrder = 11
-          Width = 282
-        end
-      end
-      object pnlBtnLateral: TPanel
-        Left = 1048
-        Top = 185
-        Width = 82
-        Height = 277
-        Align = alRight
-        BevelOuter = bvLowered
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -11
-        Font.Name = 'MS Sans Serif'
-        Font.Style = [fsBold]
-        ParentFont = False
-        TabOrder = 1
-        object ButNovoItem: TcxButton
-          Left = 2
-          Top = 6
-          Width = 74
-          Height = 25
-          Hint = '|Inclui novo contato para esse cliente.'
-          Caption = 'New'
-          ParentShowHint = False
-          ShowHint = True
-          TabOrder = 0
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = [fsBold]
-          ParentFont = False
-          OnClick = ButNovoItemClick
-        end
-        object ButAlterarItem: TcxButton
-          Left = 2
-          Top = 33
-          Width = 74
-          Height = 25
-          Hint = '|Altera os dados do contato selecionado.'
-          Caption = 'Edit'
-          ParentShowHint = False
-          ShowHint = True
-          TabOrder = 1
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = [fsBold]
-          ParentFont = False
-          OnClick = ButAlterarItemClick
-        end
-        object ButExcluirItem: TcxButton
-          Left = 2
-          Top = 59
-          Width = 74
-          Height = 25
-          Hint = '|Apaga os dados do contato selecionado.'
-          Caption = 'Delete'
-          ParentShowHint = False
-          ShowHint = True
-          TabOrder = 2
-        end
-        object ButSalvarItem: TcxButton
-          Left = 2
-          Top = 115
-          Width = 74
-          Height = 25
-          Hint = '|Confirma Inclus'#227'o/Altera'#231#227'o do contato.'
-          Caption = 'Save'
-          Enabled = False
-          ParentShowHint = False
-          ShowHint = True
-          TabOrder = 3
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = [fsBold]
-          ParentFont = False
-          OnClick = ButSalvarItemClick
-        end
-        object ButCAncelarItem: TcxButton
-          Left = 2
-          Top = 146
-          Width = 74
-          Height = 25
-          Hint = '|Ignora Inclus'#227'o/Altera'#231#227'o do contato.'
-          Caption = 'Cancel'
-          Enabled = False
-          ParentShowHint = False
-          ShowHint = True
-          TabOrder = 4
-          OnClick = ButCAncelarItemClick
-        end
-      end
-      object cxPageItem: TcxPageControl
-        Left = 0
-        Top = 185
-        Width = 1048
-        Height = 277
-        Align = alClient
-        TabOrder = 2
-        Properties.ActivePage = cxTabSheetGrade
-        Properties.CustomButtons.Buttons = <>
-        ClientRectBottom = 273
-        ClientRectLeft = 4
-        ClientRectRight = 1044
-        ClientRectTop = 24
-        object cxTabSheetGrade: TcxTabSheet
-          Caption = 'Items'
-          ImageIndex = 0
-          object cxGrid2: TcxGrid
-            Left = 0
-            Top = 0
-            Width = 1040
-            Height = 249
-            Align = alClient
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -11
-            Font.Name = 'Tahoma'
-            Font.Style = []
-            ParentFont = False
-            TabOrder = 0
-            object cxGrid2DBTableView1: TcxGridDBTableView
-              Navigator.Buttons.CustomButtons = <>
-              DataController.DataSource = dsItem
-              DataController.Summary.DefaultGroupSummaryItems = <>
-              DataController.Summary.FooterSummaryItems = <
-                item
-                  Kind = skSum
-                  FieldName = 'AMOUNT'
-                  Column = cxGrid2DBTableView1AMOUNT
-                end>
-              DataController.Summary.SummaryGroups = <>
-              OptionsData.CancelOnExit = False
-              OptionsData.Deleting = False
-              OptionsData.DeletingConfirmation = False
-              OptionsData.Editing = False
-              OptionsData.Inserting = False
-              OptionsView.FocusRect = False
-              OptionsView.Footer = True
-              OptionsView.GroupByBox = False
-              OptionsView.Indicator = True
-              object cxGrid2DBTableView1ID_SUP_INVOICEITEM: TcxGridDBColumn
-                Caption = 'Item ID'
-                DataBinding.FieldName = 'ID_SUP_INVOICEITEM'
-                Width = 100
-              end
-              object cxGrid2DBTableView1ID_PRODUCT: TcxGridDBColumn
-                Caption = 'Product ID'
-                DataBinding.FieldName = 'ID_PRODUCT'
-                Width = 100
-              end
-              object cxGrid2DBTableView1PRODUCTTYPE: TcxGridDBColumn
-                Caption = 'Product Type'
-                DataBinding.FieldName = 'PRODUCT TYPE'
-                Width = 100
-              end
-              object cxGrid2DBTableView1PRODUCTSTYLE: TcxGridDBColumn
-                Caption = 'Product Style'
-                DataBinding.FieldName = 'PRODUCT STYLE'
-                Width = 100
-              end
-              object cxGrid2DBTableView1PRODUCT_NAME: TcxGridDBColumn
-                Caption = 'Product'
-                DataBinding.FieldName = 'PRODUCT_NAME'
-                Width = 200
-              end
-              object cxGrid2DBTableView1WIDTH: TcxGridDBColumn
-                Caption = 'Width'
-                DataBinding.FieldName = 'WIDTH'
-                Width = 100
-              end
-              object cxGrid2DBTableView1HEIGHT: TcxGridDBColumn
-                Caption = 'Length'
-                DataBinding.FieldName = 'HEIGHT'
-                Width = 100
-              end
-              object cxGrid2DBTableView1QTY: TcxGridDBColumn
-                Caption = 'Qty'
-                DataBinding.FieldName = 'QTY'
-                Width = 100
-              end
-              object cxGrid2DBTableView1TOTALAREA: TcxGridDBColumn
-                Caption = 'Total Area'
-                DataBinding.FieldName = 'TOTALAREA'
-                Width = 100
-              end
-              object cxGrid2DBTableView1UNITPRICE: TcxGridDBColumn
-                Caption = 'Unit Price'
-                DataBinding.FieldName = 'UNITPRICE'
-              end
-              object cxGrid2DBTableView1AMOUNT: TcxGridDBColumn
-                Caption = 'Amount'
-                DataBinding.FieldName = 'AMOUNT'
-              end
-              object cxGrid2DBTableView1ROLLNUMBER: TcxGridDBColumn
-                Caption = 'RollNumber'
-                DataBinding.FieldName = 'ROLLNUMBER'
-                Width = 100
-              end
-              object cxGrid2DBTableView1DYELOT: TcxGridDBColumn
-                Caption = 'Dye Lot'
-                DataBinding.FieldName = 'DYELOT'
-                Width = 100
-              end
-            end
-            object cxGrid2Level1: TcxGridLevel
-              GridView = cxGrid2DBTableView1
-            end
-          end
-        end
-        object cxTabSheetItemForm: TcxTabSheet
-          Caption = 'Form'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'Tahoma'
-          Font.Style = []
-          ImageIndex = 1
-          ParentFont = False
-          TabVisible = False
-          object Label5: TLabel
-            Left = 17
-            Top = 14
-            Width = 37
-            Height = 13
-            Caption = 'Product'
-          end
-          object Label40: TLabel
-            Left = 17
-            Top = 66
-            Width = 33
-            Height = 16
-            Caption = 'Width'
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -13
-            Font.Name = 'Tahoma'
-            Font.Style = []
-            ParentFont = False
-          end
-          object Label15: TLabel
-            Left = 135
-            Top = 66
-            Width = 38
-            Height = 16
-            Caption = 'Lenght'
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -13
-            Font.Name = 'Tahoma'
-            Font.Style = []
-            ParentFont = False
-          end
-          object Label41: TLabel
-            Left = 247
-            Top = 66
-            Width = 60
-            Height = 16
-            Caption = 'Total Area'
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -13
-            Font.Name = 'Tahoma'
-            Font.Style = []
-            ParentFont = False
-          end
-          object Label16: TLabel
-            Left = 357
-            Top = 66
-            Width = 110
-            Height = 16
-            Caption = 'Number of Box/Roll'
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -13
-            Font.Name = 'Tahoma'
-            Font.Style = []
-            ParentFont = False
-          end
-          object Label6: TLabel
-            Left = 494
-            Top = 66
-            Width = 54
-            Height = 16
-            Caption = 'Unit Price'
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -13
-            Font.Name = 'Tahoma'
-            Font.Style = []
-            ParentFont = False
-          end
-          object Label45: TLabel
-            Left = 322
-            Top = 130
-            Width = 39
-            Height = 13
-            Caption = 'Quantity'
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -11
-            Font.Name = 'MS Sans Serif'
-            Font.Style = []
-            ParentFont = False
-          end
-          object Label46: TLabel
-            Left = 461
-            Top = 131
-            Width = 17
-            Height = 13
-            Caption = 'sqft'
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -11
-            Font.Name = 'MS Sans Serif'
-            Font.Style = []
-            ParentFont = False
-          end
-          object Label7: TLabel
-            Left = 649
-            Top = 66
-            Width = 51
-            Height = 16
-            Caption = 'SubTotal'
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -13
-            Font.Name = 'Tahoma'
-            Font.Style = []
-            ParentFont = False
-          end
-          object Label12: TLabel
-            Left = 17
-            Top = 154
-            Width = 70
-            Height = 16
-            Caption = 'Roll Number'
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -13
-            Font.Name = 'Tahoma'
-            Font.Style = []
-            ParentFont = False
-          end
-          object Label14: TLabel
-            Left = 169
-            Top = 154
-            Width = 42
-            Height = 16
-            Caption = 'Dye Lot'
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -13
-            Font.Name = 'Tahoma'
-            Font.Style = []
-            ParentFont = False
-          end
-          object edtProduct: TEditBusca
-            Left = 17
-            Top = 33
-            Width = 492
+          object edtDays: TEdit
+            Left = 97
+            Top = 30
+            Width = 89
             Height = 21
-            CharCase = ecUpperCase
-            TabOrder = 0
-            ClickOnArrow = True
-            ClickOnReturn = False
-            bs_HeightForm = 0
-            bs_WidthForm = 0
-            bs_SetCPF = False
-            bs_SetCNPJ = False
-            bs_SetPlaca = False
-            bs_LoadConsulta = False
-            bs_Distinct = False
-            bs_SetColor = False
-            bs_NomeCor = clBlack
-            bs_IndiceCampo = 0
-            bs_Imagem = False
-            bs_HideTop = False
-            bs_Top100 = False
-            bs_Script = False
-          end
-          object edtwidth: TcxCurrencyEdit
-            Left = 17
-            Top = 88
-            ParentFont = False
-            Properties.MaxLength = 5
-            Style.Font.Charset = DEFAULT_CHARSET
-            Style.Font.Color = clWindowText
-            Style.Font.Height = -16
-            Style.Font.Name = 'Tahoma'
-            Style.Font.Style = []
-            Style.IsFontAssigned = True
-            TabOrder = 1
-            OnEnter = edtwidthEnter
-            Width = 64
-          end
-          object edtheight: TcxCurrencyEdit
-            Left = 135
-            Top = 88
-            ParentFont = False
-            Properties.MaxLength = 5
-            Style.Font.Charset = DEFAULT_CHARSET
-            Style.Font.Color = clWindowText
-            Style.Font.Height = -16
-            Style.Font.Name = 'Tahoma'
-            Style.Font.Style = []
-            Style.IsFontAssigned = True
-            TabOrder = 2
-            OnEnter = edtheightEnter
-            OnExit = edtheightExit
-            Width = 66
-          end
-          object edttotalarea: TcxCurrencyEdit
-            Left = 247
-            Top = 88
-            ParentFont = False
-            Properties.MaxLength = 5
-            Style.Font.Charset = DEFAULT_CHARSET
-            Style.Font.Color = clWindowText
-            Style.Font.Height = -16
-            Style.Font.Name = 'Tahoma'
-            Style.Font.Style = []
-            Style.IsFontAssigned = True
-            TabOrder = 3
-            Width = 85
-          end
-          object EdtQty: TSpinEdit
-            Left = 371
-            Top = 88
-            Width = 84
-            Height = 29
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
-            Font.Height = -16
+            Font.Height = -11
             Font.Name = 'Tahoma'
             Font.Style = []
-            MaxValue = 0
-            MinValue = 0
             ParentFont = False
-            TabOrder = 4
-            Value = 0
-            OnChange = EdtQtyChange
+            TabOrder = 2
           end
-          object edtUnitPrice: TcxCurrencyEdit
-            Left = 494
-            Top = 88
-            ParentFont = False
-            Style.Font.Charset = DEFAULT_CHARSET
-            Style.Font.Color = clWindowText
-            Style.Font.Height = -16
-            Style.Font.Name = 'Tahoma'
-            Style.Font.Style = []
-            Style.IsFontAssigned = True
-            TabOrder = 5
-            OnExit = edtUnitPriceExit
-            Width = 121
-          end
-          object edtAreaSquareFeetPerBox: TcxCurrencyEdit
-            Left = 370
-            Top = 123
-            TabOrder = 6
-            Width = 85
-          end
-          object edtSubTotal: TcxCurrencyEdit
-            Left = 651
-            Top = 88
-            ParentFont = False
-            Style.Font.Charset = DEFAULT_CHARSET
-            Style.Font.Color = clWindowText
-            Style.Font.Height = -16
-            Style.Font.Name = 'Tahoma'
-            Style.Font.Style = []
-            Style.IsFontAssigned = True
-            TabOrder = 7
-            Width = 121
-          end
-          object edtRoolNumber: TcxTextEdit
-            Left = 17
-            Top = 176
-            ParentFont = False
-            Style.Font.Charset = DEFAULT_CHARSET
-            Style.Font.Color = clWindowText
-            Style.Font.Height = -16
-            Style.Font.Name = 'Tahoma'
-            Style.Font.Style = []
-            Style.IsFontAssigned = True
-            TabOrder = 8
-            Width = 121
-          end
-          object edtDyeLot: TcxTextEdit
-            Left = 169
-            Top = 176
-            ParentFont = False
-            Style.Font.Charset = DEFAULT_CHARSET
-            Style.Font.Color = clWindowText
-            Style.Font.Height = -16
-            Style.Font.Name = 'Tahoma'
-            Style.Font.Style = []
-            Style.IsFontAssigned = True
-            TabOrder = 9
-            Width = 121
+          object edtTermDescription: TcxTextEdit
+            Left = 97
+            Top = 2
+            Properties.CharCase = ecUpperCase
+            Properties.MaxLength = 30
+            TabOrder = 3
+            Width = 304
           end
         end
       end
@@ -1164,8 +1248,8 @@ object frmSupplierInvoice: TfrmSupplierInvoice
   end
   object Panel27: TPanel
     Left = 0
-    Top = 490
-    Width = 1138
+    Top = 508
+    Width = 1154
     Height = 35
     Align = alBottom
     BevelOuter = bvNone
@@ -1176,6 +1260,34 @@ object frmSupplierInvoice: TfrmSupplierInvoice
     Font.Style = []
     ParentFont = False
     TabOrder = 1
+    ExplicitTop = 488
+    ExplicitWidth = 1138
+    object Label18: TLabel
+      Left = 904
+      Top = 11
+      Width = 85
+      Height = 13
+      Caption = 'Request Order ID'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label19: TLabel
+      Left = 644
+      Top = 11
+      Width = 143
+      Height = 13
+      Caption = 'Manufacturer Invoice Number'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+    end
     object ButNovo: TcxButton
       Left = 3
       Top = 0
@@ -1692,6 +1804,186 @@ object frmSupplierInvoice: TfrmSupplierInvoice
       TabOrder = 6
       OnClick = ButCancelarClick
     end
+    object edtLocator: TcxTextEdit
+      Left = 996
+      Top = 8
+      ParentFont = False
+      Properties.CharCase = ecUpperCase
+      Properties.MaxLength = 20
+      Style.Font.Charset = DEFAULT_CHARSET
+      Style.Font.Color = clWindowText
+      Style.Font.Height = -11
+      Style.Font.Name = 'Tahoma'
+      Style.Font.Style = []
+      Style.IsFontAssigned = True
+      TabOrder = 7
+      Width = 91
+    end
+    object btnGetRequestOrder: TcxButton
+      Left = 1092
+      Top = 2
+      Width = 43
+      Height = 34
+      Caption = '   &I'
+      LookAndFeel.Kind = lfOffice11
+      LookAndFeel.NativeStyle = False
+      LookAndFeel.SkinName = 'Office2007Blue'
+      OptionsImage.Glyph.Data = {
+        36100000424D3610000000000000360000002800000020000000200000000100
+        2000000000000010000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000010000
+        0002000000040000000500000004000000020000000100000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000001000000040000
+        000A000000110000001400000011000000090000000300000001000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        00000000000000000000000000000000000000000001000000050000000D0307
+        10380F2455C01D448BFA152F63BD040810310000000900000002000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        000000000000000000000000000000000001000000050000000D0408133D1D45
+        83EC5294CBFF63AEE5FF8AB5DAFF203E70C20000001100000004000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000001000000040000000D040A143C214E8DEC5AA8
+        DEFF4598E0FF93D4F6FFEAF8FEFF2C5696F00000001400000005000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        00000000000000000001000000040000000C050C163B265695EC5CA9DFFF3E94
+        DDFF92D3F6FFEAF9FFFF76B2DDFF254878C20000001100000004000000000000
+        0000000000000000000000000000000000000000000000000000000000010000
+        0002000000030000000400000004000000040000000400000004000000030000
+        000100000001000000040000000C0D0B0B392B5E9CEC5BABE0FF4096DFFF92D3
+        F6FFEAF9FFFF86C8EEFF32619FEC070D16380000000A00000002000000000000
+        0000000000000000000000000000000000000000000100000003000000050000
+        00080000000B0000000E0000000F00000010000000100000000E0000000B0000
+        0008000000070000000C110A08397B4C3EF58792A6FF4398E0FF93D4F6FFEAF9
+        FFFF87C7EEFF3468A4EC070E183D0000000D0000000400000001000000000000
+        00000000000000000000000000010000000200000004000000090C0807263B28
+        21835C3D34C4775045F77A5145FF794F42FF794F43FF5C3B33CA3B26208C110B
+        093700000014110A083B784C40EBAC8071FF835548FFA7BAC7FFEAF9FFFF88C8
+        F0FF376CA9EC080F193C0000000D000000050000000100000000000000000000
+        0000000000000000000100000002000000060604041749332C96856154F7B294
+        89FFCFB8ADFFEBD9CFFFECDCD0FFECDBD0FFEBDBD0FFCFB8ACFFAE9084FF815A
+        4EFF4E332BB76A4438EEA77D6FFF8F6354FFC3A79FFFC8B2AAFFB2CAD9FF3A71
+        ADEC08101A3B0000000D00000005000000010000000000000000000000000000
+        0000000000000000000200000006140E0C2F725246D9B59A8FFFE6D4CAFFF0E3
+        DAFFF9F2EBFFFDF9F3FFFFFCF7FFFFFCF7FFFDFAF3FFFAF3EDFFF3E7DEFFE6D4
+        CAFFAE9084FF7B5447FF745045FFBDA29AFFFDFCFBFFDDCEC8FF895F53F5110F
+        0F390000000C0000000400000001000000000000000000000000000000000000
+        00000000000100000005110C0B29886459EDD4C2B9FFEFE0D7FFF9F2EAFFF3EA
+        DEFFD4BB9CFFC09D73FFB38855FFB48956FFC49F75FFD7BE9FFFF4EBDFFFFBF5
+        F0FFF0E2D9FFCDB6ABFF825A4FFFB2A29DFFD4C6C1FF825C51EB140D0B390000
+        000C000000040000000100000000000000000000000000000000000000000000
+        000100000003050403127A594FD5D6C5BEFFEEE2D8FFFCF6EFFFDBC5ACFFB489
+        59FFCDA872FFDDC18AFFEBD49DFFECD7A2FFE2C995FFD2B481FFBC9362FFDFCA
+        B0FFFDF9F3FFF1E5DCFFCCB4A9FF815D52FF6F4D41EE110B09390000000C0000
+        0004000000010000000000000000000000000000000000000000000000000000
+        0001000000054836307FC1ACA3FFF0E4DDFFF8F0E8FFC4A17EFFBC915EFFDCB7
+        7AFFE3BF7FFFE3C07FFFE4C585FFE7CC8FFFEBD39BFFEFDCABFFE7D4A4FFC7A2
+        71FFCBAC86FFFAF5EDFFF0E3DAFFB5998EFF5A3E35BD00000015000000070000
+        0001000000000000000000000000000000000000000000000000000000010000
+        0003090706179B786DF5F2EBE7FFF3E8E1FFCEB094FFBD8F5CFFDFB371FFDFB7
+        74FFE2BA79FFE3BE7FFFE5C385FFE6C78AFFE9CB91FFEBD198FFEED9A8FFF0DE
+        B2FFCAA578FFD7BD9FFFF7EFE8FFE8D7CEFF8E695CFC150E0C3A000000080000
+        0002000000000000000000000000000000000000000000000000000000010000
+        000443332E6FC8B2AAFFF5EDE8FFECDDD0FFAE7A4FFFDAA867FFDEAE6DFFDFB2
+        73FFE2B77AFFE4BB7FFFE4BF85FFE6C38BFFE9C790FFEAC994FFEBCD98FFEED6
+        A9FFEDD6AEFFBF9065FFF1E4D8FFF1E7DFFFBAA095FF4A342E940000000B0000
+        0003000000000000000000000000000000000000000000000000000000010000
+        0005735950B5E5D9D6FFF3EAE3FFCCAA91FFC28A55FFDDA768FFDFAC6DFFDFAF
+        73FFE2B379FFE4B77FFFE5BA83FFE7BF89FFE9C38FFFEAC493FFEBC696FFEBC9
+        99FFF0D4AEFFD5AF87FFD8BAA0FFF5EBE4FFDAC6BDFF74544AD50000000E0000
+        0004000000000000000000000000000000000000000000000000000000010000
+        0005947369E0F8F4F3FFF3E9E2FFB17F5EFFD2955EFFDDA368FFE1AC76FFEAC4
+        A0FFEDCBADFFEDC8A7FFE9C39CFFE7B98AFFE8BC8BFFE9BF90FFE9C092FFEAC2
+        95FFECC9A0FFE5C29DFFC59877FFF6EEE8FFEADCD4FF8F6A5EFA020101130000
+        0004000000000000000000000000000000000000000000000000000000010000
+        0006A58379F1FFFEFEFFF3EBE5FFA46946FFD89961FFE1AA78FFF0D5C3FFF0D4
+        C2FFEFCFBBFFEECDB4FFEECAAEFFECC7A7FFE8B98DFFE8B88CFFE8BA90FFE8BB
+        91FFEABE95FFECC7A5FFBD8966FFF8F0EBFFF1E4DDFF9C7669FF0B0807220000
+        0005000000010000000000000000000000000000000000000000000000010000
+        0005AA897EF1FFFFFFFFF5EDE9FFA16544FFDB9861FFEECBB6FFF4DCD3FFF2D8
+        CBFFF1D4C3FFEFCFBCFFEFCBB5FFEDC8AFFFEABF9FFFE7B189FFE7B38BFFE7B4
+        8CFFE7B68EFFEAC1A2FFBF8669FFF7F1ECFFF2E7E1FF9F7A6EFF0907061E0000
+        0004000000010000000000000000000000000000000000000000000000010000
+        000498796FD7FAF7F6FFF8F2EFFFAB7158FFCF8B59FFF6E2DDFFF6E1DCFFF4DC
+        D3FFF3D8CCFFF1D2C3FFEFCEBCFFEFCAB6FFEDC5ADFFE6AC85FFE6AE86FFE6AE
+        89FFE7B08BFFE3B495FFC69278FFF6EFEAFFF0E6E2FF987568F4020101120000
+        0004000000000000000000000000000000000000000000000000000000010000
+        0003776058A8EAE0DCFFFBF8F7FFC39A88FFBC764EFFF7E6E4FFF8E6E5FFF6E1
+        DDFFF4DCD4FFF3D7CCFFF1D1C3FFF0CDBCFFEEC7B3FFE5A67FFFE6A782FFE6A8
+        83FFE7AC89FFD39C7EFFD6B2A0FFF5EDE8FFE4D7D2FF7F6358CC0000000C0000
+        0003000000000000000000000000000000000000000000000000000000010000
+        000244383361D6C2BBFFFFFEFEFFE7D6CEFF9F593DFFECCBBCFFF9EBECFFF8E6
+        E5FFF6E1DDFFF4DBD4FFF3D6CCFFF1D1C3FFEBBDA5FFE3A27AFFE4A37CFFE4A3
+        7CFFE5AA89FFBC7D65FFEDDED7FFF4ECE7FFCCB6AFFF53423B89000000090000
+        0002000000000000000000000000000000000000000000000000000000000000
+        000109070711AF9187E9F8F4F3FFFBF9F8FFBD9381FFAD6A4AFFF8E9E9FFF9EB
+        ECFFF7E6E5FFF6E1DDFFF4DBD3FFF2D1C5FFE4A57FFFE19D74FFE29E75FFE29F
+        77FFC6896CFFD4AD9DFFF5F0EAFFF6F0EDFFAE8C80FA120E0D28000000050000
+        0001000000000000000000000000000000000000000000000000000000000000
+        00010000000350413D6DDAC4BEFFFFFFFFFFF8F2F1FFB17F6AFFA86444FFE5BF
+        AFFFF6E1DEFFF5DDD7FFEEC7B5FFE19F76FFE0996DFFE19A6EFFDA946BFFBF7F
+        62FFC99A87FFF6EEEAFFF9F4F1FFD0BBB3FF5E4B449000000009000000030000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000010202020791776EBFE8DAD6FFFFFFFFFFFBF8F6FFCDAC9EFF9F5D
+        43FFBC744EFFCE855BFFDC9265FFDC9266FFD28A62FFC6825FFFB5765CFFDABB
+        AEFFF7F2EEFFF9F5F2FFE5D9D4FF95776DD60B08081A00000004000000010000
+        0000000000000000000000000000000000000000000000000000000000000000
+        000000000000000000020E0C0B16A98E83DAE9DDD7FFFFFFFFFFFCFAFAFFEBDC
+        D5FFC69F90FFB27C66FFA46248FFA7664BFFBA856FFFD0A999FFEEE0D9FFF8F2
+        EFFFFCF9F9FFE6D9D5FFAC8C82EA1A15132F0000000600000002000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        00000000000000000001000000020E0C0B17957D74C2DCC8C1FFFAF6F5FFFFFF
+        FFFFFEFBFBFFFAF8F6FFF9F5F2FFF8F3F0FFF9F4F1FFFBF6F5FFFDFBFBFFFAF8
+        F7FFD8C4BCFF9B8075D516121129000000060000000200000001000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        000000000000000000000000000100000002020202075345406DB99B90E9DDCA
+        C2FFEEE5E1FFFAF8F7FFFFFFFFFFFFFFFFFFFAF7F6FFEEE5E1FFDBC7BFFFBA9C
+        91F25B4B457F0706051200000005000000020000000100000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000100000003090807104036
+        3256826D65A8A1877DCEB7998EEBBE9E92F49F847BCF877068B2463935610E0C
+        0B19000000060000000300000001000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000001000000010000
+        0002000000030000000400000005000000060000000500000005000000040000
+        0002000000010000000100000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000010000000100000001000000010000000100000001000000010000
+        0001000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000}
+      OptionsImage.Margin = 5
+      TabOrder = 8
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      OnClick = btnGetRequestOrderClick
+    end
+    object edtManufactInvoice: TcxTextEdit
+      Left = 796
+      Top = 8
+      ParentFont = False
+      Properties.CharCase = ecUpperCase
+      Properties.MaxLength = 20
+      Style.Font.Charset = DEFAULT_CHARSET
+      Style.Font.Color = clWindowText
+      Style.Font.Height = -11
+      Style.Font.Name = 'Tahoma'
+      Style.Font.Style = []
+      Style.IsFontAssigned = True
+      TabOrder = 9
+      Width = 91
+    end
   end
   object sqlGrid: TFDQuery
     Connection = DBDados.FDConnection
@@ -1708,14 +2000,18 @@ object frmSupplierInvoice: TfrmSupplierInvoice
       'A.TOTAL,'
       'A.STATUS,'
       'A.ID_SUPPLIER,'
-      'A.ID_COMPANY'
+      'A.ID_COMPANY,'
+      'A.ID_PAYMENT_METHOD'
       'FROM TBSUP_INVOICE A'
-      'INNER JOIN TBSUPPLIER B ON B.ID_SUPPLIER = A.ID_SUPPLIER'
-      'INNER JOIN TBCOMPANY C ON C.ID_COMPANY = A.ID_COMPANY'
-      'WHERE &WHERE1'
-      '&WHERE2')
-    Left = 753
-    Top = 384
+      'LEFT OUTER JOIN TBSUPPLIER B ON B.ID_SUPPLIER = A.ID_SUPPLIER'
+      'LEFT OUTER JOIN TBCOMPANY C ON C.ID_COMPANY = A.ID_COMPANY'
+      'WHERE (1=1) '
+      '&WHERE1'
+      '&WHERE2'
+      '&WHERE3'
+      '')
+    Left = 513
+    Top = 192
     MacroData = <
       item
         Value = Null
@@ -1725,6 +2021,11 @@ object frmSupplierInvoice: TfrmSupplierInvoice
       item
         Value = Null
         Name = 'WHERE2'
+        DataType = mdIdentifier
+      end
+      item
+        Value = Null
+        Name = 'WHERE3'
         DataType = mdIdentifier
       end>
     object sqlGridID: TFDAutoIncField
@@ -1798,11 +2099,15 @@ object frmSupplierInvoice: TfrmSupplierInvoice
       FieldName = 'ID_COMPANY'
       Origin = 'ID_COMPANY'
     end
+    object sqlGridID_PAYMENT_METHOD: TIntegerField
+      FieldName = 'ID_PAYMENT_METHOD'
+      Origin = 'ID_PAYMENT_METHOD'
+    end
   end
   object dsGrid: TDataSource
     DataSet = sqlGrid
-    Left = 572
-    Top = 416
+    Left = 372
+    Top = 320
   end
   object TBCOMPANY: TFDTable
     Filtered = True
@@ -1902,8 +2207,8 @@ object frmSupplierInvoice: TfrmSupplierInvoice
   end
   object DsCompany: TDataSource
     DataSet = TBCOMPANY
-    Left = 695
-    Top = 381
+    Left = 687
+    Top = 317
   end
   object sqlItem: TFDQuery
     Connection = DBDados.FDConnection
@@ -1934,8 +2239,8 @@ object frmSupplierInvoice: TfrmSupplierInvoice
       'WHERE I.ID_SUP_INVOICE = :ID_SUP_INVOICE'
       'AND I.ID_SUPPLIER      = :ID_SUPPLIER'
       'AND I.INVOICE_ID       = :INVOICE_ID')
-    Left = 824
-    Top = 401
+    Left = 856
+    Top = 225
     ParamData = <
       item
         Name = 'ID_SUP_INVOICE'
@@ -2111,10 +2416,28 @@ object frmSupplierInvoice: TfrmSupplierInvoice
       FieldName = 'ID_USER'
       Origin = 'ID_USER'
     end
+    object sqlTermsDESCRIPTION: TStringField
+      FieldName = 'DESCRIPTION'
+      Origin = 'DESCRIPTION'
+      Size = 50
+    end
   end
   object dsTerms: TDataSource
     DataSet = sqlTerms
     Left = 853
     Top = 328
+  end
+  object sqlPaymentMethod: TFDQuery
+    Connection = DBDados.FDConnection
+    SQL.Strings = (
+      ' SELECT ID_PAYMENT_METHOD, PAYMENT_DESCRIPTION'
+      ' FROM TBPAYMENT_METHOD')
+    Left = 716
+    Top = 240
+  end
+  object dsPaymentMethod: TDataSource
+    DataSet = sqlPaymentMethod
+    Left = 732
+    Top = 288
   end
 end

@@ -579,7 +579,7 @@ object FrmCustomer: TFrmCustomer
     Font.Style = []
     ParentFont = False
     TabOrder = 2
-    Properties.ActivePage = cxTabSheetList
+    Properties.ActivePage = cxTabSheetForm
     Properties.CustomButtons.Buttons = <>
     OnChange = cxPageControlChange
     ClientRectBottom = 592
@@ -665,6 +665,7 @@ object FrmCustomer: TFrmCustomer
     object cxTabSheetForm: TcxTabSheet
       Caption = 'Registration Form'
       ImageIndex = 1
+      TabVisible = False
       object Panel1: TPanel
         Tag = -2
         Left = 0
@@ -720,20 +721,23 @@ object FrmCustomer: TFrmCustomer
           ImageIndex = 0
           object Panel3: TPanel
             Left = 0
-            Top = 225
+            Top = 259
             Width = 1139
-            Height = 284
+            Height = 250
             Align = alClient
             TabOrder = 0
+            ExplicitTop = 225
+            ExplicitHeight = 284
             object cxPageControl2: TcxPageControl
               Left = 1
               Top = 1
               Width = 1137
-              Height = 282
+              Height = 248
               Align = alClient
               TabOrder = 0
               Properties.CustomButtons.Buttons = <>
-              ClientRectBottom = 278
+              ExplicitHeight = 282
+              ClientRectBottom = 244
               ClientRectLeft = 4
               ClientRectRight = 1133
               ClientRectTop = 4
@@ -742,7 +746,7 @@ object FrmCustomer: TFrmCustomer
               Left = 1
               Top = 1
               Width = 1137
-              Height = 282
+              Height = 248
               Align = alClient
               Font.Charset = DEFAULT_CHARSET
               Font.Color = clWindowText
@@ -752,6 +756,7 @@ object FrmCustomer: TFrmCustomer
               ParentFont = False
               TabOrder = 1
               RootLevelOptions.DetailTabsPosition = dtpTop
+              ExplicitHeight = 282
               object cxTableViewAddress: TcxGridDBTableView
                 Navigator.Buttons.ConfirmDelete = True
                 Navigator.Buttons.CustomButtons = <>
@@ -858,7 +863,7 @@ object FrmCustomer: TFrmCustomer
             Left = 0
             Top = 0
             Width = 1139
-            Height = 225
+            Height = 259
             Align = alTop
             TabOrder = 1
             object Panel1010: TPanel
@@ -1089,6 +1094,75 @@ object FrmCustomer: TFrmCustomer
                     Text = '(   )   -    '
                   end
                 end
+              end
+            end
+            object Panel5: TPanel
+              Tag = -1
+              Left = 109
+              Top = 223
+              Width = 894
+              Height = 31
+              Alignment = taLeftJustify
+              BevelInner = bvLowered
+              Font.Charset = ANSI_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Arial'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 3
+              object Label19: TLabel
+                Left = 7
+                Top = 9
+                Width = 112
+                Height = 14
+                Caption = 'Special Pricing Table'
+              end
+              object cxLookupComboBoxPrincing: TcxLookupComboBox
+                Left = 126
+                Top = 5
+                ParentFont = False
+                Properties.DropDownRows = 20
+                Properties.KeyFieldNames = 'ID_PRICELIST'
+                Properties.ListColumns = <
+                  item
+                    FieldName = 'NAME'
+                  end>
+                Properties.ListSource = DSPPRICELIST
+                Style.Font.Charset = ANSI_CHARSET
+                Style.Font.Color = clWindowText
+                Style.Font.Height = -11
+                Style.Font.Name = 'Arial'
+                Style.Font.Style = [fsBold]
+                Style.IsFontAssigned = True
+                TabOrder = 0
+                Width = 235
+              end
+              object spbCleanCustomer: TcxButton
+                Left = 367
+                Top = 5
+                Width = 26
+                Height = 23
+                Hint = 'Clean Special Pricing Table'
+                OptionsImage.Glyph.Data = {
+                  F6000000424DF600000000000000760000002800000010000000100000000100
+                  0400000000008000000000000000000000001000000000000000000000000000
+                  80000080000000808000800000008000800080800000C0C0C000808080000000
+                  FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00777777777777
+                  7777777777777777777777000000077777777077777700777777707777770307
+                  77777077777703307777770FBFBFB03307777770FBFBFB03307777770FBFBFB0
+                  3307777770FBFBFB03077777770FBFBFB00777777770FBFBFB07777777770000
+                  0077777777777777777777777777777777777777777777777777}
+                ParentShowHint = False
+                ShowHint = True
+                TabOrder = 1
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -11
+                Font.Name = 'Tahoma'
+                Font.Style = []
+                ParentFont = False
+                OnClick = spbCleanCustomerClick
               end
             end
           end
@@ -3982,5 +4056,52 @@ object FrmCustomer: TFrmCustomer
           0000000000000000000000000000000000000000000000000000000000000000
           0000000000000000000000000000000000000000000000000000}
       end>
+  end
+  object STPPRICELIST: TFDStoredProc
+    Connection = DBDados.FDConnection
+    SchemaName = 'dbo'
+    StoredProcName = 'FLOORDB.dbo.SP_VENDOR_PRICINGTABLE'
+    Left = 365
+    Top = 494
+    ParamData = <
+      item
+        Position = 1
+        Name = '@RETURN_VALUE'
+        DataType = ftInteger
+        ParamType = ptResult
+        Value = 0
+      end
+      item
+        Name = '@ID_CONTRACTOR'
+        DataType = ftInteger
+        ADDataType = dtUInt32
+        ParamType = ptInput
+        Value = 2
+      end>
+    object STPPRICELISTID_PRICELIST: TFDAutoIncField
+      FieldName = 'ID_PRICELIST'
+      Origin = 'ID_PRICELIST'
+      ReadOnly = True
+    end
+    object STPPRICELISTNAME: TStringField
+      FieldName = 'NAME'
+      Origin = 'NAME'
+      Size = 50
+    end
+    object STPPRICELISTEXPIREDDATE: TDateField
+      FieldName = 'EXPIREDDATE'
+      Origin = 'EXPIREDDATE'
+    end
+    object STPPRICELISTACTIVE: TStringField
+      FieldName = 'ACTIVE'
+      Origin = 'ACTIVE'
+      FixedChar = True
+      Size = 1
+    end
+  end
+  object DSPPRICELIST: TDataSource
+    DataSet = STPPRICELIST
+    Left = 469
+    Top = 510
   end
 end

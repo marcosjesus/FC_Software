@@ -112,7 +112,6 @@ type
     sqlImageImagem: TBlobField;
     OpenPictureDialog: TOpenPictureDialog;
     cxSplitter1: TcxSplitter;
-    cmbProduct: TcxComboBox;
     Label3: TLabel;
     edtProductID: TEdit;
     btnRoom: TcxButton;
@@ -147,6 +146,7 @@ type
     procedure edtweidthExit(Sender: TObject);
   private
     { Private declarations }
+    varAV, varEP, VarOP, varSQFT : Double;
     varSelectProduct : Boolean;
     varID_Supplier : Integer;
     varAcumSubTotal, varAcumTax, varAcumTotal : Double;
@@ -391,16 +391,8 @@ begin
     Item.id_process_item := ItemCount;
     Item.id_pricelist    := cxLookupComboBoxPrincing.EditValue;
     Item.id_product      := StrToInt(lblProductID.Caption);
-    if cmbProduct.ItemIndex = 0 then
-    begin
-      Item.qty          := StrToFloat(EdtQty.Text);
-      item.tax          := StrToFloat(lblTax.Caption);
-    end
-    else
-    begin
-      Item.qty          := 0;
-      item.tax          := 0;
-    end;
+    Item.qty          := StrToFloat(EdtQty.Text);
+    item.tax          := StrToFloat(lblTax.Caption);
 
     Item.rate           := StrToFloat(lblRate.Caption);
     Item.amout          := StrToFloat(lblAmount.Caption);
@@ -626,6 +618,11 @@ begin
  10     sqlInventoty.SQL.Add(      'ID_SUPPLIER  ');
 
       }
+
+   varAV := 0;
+   varEP := 0;
+   VarOP := 0;
+   varSQFT := 0;
    lblUnidadeMedida.Caption     := '';
    lblInfoQuant.Caption         := '';
    lblManufactory.Caption       := sqlInventoty.Fields[0].AsString;
@@ -637,16 +634,18 @@ begin
 
    lblProductID.Caption         := ZeroLeft(sqlInventoty.Fields[8].AsString,7);
    lblRate.Caption              := FormatFloat('0.00', sqlInventoty.Fields[7].AsFloat);
-   if cmbProduct.ItemIndex = 0 then
-   begin
-     lblEP.Caption                := Item.ProductPending('TBESTIMATE', sqlInventoty.Fields[8].AsInteger);
-     lblOP.Caption                := Item.ProductPending('TBORDER', sqlInventoty.Fields[8].AsInteger);
-     edtAreaSquareFeetPerBox.Text := sqlInventoty.Fields[9].AsString;
-     lblSection.Caption           := sqlInventoty.Fields[4].AsString;
-     lblPosition.Caption          := sqlInventoty.Fields[5].AsString;
-     if lblTotalSQF.Caption <> '0' then
-       lblAV.Caption             := FloatToStr(  StrToFloat(lblTotalSQF.Caption) - (StrToFloat(lblEP.Caption) + strTofloat(lblOP.Caption)) );
-    end;
+
+   varEP               := Item.ProductPending('TBESTIMATE', sqlInventoty.Fields[8].AsInteger);
+   lblEP.Caption       := FloatToStr(varEP);
+
+   VarOP               := Item.ProductPending('TBORDER', sqlInventoty.Fields[8].AsInteger);
+   lblOP.Caption       := FloatToStr(VarOP);
+
+   edtAreaSquareFeetPerBox.Text := sqlInventoty.Fields[9].AsString;
+   lblSection.Caption           := sqlInventoty.Fields[4].AsString;
+   lblPosition.Caption          := sqlInventoty.Fields[5].AsString;
+   if lblTotalSQF.Caption <> '0' then
+     lblAV.Caption             := FloatToStr(  StrToFloat(lblTotalSQF.Caption) - (varEP + VarOP) );
 
    if ((edtweidth.EditValue <> Null) and (edtheight.EditValue <> Null)) then
      edtheightExit(Self);
@@ -786,7 +785,7 @@ end;
 
 procedure TfrmInventory.edtheightExit(Sender: TObject);
 begin
-  
+
   if not sqlInventoty.IsEmpty then
   begin
       if (lblProductID.Caption <> '0') then
@@ -798,23 +797,21 @@ begin
 
           if ((UpperCase(sqlInventoty.Fields[1].AsString) <> 'CARPET') AND (UpperCase(sqlInventoty.Fields[1].AsString) <> 'VINYL')) Then
           begin
-              if cmbProduct.ItemIndex = 0 then
+              if EdtQty.Text = '0' then
               begin
-                  if EdtQty.Text = '0' then
-                  begin
-                    EdtQty.Text        := FormatFloat('0.00',  (  Item.width * Item.height ) / sqlInventoty.Fields[9].AsFloat  );
-                    edttotalarea.value := Item.width * Item.height;
-                    varTempAreaTotal   := edttotalarea.Value;
-                  end
-                  else
-                  begin
-                    edttotalarea.Value := EdtQty.Value * edtAreaSquareFeetPerBox.Value;
-                    lblInfoQuant.Caption     := 'Quantity Per Carton';
-                    lblUnidadeMedida.Caption := 'sqft';
-                  end;
-                  lblTax.Caption      := FormatFloat('0.00',(((edttotalarea.Value *  sqlInventoty.Fields[7].AsFloat) / 100) *  SalesRep.Company.Tax));
-                  item.tax            := StrToFloat(lblTax.Caption);
+                EdtQty.Text        := FormatFloat('0.00',  (  Item.width * Item.height ) / sqlInventoty.Fields[9].AsFloat  );
+                edttotalarea.value := Item.width * Item.height;
+                varTempAreaTotal   := edttotalarea.Value;
+              end
+              else
+              begin
+                edttotalarea.Value := EdtQty.Value * edtAreaSquareFeetPerBox.Value;
+                lblInfoQuant.Caption     := 'Quantity Per Carton';
+                lblUnidadeMedida.Caption := 'sqft';
               end;
+              lblTax.Caption      := FormatFloat('0.00',(((edttotalarea.Value *  sqlInventoty.Fields[7].AsFloat) / 100) *  SalesRep.Company.Tax));
+              item.tax            := StrToFloat(lblTax.Caption);
+
           end else
           begin
            edttotalarea.value       := Item.height * 1.334;
@@ -823,30 +820,19 @@ begin
           end;
 
 
-          if cmbProduct.ItemIndex = 0 then
-          begin
-             lblAmount.Caption   := FormatFloat('0.00',(edttotalarea.Value  *  sqlInventoty.Fields[7].AsFloat));
-             item.totalarea      := edttotalarea.EditValue;
-          end
-          else
-          begin
-             edttotalarea.value  := Item.width * Item.height;
-             lblAmount.Caption   := FormatFloat('0.00',(edttotalarea.Value  *  sqlInventoty.Fields[7].AsFloat));
-          end;
+          lblAmount.Caption   := FormatFloat('0.00',(edttotalarea.Value  *  sqlInventoty.Fields[7].AsFloat));
+          item.totalarea      := edttotalarea.EditValue;
 
           item.amout          := StrToFloat(lblAmount.Caption);
 
-          if cmbProduct.ItemIndex = 0 then
+          if edttotalarea.Text <> '' then
           begin
-            if edttotalarea.Text <> '' then
+            if edttotalarea.Value > StrToFloat(lblAV.Caption) then
             begin
-              if edttotalarea.Value > StrToFloat(lblAV.Caption) then
+               Mens_MensInf('Not enough stock!.') ;
+              If Mens_MensConf('Not enough stock! Add it to a Purchase Order ? ') = mrOk then
               begin
-                 Mens_MensInf('Not enough stock!.') ;
-                If Mens_MensConf('Not enough stock! Add it to a Purchase Order ? ') = mrOk then
-                begin
-                     Item.req_purchase_order := 'Y';
-                end;
+                   Item.req_purchase_order := 'Y';
               end;
             end;
           end;
@@ -914,129 +900,65 @@ end;
 procedure TfrmInventory.OpenInventory;
 begin
 
-  if cmbProduct.ItemIndex = 0 then
-  begin
-      sqlInventoty.Close;
-      sqlInventoty.SQL.Clear;
-      sqlInventoty.SQL.Add('SELECT NAMEBUSINESS AS MANUFACTORY, ');
-      sqlInventoty.SQL.Add('	   [PRODUCT TYPE],  ');
-      sqlInventoty.SQL.Add('	   [PRODUCT STYLE], ');
-      sqlInventoty.SQL.Add('	   (PRODUCT_STYLE + '' '' + PRODUCT_STYLE_NAME + '' '' + COLOR + '' '' + COLOR_NAME ) AS PRODUCT_NAME, ');
-      sqlInventoty.SQL.Add('	   [SECTION],  ');
-      sqlInventoty.SQL.Add('	   [POSITION],  ');
-      sqlInventoty.SQL.Add(      'TOTALAREA,  ');
-      sqlInventoty.SQL.Add( 	  '[' + cxLookupComboBoxPrincing.EditText + '],' );
-      sqlInventoty.SQL.Add(      'ID_PRODUCT,  ');
-      sqlInventoty.SQL.Add(      'AreaSquareFeetPerBox,  ');
-      sqlInventoty.SQL.Add(      'ID_SUPPLIER  ');
+    sqlInventoty.Close;
+    sqlInventoty.SQL.Clear;
+    sqlInventoty.SQL.Add('SELECT NAMEBUSINESS AS MANUFACTORY, ');
+    sqlInventoty.SQL.Add('	   [PRODUCT TYPE],  ');
+    sqlInventoty.SQL.Add('	   [PRODUCT STYLE], ');
+    sqlInventoty.SQL.Add('	   (PRODUCT_STYLE + '' '' + PRODUCT_STYLE_NAME + '' '' + COLOR + '' '' + COLOR_NAME ) AS PRODUCT_NAME, ');
+    sqlInventoty.SQL.Add('	   [SECTION],  ');
+    sqlInventoty.SQL.Add('	   [POSITION],  ');
+    sqlInventoty.SQL.Add(      'TOTALAREA,  ');
+    sqlInventoty.SQL.Add( 	  '[' + cxLookupComboBoxPrincing.EditText + '],' );
+    sqlInventoty.SQL.Add(      'ID_PRODUCT,  ');
+    sqlInventoty.SQL.Add(      'AreaSquareFeetPerBox,  ');
+    sqlInventoty.SQL.Add(      'ID_SUPPLIER  ');
 
-      sqlInventoty.SQL.Add('FROM (  ');
-      sqlInventoty.SQL.Add('		SELECT  A.NAME AS PRICETABLE, PRICE_FINAL, B.ID_PRODUCT, C.PRODUCT_STYLE_NAME, ISNULL(SUM(D.TOTALAREA),0) as TOTALAREA, ');
-      sqlInventoty.SQL.Add('	  	E.NAMEBUSINESS,');
-      sqlInventoty.SQL.Add('	  	C.PRODUCT_STYLE,');
-      sqlInventoty.SQL.Add('	    C.COLOR, ');
-      sqlInventoty.SQL.Add('	    C.COLOR_NAME, ');
+    sqlInventoty.SQL.Add('FROM (  ');
+    sqlInventoty.SQL.Add('		SELECT  A.NAME AS PRICETABLE, PRICE_FINAL, B.ID_PRODUCT, C.PRODUCT_STYLE_NAME, ISNULL(SUM(D.TOTALAREA),0) as TOTALAREA, ');
+    sqlInventoty.SQL.Add('	  	E.NAMEBUSINESS,');
+    sqlInventoty.SQL.Add('	  	C.PRODUCT_STYLE,');
+    sqlInventoty.SQL.Add('	    C.COLOR, ');
+    sqlInventoty.SQL.Add('	    C.COLOR_NAME, ');
 
-      sqlInventoty.SQL.Add('		  F.DESCRIPTION AS [PRODUCT TYPE], ');
-      sqlInventoty.SQL.Add('		  G.DESCRIPTION AS [PRODUCT STYLE],');
+    sqlInventoty.SQL.Add('		  F.DESCRIPTION AS [PRODUCT TYPE], ');
+    sqlInventoty.SQL.Add('		  G.DESCRIPTION AS [PRODUCT STYLE],');
 
-      sqlInventoty.SQL.Add('		  C.LOC_SECTION AS [SECTION], ');
-      sqlInventoty.SQL.Add('		  C.LOC_POSITION AS [POSITION], ');
-      sqlInventoty.SQL.Add('      C.AreaSquareFeetPerBox,  ');
-      sqlInventoty.SQL.Add('      C.ID_SUPPLIER  ');
+    sqlInventoty.SQL.Add('		  C.LOC_SECTION AS [SECTION], ');
+    sqlInventoty.SQL.Add('		  C.LOC_POSITION AS [POSITION], ');
+    sqlInventoty.SQL.Add('      C.AreaSquareFeetPerBox,  ');
+    sqlInventoty.SQL.Add('      C.ID_SUPPLIER  ');
 
-      sqlInventoty.SQL.Add('		FROM TBPRICELIST A ');
-      sqlInventoty.SQL.Add('		  INNER JOIN TBPRICEITEM B ON B.ID_PRICELIST = A.ID_PRICELIST');
-      sqlInventoty.SQL.Add('		  INNER JOIN TBPRODUCT C ON C.ID_PRODUCT = B.ID_PRODUCT  AND C.TYPEOFPRODUCT = ''PRODUCT'' ');
-      sqlInventoty.SQL.Add('		  INNER JOIN TBINVENTORY D ON D.ID_PRODUCT = B.ID_PRODUCT ');
-      sqlInventoty.SQL.Add('		  INNER JOIN TBSUPPLIER E ON E.ID_SUPPLIER = C.ID_SUPPLIER ');
-      sqlInventoty.SQL.Add('	    LEFT OUTER JOIN TBTYPEBRAND F ON F.ID_TYPEBRAND = C.ID_TYPE ');
-      sqlInventoty.SQL.Add('      LEFT OUTER JOIN TBTYPEBRAND G ON G.ID_TYPEBRAND = C.STYLE ');
-      sqlInventoty.SQL.Add('	   	WHERE C.ACTIVE = ''Y'' AND A.' + DBDados.varReturnCompanies  );
-      sqlInventoty.SQL.Add('		GROUP BY C.LOC_SECTION,  ');
-      sqlInventoty.SQL.Add('             C.LOC_POSITION, ');
-      sqlInventoty.SQL.Add('             F.DESCRIPTION,  ');
-      sqlInventoty.SQL.Add('		         G.DESCRIPTION,   ');
-      sqlInventoty.SQL.Add('	           C.PRODUCT_STYLE, ');
-      sqlInventoty.SQL.Add('	           C.COLOR, ');
-      sqlInventoty.SQL.Add('	           C.COLOR_NAME,  ');
-      sqlInventoty.SQL.Add('             E.NAMEBUSINESS, ');
-      sqlInventoty.SQL.Add('             D.ID_PRODUCT, ');
-      sqlInventoty.SQL.Add('             A.NAME ,');
-      sqlInventoty.SQL.Add('             PRICE_FINAL, ');
-      sqlInventoty.SQL.Add('             B.ID_PRODUCT, ');
-      sqlInventoty.SQL.Add('             C.AreaSquareFeetPerBox, ');
-      sqlInventoty.SQL.Add('             C.ID_SUPPLIER,  ');
-      sqlInventoty.SQL.Add('             C.PRODUCT_STYLE_NAME ');
-      sqlInventoty.SQL.Add('             ) SQ   ');
-      sqlInventoty.SQL.Add('             PIVOT  ');
-      sqlInventoty.SQL.Add('             (  ');
-      sqlInventoty.SQL.Add('               SUM(PRICE_FINAL) ') ;
-      sqlInventoty.SQL.Add('               FOR PRICETABLE IN ( [' + cxLookupComboBoxPrincing.EditText + ']) ');
-      sqlInventoty.SQL.Add('             ) AS PIVOTTABLE ') ;
-      sqlInventoty.Open;
-  end
-  else
-  if cmbProduct.ItemIndex = 1 then
-  begin
-      sqlInventoty.Close;
-      sqlInventoty.SQL.Clear;
-      sqlInventoty.SQL.Add('SELECT NAMEBUSINESS AS MANUFACTORY, ');
-      sqlInventoty.SQL.Add('	   [PRODUCT TYPE],  ');
-      sqlInventoty.SQL.Add('	   [PRODUCT STYLE], ');
-      sqlInventoty.SQL.Add('	   PRODUCT_NAME, ');
-      sqlInventoty.SQL.Add('	   [SECTION],  ');
-      sqlInventoty.SQL.Add('	   [POSITION],  ');
-      sqlInventoty.SQL.Add(      'TOTALAREA,  ');
-      sqlInventoty.SQL.Add( 	  '[' + cxLookupComboBoxPrincing.EditText + '],' );
-      sqlInventoty.SQL.Add(      'ID_PRODUCT,  ');
-      sqlInventoty.SQL.Add(      'AreaSquareFeetPerBox,  ');
-      sqlInventoty.SQL.Add(      'ID_SUPPLIER  ');
-      sqlInventoty.SQL.Add('FROM (  ');
-      sqlInventoty.SQL.Add('		SELECT  A.NAME AS PRICETABLE, PRICE_FINAL, B.ID_PRODUCT, C.PRODUCT_STYLE_NAME, ISNULL(SUM(D.TOTALAREA),0) as TOTALAREA, ');
-      sqlInventoty.SQL.Add('	  	E.NAMEBUSINESS,');
-      sqlInventoty.SQL.Add('	  	C.PRODUCT_STYLE,');
-      sqlInventoty.SQL.Add('	    C.COLOR, ');
-      sqlInventoty.SQL.Add('	    C.COLOR_NAME, ');
-      sqlInventoty.SQL.Add('		  F.DESCRIPTION AS [PRODUCT TYPE], ');
-      sqlInventoty.SQL.Add('		  G.DESCRIPTION AS [PRODUCT STYLE],');
-      sqlInventoty.SQL.Add('		  C.LOC_SECTION AS [SECTION], ');
-      sqlInventoty.SQL.Add('		  C.LOC_POSITION AS [POSITION], ');
-      sqlInventoty.SQL.Add('      C.AreaSquareFeetPerBox,  ');
-      sqlInventoty.SQL.Add('      C.ID_SUPPLIER,  ');
-      sqlInventoty.SQL.Add('      C.PRODUCT_NAME  ');
-      sqlInventoty.SQL.Add('		FROM TBPRICELIST A ');
-      sqlInventoty.SQL.Add('		  INNER JOIN TBPRICEITEM B ON B.ID_PRICELIST = A.ID_PRICELIST');
-      sqlInventoty.SQL.Add('		  INNER JOIN TBPRODUCT C ON C.ID_PRODUCT = B.ID_PRODUCT  AND C.TYPEOFPRODUCT = ''SERVICE'' ');
-      sqlInventoty.SQL.Add('		  LEFT OUTER JOIN TBINVENTORY D ON D.ID_PRODUCT = B.ID_PRODUCT ');
-      sqlInventoty.SQL.Add('		  INNER JOIN TBSUPPLIER E ON E.ID_SUPPLIER = C.ID_SUPPLIER ');
-      sqlInventoty.SQL.Add('	    LEFT OUTER JOIN TBTYPEBRAND F ON F.ID_TYPEBRAND = C.ID_TYPE  ');
-      sqlInventoty.SQL.Add('      LEFT OUTER JOIN TBTYPEBRAND G ON G.ID_TYPEBRAND = C.STYLE  ');
-      sqlInventoty.SQL.Add('	   	WHERE C.ACTIVE = ''Y'' AND A.' + DBDados.varReturnCompanies  );
-      sqlInventoty.SQL.Add('		GROUP BY C.LOC_SECTION,  ');
-      sqlInventoty.SQL.Add('             C.LOC_POSITION, ');
-      sqlInventoty.SQL.Add('             F.DESCRIPTION,  ');
-      sqlInventoty.SQL.Add('		         G.DESCRIPTION,   ');
-      sqlInventoty.SQL.Add('	           C.PRODUCT_STYLE, ');
-      sqlInventoty.SQL.Add('	           C.COLOR, ');
-      sqlInventoty.SQL.Add('	           C.COLOR_NAME,  ');
-      sqlInventoty.SQL.Add('             E.NAMEBUSINESS, ');
-      sqlInventoty.SQL.Add('             D.ID_PRODUCT, ');
-      sqlInventoty.SQL.Add('             A.NAME ,');
-      sqlInventoty.SQL.Add('             PRICE_FINAL, ');
-      sqlInventoty.SQL.Add('             B.ID_PRODUCT, ');
-      sqlInventoty.SQL.Add('             C.AreaSquareFeetPerBox, ');
-      sqlInventoty.SQL.Add('             C.ID_SUPPLIER,  ');
-      sqlInventoty.SQL.Add('             C.PRODUCT_STYLE_NAME, ');
-      sqlInventoty.SQL.Add('             C.PRODUCT_NAME  ');
-      sqlInventoty.SQL.Add('             ) SQ   ');
-      sqlInventoty.SQL.Add('             PIVOT  ');
-      sqlInventoty.SQL.Add('             (  ');
-      sqlInventoty.SQL.Add('               SUM(PRICE_FINAL) ') ;
-      sqlInventoty.SQL.Add('               FOR PRICETABLE IN ( [' + cxLookupComboBoxPrincing.EditText + ']) ');
-      sqlInventoty.SQL.Add('             ) AS PIVOTTABLE ') ;
-      sqlInventoty.Open;
-  end;
+    sqlInventoty.SQL.Add('		FROM TBPRICELIST A ');
+    sqlInventoty.SQL.Add('		  INNER JOIN TBPRICEITEM B ON B.ID_PRICELIST = A.ID_PRICELIST');
+    sqlInventoty.SQL.Add('		  INNER JOIN TBPRODUCT C ON C.ID_PRODUCT = B.ID_PRODUCT  AND C.TYPEOFPRODUCT = ''PRODUCT'' ');
+    sqlInventoty.SQL.Add('		  INNER JOIN TBINVENTORY D ON D.ID_PRODUCT = B.ID_PRODUCT ');
+    sqlInventoty.SQL.Add('		  INNER JOIN TBSUPPLIER E ON E.ID_SUPPLIER = C.ID_SUPPLIER ');
+    sqlInventoty.SQL.Add('	    LEFT OUTER JOIN TBTYPEBRAND F ON F.ID_TYPEBRAND = C.ID_TYPE ');
+    sqlInventoty.SQL.Add('      LEFT OUTER JOIN TBTYPEBRAND G ON G.ID_TYPEBRAND = C.STYLE ');
+    sqlInventoty.SQL.Add('	   	WHERE C.ACTIVE = ''Y'' AND A.' + DBDados.varReturnCompanies  );
+    sqlInventoty.SQL.Add('		GROUP BY C.LOC_SECTION,  ');
+    sqlInventoty.SQL.Add('             C.LOC_POSITION, ');
+    sqlInventoty.SQL.Add('             F.DESCRIPTION,  ');
+    sqlInventoty.SQL.Add('		         G.DESCRIPTION,   ');
+    sqlInventoty.SQL.Add('	           C.PRODUCT_STYLE, ');
+    sqlInventoty.SQL.Add('	           C.COLOR, ');
+    sqlInventoty.SQL.Add('	           C.COLOR_NAME,  ');
+    sqlInventoty.SQL.Add('             E.NAMEBUSINESS, ');
+    sqlInventoty.SQL.Add('             D.ID_PRODUCT, ');
+    sqlInventoty.SQL.Add('             A.NAME ,');
+    sqlInventoty.SQL.Add('             PRICE_FINAL, ');
+    sqlInventoty.SQL.Add('             B.ID_PRODUCT, ');
+    sqlInventoty.SQL.Add('             C.AreaSquareFeetPerBox, ');
+    sqlInventoty.SQL.Add('             C.ID_SUPPLIER,  ');
+    sqlInventoty.SQL.Add('             C.PRODUCT_STYLE_NAME ');
+    sqlInventoty.SQL.Add('             ) SQ   ');
+    sqlInventoty.SQL.Add('             PIVOT  ');
+    sqlInventoty.SQL.Add('             (  ');
+    sqlInventoty.SQL.Add('               SUM(PRICE_FINAL) ') ;
+    sqlInventoty.SQL.Add('               FOR PRICETABLE IN ( [' + cxLookupComboBoxPrincing.EditText + ']) ');
+    sqlInventoty.SQL.Add('             ) AS PIVOTTABLE ') ;
+    sqlInventoty.Open;
 
 
  // DBDados.GetComando(sqlInventoty, true);

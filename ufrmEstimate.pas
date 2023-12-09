@@ -320,7 +320,6 @@ type
     Label18: TLabel;
     lblAmount: TLabel;
     lblRate: TLabel;
-    Label28: TLabel;
     lblIdProduct: TLabel;
     Label38: TLabel;
     Label15: TLabel;
@@ -331,7 +330,6 @@ type
     edtProduto: TEditBusca;
     edtheight: TcxCurrencyEdit;
     edtweidth: TcxCurrencyEdit;
-    chklistRoom: TCheckListBox;
     edttotalarea: TcxCurrencyEdit;
     EdtQty: TSpinEdit;
     edtAreaSquareFeetPerBox: TcxCurrencyEdit;
@@ -635,6 +633,16 @@ type
     RLDBResult3: TRLDBResult;
     RLDBResult4: TRLDBResult;
     RLDBResult5: TRLDBResult;
+    sqlPaymentMethod: TFDQuery;
+    dsPaymentMethod: TDataSource;
+    cxLookupComboBoxPaymentMethod: TcxLookupComboBox;
+    Label46: TLabel;
+    sqlProcessID_PAYMENT_METHOD: TIntegerField;
+    Label59: TLabel;
+    lblTotalMaterial: TLabel;
+    Panel11: TPanel;
+    Label28: TLabel;
+    chklistRoom: TCheckListBox;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure spbCleanCustomerClick(Sender: TObject);
@@ -700,6 +708,9 @@ type
     varProcessTaxble   : Double;
     varProcessDiscount : Double;
     varProcessShipping : Double;
+    varProcessoProduto : Double;
+    varProcessPercentDiscount : Double;
+    varAV, varEP, VarOP, varSQFT : Double;
 
 
     varServiceTotal : Double;
@@ -714,13 +725,14 @@ type
     varNewKey : Integer;
     varNewKeyItem : Integer;
     varRate : Double;
-    varAmout : Double;
+    varAmount : Double;
     TBHeader, TBItem, TPEMAIL : String;
 
     procedure Initialize;
     procedure LimpaEdits;
     procedure SaveHeader;
     procedure ButItensOnOff(S: String);
+    procedure ButProcessOff(S: String);
     procedure AtualizaGrade;
     procedure AtualizaGradeItem;
     procedure AtualizTerms;
@@ -742,6 +754,7 @@ type
     procedure LoadService;
     procedure PreDefineEmail(Sender: TObject);
     procedure CalculaServiceSubTotal;
+    procedure CreateTerms;
 
   public
     { Public declarations }
@@ -901,6 +914,7 @@ begin
 
   varNewKeyItem := 0;
   ButItensOnOff('TTTFFTTT');
+  ButProcessOff('TTT');
 
   Page.ActivePage := cxTabSheetGrade;
   cxPageEstimate.ActivePage := cxTabEstimateList;
@@ -960,7 +974,7 @@ procedure TfrmEstimate.ButExcluirItemClick(Sender: TObject);
 var
   varProcessName : String;
 begin
-  cmbStatus.ItemIndex     :=  cmbStatus.Properties.Items.IndexOf(sqlProcessSTATUS.AsString);
+  cmbStatus.ItemIndex     :=  cmbStatus.Properties.Items.IndexOf(cmbStatus.text);
 
   if TBHeader = INVOICE_HEADER then
   begin
@@ -1330,6 +1344,9 @@ begin
   sqlServicesItem.Params.ParamByName('TABLENAME').AsString   := TBItem;
   sqlServicesItem.Open;
 
+  sqlPaymentMethod.Close;
+  sqlPaymentMethod.Open;
+
 end;
 
 procedure TfrmEstimate.AtualizTerms;
@@ -1367,6 +1384,12 @@ begin
     Exit;
   end;
 
+  if cxLookupComboBoxPaymentMethod.EditValue = Null then
+  begin
+    Mens_MensInf('The payment method field is required.') ;
+    cxLookupComboBoxPaymentMethod.SetFocus;
+    Exit;
+  end;
 
   if Assigned(frmInventory) then
     if frmInventory.Carrinho <> Nil then
@@ -1427,10 +1450,10 @@ procedure TfrmEstimate.btnLoadServiceClick(Sender: TObject);
      frmLabor.LoadService;
 
      if TBHeader = ESTIMATE_HEADER then
-       frmLabor.Caption := 'Quotation [ ' + sqlProcessID_PROCESS.AsString + ']'
+       frmLabor.Caption := 'Quotation [ ' + IntToStr(Process.id_process) + ']'
      else if TBHeader = ORDER_HEADER  then
-          frmLabor.Caption := 'Order [ ' + sqlProcessID_PROCESS.AsString + ']'
-          else frmLabor.Caption := ' Invoice [' + sqlProcessID_PROCESS.AsString + ']';
+          frmLabor.Caption := 'Order [ ' + IntToStr(Process.id_process) + ']'
+          else frmLabor.Caption := ' Invoice [' + IntToStr(Process.id_process) + ']';
 
      frmLabor.Panel1.Caption := 'Customer Name: ' + edtCustomerName.Text;
 
@@ -1443,7 +1466,7 @@ procedure TfrmEstimate.btnLoadServiceClick(Sender: TObject);
          sqlServicesItem.Next;
      end;
 
-     frmLabor.Process_ID     := sqlProcessID_PROCESS.AsInteger;
+     frmLabor.Process_ID     := Process.id_process;
      frmLabor.TableName      := TBItem;
   end;
 
@@ -1562,100 +1585,144 @@ procedure TfrmEstimate.btnTermsClick(Sender: TObject);
 var
   sqlDados : TFDQuery;
   varDateDue : TDateTime;
+  Terms : TTerms;
 begin
 
-   if sqlProcessItem.IsEmpty then
+
+
+   if sqlTerms.IsEmpty  then
    begin
-     Mens_MensInf('Data not found.') ;
-     exit;
-   end;
 
-   if edtDays.Text = '' then
+     Terms := TTerms.Create;
+     Try
+       if varProcessoProduto > 0 then
+       begin
+         Terms.id_process  := Process.id_process;
+         Terms.tablename   := TBHeader;
+         Terms.dt_process  := Process.dt_process;
+         Terms.num_days    := 1;
+         Terms.date_due    := Now + 1;
+         Terms.value       := varProcessoProduto;
+         Terms.description := 'Materials Total(deposit payment)';
+         Terms.add_date    := Date;
+         Terms.id_user     := DBDados.varID_USER;
+         Terms.Save;
+       end;
+
+       if varServiceTotal > 0 then
+       begin
+         Terms.id_process  := Process.id_process;
+         Terms.tablename   := TBHeader;
+         Terms.dt_process  := Process.dt_process;
+         Terms.num_days    := 7;
+         Terms.date_due    := Now + 7;
+         Terms.value       := varServiceTotal;
+         Terms.description := 'Labor Total(due upen completion)';
+         Terms.add_date    := Date;
+         Terms.id_user     := DBDados.varID_USER;
+         Terms.Save;
+       end;
+
+     Finally
+      FreeAndNil(Terms);
+     End;
+
+   end
+   else
    begin
-    Mens_MensInf('Terms field is required.') ;
-    edtDays.SetFocus;
-    Exit;
+
+       if sqlProcessItem.IsEmpty then
+       begin
+         Mens_MensInf('Data not found.') ;
+         exit;
+       end;
+
+       if edtDays.Text = '' then
+       begin
+        Mens_MensInf('Terms field is required.') ;
+        edtDays.SetFocus;
+        Exit;
+       end;
+
+       if edtTotal.EditValue <= 0 then
+       begin
+        Mens_MensInf('Terms Amount field is required.') ;
+        edtTotal.EditValue := sqlProcessTOTAL.AsFloat;
+        edtTotal.SetFocus;
+        Exit;
+       end;
+
+       if edtTermsDesc.Text = '' then
+       begin
+        Mens_MensInf('Terms Description field is required.') ;
+        edtTermsDesc.SetFocus;
+        Exit;
+       end;
+
+       if StrToInt(edtDays.Text) > Contractor.Company.estimateDays then
+       begin
+           Mens_MensInf('Terms can not be greater than Date Valid Until.') ;
+           edtDays.SetFocus;
+           Exit;
+       end;
+
+       if ValidTotalTerm then
+       begin
+           varDateDue := cxDateProcess.Date + StrToInt(edtDays.Text);
+
+           sqlDados := TFDQuery.Create(Nil);
+           Try
+             sqlDados.Connection := DBDados.Connection;
+             sqlDados.Close;
+             sqlDados.SQL.Clear;
+             sqlDados.SQL.Add('Insert into TBTERMS (');
+             sqlDados.SQL.Add('TABLENAME');
+             sqlDados.SQL.Add(',ID_PROCESS');
+             sqlDados.SQL.Add(',DT_PROCESS');
+             sqlDados.SQL.Add(',NUM_DAYS');
+             sqlDados.SQL.Add(',DATE_DUE');
+             sqlDados.SQL.Add(',VALUE');
+             sqlDados.SQL.Add(',DESCRIPTION');
+             sqlDados.SQL.Add(',ADD_DATE');
+             sqlDados.SQL.Add(',ID_USER)');
+
+             sqlDados.SQL.Add('VALUES (');
+             sqlDados.SQL.Add(':TABLENAME');
+             sqlDados.SQL.Add(',:ID_PROCESS');
+             sqlDados.SQL.Add(',:DT_PROCESS');
+             sqlDados.SQL.Add(',:NUM_DAYS');
+             sqlDados.SQL.Add(',:DATE_DUE');
+             sqlDados.SQL.Add(',:VALUE');
+             sqlDados.SQL.Add(',:DESCRIPTION');
+             sqlDados.SQL.Add(',:ADD_DATE');
+             sqlDados.SQL.Add(',:ID_USER)');
+
+             sqlDados.Params.ParamByName('TABLENAME').AsString   := TBHeader;
+             sqlDados.Params.ParamByName('ID_PROCESS').AsInteger := sqlProcessItemID_PROCESS.AsInteger;
+             sqlDados.Params.ParamByName('DT_PROCESS').AsString  := FormatDateTime('mm/dd/yyyy hh:mm:ss', cxDateProcess.Date);
+             sqlDados.Params.ParamByName('NUM_DAYS').AsInteger   := StrToInt(edtDays.Text);
+             sqlDados.Params.ParamByName('DATE_DUE').AsString    := FormatDateTime('mm/dd/yyyy hh:mm:ss', varDateDue);
+             sqlDados.Params.ParamByName('VALUE').AsFloat        := edtTotal.EditValue;
+             sqlDados.Params.ParamByName('DESCRIPTION').AsString := edtTermsDesc.Text;
+             sqlDados.Params.ParamByName('ADD_DATE').AsString    := FormatDateTime('mm/dd/yyyy hh:mm:ss', now);
+             sqlDados.Params.ParamByName('ID_USER').AsInteger    := DBDados.varID_USER;
+
+             Try
+               sqlDados.ExecSQL;
+
+             except
+                on E: EDatabaseError do
+                  Mens_MensErro(E.ClassName+' error raised, with message : '+E.Message);
+
+             end;
+
+           Finally
+             FreeAndNil(sqlDados);
+           End;
+       end;
    end;
-
-   if edtTotal.EditValue <= 0 then
-   begin
-    Mens_MensInf('Terms Amount field is required.') ;
-    edtTotal.EditValue := sqlProcessTOTAL.AsFloat;
-    edtTotal.SetFocus;
-    Exit;
-   end;
-
-   if edtTermsDesc.Text = '' then
-   begin
-    Mens_MensInf('Terms Description field is required.') ;
-    edtTermsDesc.SetFocus;
-    Exit;
-   end;
-
-   if StrToInt(edtDays.Text) > Contractor.Company.estimateDays then
-   begin
-       Mens_MensInf('Terms can not be greater than Date Valid Until.') ;
-       edtDays.SetFocus;
-       Exit;
-   end;
-
-   if ValidTotalTerm then
-   begin
-       varDateDue := cxDateProcess.Date + StrToInt(edtDays.Text);
-
-       sqlDados := TFDQuery.Create(Nil);
-       Try
-         sqlDados.Connection := DBDados.Connection;
-         sqlDados.Close;
-         sqlDados.SQL.Clear;
-         sqlDados.SQL.Add('Insert into TBTERMS (');
-         sqlDados.SQL.Add('TABLENAME');
-         sqlDados.SQL.Add(',ID_PROCESS');
-         sqlDados.SQL.Add(',DT_PROCESS');
-         sqlDados.SQL.Add(',NUM_DAYS');
-         sqlDados.SQL.Add(',DATE_DUE');
-         sqlDados.SQL.Add(',VALUE');
-         sqlDados.SQL.Add(',DESCRIPTION');
-         sqlDados.SQL.Add(',ADD_DATE');
-         sqlDados.SQL.Add(',ID_USER)');
-
-         sqlDados.SQL.Add('VALUES (');
-         sqlDados.SQL.Add(':TABLENAME');
-         sqlDados.SQL.Add(',:ID_PROCESS');
-         sqlDados.SQL.Add(',:DT_PROCESS');
-         sqlDados.SQL.Add(',:NUM_DAYS');
-         sqlDados.SQL.Add(',:DATE_DUE');
-         sqlDados.SQL.Add(',:VALUE');
-         sqlDados.SQL.Add(',:DESCRIPTION');
-         sqlDados.SQL.Add(',:ADD_DATE');
-         sqlDados.SQL.Add(',:ID_USER)');
-
-
-         sqlDados.Params.ParamByName('TABLENAME').AsString   := TBHeader;
-         sqlDados.Params.ParamByName('ID_PROCESS').AsInteger := sqlProcessItemID_PROCESS.AsInteger;
-         sqlDados.Params.ParamByName('DT_PROCESS').AsString  := FormatDateTime('mm/dd/yyyy hh:mm:ss', cxDateProcess.Date);
-         sqlDados.Params.ParamByName('NUM_DAYS').AsInteger   := StrToInt(edtDays.Text);
-         sqlDados.Params.ParamByName('DATE_DUE').AsString    := FormatDateTime('mm/dd/yyyy hh:mm:ss', varDateDue);
-         sqlDados.Params.ParamByName('VALUE').AsFloat        := edtTotal.EditValue;
-         sqlDados.Params.ParamByName('DESCRIPTION').AsString := edtTermsDesc.Text;
-         sqlDados.Params.ParamByName('ADD_DATE').AsString    := FormatDateTime('mm/dd/yyyy hh:mm:ss', now);
-         sqlDados.Params.ParamByName('ID_USER').AsInteger    := DBDados.varID_USER;
-
-         Try
-           sqlDados.ExecSQL;
-
-         except
-            on E: EDatabaseError do
-              Mens_MensErro(E.ClassName+' error raised, with message : '+E.Message);
-
-         end;
-
-         AtualizTerms;
-
-       Finally
-         FreeAndNil(sqlDados);
-       End;
-   end;
+   edtTermsDesc.Text := '';
+   AtualizTerms;
 
 end;
 
@@ -1690,6 +1757,8 @@ begin
    Process := TSalesProcess.Create(Self);
    Process.Search(TBHeader, sqlProcessID_PROCESS.AsInteger);
    LoadItemToHeader;
+   Caption                := Caption + '  -  ' + ZeroLeft(IntToStr(Process.id_process),7);
+
 
    if sqlProcessID_CUSTOMER.AsString <> '' then
    begin
@@ -1724,6 +1793,7 @@ begin
    cmbStatus.Text           := sqlProcessSTATUS.AsString;
    cmbStatus.ItemIndex      := cmbStatus.Properties.Items.IndexOf(sqlProcessSTATUS.AsString);
    cxDateShippingDate.Date  := sqlProcessDT_SHIPPING.AsDateTime ;
+   cxLookupComboBoxPaymentMethod.EditValue := sqlProcessID_PAYMENT_METHOD.AsInteger;
    // 0 Pending
    // 1 Accepted
    // 2 Closed
@@ -1866,6 +1936,7 @@ begin
   finally
     FreeAndNil(varNextKey);
   End;
+  ButProcessOff('FFF');
 
   sqlTerms.Close;
   Initialize;
@@ -1906,13 +1977,6 @@ begin
     Exit;
   end;
 
-   if edtEmail.Text = '' then
-   begin
-      Mens_MensInf('The Email field is required.');
-      edtEmail.SetFocus;
-      Exit;
-   end;
-
   if edtEmail.Text <> '' then
   begin
     if IsValidEmailRegEx(edtEmail.Text) = False Then
@@ -1938,6 +2002,25 @@ begin
     cxLookupComboBoxPrincing.SetFocus;
     exit;
   end;
+
+
+  if cxLookupComboBoxPaymentMethod.EditValue = Null then
+  begin
+    Mens_MensInf('The payment method field is required.') ;
+    cxLookupComboBoxPaymentMethod.SetFocus;
+    Exit;
+  end;
+
+  if ((TBHeader = ORDER_HEADER) or (TBHeader = INVOICE_HEADER)) then
+  begin
+    if cxDateShippingDate.EditValue = Null then
+    begin
+      Mens_MensInf('The Pick-up Date field is required.') ;
+      cxDateShippingDate.SetFocus;
+      Exit;
+      end;
+  end;
+
    {
    edtProduto.bs_Filter := 'P.ACTIVE = ''Y'' AND  I.ID_PRICELIST = ' +  QuotedStr(cxLookupComboBoxPrincing.EditValue) +
    '  AND I.ID_PRODUCT NOT IN ( Select ID_PRODUCT  from TBPROCESS_item With (NOLOCK) where TABLENAME = ''' + TBItem +
@@ -1966,6 +2049,13 @@ begin
 
   ButItensOnOff('FFFTTFFF');
 
+end;
+
+procedure TfrmEstimate.ButProcessOff(S: String);
+begin
+  ButAlterar.Enabled   := Copy(S,1,1) = 'T' = True;
+  ButExcluir.Enabled   := Copy(S,2,1) = 'T' = True;
+  ButImprimir.Enabled  := Copy(S,3,1) = 'T' = True;
 end;
 
 procedure TfrmEstimate.ButSairClick(Sender: TObject);
@@ -2126,6 +2216,12 @@ begin
 
   if ValidCustomer = False then Exit;
 
+  if TBHeader = ESTIMATE_HEADER then
+    Caption   := 'Quotation'
+  else if TBHeader = ORDER_HEADER then
+        Caption := 'Order'
+        else Caption := 'Invoice';
+
   pnlTop.Enabled        := True;
   pnlTerms.Enabled      := True;
   pnlBtnLateral.Enabled := True;
@@ -2154,6 +2250,8 @@ begin
 
   if  Process <> Nil then
      FreeAndNil(Process);
+
+  ButProcessOff('TTT');
 
    varOption := 'X';
 
@@ -2193,14 +2291,14 @@ begin
      Item.room := Copy(Item.room, 1, Length(Item.room)-1);
 
      Item.qty              := StrToFloat(EdtQty.Text);
-     Item.rate             := StrToFloat(lblRate.Caption);
-     Item.amout            := StrToFloat(lblAmount.Caption);
+     Item.rate             := varRate;
+     Item.amout            := Round(varAmount*100)/100; ;
      Item.id_user          := DBDados.varID_USER;
      Item.add_date         := Now;
-     Item.width            := StrToFloat(edtweidth.EditValue);
-     Item.height           := StrToFloat(edtheight.EditValue);
-     Item.totalarea        := StrToFloat(edttotalarea.EditValue);
-     Item.dif_totalarea    := Item.totalarea - StrToFloat(lblAV.Caption);;
+     Item.width            := edtweidth.EditValue;
+     Item.height           := edtheight.EditValue;
+     Item.totalarea        := edttotalarea.EditValue;
+     Item.dif_totalarea    := Item.totalarea - varAV;
 
      Process.total := Process.total + Item.amout;
 
@@ -2249,33 +2347,17 @@ begin
    Process.county                    := edtCounty.Text;
    Process.ponumber                  := edtPONumber.Text;
    Process.comments                  := Trim(memComments.Lines.Text);
-
+   Process.id_payment_method         := cxLookupComboBoxPaymentMethod.EditValue;
    Process.subtotal                  := varProcessSubTotal;
    Process.status                    := cmbStatus.Text;
    if TBHeader <> ESTIMATE_HEADER then
      Process.dt_shippingDate         := cxDateShippingDate.Date
    else  Process.dt_shippingDate     := 0;
-
-   if (Trim(edtmskDiscount.Text) <> '') then
-    Process.percent_discount          := StrToFloat(edtmskDiscount.Text)
-   else Process.percent_discount   := 0.00;
-
-   if lblDiscount.Caption <> '' then
-     Process.discount                  := varProcessDiscount
-   else  Process.discount   := 0.00;
-
-   if lblTax.Caption <> '' then
-     Process.tax                       := varProcessTaxble
-   else   Process.tax  := 0.00;
-
-   if (Trim(edtShipping.Text) <> '') then
-      Process.shipping                  := varProcessShipping
-   else Process.shipping   := 0.00;
-
-   if varProcessTotal <> 0 then
-     Process.total                     := varProcessTotal
-   else  Process.total := 0.00;
-
+   Process.percent_discount          := varProcessPercentDiscount;
+   Process.discount                  := varProcessDiscount;
+   Process.tax                       := varProcessTaxble;
+   Process.shipping                  := varProcessShipping;
+   Process.total                     := Round(varProcessTotal*100)/100;
    Process.User.id_user              := DBDados.varID_USER;
 
 
@@ -2395,16 +2477,20 @@ begin
   varProcessDiscount := 0;
   varProcessShipping := 0;
   varProcessTotal    := 0;
+  varProcessoProduto := 0;
+
 
   sqlProcessItem.First;
   sqlProcessItem.DisableControls;
   while not sqlProcessItem.Eof do
   begin
     varProcessSubTotal := varProcessSubTotal + sqlProcessItemAMOUT.AsFloat;
+    varProcessSubTotal := Round(varProcessSubTotal*100)/100;
 
     if sqlProcessItemTAXBLE.AsString = 'Y' then
     begin
        varProcessTaxble := varProcessTaxble + ((sqlProcessItemAMOUT.AsFloat / 100) *  Process.Company.Tax);
+       varProcessTaxble :=   Round(varProcessTaxble*100)/100;
     end;
 
     sqlProcessItem.Next;
@@ -2412,20 +2498,26 @@ begin
 
   lblSubTotal.Caption := CurrToStrF(varProcessSubTotal, ffCurrency, 2);
   lblTax.Caption      := CurrToStrF(varProcessTaxble, ffCurrency, 2);
+  lblTotalMaterial.Caption :=   CurrToStrF(varProcessSubTotal + varProcessTaxble, ffCurrency, 2);
 
-  if edtmskDiscount.Text <> '' then
+  if (edtmskDiscount.Value <> 0) then
   begin
-
-     varProcessDiscount         := (((sqlProcessItemAMOUT.AsFloat / 100) *  StrToFloat(edtmskDiscount.Text)));
-     lblDiscount.Caption := CurrToStrF(varProcessDiscount, ffCurrency, 2);
-
+     varProcessPercentDiscount  := edtmskDiscount.Value;
+     varProcessDiscount         := (((sqlProcessItemAMOUT.AsFloat / 100) *  varProcessPercentDiscount));
+     lblDiscount.Caption        := CurrToStrF(varProcessDiscount, ffCurrency, 2);
+     varProcessDiscount         := Round(varProcessDiscount*100)/100;
   end;
 
-  if edtShipping.Text <> '' then
-    varProcessShipping      := StrToFloat(edtShipping.Text);
+  if (edtShipping.Value <> 0) then
+  begin
+    varProcessShipping := edtShipping.Value;
+    varProcessShipping := Round(varProcessShipping*100)/100;
+  end;
 
   varProcessSubTotal      := varProcessSubTotal - varProcessDiscount;
+  varProcessoProduto      := varProcessSubTotal + varProcessTaxble +  varProcessShipping;
   varProcessTotal         := varProcessSubTotal + varProcessTaxble +  varProcessShipping + varServiceTotal;
+
 
   lblTotal.Caption := CurrToStrF(varProcessTotal, ffCurrency, 2);
 
@@ -2616,18 +2708,26 @@ procedure TfrmEstimate.edtClienteClick(Sender: TObject);
 begin
   if ((edtCliente.Text <> '') and (edtCliente.bs_KeyValues.Count > 0 )) then
   begin
-    edtCustomerName.Text := edtCliente.bs_KeyValues[0] + ',' +  edtCliente.bs_KeyValues[1];
-    edtPhone.Text        := edtCliente.bs_KeyValues[2];
-    edtEmail.Text        := edtCliente.bs_KeyValues[3];
-    edtAddress.Text      := edtCliente.bs_KeyValues[4];
-    edtZipCode.Text      := edtCliente.bs_KeyValues[5];
-    edtCounty.Text       := edtCliente.bs_KeyValues[14];
-    edtCity.Text         := edtCliente.bs_KeyValues[6];
-    edtST.Text           := edtCliente.bs_KeyValues[7];
+    edtCustomerName.Text := edtCliente.bs_KeyValues[1] + ',' +  edtCliente.bs_KeyValues[2];
+    edtPhone.Text        := edtCliente.bs_KeyValues[3];
+    edtEmail.Text        := edtCliente.bs_KeyValues[4];
+    edtAddress.Text      := edtCliente.bs_KeyValues[5];
+    edtAddress.Hint      := edtCliente.bs_KeyValues[0];
+    edtZipCode.Text      := edtCliente.bs_KeyValues[6];
+    edtCounty.Text       := edtCliente.bs_KeyValues[15];
+    edtCity.Text         := edtCliente.bs_KeyValues[7];
+    edtST.Text           := edtCliente.bs_KeyValues[8];
 
     GenerateFolder(Copy(cbxCustomerType.Text,4,2), edtCliente.bs_KeyValue);
+    cxLookupComboBoxPrincing.Enabled := True;
 
-    if edtCliente.bs_KeyValues[13] = 'N' then
+    if edtCliente.bs_KeyValues[16] <> '' then
+    begin
+      cxLookupComboBoxPrincing.EditValue := edtCliente.bs_KeyValues[16];
+      cxLookupComboBoxPrincing.Enabled := False;
+    end;
+
+    if edtCliente.bs_KeyValues[14] = 'N' then
        cbxCustomerType.ItemIndex := 0
     else   cbxCustomerType.ItemIndex := 1;
 
@@ -2676,16 +2776,18 @@ begin
             lblInfoQuant.Caption     := 'Quantity Per Roll';
             lblUnidadeMedida.Caption := 'yds';
           end;
-
+          // CurrToStrF(varProcessSubTotal, ffCurrency, 2);
           if UpperCase(edtProduto.bs_KeyValues[24])  = 'PRODUCT'  Then
           begin
-             lblAmount.Caption   := FormatFloat('0.00',(edttotalarea.Value  *  StrToFloat(lblRate.Caption)));
+             lblAmount.Caption   := CurrToStrF((edttotalarea.Value  *  varRate), ffCurrency, 2);
              item.totalarea      := edttotalarea.EditValue;
+             varAmount            := edttotalarea.Value  *  varRate;
           end
           else
           begin
              edttotalarea.value  := Item.width * Item.height;
-             lblAmount.Caption   := FormatFloat('0.00',(edttotalarea.Value  *  StrToFloat(lblRate.Caption)));
+             lblAmount.Caption   := CurrToStrF((edttotalarea.Value  *  varRate), ffCurrency, 2);
+             varAmount            := edttotalarea.Value  *  varRate;
           end;
 
 
@@ -2760,10 +2862,16 @@ begin
     CaixaTexto.bs_Fields.Add('P.TYPEOFPRODUCT;#;;' + inttostr(WIDTH_NOME220));                           //24
     }
 
+       varAV := 0;
+       varEP := 0;
+       VarOP := 0;
+       varSQFT := 0;
 
-       lblEP.Caption :=  Item.ProductPending('TBESTIMATE', edtProduto.bs_KeyValue);
+       varEP := Item.ProductPending('TBESTIMATE', edtProduto.bs_KeyValue);
+       lblEP.Caption := FormatFloat('0.00',varEP);
 
-       lblOP.Caption :=  Item.ProductPending('TBORDER', edtProduto.bs_KeyValue);
+       VarOP  :=   Item.ProductPending('TBORDER', edtProduto.bs_KeyValue);
+       lblOP.Caption := FormatFloat('0.00',VarOP);
 
        lblIdProduct.Caption     := edtProduto.bs_KeyValue;
        lblMaterial.Caption      := edtProduto.bs_KeyValues[1];
@@ -2776,21 +2884,26 @@ begin
        lblQtyAvailable.Caption  := edtProduto.bs_KeyValues[8];
 
        lblAreaSquareFeetPerBox.Caption     := FormatFloat('0.00', StrToFloat(edtProduto.bs_KeyValues[11]));
-       lblTotalAreaSquareFeet.Caption      := FormatFloat('0.00', GetInventory(edtProduto.bs_KeyValue));
+       varSQFT := GetInventory(edtProduto.bs_KeyValue);
+
+       lblTotalAreaSquareFeet.Caption      := FormatFloat('0.00', varSQFT);
        lblAreaSquareYardPerBox.Caption     := FormatFloat('0.00', StrToFloat(edtProduto.bs_KeyValues[13]));
        lblTotalAreaSquareYard.Caption      := FormatFloat('0.00', StrToFloat(edtProduto.bs_KeyValues[14]));
        edtAreaSquareFeetPerBox.text        := FormatFloat('0.00', StrToFloat(edtProduto.bs_KeyValues[11]));
 
-       if  (  StrToFloat(lblTotalAreaSquareFeet.Caption) - (StrToFloat(lblEP.Caption) + strTofloat(lblOP.Caption)) ) < 0 then
+       if  (  varSQFT - (varEP + VarOP) ) < 0 then
          lblAV.Caption := '0'
-       else   lblAV.Caption            := FloatToStr(  StrToFloat(lblTotalAreaSquareFeet.Caption) - (StrToFloat(lblEP.Caption) + strTofloat(lblOP.Caption)) );
-
-
-       lblRate.Caption          := FormatFloat('0.00', StrToFloat(edtProduto.bs_KeyValues[9]));
+       else
+       begin
+         lblAV.Caption  := FormatFloat('0.00', varSQFT - (varEP + VarOP) );
+         varAV          := varSQFT - (varEP + VarOP);
+       end;
+                                // CurrToStrF(varProcessSubTotal, ffCurrency, 2);
+       lblRate.Caption          := CurrToStrF(StrToFloat(edtProduto.bs_KeyValues[9]),  ffCurrency, 2);
        //memProductDescription.Lines.Text :=edtProduto.bs_KeyValues[23];
        varRate                  := 0.00;
-       varAmout                 := 0.00;
-       varRate                  := Round(StrToFloat(edtProduto.bs_KeyValues[8]));
+       varAmount                := 0.00;
+       varRate                  := StrToFloat(edtProduto.bs_KeyValues[9]);
 
        sqlImage.Close;
        sqlImage.Params.ParamByName('ID_PRODUCT').AsInteger :=edtProduto.bs_KeyValue;
@@ -2995,7 +3108,7 @@ begin
     varScript :=  varScript + '      FROM TBPROCESS_ITEM WITH (NOLOCK) ';
     varScript :=  varScript + '      WHERE TABLENAME = ''' + TBItem + '''';
     varScript :=  varScript + '        AND ID_PROCESS = ' + IntToStr(varNewKey) + ')' ;
-
+{
     varScript :=  varScript + ' UNION ALL      ';
 
     varScript :=  varScript + ' SELECT  I.ID_PRODUCT,    ';
@@ -3037,7 +3150,7 @@ begin
     varScript :=  varScript + '      FROM TBPROCESS_ITEM WITH (NOLOCK)    ';
     varScript :=  varScript + '      WHERE TABLENAME = ''' + TBItem + '''';
     varScript :=  varScript + '        AND ID_PROCESS = ' + IntToStr(varNewKey) + ')' ;
-
+ }
     edtProduto.bs_Script := True;
     edtProduto.bs_Select := varScript;
 
@@ -3053,6 +3166,7 @@ begin
 
  if varTbIdentificador = 1 then
  begin
+      Panel4.Color := $00D1D1A3;
       TBHeader := ESTIMATE_HEADER;
       TBItem   := ESTIMATE_ITEM;
       lblShippingDate.Visible := False;
@@ -3073,6 +3187,7 @@ begin
 
  end else if varTbIdentificador = 2 then
           begin
+             Panel4.Color := $0080FFFF;
              TBHeader := ORDER_HEADER;
              TBItem   := ORDER_ITEM;
 
@@ -3081,6 +3196,7 @@ begin
           end
           else if varTbIdentificador = 3 then
                begin
+                  Panel4.Color := $00FFAAAA;
                   TBHeader := INVOICE_HEADER;
                   TBItem   := INVOICE_ITEM;
                   sqlWorker.Close;
@@ -3147,6 +3263,11 @@ begin
   ImageProduct.Picture.Graphic := Nil;
 end;
 
+procedure TfrmEstimate.CreateTerms;
+begin
+
+end;
+
 procedure TfrmEstimate.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
@@ -3202,13 +3323,16 @@ begin
   end;
 
   SetaConsultaProduto;
+  sqlPaymentMethod.Close;
+  sqlPaymentMethod.Open;
 
   lblSubTotal.Caption := '0.00';
-  edtmskDiscount.Text := '';
+  edtmskDiscount.Value := 0;
+  edtShipping.Value    := 0;
   lblDiscount.Caption := '0.00';
   lblTax.Caption      := '0.00';
-  edtShipping.Text    := '';
   lblTotal.Caption    := '0.00';
+  lblTotalMaterial.Caption := '0.00';
   cmbStatus.ItemIndex := 0;
   cbxCustomerType.ItemIndex  := 0;
   varTempAreaTotal    := 0;
@@ -3335,7 +3459,7 @@ begin
      sqlDados.Open;
      if sqlDados.FieldByName('Total').AsFloat > 0 then
      begin
-       if sqlDados.FieldByName('Total').AsFloat < Process.total then
+       if ((Round(sqlDados.FieldByName('Total').AsFloat*100)/100) < (Round(Process.Total*100)/100))    then
        begin
           bRetorno := False;
           Mens_MensInf('The Terms definition is incomplete.') ;
