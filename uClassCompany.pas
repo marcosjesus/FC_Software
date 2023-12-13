@@ -215,23 +215,23 @@ begin
         sqlDados.Open;
         if not sqlDados.IsEmpty  then
         begin
-          id_company          := sqlDados.FieldByName('id_company').AsInteger;
-          tax_id              := sqlDados.FieldByName('tax_id').ASString;
-          add_date            := sqlDados.FieldByName('add_date').ASString;
-          upd_date            := sqlDados.FieldByName('upd_date').ASString;
-          companyname         := sqlDados.FieldByName('companyname').ASString;
-          tradiningname       := sqlDados.FieldByName('TRADINGNAME').ASString;
-          companyowner        := sqlDados.FieldByName('companyowner').ASString;
-          country             := sqlDados.FieldByName('country').ASString;
-          st                  := sqlDados.FieldByName('st').ASString;
-          city                := sqlDados.FieldByName('city').ASString;
-          address1            := sqlDados.FieldByName('address1').ASString;
-          companyphonenumber1 := sqlDados.FieldByName('phonenumber').ASString;
-          zipcode             := sqlDados.FieldByName('zipcode').ASString;
-          companyemail1       := sqlDados.FieldByName('EMAIL').ASString;
-          estimateDays        := sqlDados.FieldByName('EstimateDays').AsInteger;
-          id_user             := sqlDados.FieldByName('id_user').AsInteger;
-          Tax                 := sqlDados.FieldByName('Tax').AsFloat;
+          id_company          := sqlDados.FieldList.Fields[0].AsInteger;// FieldByName('id_company').AsInteger;
+          tax_id              := sqlDados.FieldList.Fields[1].AsString; //sqlDados.FieldByName('tax_id').ASString;
+          add_date            := sqlDados.FieldList.Fields[2].AsString; //sqlDados.FieldByName('add_date').ASString;
+          upd_date            := sqlDados.FieldList.Fields[3].AsString; //sqlDados.FieldByName('upd_date').ASString;
+          companyname         := sqlDados.FieldList.Fields[4].AsString; //sqlDados.FieldByName('companyname').ASString;
+          tradiningname       := sqlDados.FieldList.Fields[5].AsString; //sqlDados.FieldByName('TRADINGNAME').ASString;
+          companyowner        := sqlDados.FieldList.Fields[6].AsString; //sqlDados.FieldByName('companyowner').ASString;
+          country             := sqlDados.FieldList.Fields[7].AsString; //sqlDados.FieldByName('country').ASString;
+          st                  := sqlDados.FieldList.Fields[8].AsString; //sqlDados.FieldByName('st').ASString;
+          city                := sqlDados.FieldList.Fields[9].AsString; //sqlDados.FieldByName('city').ASString;
+          address1            := sqlDados.FieldList.Fields[10].AsString; //sqlDados.FieldByName('address1').ASString;
+          companyphonenumber1 := sqlDados.FieldList.Fields[11].AsString; //sqlDados.FieldByName('phonenumber').ASString;
+          zipcode             := sqlDados.FieldList.Fields[12].AsString; //sqlDados.FieldByName('zipcode').ASString;
+          companyemail1       := sqlDados.FieldList.Fields[13].AsString; //sqlDados.FieldByName('EMAIL').ASString;
+          estimateDays        := sqlDados.FieldList.Fields[14].AsInteger; //sqlDados.FieldByName('EstimateDays').AsInteger;
+          id_user             := sqlDados.FieldList.Fields[15].AsInteger; //sqlDados.FieldByName('id_user').AsInteger;
+          Tax                 := sqlDados.FieldList.Fields[16].AsFloat; //sqlDados.FieldByName('Tax').AsFloat;
 
         end;
           sqlDados.Close;

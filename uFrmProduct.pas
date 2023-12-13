@@ -157,7 +157,7 @@ type
     TBTYPEID_USER: TIntegerField;
     TBTYPEPROFIT_MIN: TFloatField;
     TBTYPEPROFIT_REGULAR: TFloatField;
-    Label3: TLabel;
+    LBLUM: TLabel;
     OpenPictureDialog: TOpenPictureDialog;
     btnSaveImage: TcxButton;
     edtCodigo: TcxCurrencyEdit;
@@ -737,6 +737,9 @@ begin
   edtHeight.Enabled := varStatus;
   edtrollnumber.Enabled := varStatus;
   edtdyelot.Enabled := varStatus;
+  if varStatus then
+    LBLUM.Caption := 'SY'
+  ELSE LBLUM.Caption := 'SF';
 end;
 
 procedure TfrmProduct.cxLookupComboBoxTypePropertiesChange(Sender: TObject);

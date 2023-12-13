@@ -70,7 +70,7 @@ Type
       procedure Save;
       procedure Update;
       procedure Delete;
-      procedure Search(varID_Customer : Integer);
+      procedure Search(varID_Customer : Integer; SelectUser : Boolean = False; SelectCompany : Boolean = False);
       destructor Destroy; override;
 
   end;
@@ -190,11 +190,10 @@ begin
 
 end;
 
-procedure TCustomer.Search(varID_Customer : Integer);
+procedure TCustomer.Search(varID_Customer : Integer; SelectUser : Boolean; SelectCompany : Boolean);
 var
   sqlDados, sqlAddress : TFDQuery;
   Addresses : TAddress;
-  I : Integer;
   Endereco : TAddress;
 begin
 
@@ -229,8 +228,12 @@ begin
           folder.pasta        := sqlDados.FieldByName('folder').AsString;
           typeperson          := sqlDados.FieldByName('typeperson').AsString;
           id_pricelist        := sqlDados.FieldByName('id_pricelist').AsInteger;
-          User.Search(id_user);
-          Company.Search(sqlDados.FieldByName('Id_Company').AsInteger);
+
+          if SelectUser then
+             User.Search(id_user);
+
+          if SelectCompany then
+            Company.Search(sqlDados.FieldByName('Id_Company').AsInteger);
 
            Try
               sqlAddress.SQL.Clear;
@@ -238,7 +241,6 @@ begin
               sqlAddress.Params.ParamByName('Id_Customer').AsInteger := Id_customer;
               sqlAddress.Open;
               sqlAddress.First;
-              I := 1;
               while not sqlAddress.Eof  do
               begin
 
@@ -256,7 +258,6 @@ begin
                   Endereco.ZipCode            := sqlAddress.FieldByName('zipcode').ASString;
                   Address.Add(Endereco);
 
-                  Inc(I);
                 Finally
                   FreeAndNil(Endereco);
                 End;

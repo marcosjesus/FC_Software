@@ -113,7 +113,7 @@ object frmEstimate: TfrmEstimate
       OnClick = ButNovoClick
     end
     object ButAlterar: TcxButton
-      Left = 40
+      Left = 41
       Top = 0
       Width = 36
       Height = 33
@@ -768,6 +768,7 @@ object frmEstimate: TfrmEstimate
             Font.Style = []
             ParentFont = False
             TabOrder = 0
+            ExplicitTop = 1
             object Label1: TLabel
               Left = 40
               Top = 3
@@ -1256,8 +1257,8 @@ object frmEstimate: TfrmEstimate
                 Font.Style = []
                 ParentColor = False
                 ParentFont = False
-                ExplicitLeft = 6
-                ExplicitTop = 2
+                ExplicitLeft = 39
+                ExplicitWidth = 97
               end
               object btnCart: TcxButton
                 Left = 70
@@ -1912,6 +1913,7 @@ object frmEstimate: TfrmEstimate
             Font.Style = [fsBold]
             ParentFont = False
             TabOrder = 1
+            OnClick = btnCartClick
             object Shape1: TShape
               Left = 2
               Top = 191
@@ -2604,8 +2606,6 @@ object frmEstimate: TfrmEstimate
               Font.Style = []
               ImageIndex = 1
               ParentFont = False
-              ExplicitLeft = 5
-              ExplicitTop = 2
               object pnlLateral: TPanel
                 Left = 713
                 Top = 121
@@ -2621,10 +2621,6 @@ object frmEstimate: TfrmEstimate
                 ParentBackground = False
                 ParentFont = False
                 TabOrder = 0
-                ExplicitLeft = 784
-                ExplicitTop = 142
-                ExplicitWidth = 497
-                ExplicitHeight = 422
                 object ImageProduct: TImage
                   Left = 1
                   Top = 1
@@ -2672,9 +2668,6 @@ object frmEstimate: TfrmEstimate
                   Font.Style = []
                   ParentFont = False
                   TabOrder = 0
-                  ExplicitLeft = 2
-                  ExplicitTop = 20
-                  ExplicitWidth = 689
                 end
               end
               object Panel1: TPanel
@@ -2692,9 +2685,6 @@ object frmEstimate: TfrmEstimate
                 ParentBackground = False
                 ParentFont = False
                 TabOrder = 1
-                ExplicitLeft = 65
-                ExplicitTop = 119
-                ExplicitHeight = 358
                 object Label16: TLabel
                   Left = 264
                   Top = 53
@@ -3988,10 +3978,10 @@ object frmEstimate: TfrmEstimate
       ImageIndex = 2
       ParentFont = False
       object pnlRelatorio: TPanel
-        Left = 664
-        Top = 24
-        Width = 205
-        Height = 57
+        Left = -120
+        Top = -128
+        Width = 945
+        Height = 673
         Caption = 'Quotation/Order/Invoice'
         Color = 33023
         Font.Charset = DEFAULT_CHARSET
@@ -4004,10 +3994,11 @@ object frmEstimate: TfrmEstimate
         TabOrder = 0
         Visible = False
         object ReportSale: TRLReport
-          Left = 150
-          Top = 32
+          Left = 151
+          Top = 248
           Width = 794
           Height = 1123
+          AllowedBands = [btFooter]
           DataSource = dsHeader
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
@@ -4028,115 +4019,10 @@ object frmEstimate: TfrmEstimate
             Font.Style = []
             ParentFont = False
             object RLImageLogo: TRLImage
-              Left = 5
-              Top = 1
+              Left = 228
+              Top = 0
               Width = 263
               Height = 101
-            end
-            object RLDBText2: TRLDBText
-              Left = 276
-              Top = 28
-              Width = 90
-              Height = 14
-              DataField = 'COMPANY_NAME'
-              DataSource = dsHeader
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clBlack
-              Font.Height = -11
-              Font.Name = 'Arial'
-              Font.Style = []
-              ParentFont = False
-              Text = ''
-            end
-            object RLDBText3: TRLDBText
-              Left = 275
-              Top = 44
-              Width = 110
-              Height = 14
-              DataField = 'COMPANY_ADRRESS'
-              DataSource = dsHeader
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clBlack
-              Font.Height = -11
-              Font.Name = 'Arial'
-              Font.Style = []
-              ParentFont = False
-              Text = ''
-            end
-            object RLDBText4: TRLDBText
-              Left = 275
-              Top = 59
-              Width = 84
-              Height = 14
-              DataField = 'COMPANY_CITY'
-              DataSource = dsHeader
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clBlack
-              Font.Height = -11
-              Font.Name = 'Arial'
-              Font.Style = []
-              ParentFont = False
-              Text = ''
-            end
-            object RLDBText5: TRLDBText
-              Left = 403
-              Top = 59
-              Width = 104
-              Height = 14
-              DataField = 'COMPANY_ZIPCODE'
-              DataSource = dsHeader
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clBlack
-              Font.Height = -11
-              Font.Name = 'Arial'
-              Font.Style = []
-              ParentFont = False
-              Text = ''
-            end
-            object RLDBText36: TRLDBText
-              Left = 403
-              Top = 75
-              Width = 74
-              Height = 14
-              DataField = 'COMPANY_ST'
-              DataSource = dsHeader
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clBlack
-              Font.Height = -11
-              Font.Name = 'Arial'
-              Font.Style = []
-              ParentFont = False
-              Text = ''
-            end
-            object RLDBText6: TRLDBText
-              Left = 275
-              Top = 75
-              Width = 104
-              Height = 14
-              DataField = 'COMPANY_COUNTY'
-              DataSource = dsHeader
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clBlack
-              Font.Height = -11
-              Font.Name = 'Arial'
-              Font.Style = []
-              ParentFont = False
-              Text = ''
-            end
-            object RLDBText16: TRLDBText
-              Left = 275
-              Top = 91
-              Width = 82
-              Height = 14
-              DataField = 'VENDOR_EMAIL'
-              DataSource = dsHeader
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clBlack
-              Font.Height = -11
-              Font.Name = 'Arial'
-              Font.Style = []
-              ParentFont = False
-              Text = ''
             end
           end
           object RLBand1: TRLBand
@@ -4233,7 +4119,7 @@ object frmEstimate: TfrmEstimate
             end
             object RLLabel19: TRLLabel
               Left = 550
-              Top = 64
+              Top = 49
               Width = 57
               Height = 14
               Caption = 'Sales Rep'
@@ -4246,7 +4132,7 @@ object frmEstimate: TfrmEstimate
             end
             object RLDBText21: TRLDBText
               Left = 634
-              Top = 66
+              Top = 51
               Width = 81
               Height = 14
               DataField = 'VENDOR_NAME'
@@ -4302,7 +4188,7 @@ object frmEstimate: TfrmEstimate
             end
             object RLLabel22: TRLLabel
               Left = 580
-              Top = 49
+              Top = 34
               Width = 27
               Height = 14
               Caption = 'Date'
@@ -4443,10 +4329,26 @@ object frmEstimate: TfrmEstimate
             end
             object RLDBText46: TRLDBText
               Left = 630
-              Top = 51
+              Top = 36
               Width = 85
               Height = 14
               DataField = 'ESTIMATE_DATE'
+              DataSource = dsHeader
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clBlack
+              Font.Height = -11
+              Font.Name = 'Arial'
+              Font.Style = []
+              ParentFont = False
+              Text = ''
+            end
+            object RLDBText16: TRLDBText
+              Left = 633
+              Top = 67
+              Width = 82
+              Height = 14
+              Alignment = taRightJustify
+              DataField = 'VENDOR_EMAIL'
               DataSource = dsHeader
               Font.Charset = DEFAULT_CHARSET
               Font.Color = clBlack
@@ -4986,6 +4888,35 @@ object frmEstimate: TfrmEstimate
                 ParentFont = False
                 Text = ''
               end
+            end
+          end
+          object RLBand2: TRLBand
+            Left = 38
+            Top = 497
+            Width = 718
+            Height = 18
+            AlignToBottom = True
+            BandType = btFooter
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clBlack
+            Font.Height = -13
+            Font.Name = 'Arial'
+            Font.Style = []
+            ParentFont = False
+            BeforePrint = RLBand2BeforePrint
+            object lblfooterAddress: TRLLabel
+              Left = 305
+              Top = 0
+              Width = 108
+              Height = 16
+              Align = faCenterTop
+              Alignment = taCenter
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clBlack
+              Font.Height = -13
+              Font.Name = 'Arial'
+              Font.Style = [fsBold]
+              ParentFont = False
             end
           end
         end
@@ -6268,8 +6199,8 @@ object frmEstimate: TfrmEstimate
   object sqlParcelas: TFDQuery
     Connection = DBDados.FDConnection
     SQL.Strings = (
-      'SELECT * FROM TBTERMS'
-      'WHERE TABLENAME = :TABLENAME AND ID_PROCESS = :ID_PROCESS')
+      '  SELECT T.* FROM TBTERMS T'
+      'WHERE T.TABLENAME = :TABLENAME AND T.ID_PROCESS = :ID_PROCESS')
     Left = 48
     Top = 648
     ParamData = <
@@ -6944,8 +6875,8 @@ object frmEstimate: TfrmEstimate
       'INNER JOIN TBUSER D ON D.ID_USER = A.ID_USER'
       'LEFT OUTER JOIN TBADDRESS E ON E.ID_CUSTOMER = C.ID_CUSTOMER'
       'WHERE A.ID_CONTRACTORS = :ID_CONTRACTORS ')
-    Left = 48
-    Top = 624
+    Left = 168
+    Top = 568
     ParamData = <
       item
         Name = 'ID_CONTRACTORS'
@@ -9661,7 +9592,7 @@ object frmEstimate: TfrmEstimate
     Left = 876
     Top = 511
     Bitmap = {
-      494C010101003000600010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010101003000700010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000001000000001002000000000000010
       000000000000000000000000000000000000D2DDFBFFD2DDFBFFD2DDFBFFD2DD
       FCFFD3E0FFFFD3E0FFFFD3E0FFFFD0D5E8FFAB8D66FFD3DCF7FFC5B095FFC5B2

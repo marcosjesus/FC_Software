@@ -400,9 +400,8 @@ begin
 
   if edtCompanyName.Text = '' then
   begin
-     Mens_MensInf('Company Name is missing.') ;
+     Mens_MensInf('The Company Name is missing.') ;
      edtCompanyName.SetFocus ;
-     Retorno := False;
      Exit ;
   end;
 
@@ -413,7 +412,6 @@ begin
     begin
        Mens_MensInf('Invalid Costumer E-mail.');
        edtCompanyEmail.SetFocus ;
-       Retorno := False;
        Exit ;
     end;
   end;

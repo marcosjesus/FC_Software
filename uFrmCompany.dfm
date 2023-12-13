@@ -38,6 +38,10 @@ object frmCompany: TfrmCompany
     object cxTabSheetList: TcxTabSheet
       Caption = 'Company'
       ImageIndex = 0
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object cxGrid1: TcxGrid
         Left = 0
         Top = 0
@@ -86,6 +90,10 @@ object frmCompany: TfrmCompany
     object cxTabSheetForm: TcxTabSheet
       Caption = 'Registration Form'
       ImageIndex = 1
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object PanFundo: TPanel
         Left = 0
         Top = 0
@@ -215,6 +223,10 @@ object frmCompany: TfrmCompany
             Font.Style = [fsBold]
             ImageIndex = 0
             ParentFont = False
+            ExplicitLeft = 0
+            ExplicitTop = 0
+            ExplicitWidth = 0
+            ExplicitHeight = 0
             object Image1: TImage
               Left = 35
               Top = 283

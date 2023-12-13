@@ -148,7 +148,6 @@ end;
 
 procedure TfrmAccount.btnSalvarClick(Sender: TObject);
 var
-  varMsg: TStringList;
   varIdUser, varIdUserOLD,  varIdLanguage, VarNewBank : Integer;
 begin
 

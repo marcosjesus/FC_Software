@@ -218,6 +218,9 @@ type
     edtTermDescription: TcxTextEdit;
     sqlTermsDESCRIPTION: TStringField;
     cxGrid3DBTableView1DESCRIPTION: TcxGridDBColumn;
+    lblReqOrder: TLabel;
+    edtReqOrder: TcxTextEdit;
+    sqlGridID_REQUESTORDER: TIntegerField;
     procedure ButSairClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure ButNovoClick(Sender: TObject);
@@ -242,6 +245,10 @@ type
     procedure ButAlterarItemClick(Sender: TObject);
     procedure btnGetRequestOrderClick(Sender: TObject);
     procedure edtProductClick(Sender: TObject);
+    procedure cxGrid1DBTableView1CellDblClick(Sender: TcxCustomGridTableView;
+      ACellViewInfo: TcxGridTableDataCellViewInfo; AButton: TMouseButton;
+      AShift: TShiftState; var AHandled: Boolean);
+    procedure ButExcluirItemClick(Sender: TObject);
   private
     { Private declarations }
     varLocateRequest : Boolean;
@@ -263,6 +270,7 @@ type
     function ValidTotalTerm: Boolean;
     procedure AtualizTerms;
     procedure ClearHeaderScreen;
+    procedure AtualizaPreco;
   public
     { Public declarations }
     procedure SetupForm;
@@ -297,8 +305,6 @@ begin
     Caption                := Caption + '  -  ' + ZeroLeft(IntToStr(varNewKey),7);
     varNextKey.UpdateKey(varNewKey, SUP_INVOICE_HEADER); // atualiza a nova chave no banco
     varNewKeyItem          := 0;
-
-
     Invoice                := TInvoice.Create(Self);
     Invoice.id_sup_invoice := varNewKey;
     AtualizaGradeItem;
@@ -395,8 +401,16 @@ begin
    edtManufactory.SetValue('S.ID_SUPPLIER = ' + sqlGridID_SUPPLIER.AsString);
    edtManufactoryClick(Self);
    edtInvoiceNum.Text     := sqlGridINVOICE.AsString;
+
    Invoice                := TInvoice.Create(Self);
    Invoice.Search(sqlGridID.AsInteger);
+   lblReqOrder.Visible := True;
+   edtReqOrder.Visible := True;
+   edtReqOrder.EditValue := sqlGridID_REQUESTORDER.AsInteger;
+   if edtReqOrder.EditValue  <> 0 then
+      edtReqOrder.Enabled := False
+   else edtReqOrder.Enabled := True;
+
 
    Invoice.id_sup_invoice := sqlGridID.AsInteger;
    Invoice.id_supplier    := sqlGridID_SUPPLIER.AsInteger;
@@ -425,6 +439,12 @@ end;
 
 procedure TfrmSupplierInvoice.ButAlterarItemClick(Sender: TObject);
 begin
+
+  if sqlItem.IsEmpty then
+  begin
+    Mens_MensInf('There is no Data to Edit.') ;
+    Exit;
+  end;
 
   CleanItemFromEdition;
   if  varOption = 'X' then
@@ -511,6 +531,16 @@ begin
   ButItensOnOff('TTTFFTTT');
 end;
 
+procedure TfrmSupplierInvoice.ButExcluirItemClick(Sender: TObject);
+begin
+  if sqlItem.IsEmpty then
+  begin
+    Mens_MensInf('There is no Data to Delete.') ;
+    Exit;
+  end;
+
+end;
+
 procedure  TfrmSupplierInvoice.CleanItemFromEdition;
 begin
   edtProduct.bs_KeyValues.Clear;
@@ -547,6 +577,14 @@ end;
 
 
 
+procedure TfrmSupplierInvoice.cxGrid1DBTableView1CellDblClick(
+  Sender: TcxCustomGridTableView; ACellViewInfo: TcxGridTableDataCellViewInfo;
+  AButton: TMouseButton; AShift: TShiftState; var AHandled: Boolean);
+begin
+  if not sqlGrid.IsEmpty then
+    ButAlterarClick(Self);
+end;
+
 procedure TfrmSupplierInvoice.ButItensOnOff(S: String);
 begin
   ButNovoItem.Enabled     := Copy(S,1,1) = 'T' = True;
@@ -578,14 +616,50 @@ begin
 
    if ValidTerms = False then Exit;
 
+   if varOption = 'U' then
+   begin
+      if Invoice.id_requestorder <> edtReqOrder.EditValue then
+      begin
+          cmbStatus.ItemIndex     :=  cmbStatus.Properties.Items.IndexOf(cmbStatus.Text);
+          if cmbStatus.ItemIndex = 1 then
+          begin
+             Mens_MensInf('The field Request Order ID can not blank') ;
+             edtReqOrder.SetFocus;
+          end;
+      end;
+   end;
+
    SaveHeader;
+
+
+
+
+   lblReqOrder.Visible := False;
+   edtReqOrder.Text := '';
+   edtReqOrder.Visible := False;
+
    pnlTop.Enabled := True;
    cxPageMaster.ActivePage := cxTabSheetList;
+
+
 
    AtualizaGrade;
 
    if Assigned(Invoice) then
        FreeAndNil(Invoice);
+end;
+
+procedure   TfrmSupplierInvoice.AtualizaPreco;
+var
+ I : Integer;
+begin
+   for I := 0 to Invoice.ItensNF.Count do
+   begin
+       ShowMessage(FloatToStr(Invoice.ItensNF[I].unitprice ));
+
+   end;
+
+
 end;
 
 procedure TfrmSupplierInvoice.ButSalvarItemClick(Sender: TObject);
@@ -863,7 +937,6 @@ begin
   varRetorno := True;
    if ((edtManufactory.Text = '') or (edtManufactory.bs_KeyValues.Count = 0)) then
    begin
-      varRetorno := False;
       Mens_MensInf('The Manufactorer field is required.');
       edtManufactory.SetFocus;
       Exit;
@@ -872,7 +945,6 @@ begin
 
    if edtInvoiceNum.Text = '' then
    begin
-      varRetorno := False;
       Mens_MensInf('The Invoice Number field is required.');
       edtInvoiceNum.SetFocus;
       Exit;
@@ -880,7 +952,6 @@ begin
 
   if cxDateProcess.Text = '' then
   begin
-      varRetorno := False;
       Mens_MensInf('The Invoice Date is required.') ;
       cxDateProcess.SetFocus;
       exit;
@@ -888,7 +959,6 @@ begin
 
   if cxLookupComboBoxCompany.EditValue = Null then
   begin
-    varRetorno := False;
     Mens_MensInf('The Company name field is required.') ;
     cxLookupComboBoxCompany.SetFocus;
     Exit;
@@ -897,7 +967,6 @@ begin
 
   if edtMerchandise.Text = '' then
   begin
-      varRetorno := False;
       Mens_MensInf('The Merchandise field is required.') ;
       edtMerchandise.SetFocus;
       exit;
@@ -905,7 +974,6 @@ begin
 
   if edtTax.Text = '' then
   begin
-      varRetorno := False;
       Mens_MensInf('The Tax field is required.') ;
       edtTax.SetFocus;
       exit;
@@ -913,13 +981,12 @@ begin
 
   if edtTotal.Text = '' then
   begin
-      varRetorno := False;
       Mens_MensInf('The Total field is required.') ;
       edtTotal.SetFocus;
       exit;
   end;
 
-  Result := VarRetorno;
+  Result := varRetorno;
 
 end;
 
@@ -1065,6 +1132,8 @@ end;
 procedure TfrmSupplierInvoice.FormClose(Sender: TObject;
   var Action: TCloseAction);
 begin
+  if Assigned(Invoice) then
+     FreeAndNil(Invoice);
 
   FrmSupplierInvoice := nil;
   Action := caFree;
@@ -1186,10 +1255,12 @@ begin
 
       sqlAbre.Close;
       sqlAbre.SQL.Clear;
-      sqlAbre.SQL.Add('SELECT  A.ID_COMPANY ,A.ID_SUPPLIER, A.ID_PRODUCT, B.AREASQUAREFEETPERBOX FROM TBREQUESTORDER A ');
+      sqlAbre.SQL.Add('SELECT  A.ID_COMPANY ,A.ID_SUPPLIER, A.ID_PRODUCT, Count(B.AREASQUAREFEETPERBOX) as AREASQUAREFEETPERBOX FROM TBREQUESTORDER A ');
       sqlAbre.SQL.Add(' LEFT OUTER JOIN TBPRODUCT B ON B.ID_PRODUCT = A.ID_PRODUCT ');
-      sqlAbre.SQL.Add(' WHERE A.ID_REQUESTORDER = :ID_REQUESTORDER ');
-      sqlAbre.Params.ParamByName('ID_REQUESTORDER').AsInteger := edtLocator.EditValue;
+      sqlAbre.SQL.Add(' WHERE A.GROUPNUMBER = :GROUPNUMBER ');
+      sqlAbre.SQL.Add(' GROUP BY A.ID_COMPANY ,A.ID_SUPPLIER, A.ID_PRODUCT ');
+
+      sqlAbre.Params.ParamByName('GROUPNUMBER').AsInteger := edtLocator.EditValue;
       sqlAbre.Open;
       if not sqlAbre.IsEmpty then
       begin
@@ -1205,15 +1276,15 @@ begin
 
         sqlSave.Close;
         sqlSave.SQL.Clear;
-        sqlSave.SQL.Add('Insert Into TBSUP_INVOICE (ID_SUP_INVOICE, ID_SUPPLIER, ID_COMPANY, STATUS, ID_USER, INVOICE_ID)');
-        sqlSave.SQL.Add('Values (:ID_SUP_INVOICE, :ID_SUPPLIER, :ID_COMPANY, :STATUS, :ID_USER, :INVOICE_ID)');
+        sqlSave.SQL.Add('Insert Into TBSUP_INVOICE (ID_SUP_INVOICE, ID_SUPPLIER, ID_COMPANY, STATUS, ID_USER, INVOICE_ID, ID_REQUESTORDER)');
+        sqlSave.SQL.Add('Values (:ID_SUP_INVOICE, :ID_SUPPLIER, :ID_COMPANY, :STATUS, :ID_USER, :INVOICE_ID, :ID_REQUESTORDER)');
         sqlSave.Params.ParamByName('ID_SUP_INVOICE').AsInteger := varNewKey;
         sqlSave.Params.ParamByName('ID_SUPPLIER').AsInteger    := sqlAbre.FieldByName('ID_SUPPLIER').AsInteger;
         sqlSave.Params.ParamByName('ID_COMPANY').AsInteger     := sqlAbre.FieldByName('ID_COMPANY').AsInteger;
         sqlSave.Params.ParamByName('STATUS').AsString          := 'Pending';
         sqlSave.Params.ParamByName('ID_USER').AsInteger        := DBDados.varID_USER;
         sqlSave.Params.ParamByName('INVOICE_ID').AsString      := edtManufactInvoice.Text;
-
+        sqlSave.Params.ParamByName('ID_REQUESTORDER').AsString := edtLocator.EditValue;
 
         Try
            sqlSave.ExecSQL;
@@ -1240,13 +1311,13 @@ begin
           sqlSave.SQL.Clear;
           sqlSave.SQL.Add('Insert Into TBSUP_INVOICEITEM (ID_SUP_INVOICEITEM, ID_SUP_INVOICE, ID_SUPPLIER, ID_PRODUCT, ID_USER, INVOICE_ID, AREASQUAREFEET)');
           sqlSave.SQL.Add(' Values (:ID_SUP_INVOICEITEM, :ID_SUP_INVOICE, :ID_SUPPLIER, :ID_PRODUCT, :ID_USER, :INVOICE_ID, :AREASQUAREFEET)');
-          sqlSave.Params.ParamByName('ID_SUP_INVOICEITEM').AsInteger :=  varNewKeyItem;
-          sqlSave.Params.ParamByName('ID_SUP_INVOICE').AsInteger :=  varNewKey;
-          sqlSave.Params.ParamByName('ID_SUPPLIER').AsInteger := sqlAbre.FieldByName('ID_SUPPLIER').AsInteger;
-          sqlSave.Params.ParamByName('ID_PRODUCT').AsInteger := sqlAbre.FieldByName('ID_PRODUCT').AsInteger;
-          sqlSave.Params.ParamByName('ID_USER').AsInteger        := DBDados.varID_USER;
-          sqlSave.Params.ParamByName('INVOICE_ID').AsString      := edtManufactInvoice.Text;
-          sqlSave.Params.ParamByName('AREASQUAREFEET').AsFloat      := sqlAbre.FieldByName('AREASQUAREFEETPERBOX').AsFloat;
+          sqlSave.Params.ParamByName('ID_SUP_INVOICEITEM').AsInteger := varNewKeyItem;
+          sqlSave.Params.ParamByName('ID_SUP_INVOICE').AsInteger     := varNewKey;
+          sqlSave.Params.ParamByName('ID_SUPPLIER').AsInteger        := sqlAbre.FieldByName('ID_SUPPLIER').AsInteger;
+          sqlSave.Params.ParamByName('ID_PRODUCT').AsInteger         := sqlAbre.FieldByName('ID_PRODUCT').AsInteger;
+          sqlSave.Params.ParamByName('ID_USER').AsInteger            := DBDados.varID_USER;
+          sqlSave.Params.ParamByName('INVOICE_ID').AsString          := edtManufactInvoice.Text;
+          sqlSave.Params.ParamByName('AREASQUAREFEET').AsFloat       := sqlAbre.FieldByName('AREASQUAREFEETPERBOX').AsFloat;
 
           Try
              sqlSave.ExecSQL;

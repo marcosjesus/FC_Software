@@ -228,7 +228,6 @@ var
   emSMTP       : TIdSMTP;
   bEnvio       : Boolean;
   Attachment   : TIdAttachment;
-  I            : Integer;
 begin
   emSMTP     := TIdSMTP.Create;
   emMessage := TIdMessage.Create;
@@ -306,16 +305,15 @@ begin
 
       end;
 
-      bEnvio := False;
+
       try
          emSMTP.Send(emMessage);
          bEnvio := True;
       except
-
          on E : Exception do
          begin
-            exception.Create(E.ClassName+' error raised, with message : '+E.Message);
             bEnvio := False;
+            exception.Create(E.ClassName+' error raised, with message : '+E.Message);
          end;
       end;
 
@@ -323,6 +321,7 @@ begin
      emSMTP.Disconnect;
 
     End;
+    result := bEnvio;
   Finally
      FreeAndNil(emMessage);
      FreeAndNil(emSMTP);

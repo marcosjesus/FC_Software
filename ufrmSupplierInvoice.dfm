@@ -26,9 +26,8 @@ object frmSupplierInvoice: TfrmSupplierInvoice
     Height = 508
     Align = alClient
     TabOrder = 0
-    Properties.ActivePage = cxTabSheetList
+    Properties.ActivePage = cxTabSheetForm
     Properties.CustomButtons.Buttons = <>
-    ExplicitTop = 2
     ClientRectBottom = 504
     ClientRectLeft = 4
     ClientRectRight = 1150
@@ -42,8 +41,6 @@ object frmSupplierInvoice: TfrmSupplierInvoice
       Font.Style = []
       ImageIndex = 0
       ParentFont = False
-      ExplicitWidth = 1130
-      ExplicitHeight = 462
       object cxGrid1: TcxGrid
         Left = 0
         Top = 0
@@ -57,10 +54,9 @@ object frmSupplierInvoice: TfrmSupplierInvoice
         Font.Style = []
         ParentFont = False
         TabOrder = 0
-        ExplicitWidth = 1130
-        ExplicitHeight = 462
         object cxGrid1DBTableView1: TcxGridDBTableView
           Navigator.Buttons.CustomButtons = <>
+          OnCellDblClick = cxGrid1DBTableView1CellDblClick
           DataController.DataSource = dsGrid
           DataController.KeyFieldNames = 'ID'
           DataController.Summary.DefaultGroupSummaryItems = <>
@@ -143,8 +139,6 @@ object frmSupplierInvoice: TfrmSupplierInvoice
       ImageIndex = 1
       ParentFont = False
       TabVisible = False
-      ExplicitWidth = 1130
-      ExplicitHeight = 462
       object pnlBtnLateral: TPanel
         Left = 1064
         Top = 179
@@ -159,9 +153,6 @@ object frmSupplierInvoice: TfrmSupplierInvoice
         Font.Style = [fsBold]
         ParentFont = False
         TabOrder = 0
-        ExplicitLeft = 1050
-        ExplicitTop = 185
-        ExplicitHeight = 277
         object ButNovoItem: TcxButton
           Left = 2
           Top = 6
@@ -208,6 +199,7 @@ object frmSupplierInvoice: TfrmSupplierInvoice
           ParentShowHint = False
           ShowHint = True
           TabOrder = 2
+          OnClick = ButExcluirItemClick
         end
         object ButSalvarItem: TcxButton
           Left = 2
@@ -251,9 +243,6 @@ object frmSupplierInvoice: TfrmSupplierInvoice
         TabOrder = 1
         Properties.ActivePage = cxTabSheetGrade
         Properties.CustomButtons.Buttons = <>
-        ExplicitTop = 185
-        ExplicitWidth = 1048
-        ExplicitHeight = 277
         ClientRectBottom = 297
         ClientRectLeft = 4
         ClientRectRight = 1060
@@ -267,8 +256,6 @@ object frmSupplierInvoice: TfrmSupplierInvoice
           Font.Style = []
           ImageIndex = 0
           ParentFont = False
-          ExplicitWidth = 1040
-          ExplicitHeight = 249
           object cxGrid2: TcxGrid
             Left = 0
             Top = 0
@@ -282,10 +269,6 @@ object frmSupplierInvoice: TfrmSupplierInvoice
             Font.Style = []
             ParentFont = False
             TabOrder = 0
-            ExplicitLeft = -58
-            ExplicitTop = 40
-            ExplicitWidth = 1040
-            ExplicitHeight = 249
             object cxGrid2DBTableView1: TcxGridDBTableView
               Navigator.Buttons.CustomButtons = <>
               DataController.DataSource = dsItem
@@ -385,8 +368,6 @@ object frmSupplierInvoice: TfrmSupplierInvoice
           ImageIndex = 1
           ParentFont = False
           TabVisible = False
-          ExplicitLeft = 5
-          ExplicitTop = 25
           object Label5: TLabel
             Left = 17
             Top = 14
@@ -692,7 +673,6 @@ object frmSupplierInvoice: TfrmSupplierInvoice
           Font.Style = []
           ParentFont = False
           TabOrder = 0
-          ExplicitTop = -4
           object Label1: TLabel
             Left = 32
             Top = 20
@@ -844,6 +824,20 @@ object frmSupplierInvoice: TfrmSupplierInvoice
             Font.Style = []
             ParentFont = False
           end
+          object lblReqOrder: TLabel
+            Left = 287
+            Top = 153
+            Width = 85
+            Height = 13
+            Caption = 'Request Order ID'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            ParentFont = False
+            Visible = False
+          end
           object edtManufactory: TEditBusca
             Left = 99
             Top = 20
@@ -981,6 +975,22 @@ object frmSupplierInvoice: TfrmSupplierInvoice
             TabOrder = 10
             Width = 130
           end
+          object edtReqOrder: TcxTextEdit
+            Left = 377
+            Top = 150
+            ParentFont = False
+            Properties.CharCase = ecUpperCase
+            Properties.MaxLength = 20
+            Style.Font.Charset = DEFAULT_CHARSET
+            Style.Font.Color = clWindowText
+            Style.Font.Height = -11
+            Style.Font.Name = 'Tahoma'
+            Style.Font.Style = []
+            Style.IsFontAssigned = True
+            TabOrder = 11
+            Visible = False
+            Width = 91
+          end
         end
         object Panel2: TPanel
           Left = 729
@@ -989,10 +999,6 @@ object frmSupplierInvoice: TfrmSupplierInvoice
           Height = 177
           Align = alClient
           TabOrder = 1
-          ExplicitLeft = 953
-          ExplicitTop = 85
-          ExplicitWidth = 185
-          ExplicitHeight = 41
           object Label36: TLabel
             Left = 23
             Top = 30
@@ -1260,14 +1266,12 @@ object frmSupplierInvoice: TfrmSupplierInvoice
     Font.Style = []
     ParentFont = False
     TabOrder = 1
-    ExplicitTop = 488
-    ExplicitWidth = 1138
     object Label18: TLabel
-      Left = 904
+      Left = 890
       Top = 11
-      Width = 85
+      Width = 98
       Height = 13
-      Caption = 'Request Order ID'
+      Caption = 'Request Grouped ID'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
@@ -1276,7 +1280,7 @@ object frmSupplierInvoice: TfrmSupplierInvoice
       ParentFont = False
     end
     object Label19: TLabel
-      Left = 644
+      Left = 630
       Top = 11
       Width = 143
       Height = 13
@@ -1820,7 +1824,7 @@ object frmSupplierInvoice: TfrmSupplierInvoice
       Width = 91
     end
     object btnGetRequestOrder: TcxButton
-      Left = 1092
+      Left = 1093
       Top = 2
       Width = 43
       Height = 34
@@ -1970,7 +1974,7 @@ object frmSupplierInvoice: TfrmSupplierInvoice
       OnClick = btnGetRequestOrderClick
     end
     object edtManufactInvoice: TcxTextEdit
-      Left = 796
+      Left = 782
       Top = 8
       ParentFont = False
       Properties.CharCase = ecUpperCase
@@ -2001,7 +2005,8 @@ object frmSupplierInvoice: TfrmSupplierInvoice
       'A.STATUS,'
       'A.ID_SUPPLIER,'
       'A.ID_COMPANY,'
-      'A.ID_PAYMENT_METHOD'
+      'A.ID_PAYMENT_METHOD,'
+      'A.ID_REQUESTORDER'
       'FROM TBSUP_INVOICE A'
       'LEFT OUTER JOIN TBSUPPLIER B ON B.ID_SUPPLIER = A.ID_SUPPLIER'
       'LEFT OUTER JOIN TBCOMPANY C ON C.ID_COMPANY = A.ID_COMPANY'
@@ -2102,6 +2107,10 @@ object frmSupplierInvoice: TfrmSupplierInvoice
     object sqlGridID_PAYMENT_METHOD: TIntegerField
       FieldName = 'ID_PAYMENT_METHOD'
       Origin = 'ID_PAYMENT_METHOD'
+    end
+    object sqlGridID_REQUESTORDER: TIntegerField
+      FieldName = 'ID_REQUESTORDER'
+      Origin = 'ID_REQUESTORDER'
     end
   end
   object dsGrid: TDataSource

@@ -173,7 +173,6 @@ function TDBDados.NumberofCompanyByUser: Integer;
 var
   varRetorno : Integer;
 begin
-  varRetorno := 0;
   SqlAux.Close;
   SqlAux.SQL.Clear;
   SqlAux.SQL.Add('Select ISNull(Count(1),0) as TOTAL FROM TBUSER_COMPANY where ID_USER = :ID_USER');
@@ -271,7 +270,8 @@ begin
   sqlAux.SQL.Add('Select ID_Bank From TBUSERBANK Where ID_USERBANK = :ID_USERBANK');
   sqlAux.Params.ParamByName('ID_USERBANK').AsInteger :=  ID_UserBank;
   sqlAux.Open;
-  varRetorno := sqlAux.FieldByName('ID_Bank').AsInteger;
+  if not SqlAux.IsEmpty then
+   varRetorno := sqlAux.FieldByName('ID_Bank').AsInteger;
 
   Result := varRetorno;
 end;

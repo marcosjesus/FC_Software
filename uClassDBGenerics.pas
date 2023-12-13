@@ -93,7 +93,7 @@ Type
       property Company        : TCompany read FCompany;
 
       Constructor Create;
-      procedure Search(id_user : Integer);
+      procedure Search(id_user : Integer; SelectCompany : Boolean = False);
    end;
 
 
@@ -156,6 +156,7 @@ Type
       FAddress             : String;
       FZipCode             : String;
       FID_User             : Integer;
+      FCounty              : String;
     procedure setFId_Address(const Value: integer);
     procedure setFAddress(const Value: string);
     procedure setFCity(const Value: string);
@@ -167,6 +168,7 @@ Type
     procedure setFupd_date(const Value: string);
     procedure setFId_User(const Value: integer);
     procedure setFId_Supplier(const Value: integer);
+    procedure setFCounty(const Value: String);
     public
        property Id_Address: integer read FId_Address write setFId_Address;
        property add_date : string read Fadd_date write setFadd_date;
@@ -179,7 +181,7 @@ Type
        property Address : string read FAddress write setFAddress;
        property ZipCode : string read FZipCode write setFZipCode;
        property ID_User : integer read FID_User write setFId_User;
-
+       property County  : String  read FCounty write setFCounty;
 
        constructor Create;
        procedure Save;
@@ -406,6 +408,7 @@ begin
     City := '';
     Address := '';
     ZipCode := '';
+    County := '';
 end;
 
 procedure TAddress.Save;
@@ -428,6 +431,7 @@ begin
         sqlDados.SQL.Add(',CITY');
         sqlDados.SQL.Add(',ADDRESS1');
         sqlDados.SQL.Add(',zipcode ');
+        sqlDados.SQL.Add(',County ');
         sqlDados.SQL.Add(',id_user )');
         sqlDados.SQL.Add(' Values (');
 
@@ -438,6 +442,7 @@ begin
         sqlDados.SQL.Add( QuotedStr(ST)  +  ',' );
         sqlDados.SQL.Add( QuotedStr(CITY) +  ',' );
         sqlDados.SQL.Add( QuotedStr(ADDRESS) +  ',' );
+        sqlDados.SQL.Add( QuotedStr(County) +  ',' );
         sqlDados.SQL.Add( QuotedStr(zipcode) +  ',' );
         sqlDados.SQL.Add( IntToStr(ID_USER) +  ')' );
 
@@ -467,7 +472,7 @@ begin
        Try
         sqlDados.Close;
         sqlDados.SQL.Clear;
-        sqlDados.SQL.Add('Select id_address, add_date, id_customer, id_supplier, country, statee, city, address1, zipcode From TBADDRESS Where id_address = :id_address');
+        sqlDados.SQL.Add('Select id_address, add_date, id_customer, id_supplier, country, statee, city, address1, zipcode, county From TBADDRESS Where id_address = :id_address');
         sqlDados.Params.ParamByName('id_address').AsInteger := varId_Address;
         sqlDados.Open;
         if not sqlDados.IsEmpty  then
@@ -481,6 +486,7 @@ begin
           City               := sqlDados.FieldByName('CITY').ASString;
           Address            := sqlDados.FieldByName('ADDRESS1').ASString;
           ZipCode            := sqlDados.FieldByName('zipcode').ASString;
+          County             := sqlDados.FieldByName('county').ASString;
         end;
        Finally
          FreeAndNil(sqlDados);
@@ -503,7 +509,7 @@ begin
        Try
         sqlDados.Close;
         sqlDados.SQL.Clear;
-        sqlDados.SQL.Add('Select id_address, add_date, id_customer, id_supplier, country, statee, city, address1, zipcode From TBADDRESS Where Id_Customer = :varId_Customer');
+        sqlDados.SQL.Add('Select id_address, add_date, id_customer, id_supplier, country, statee, city, address1, zipcode, county From TBADDRESS Where Id_Customer = :varId_Customer');
         sqlDados.Params.ParamByName('varId_Customer').AsInteger := varId_Customer;
         sqlDados.Open;
         adrredress :=  TObjectList<TAddress>.Create;
@@ -520,6 +526,8 @@ begin
           adrredres.City               := sqlDados.FieldByName('CITY').ASString;
           adrredres.Address            := sqlDados.FieldByName('ADDRESS1').ASString;
           adrredres.ZipCode            := sqlDados.FieldByName('zipcode').ASString;
+          adrredres.County             := sqlDados.FieldByName('county').ASString;
+
           adrredress.Add(adrredres);
 
         end;
@@ -550,6 +558,11 @@ end;
 procedure TAddress.setFCountry(const Value: string);
 begin
   FCountry := Value;
+end;
+
+procedure TAddress.setFCounty(const Value: String);
+begin
+  FCounty := Value;
 end;
 
 procedure TAddress.setFId_Address(const Value: integer);
@@ -680,7 +693,7 @@ end;
 
 
 
-procedure TVendor.Search(id_user: Integer);
+procedure TVendor.Search(id_user: Integer; SelectCompany : Boolean);
 var
   sqlDados : TFDQuery;
 begin
@@ -701,19 +714,15 @@ begin
         sqlDados.Open;
         if not sqlDados.IsEmpty  then
         begin
-           id_contractor := sqlDados.FieldByName('ID_CONTRACTORS').AsInteger;
+           id_contractor := sqlDados.FieldList.Fields[1].AsInteger; // sqlDados.FieldByName('ID_CONTRACTORS').AsInteger;
+           nome          := sqlDados.FieldList.Fields[2].AsString; //sqlDados.FieldByName('VENDORNAME').AsString;
+           position      := sqlDados.FieldList.Fields[4].AsString; //sqlDados.FieldByName('POSITION').AsString;
+           comissao      := sqlDados.FieldList.Fields[3].AsFloat; //sqlDados.FieldByName('COMISSION').AsFloat;
+           email         := sqlDados.FieldList.Fields[5].AsString; //sqlDados.FieldByName('EMAIL').AsString;
 
-           nome          := sqlDados.FieldByName('VENDORNAME').AsString;
-
-           position      := sqlDados.FieldByName('POSITION').AsString;
-
-           comissao      := sqlDados.FieldByName('COMISSION').AsFloat;
-
-           email         := sqlDados.FieldByName('EMAIL').AsString;
-
-           Company.id_company :=  sqlDados.FieldByName('ID_COMPANY').AsInteger;
-
-           Company.Search(sqlDados.FieldByName('ID_COMPANY').AsInteger);
+           Company.id_company :=  sqlDados.FieldList.Fields[0].AsInteger; //sqlDados.FieldByName('ID_COMPANY').AsInteger;
+           if SelectCompany then
+             Company.Search(sqlDados.FieldList.Fields[0].AsInteger);
         end;
 
        Finally

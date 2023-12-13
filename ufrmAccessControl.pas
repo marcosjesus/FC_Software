@@ -227,7 +227,6 @@ var
   myFile : String;
   I : Integer;
   SR: TSearchRec;
-  X : integer;
 
 begin
 

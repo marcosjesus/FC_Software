@@ -193,7 +193,7 @@ begin
    sqlUserCompany.Params.ParamByName('ID_USER').AsInteger := sqlUserID_USER.AsInteger;
    sqlUserCompany.Open;
    if sqlUserCompany.Locate('ID_USER;ID_COMPANY', VarArrayOf([sqlUserID_USER.AsInteger,cmbCompany.EditValue]), []) Then
-       Result :=  cmbCompany.EditValue;
+       Result := sqlUserCompany.FieldByName('ID_COMPANY').AsInteger;
 end;
 
 procedure TfrmCreateAccount.SaveUserCompany;
@@ -292,8 +292,6 @@ begin
 end;
 
 procedure TfrmCreateAccount.butOkClick(Sender: TObject);
-var
-  varIdUser, varIdUserOLD,  varIdLanguage : Integer;
 begin
   if edtFirstName.Text = '' then
   begin

@@ -364,7 +364,6 @@ begin
 
   if cxLookupComboBoxCompany.ItemIndex = -1 then
   begin
-     Retorno := False;
      Mens_MensInf('Select the Company Name.') ;
      cxLookupComboBoxCompany.SetFocus ;
      Exit;
@@ -372,7 +371,6 @@ begin
 
   if cxLookupComboBoxVendor.ItemIndex = -1 then
   begin
-     Retorno := False;
      Mens_MensInf('Select the Vendor name.') ;
      cxLookupComboBoxVendor.SetFocus ;
      Exit;
@@ -381,22 +379,20 @@ begin
   if edtLastName.Text = '' then
   begin
      Retorno := False;
-     Mens_MensInf('Last Name is missing.') ;
+     Mens_MensInf('The Last Name is missing.') ;
      edtLastName.SetFocus ;
      Exit;
   end;
 
   if edtFirstName.Text = '' then
   begin
-     Retorno := False;
-     Mens_MensInf('First Name is missing.') ;
+     Mens_MensInf('The First Name is missing.') ;
      edtFirstName.SetFocus ;
      Exit;
   end;
 
   if edtPhone1.Text = '(   )   -    ' then
   begin
-     Retorno := False;
      Mens_MensInf('Phone #1 is missing.') ;
      edtPhone1.SetFocus ;
      Exit;
@@ -406,7 +402,6 @@ begin
   begin
     if IsValidEmailRegEx(edtEmail.Text) = False Then
     begin
-       Retorno := False;
        Mens_MensInf('Invalid Customer´s E-mail.');
        edtEmail.SetFocus ;
        Exit;

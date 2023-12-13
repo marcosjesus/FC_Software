@@ -240,6 +240,8 @@ type
        procedure Update;
        procedure Search(varTableName : String; varID_Process : Integer);
        procedure Delete;
+
+       procedure SaveSampleBoard;
   end;
 
 
@@ -471,6 +473,79 @@ begin
   end;
 end;
 
+procedure TSalesProcess.SaveSampleBoard;
+ var
+  varNextKey : TDBNextKey;
+  varNewCustomer, varNewAddress  :  Integer;
+  sqlDados : TFDQuery;
+begin
+  varNewCustomer := 0;
+  varNewAddress  := 0;
+
+  Try
+
+      varNextKey  := TDBNextKey.Create('TBCUSTOMER');
+      Try
+        varNewCustomer              := varNextKey.Key;
+        varNextKey.UpdateKey(varNewCustomer, 'TBCUSTOMER'); // atualiza a nova chave no banco
+      Finally
+        FreeAndNil(varNextKey);
+      End;
+      Customer.Id_customer := varNewCustomer;
+      // Saving Customer
+      Customer.Save;
+
+
+      varNextKey := TDBNextKey.Create('TBADDRESS');
+      Try
+          varNewAddress := varNextKey.Key;
+      Finally
+         varNextKey.UpdateKey(varNextKey.Key, 'TBADDRESS'); // atualiza a nova chave no banco
+         FreeAndNil(varNextKey);
+      End;
+
+      Customer.Address[0].Id_Address := varNewAddress;
+      Customer.Address[0].Id_Customer :=varNewCustomer;
+      // Saving Customer´s Address
+      Customer.Address[0].Save;
+
+
+       with DBDados do
+       begin
+          sqlDados := TFDQuery.Create(Nil);
+
+          sqlDados.Connection := FDConnection;
+
+          Try
+            sqlDados.Close;
+            sqlDados.SQL.Clear;
+            sqlDados.SQL.Add('Insert into TBSAMPLECHECKOUT (ID_SAMPLECHECKOUT, ID_CUSTOMER, DATE_CHECKOUT, DATE_RETURN, ID_USER)');
+            sqlDados.SQL.Add(' Values (:ID_SAMPLECHECKOUT, :ID_CUSTOMER, :DATE_CHECKOUT, :DATE_RETURN, :ID_USER) ');
+            sqlDados.Params.ParamByName('ID_SAMPLECHECKOUT').AsInteger := id_process;
+            sqlDados.Params.ParamByName('ID_CUSTOMER').AsInteger       := Customer.id_customer;
+            sqlDados.Params.ParamByName('DATE_CHECKOUT').AsString      := FormatDateTime('mm/dd/yyyy hh:mm:ss', dt_process);
+            sqlDados.Params.ParamByName('DATE_RETURN').AsString        := FormatDateTime('mm/dd/yyyy hh:mm:ss', dt_process_valid);
+            sqlDados.Params.ParamByName('ID_USER').AsInteger           := User.id_user;
+            Try
+               sqlDados.ExecSQL;
+
+            except
+                on E: EDatabaseError do
+                  Mens_MensErro(E.ClassName+' error raised, with message : '+E.Message);
+
+            end;
+          Finally
+             FreeAndNil(sqlDados);
+          End;
+       end;
+  except
+      on E: Exception  do
+        Mens_MensErro(E.ClassName + ' error raised, with message : '+E.Message);
+
+  end;
+
+end;
+
 procedure TSalesProcess.Search(varTableName : String; varID_Process: Integer);
 var
   sqlDados : TFDQuery;
@@ -499,14 +574,19 @@ begin
            tablename         := sqlDados.FieldByName('tablename').ASString;
            id_process        := sqlDados.FieldByName('id_process').AsInteger;
 
-           if sqlDados.FieldByName('id_company').AsInteger > 0 then
-             Company.Search(sqlDados.FieldByName('id_company').AsInteger);
+           //if sqlDados.FieldByName('id_company').AsInteger > 0 then
+           //  Company.Search(sqlDados.FieldByName('id_company').AsInteger);
 
-           if sqlDados.FieldByName('id_customer').ASString <> '' then
-             Customer.Search(sqlDados.FieldByName('id_customer').AsInteger);
+           Company.id_company :=  sqlDados.FieldByName('id_company').AsInteger;
 
-           if sqlDados.FieldByName('id_contractors').AsInteger > 0 Then
-             Contractors.Search(sqlDados.FieldByName('id_contractors').AsInteger);
+           //if sqlDados.FieldByName('id_customer').ASString <> '' then
+           //  Customer.Search(sqlDados.FieldByName('id_customer').AsInteger);
+           Customer.Id_customer := sqlDados.FieldByName('id_customer').AsInteger;
+
+           // if sqlDados.FieldByName('id_contractors').AsInteger > 0 Then
+           //   Contractors.Search(sqlDados.FieldByName('id_contractors').AsInteger);
+           Contractors.id_contractor :=  sqlDados.FieldByName('id_contractors').AsInteger;
+
 
            dt_process        := sqlDados.FieldByName('dt_process').AsDateTime;
            dt_process_valid  := sqlDados.FieldByName('dt_process_valid').AsDateTime;
@@ -746,9 +826,9 @@ begin
 
 
         sqlDados.Params.ParamByName('id_company').AsInteger          := FCompany.id_company;
-        sqlDados.Params.ParamByName('dt_process').AsString          := FormatDateTime('mm/dd/yyyy hh:mm:ss', dt_process);
-        sqlDados.Params.ParamByName('dt_process_valid').AsString    := FormatDateTime('mm/dd/yyyy hh:mm:ss', dt_process_valid);
-        sqlDados.Params.ParamByName('dt_shipping').AsString         := FormatDateTime('mm/dd/yyyy hh:mm:ss', dt_shippingDate);
+        sqlDados.Params.ParamByName('dt_process').AsString           := FormatDateTime('mm/dd/yyyy hh:mm:ss', dt_process);
+        sqlDados.Params.ParamByName('dt_process_valid').AsString     := FormatDateTime('mm/dd/yyyy hh:mm:ss', dt_process_valid);
+        sqlDados.Params.ParamByName('dt_shipping').AsString          := FormatDateTime('mm/dd/yyyy hh:mm:ss', dt_shippingDate);
         sqlDados.Params.ParamByName('id_contractors').AsInteger      := FContractors.id_contractor;
         sqlDados.Params.ParamByName('customer_name').AsString        := customer_name;
         sqlDados.Params.ParamByName('customer_phone').AsString       := customer_phone;

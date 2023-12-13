@@ -517,13 +517,6 @@ type
     cxGrid3DBTableView1DESCRIPTION: TcxGridDBColumn;
     Label37: TLabel;
     cmbStatus: TcxComboBox;
-    RLDBText2: TRLDBText;
-    RLDBText3: TRLDBText;
-    RLDBText4: TRLDBText;
-    RLDBText5: TRLDBText;
-    RLDBText36: TRLDBText;
-    RLDBText6: TRLDBText;
-    RLDBText16: TRLDBText;
     TBCOMPANYIMAGEM: TBlobField;
     TBCOMPANYCOUNTY: TStringField;
     sqlHeaderCOMPANY_ID: TIntegerField;
@@ -643,6 +636,9 @@ type
     Panel11: TPanel;
     Label28: TLabel;
     chklistRoom: TCheckListBox;
+    RLDBText16: TRLDBText;
+    RLBand2: TRLBand;
+    lblfooterAddress: TRLLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure spbCleanCustomerClick(Sender: TObject);
@@ -700,6 +696,7 @@ type
     procedure sqlServicesItemCalcFields(DataSet: TDataSet);
     procedure sqlServicesItemBeforePost(DataSet: TDataSet);
     procedure sqlServicesItemAfterScroll(DataSet: TDataSet);
+    procedure RLBand2BeforePrint(Sender: TObject; var PrintIt: Boolean);
   private
     { Private declarations }
 
@@ -742,7 +739,6 @@ type
     function ValidTerms: Boolean;
     procedure DisabledTotalField;
     function ValidTotalTerm : Boolean;
-    procedure ValidateStatus;
     function GetInventory(varId_Product: Integer): Double;
     procedure UpdatePurchaseOrder;
     function ValidCustomer : Boolean;
@@ -754,7 +750,6 @@ type
     procedure LoadService;
     procedure PreDefineEmail(Sender: TObject);
     procedure CalculaServiceSubTotal;
-    procedure CreateTerms;
 
   public
     { Public declarations }
@@ -974,11 +969,18 @@ procedure TfrmEstimate.ButExcluirItemClick(Sender: TObject);
 var
   varProcessName : String;
 begin
+  if sqlProcess.IsEmpty then
+  begin
+    Mens_MensInf('There is no Data to Delete.') ;
+    Exit;
+  end;
+
+
   cmbStatus.ItemIndex     :=  cmbStatus.Properties.Items.IndexOf(cmbStatus.text);
 
   if TBHeader = INVOICE_HEADER then
   begin
-    Mens_MensInf('You can not Delete the Item Invoice!') ;
+    Mens_MensInf('You can not Delete the Invoice Item!') ;
     Exit;
   end;
 
@@ -1176,13 +1178,27 @@ begin
    sqlParcelas.Params.ParamByName('TABLENAME').AsString   := TBHeader;
    sqlParcelas.Open;
 
+   cxTabSheetItems.Caption := 'ID: ';
+  {
   if TBHeader = ESTIMATE_HEADER then
      LblProcess.Caption := 'Quotation Nº :'
   else if TBHeader = ORDER_HEADER Then
      LblProcess.Caption := 'Order Nº :'
   else if TBHeader = INVOICE_HEADER then
      LblProcess.Caption := 'Invoice Nº :'
+   }
+end;
 
+procedure TfrmEstimate.RLBand2BeforePrint(Sender: TObject;
+  var PrintIt: Boolean);
+begin
+   lblfooterAddress.Caption := sqlHeaderCOMPANY_NAME.AsString + '   -   Address: ' +
+     sqlHeaderCOMPANY_ADRRESS.AsString + ' ' +
+     sqlHeaderCOMPANY_COUNTY.AsString + ' ' +
+     sqlHeaderCOMPANY_CITY.AsString + ' ' +
+     sqlHeaderCOMPANY_ST.AsString + ' ' +
+     sqlHeaderCOMPANY_ZIPCODE.AsString + ' - Phone: ' +
+     sqlHeaderCOMPANY_PHONENUMBER.AsString;
 end;
 
 procedure TfrmEstimate.RLPreviewSetup1Send(Sender: TObject);
@@ -1474,16 +1490,18 @@ begin
 
   if sqlProcessItem.IsEmpty then Exit;
 
+  if Page.ActivePage = cxTabSheetGrade then
+  begin
+      if not Assigned(frmLabor) then
+        frmLabor := TfrmLabor.Create(Self);
+        frmLabor.Show;
 
-  if not Assigned(frmLabor) then
-    frmLabor := TfrmLabor.Create(Self);
-    frmLabor.Show;
+        frmLabor.Visible := True;
+        frmLabor.BringToFront;
+        frmLabor.Update;
 
-    frmLabor.Visible := True;
-    frmLabor.BringToFront;
-    frmLabor.Update;
-
-    LocalAsyncVclCall( @LoadService );
+        LocalAsyncVclCall( @LoadService );
+  end;
 
 {
     try
@@ -1736,7 +1754,7 @@ begin
 
    varNewKey                         := sqlProcessID_PROCESS.AsInteger;
    cxLookupComboBoxCompany.EditValue := sqlProcessID_COMPANY.AsString;
-   Contractor.Search(sqlProcessID_USER.AsInteger);
+   Contractor.Search(sqlProcessID_USER.AsInteger, True);
 
    edtSalesRep.SetValue('ID_CONTRACTORS=' + QuotedStr(IntToStr(sqlProcessID_CONTRACTORS.AsInteger)));
    cxLookupComboBoxPrincing.ItemIndex := -1;
@@ -1757,7 +1775,7 @@ begin
    Process := TSalesProcess.Create(Self);
    Process.Search(TBHeader, sqlProcessID_PROCESS.AsInteger);
    LoadItemToHeader;
-   Caption                := Caption + '  -  ' + ZeroLeft(IntToStr(Process.id_process),7);
+  cxTabSheetItems.Caption := 'ID: ' + ZeroLeft(IntToStr(Process.id_process),7);
 
 
    if sqlProcessID_CUSTOMER.AsString <> '' then
@@ -1923,25 +1941,19 @@ begin
   varNextKey                := TDBNextKey.Create(TBHeader);
   Try
     varNewKey               := varNextKey.Key;
-    Caption                := Caption + '  -  ' + ZeroLeft(IntToStr(varNewKey),7);
+    cxTabSheetItems.Caption := 'ID: ' + ZeroLeft(IntToStr(varNewKey),7);
     varNextKey.UpdateKey(varNewKey, TBHeader); // atualiza a nova chave no banco
     varNewKeyItem := 0;
-
     Process := TSalesProcess.Create(Self);
     Process.id_process := varNewKey;
     Process.tablename  := TBHeader;
-
-
-
   finally
     FreeAndNil(varNextKey);
   End;
-  ButProcessOff('FFF');
 
+  ButProcessOff('FFF');
   sqlTerms.Close;
   Initialize;
-
-
   edtCliente.SetFocus;
 
 end;
@@ -2064,10 +2076,6 @@ begin
 end;
 
 
-procedure TfrmEstimate.ValidateStatus;
-begin
-
-end;
 
 function TfrmEstimate.ValidCustomer: Boolean;
 var
@@ -2489,7 +2497,7 @@ begin
 
     if sqlProcessItemTAXBLE.AsString = 'Y' then
     begin
-       varProcessTaxble := varProcessTaxble + ((sqlProcessItemAMOUT.AsFloat / 100) *  Process.Company.Tax);
+       varProcessTaxble := varProcessTaxble + ((sqlProcessItemAMOUT.AsFloat / 100) *  Contractor.Company.Tax);// Process.Company.Tax);
        varProcessTaxble :=   Round(varProcessTaxble*100)/100;
     end;
 
@@ -3263,10 +3271,6 @@ begin
   ImageProduct.Picture.Graphic := Nil;
 end;
 
-procedure TfrmEstimate.CreateTerms;
-begin
-
-end;
 
 procedure TfrmEstimate.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
@@ -3289,7 +3293,7 @@ begin
   varNewKeyItem      := 0;
   cxDateProcess.Date := Date;
 
-  Contractor.Search(DBDados.varID_USER);
+  Contractor.Search(DBDados.varID_USER, True);
   SetParametros(edtCliente,  TipoCustomerCompany);
   varFiltroCompanyPadrao := edtCliente.bs_Filter;
 
@@ -3302,7 +3306,7 @@ begin
     else
     begin
       cxLookupComboBoxCompany.EditValue := Contractor.Company.id_company;
-      Process.Company.Search(cxLookupComboBoxCompany.EditValue);
+     // Process.Company.Search(cxLookupComboBoxCompany.EditValue);
     end;
 
    // SetParametros(edtCliente,  TipoCustomer);

@@ -29,7 +29,8 @@ uses
   dxTabbedMDI, Vcl.ImgList, dxStatusBar, dxRibbonStatusBar, Vcl.Grids,
   Vcl.ValEdit, cxTextEdit, cxMaskEdit, cxScrollBox, dxGallery, dxGalleryControl,
   dxRibbonBackstageViewGalleryControl, dxBevel, dxRibbonBackstageView,
-  cxClasses, dxRibbon, cxFormats, dxGDIPlusClasses,  cxGridExportLink;
+  cxClasses, dxRibbon, cxFormats, dxGDIPlusClasses,  cxGridExportLink,
+  Vcl.StdCtrls, Web.Win.Sockets;
 
 
 
@@ -83,6 +84,7 @@ type
     dxBarLargeButtonCustomerLP: TdxBarLargeButton;
     dxBarLargeButtonRequestOrder: TdxBarLargeButton;
     dxBarLargeButtonSupplierInvoice: TdxBarLargeButton;
+    dxBarLargeButtonSample: TdxBarLargeButton;
     procedure dxBarLargeButtonSIOPRelatoriosFaturamentoPedidoClick(
       Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
@@ -117,6 +119,7 @@ type
     procedure dxBarLargeButtonRequestOrderClick(Sender: TObject);
     procedure dxBarLargeButtonInvoiceClick(Sender: TObject);
     procedure dxBarLargeButtonSupplierInvoiceClick(Sender: TObject);
+    procedure dxBarLargeButtonSampleClick(Sender: TObject);
   private
     { Private declarations }
     procedure System_Acess;
@@ -138,7 +141,7 @@ uses AsyncCalls, uDMConectDB, uFrmLogin, MensFun, ufrmAccount, uFrmSupplier, uFr
   uFrmCompany, uFrmProduct, uFrmCreditors, ufrmPosition, uFrmVendorsContractors,
   uFrmPriceTable, ufrmBrandType, ufrmEstimate, ufrmCreateAccount,
   ufrmAccessControl, ufrmInventory, ufrmCustomerLP, ufrmRequestOrder,
-  ufrmSupplierInvoice;
+  ufrmSupplierInvoice, ufrmSampleCheckout;
 
 procedure TfrmMenuPrincipal.dxBarLargeButtonCreditorsClick(Sender: TObject);
 
@@ -506,6 +509,27 @@ begin
 
 end;
 
+procedure TfrmMenuPrincipal.dxBarLargeButtonSampleClick(Sender: TObject);
+  procedure SetuTable;
+  begin
+
+    frmSampleCheckout.SetupTable; // Invoice
+
+  end;
+begin
+ if DBDados.varLogado = False  then Exit;
+
+  if not Assigned(frmSampleCheckout) then
+    frmSampleCheckout := TfrmSampleCheckout.Create(Self);
+    frmSampleCheckout.Show;
+
+    frmSampleCheckout.Visible := True;
+    frmSampleCheckout.BringToFront;
+    frmSampleCheckout.Update;
+
+    LocalAsyncVclCall( @SetuTable );
+end;
+
 procedure TfrmMenuPrincipal.dxBarLargeButtonSIOPDashBoardClick(Sender: TObject);
 begin
  if DBDados.varLogado = False Then Exit;
@@ -768,7 +792,7 @@ begin
                   menu0 := dxRibbon.Tabs[I].Groups[X].ToolBar.ItemLinks[Y].Item.Caption;
 
 
-                 // doSaveLog('C:\Temp\', 'insert into TBMENU ( DESCRIPTION, Menus, Groups, Screens ) values ( ''' + menu4 + '->' + menu0 +  ''',''' + menu + ''',''' + menu1 + ''',''' + menu2 + ''')');
+                  // doSaveLog('C:\Temp\', 'insert into TBMENU ( DESCRIPTION, Menus, Groups, Screens ) values ( ''' + menu4 + '->' + menu0 +  ''',''' + menu + ''',''' + menu1 + ''',''' + menu2 + ''')');
                 end;
           end;
        end;
@@ -954,5 +978,6 @@ begin
   end;
 
 end;
+
 
 end.

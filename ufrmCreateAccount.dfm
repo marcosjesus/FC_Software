@@ -47,6 +47,10 @@ object frmCreateAccount: TfrmCreateAccount
       Font.Style = []
       ImageIndex = 0
       ParentFont = False
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object cxGrid1: TcxGrid
         Left = 0
         Top = 0
@@ -427,6 +431,10 @@ object frmCreateAccount: TfrmCreateAccount
       Font.Style = []
       ImageIndex = 1
       ParentFont = False
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object Panel1: TPanel
         Left = 0
         Top = 0
@@ -831,6 +839,10 @@ object frmCreateAccount: TfrmCreateAccount
       Font.Style = []
       ImageIndex = 2
       ParentFont = False
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object Panel5: TPanel
         Left = 0
         Top = 0

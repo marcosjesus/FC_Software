@@ -47,7 +47,7 @@ object frmProduct: TfrmProduct
     Font.Style = []
     ParentFont = False
     TabOrder = 0
-    Properties.ActivePage = cxTabSheetForm
+    Properties.ActivePage = cxTabSheetList
     Properties.CustomButtons.Buttons = <>
     OnChange = cxPageControlChange
     ClientRectBottom = 669
@@ -533,12 +533,12 @@ object frmProduct: TfrmProduct
                 Font.Style = [fsBold]
                 ParentFont = False
               end
-              object Label3: TLabel
+              object LBLUM: TLabel
                 Left = 526
                 Top = 98
-                Width = 22
+                Width = 16
                 Height = 13
-                Caption = 'sqft'
+                Caption = 'SF'
                 Font.Charset = DEFAULT_CHARSET
                 Font.Color = clWindowText
                 Font.Height = -11

@@ -3,6 +3,8 @@ unit uFrmSupplier;
 interface
 
 uses
+  uClassImportPrice,
+  ComObj,OleCtrls,
   uClassSupplier,  MensFun, uClassDBGenerics,
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, dxSkinsCore, dxSkinBlack, dxSkinBlue,
@@ -29,7 +31,8 @@ uses
   FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
   FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
   FireDAC.Comp.DataSet, FireDAC.Comp.Client, cxGridExportLink, Vcl.ComCtrls,
-  cxSplitter, cxImageComboBox, Vcl.ImgList;
+  cxSplitter, cxImageComboBox, Vcl.ImgList, frxClass, frxExportPDF,
+  AcroPDFLib_TLB;
 
 type
   TfrmSupplier = class(TForm)
@@ -160,6 +163,9 @@ type
     cxSmallImages: TcxImageList;
     sqlGridTYPEADDRESS: TStringField;
     cxGrid1DBTableView1TYPEADDRESS: TcxGridDBColumn;
+    frxPDFExport1: TfrxPDFExport;
+    cxButton1: TcxButton;
+    OpenDialog1: TOpenDialog;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure ButNovoClick(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -183,8 +189,10 @@ type
     procedure sqlAddressAfterScroll(DataSet: TDataSet);
     procedure sqlContactBeforePost(DataSet: TDataSet);
     procedure sqlAddressBeforePost(DataSet: TDataSet);
+    procedure cxButton1Click(Sender: TObject);
   private
     { Private declarations }
+    Price : TImportPrice;
     varOption : char;  // I = Insert / U = Update
     varNewKey : Integer;
     Supplier : TSupplier;
@@ -343,12 +351,11 @@ function TfrmSupplier.Check : Boolean;
 var
   Retorno : Boolean;
 begin
-   Retorno := True;
+  Retorno := True;
   if edtBusiness.Text = '' then
   begin
-     Mens_MensInf('Business Name is missing.') ;
+     Mens_MensInf('The Business Name is missing.') ;
      edtBusiness.SetFocus ;
-     Retorno := False;
      Exit ;
   end;
 {
@@ -391,6 +398,138 @@ begin
   end;
       }
   Result := Retorno;
+
+end;
+
+procedure TfrmSupplier.cxButton1Click(Sender: TObject);
+var
+ Arq : TextFile;
+ I   : Integer;
+ linha: string;
+ varRollPrice, varStd_roll, varCutPrice : String;
+begin
+  Price := TImportPrice.Create;
+  I := 0;
+  Try
+   if OpenDialog1.Execute then
+   begin
+     AssignFile(arq, OpenDialog1.FileName);
+    {$I-}
+    Reset(arq);
+    {$I+}
+
+    if (IOResult <> 0) then
+        ShowMessage('Erro na abertura do arquivo !!!')
+    else
+    begin
+         while (not eof(arq)) do
+         begin
+
+           readln(arq, linha);
+           Inc(I);
+           if linha = '' then
+             Continue;
+
+             varRollPrice := '';
+             varCutPrice  := '';
+             varStd_roll  := '';
+
+             Price.id_supplier       := sqlAddressID_SUPPLIER.AsInteger;
+             Price.style_code        := Trim(Copy( Linha, 1,7));
+
+             Price.style_description := Trim(Copy( Linha, 8,22));
+             Price.size              := Trim(Copy( Linha, 30,10));
+             if ((Pos('ACT', Price.size) > 0) OR
+                 (Pos('NEX', Price.size) > 0) OR
+                 (Pos('MOD', Price.size) > 0) OR
+                 (Pos('FLO', Price.size) > 0)) then
+             begin
+               Price.size              := Trim(Copy( Linha, 25,10));
+               Price.back              := Trim(Copy( Linha, 35,12));
+
+             end
+             else
+             begin
+               Price.back              := Trim(Copy( Linha, 38,12));
+             end;
+
+             Try
+                 varStd_roll             := Trim(Copy(Linha,52,8));
+                 if varStd_roll <> '' then
+                   Price.std_roll        := StrToFloat(varStd_roll)
+                 else Price.std_roll     := 0;
+
+                 Price.fiber             := Trim(Copy( Linha, 60, 45));
+                 Price.brand             := Trim(Copy( Linha, 105, 10));
+
+                 varRollPrice            := StringReplace(Trim(Copy( Linha, 115, 9)),'$','',[rfReplaceAll, rfIgnoreCase]);
+                 if varRollPrice <> '' then
+                   Price.rollprice       := StrToFloat( varRollPrice )
+                 else Price.rollprice    := 0;
+
+                 varCutPrice             := StringReplace(Trim(Copy( Linha, 124, 38)),'$','',[rfReplaceAll, rfIgnoreCase]);
+
+                 if varCutPrice <> ''  then
+                   Price.cutprice        := StrToFloat(varCutPrice )
+                 else Price.cutprice     := 0;
+
+                 Price.um                := Trim(Copy( Linha, 162, 2));
+
+             Except
+
+                 Price.style_description := Trim(Copy( Linha, 8,20));
+
+
+                 Price.size              := Trim(Copy( Linha, 28,10));
+                 if ((Pos('ACT', Price.size) > 0) OR
+                     (Pos('NEX', Price.size) > 0) OR
+                     (Pos('MOD', Price.size) > 0) OR
+                     (Pos('FLO', Price.size) > 0)) then
+                 begin
+                   Price.size              := Trim(Copy( Linha, 25,10));
+                   Price.back              := Trim(Copy( Linha, 35,12));
+
+                 end
+                 else
+                 begin
+                   Price.back              := Trim(Copy( Linha, 38,12));
+                 end;
+
+                 varStd_roll             := Trim(Copy(Linha,50,8));
+
+                 if varStd_roll <> '' then
+                   Price.std_roll        := StrToFloat(varStd_roll)
+                 else Price.std_roll     := 0;
+
+                 Price.fiber             := Trim(Copy( Linha, 58, 45));
+                 Price.brand             := Trim(Copy( Linha, 103, 10));
+
+                 varRollPrice            := StringReplace(Trim(Copy( Linha, 113, 9)),'$','',[rfReplaceAll, rfIgnoreCase]);
+                 if varRollPrice <> '' then
+                   Price.rollprice       := StrToFloat( varRollPrice )
+                 else Price.rollprice    := 0;
+
+                 varCutPrice             := StringReplace(Trim(Copy( Linha, 122, 38)),'$','',[rfReplaceAll, rfIgnoreCase]);
+
+                 if varCutPrice <> ''  then
+                   Price.cutprice        := StrToFloat(varCutPrice )
+                 else Price.cutprice     := 0;
+
+                 Price.um                := Trim(Copy( Linha, 162, 2));
+
+
+
+             End;
+
+             Price.Save;
+
+         end;
+         ShowMessage('End of Process');
+     end;
+    end;
+  Finally
+    CloseFile(arq);
+  End;
 
 end;
 

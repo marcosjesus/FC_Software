@@ -38,7 +38,9 @@ uses
   ufrmSupplierInvoice in 'ufrmSupplierInvoice.pas' {frmSupplierInvoice},
   uClassSupplierInvoice in 'uClassSupplierInvoice.pas',
   uClassFinance in 'uClassFinance.pas',
-  ufrmLabor in 'ufrmLabor.pas' {frmLabor};
+  ufrmLabor in 'ufrmLabor.pas' {frmLabor},
+  uClassImportPrice in 'uClassImportPrice.pas',
+  ufrmSampleCheckout in 'ufrmSampleCheckout.pas' {frmSampleCheckout};
 
 {$R *.res}
 
