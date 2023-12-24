@@ -1,9 +1,9 @@
 object frmFollowUP: TfrmFollowUP
   Left = 0
   Top = 0
-  Caption = 'Service FollowUP'
+  Caption = 'FollowUP'
   ClientHeight = 375
-  ClientWidth = 1043
+  ClientWidth = 911
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -18,7 +18,7 @@ object frmFollowUP: TfrmFollowUP
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 1043
+    Width = 911
     Height = 65
     Align = alTop
     Font.Charset = DEFAULT_CHARSET
@@ -28,12 +28,13 @@ object frmFollowUP: TfrmFollowUP
     Font.Style = []
     ParentFont = False
     TabOrder = 0
+    ExplicitWidth = 1043
     object Label50: TLabel
       Left = 24
       Top = 16
-      Width = 44
+      Width = 9
       Height = 13
-      Caption = 'Order #'
+      Caption = '#'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
@@ -84,48 +85,55 @@ object frmFollowUP: TfrmFollowUP
   object Panel2: TPanel
     Left = 0
     Top = 65
-    Width = 1043
+    Width = 911
     Height = 269
     Align = alClient
     TabOrder = 1
+    ExplicitWidth = 1043
     object cxGrid1: TcxGrid
       Left = 1
       Top = 1
-      Width = 1041
+      Width = 909
       Height = 267
       Align = alClient
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
       TabOrder = 0
+      ExplicitWidth = 1041
       object cxGrid1DBTableView1: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
         Navigator.Visible = True
         DataController.DataSource = dsFollowup
         DataController.DetailKeyFieldNames = 'ID_SERVICE_FOLLOWUP'
-        DataController.KeyFieldNames = 'ID_SERVICE_FOLLOWUP'
+        DataController.KeyFieldNames = 'ID_FOLLOWUP'
         DataController.Summary.DefaultGroupSummaryItems = <>
         DataController.Summary.FooterSummaryItems = <>
         DataController.Summary.SummaryGroups = <>
         OptionsView.CellAutoHeight = True
         OptionsView.GroupByBox = False
         OptionsView.Indicator = True
-        object cxGrid1DBTableView1ID_SERVICE_FOLLOWUP: TcxGridDBColumn
-          Caption = 'Follow UP ID'
-          DataBinding.FieldName = 'ID_SERVICE_FOLLOWUP'
-          Width = 92
+        object cxGrid1DBTableView1ID_FOLLOWUP: TcxGridDBColumn
+          Caption = 'ID'
+          DataBinding.FieldName = 'ID_FOLLOWUP'
         end
         object cxGrid1DBTableView1COMMENTS: TcxGridDBColumn
           Caption = 'Comments'
           DataBinding.FieldName = 'COMMENTS'
-          PropertiesClassName = 'TcxMemoProperties'
-          Properties.VisibleLineCount = 3
-          Width = 600
+          Width = 605
+        end
+        object cxGrid1DBTableView1USERNAME: TcxGridDBColumn
+          Caption = 'Created By'
+          DataBinding.FieldName = 'USERNAME'
+          Width = 100
         end
         object cxGrid1DBTableView1ADD_DATE: TcxGridDBColumn
           Caption = 'Date'
           DataBinding.FieldName = 'ADD_DATE'
-        end
-        object cxGrid1DBTableView1ID_USER: TcxGridDBColumn
-          Caption = 'Create By'
-          DataBinding.FieldName = 'ID_USER'
+          Width = 100
         end
       end
       object cxGrid1Level1: TcxGridLevel
@@ -136,13 +144,14 @@ object frmFollowUP: TfrmFollowUP
   object Panel3: TPanel
     Left = 0
     Top = 334
-    Width = 1043
+    Width = 911
     Height = 41
     Align = alBottom
     TabOrder = 2
+    ExplicitWidth = 1043
     object ButCancelar: TcxButton
-      Left = 475
-      Top = 4
+      Left = 411
+      Top = 6
       Width = 36
       Height = 33
       Hint = 'Cancelar (Alt + C)'
@@ -207,33 +216,55 @@ object frmFollowUP: TfrmFollowUP
       OptionsImage.Margin = 5
       ParentBiDiMode = False
       TabOrder = 0
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
       OnClick = ButCancelarClick
     end
   end
   object sqlFollowup: TFDQuery
     AfterEdit = sqlFollowupAfterEdit
+    BeforePost = sqlFollowupBeforePost
     Connection = DBDados.FDConnection
     SQL.Strings = (
-      'SELECT * FROM TBSERVICE_FOLLOWUP'
-      'WHERE ID_SERVICE = :ID_SERVICE')
+      
+        'SELECT F.*, U.LASTNAME + '#39','#39' + U.FIRST_NAME AS USERNAME FROM TBF' +
+        'OLLOWUP F'
+      'LEFT OUTER JOIN TBUSER U ON U.ID_USER = F.ID_USER'
+      'WHERE ID_PROCESS = :ID_PROCESS AND TABLENAME = :TABLENAME')
     Left = 264
     Top = 113
     ParamData = <
       item
-        Name = 'ID_SERVICE'
+        Name = 'ID_PROCESS'
         DataType = ftInteger
         ADDataType = dtInt32
         ParamType = ptInput
+      end
+      item
+        Name = 'TABLENAME'
+        DataType = ftString
+        ADDataType = dtAnsiString
+        ParamType = ptInput
       end>
-    object sqlFollowupID_SERVICE_FOLLOWUP: TFDAutoIncField
-      FieldName = 'ID_SERVICE_FOLLOWUP'
-      Origin = 'ID_SERVICE_FOLLOWUP'
+    object sqlFollowupID_FOLLOWUP: TFDAutoIncField
+      FieldName = 'ID_FOLLOWUP'
+      Origin = 'ID_FOLLOWUP'
       ProviderFlags = [pfInWhere, pfInKey]
       ReadOnly = True
     end
-    object sqlFollowupID_SERVICE: TIntegerField
-      FieldName = 'ID_SERVICE'
-      Origin = 'ID_SERVICE'
+    object sqlFollowupTABLENAME: TStringField
+      FieldName = 'TABLENAME'
+      Origin = 'TABLENAME'
+      Required = True
+    end
+    object sqlFollowupID_PROCESS: TIntegerField
+      FieldName = 'ID_PROCESS'
+      Origin = 'ID_PROCESS'
+      Required = True
     end
     object sqlFollowupCOMMENTS: TMemoField
       FieldName = 'COMMENTS'
@@ -252,6 +283,14 @@ object frmFollowUP: TfrmFollowUP
     object sqlFollowupID_USER: TIntegerField
       FieldName = 'ID_USER'
       Origin = 'ID_USER'
+    end
+    object sqlFollowupUSERNAME: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'USERNAME'
+      Origin = 'USERNAME'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 41
     end
   end
   object dsFollowup: TDataSource

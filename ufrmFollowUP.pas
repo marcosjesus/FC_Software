@@ -36,28 +36,32 @@ type
     cxGrid1: TcxGrid;
     sqlFollowup: TFDQuery;
     dsFollowup: TDataSource;
-    sqlFollowupID_SERVICE_FOLLOWUP: TFDAutoIncField;
-    sqlFollowupID_SERVICE: TIntegerField;
-    sqlFollowupCOMMENTS: TMemoField;
-    sqlFollowupADD_DATE: TSQLTimeStampField;
-    sqlFollowupUPD_DATE: TSQLTimeStampField;
-    sqlFollowupID_USER: TIntegerField;
-    cxGrid1DBTableView1ID_SERVICE_FOLLOWUP: TcxGridDBColumn;
-    cxGrid1DBTableView1COMMENTS: TcxGridDBColumn;
-    cxGrid1DBTableView1ADD_DATE: TcxGridDBColumn;
-    cxGrid1DBTableView1ID_USER: TcxGridDBColumn;
     ButCancelar: TcxButton;
     Label50: TLabel;
     Label51: TLabel;
     lblCustomer: TLabel;
     lblOrder: TLabel;
+    sqlFollowupID_FOLLOWUP: TFDAutoIncField;
+    sqlFollowupTABLENAME: TStringField;
+    sqlFollowupID_PROCESS: TIntegerField;
+    sqlFollowupCOMMENTS: TMemoField;
+    sqlFollowupADD_DATE: TSQLTimeStampField;
+    sqlFollowupUPD_DATE: TSQLTimeStampField;
+    sqlFollowupID_USER: TIntegerField;
+    cxGrid1DBTableView1ID_FOLLOWUP: TcxGridDBColumn;
+    cxGrid1DBTableView1COMMENTS: TcxGridDBColumn;
+    cxGrid1DBTableView1ADD_DATE: TcxGridDBColumn;
+    sqlFollowupUSERNAME: TStringField;
+    cxGrid1DBTableView1USERNAME: TcxGridDBColumn;
     procedure ButCancelarClick(Sender: TObject);
     procedure sqlFollowupAfterEdit(DataSet: TDataSet);
+    procedure sqlFollowupBeforePost(DataSet: TDataSet);
   private
     { Private declarations }
   public
     { Public declarations }
-    varID_Service : Integer;
+    varID_Process : Integer;
+    varTableName  : String;
   end;
 
 var
@@ -76,9 +80,17 @@ end;
 
 procedure TfrmFollowUP.sqlFollowupAfterEdit(DataSet: TDataSet);
 begin
-  sqlFollowupID_SERVICE.AsInteger := varID_Service;
+  sqlFollowupID_PROCESS.AsInteger := varID_Process;
+  sqlFollowupTABLENAME.AsString   := varTableName;
   sqlFollowupUPD_DATE.AsDateTime  := Date;
   sqlFollowupID_USER.AsInteger    := DBDados.varID_USER;
+
+end;
+
+procedure TfrmFollowUP.sqlFollowupBeforePost(DataSet: TDataSet);
+begin
+  sqlFollowupID_PROCESS.AsInteger := varID_Process;
+  sqlFollowupTABLENAME.AsString   := varTableName;
 end;
 
 end.

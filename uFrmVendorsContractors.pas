@@ -69,9 +69,8 @@ type
     cxGrid1DBTableView1EXPIREDDATE: TcxGridDBColumn;
     cxGrid1DBTableView1ACTIVE: TcxGridDBColumn;
     sqlAux: TFDQuery;
-    cxTableViewPositionID_COMPANY: TcxGridDBColumn;
-    sqlCompany: TFDQuery;
-    dsCompany: TDataSource;
+    sqlSupplier: TFDQuery;
+    dsSupplier: TDataSource;
     cxTableViewPositionPHONE: TcxGridDBColumn;
     cxTableViewPositionEMAIL: TcxGridDBColumn;
     cxTableViewPositionDRIVER_LICENSE: TcxGridDBColumn;
@@ -88,6 +87,38 @@ type
     sqlGridID_COMPANY: TIntegerField;
     sqlGridADD_DATE: TDateField;
     sqlGridUPD_DATE: TDateField;
+    sqlGridID_SUPPLIER: TIntegerField;
+    cxTableViewPositionID_SUPPLIER: TcxGridDBColumn;
+    sqlSupplierID_SUPPLIER: TIntegerField;
+    sqlSupplierNAMEBUSINESS: TStringField;
+    sqlSupplierTRADININGNAME: TStringField;
+    sqlSupplierCOUNTRY: TStringField;
+    sqlSupplierSTATEE: TStringField;
+    sqlSupplierADDRESS1: TStringField;
+    sqlSupplierADDRESS2: TStringField;
+    sqlSupplierPHONENUMBER: TStringField;
+    sqlSupplierZIPCODE: TStringField;
+    sqlSupplierINDUSTRY: TStringField;
+    sqlSupplierPRODUCT_SERVICE: TStringField;
+    sqlSupplierCONTACTNAME1: TStringField;
+    sqlSupplierCONTACTEMAIL1: TStringField;
+    sqlSupplierCONTACTPOSITION1: TStringField;
+    sqlSupplierCONTACTPHONENUMBER1: TStringField;
+    sqlSupplierCONTACTNAME2: TStringField;
+    sqlSupplierCONTACTEMAIL2: TStringField;
+    sqlSupplierCONTACTPOSITION2: TStringField;
+    sqlSupplierCONTACTPHONENUMBER2: TStringField;
+    sqlSupplierWEBSITE: TStringField;
+    sqlSupplierADDITIONINFO: TStringField;
+    sqlSupplierID_USER: TIntegerField;
+    sqlSuppliercity: TStringField;
+    sqlSupplieradd_date: TSQLTimeStampField;
+    sqlSupplierupd_date: TSQLTimeStampField;
+    sqlUserID_USER: TFDAutoIncField;
+    sqlUserNAME: TStringField;
+    sqlUserPHONE_NUMBER: TStringField;
+    sqlUserEMAIL: TStringField;
+    sqlUserID_COMPANY: TIntegerField;
     procedure FormShow(Sender: TObject);
     procedure sqlGridNewRecord(DataSet: TDataSet);
     procedure sqlGridAfterEdit(DataSet: TDataSet);
@@ -194,10 +225,6 @@ begin
 
    end
    else Mens_MensInf('View Not Authorized for this Position.') ;
-
-
-
-
 end;
 
 procedure TFrmVendorsContractors.cxPageControl1Change(Sender: TObject);
@@ -232,18 +259,9 @@ begin
   sqlUser.Close;
   sqlUser.Open;
 
-
-  if DBDados.varReturnCompanies <> 'Company not Found' then
-  begin
-    sqlCompany.Close;
-    sqlCompany.MacroByName( 'WHERE1' ).AsRaw := DBDados.varReturnCompanies;
-    sqlCompany.Open;
-  end
-  else
-  begin
-    Mens_MensInf('There is no Company set for the current User.');
-    Exit;
-  end;
+  sqlSupplier.Close;
+  sqlSupplier.MacroByName( 'WHERE1' ).AsRaw := 'INDUSTRY = ''SERVICE SUPPLIER''';
+  sqlSupplier.Open;
 
   sqlVendorPricingTable.Close;
   sqlVendorPricingTable.Params.ParamByName('ID_CONTRACTORS').AsInteger := -1;
@@ -268,9 +286,10 @@ begin
       if sqlGridID_MAIN_USER.AsString <> '' then
       begin
         sqlUser.Locate('ID_USER', sqlGrid.FieldByName('ID_MAIN_USER').AsString);
-        sqlGridPHONE.AsString := sqlUser.FieldByName('PHONE_NUMBER').AsString;
-        sqlGridEMAIL.AsString := sqlUser.FieldByName('EMAIL').AsString;
-      end;
+        sqlGridPHONE.AsString       := sqlUser.FieldByName('PHONE_NUMBER').AsString;
+        sqlGridEMAIL.AsString       := sqlUser.FieldByName('EMAIL').AsString;
+        sqlGridID_COMPANY.AsInteger := sqlUserID_COMPANY.AsInteger;
+       end;
     end;
   end;
 end;

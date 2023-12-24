@@ -182,6 +182,7 @@ begin
     CaixaTexto.bs_Fields.Add('C.TYPEPERSON;#;;' + inttostr(WIDTH_DOCUMENTO));               //14
     CaixaTexto.bs_Fields.Add('A.COUNTY;#;;' + inttostr(WIDTH_DOCUMENTO));                   //15
     CaixaTexto.bs_Fields.Add('C.ID_PRICELIST;#;;' + inttostr(WIDTH_DOCUMENTO));             //16
+    CaixaTexto.bs_Fields.Add('A.ID_ADDRESS;#;;' + inttostr(WIDTH_DOCUMENTO));               //17
 
     CaixaTexto.bs_Join := ' LEFT OUTER JOIN TBADDRESS A ON A.ID_CUSTOMER = C.ID_CUSTOMER ' +
                           ' LEFT OUTER JOIN TBCONTRACTORS v on v.ID_CONTRACTORS = c.ID_CONTRACTORS ';

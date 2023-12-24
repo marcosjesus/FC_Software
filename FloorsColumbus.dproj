@@ -197,6 +197,15 @@
             <Form>frmSampleCheckout</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="uFrmDebitors.pas">
+            <Form>FrmDebitors</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="uClassContractor.pas"/>
+        <DCCReference Include="uFrmWorkOrder.pas">
+            <Form>frmWorkOrder</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

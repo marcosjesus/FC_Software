@@ -32,7 +32,7 @@ uses
   FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
   FireDAC.Comp.DataSet, FireDAC.Comp.Client, cxGridExportLink, Vcl.ComCtrls,
   cxSplitter, cxImageComboBox, Vcl.ImgList, frxClass, frxExportPDF,
-  AcroPDFLib_TLB;
+  AcroPDFLib_TLB, cxLabel, dxGDIPlusClasses;
 
 type
   TfrmSupplier = class(TForm)
@@ -164,8 +164,13 @@ type
     sqlGridTYPEADDRESS: TStringField;
     cxGrid1DBTableView1TYPEADDRESS: TcxGridDBColumn;
     frxPDFExport1: TfrxPDFExport;
-    cxButton1: TcxButton;
     OpenDialog1: TOpenDialog;
+    PanelSQLSplashScreen: TPanel;
+    ImageSQLSplashScreen: TImage;
+    cxLabelMensagem: TcxLabel;
+    cxButton1: TcxButton;
+    sqlGridINDUSTRY: TStringField;
+    cxGrid1DBTableView1INDUSTRY: TcxGridDBColumn;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure ButNovoClick(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -198,6 +203,7 @@ type
     Supplier : TSupplier;
     procedure LimpaEdits;
     function Check : Boolean;
+    procedure Mensagem(pMensagem: String);
   public
     { Public declarations }
   end;
@@ -401,41 +407,84 @@ begin
 
 end;
 
+
+
+procedure TfrmSupplier.Mensagem(pMensagem: String);
+begin
+
+  cxLabelMensagem.Caption := pMensagem;
+  PanelSQLSplashScreen.Visible := not pMensagem.IsEmpty;
+  Update;
+  Application.ProcessMessages;
+
+end;
+
 procedure TfrmSupplier.cxButton1Click(Sender: TObject);
 var
  Arq : TextFile;
  I   : Integer;
  linha: string;
  varRollPrice, varStd_roll, varCutPrice : String;
+ FileName, NewFile : String;
 begin
+
   Price := TImportPrice.Create;
+  FileName := '';
+  NewFile  := '';
   I := 0;
   Try
    if OpenDialog1.Execute then
    begin
-     AssignFile(arq, OpenDialog1.FileName);
+
+    FileName := OpenDialog1.fileName;
+    NewFile  := ExtractFilePath(Application.ExeName) +  ExtractFileName(FileName);
+    CopyFile(pchar(FileName), pChar(NewFile), True);
+
+    try
+       Mensagem( 'Reading PDF File' );
+       Try
+          WinExec('Import_PricingTable.bat', 1);
+          Sleep(6000);
+       except
+          on E : Exception do
+            Mens_MensErro(E.ClassName+' error raised, with message : '+E.Message);
+       end;
+    finally
+       Mensagem( EmptyStr );
+    end;
+
+    FileName := StringReplace(NewFile, '.pdf','.txt',[rfReplaceAll, rfIgnoreCase]);
+
+    AssignFile(arq,  FileName);
     {$I-}
     Reset(arq);
     {$I+}
 
     if (IOResult <> 0) then
-        ShowMessage('Erro na abertura do arquivo !!!')
+        Mensagem('Open File Error !!!')
     else
     begin
          while (not eof(arq)) do
          begin
-
            readln(arq, linha);
            Inc(I);
+           Mensagem( 'Reading PDF File line ' + IntTostr(I) );
+
            if linha = '' then
              Continue;
+
+           if length(linha) < 163 then
+              Continue;
+
+           if Copy( Linha, 162, 2) = 'UM' then
+               Continue;
 
              varRollPrice := '';
              varCutPrice  := '';
              varStd_roll  := '';
 
-             Price.id_supplier       := sqlAddressID_SUPPLIER.AsInteger;
-             Price.style_code        := Trim(Copy( Linha, 1,7));
+             Price.id_supplier  := sqlGridID_SUPPLIER.AsInteger;
+             Price.style_code   := Trim(Copy( Linha, 1,7));
 
              Price.style_description := Trim(Copy( Linha, 8,22));
              Price.size              := Trim(Copy( Linha, 30,10));
@@ -444,55 +493,51 @@ begin
                  (Pos('MOD', Price.size) > 0) OR
                  (Pos('FLO', Price.size) > 0)) then
              begin
-               Price.size              := Trim(Copy( Linha, 25,10));
-               Price.back              := Trim(Copy( Linha, 35,12));
-
+               Price.size       := Trim(Copy( Linha, 25,10));
+               Price.back       := Trim(Copy( Linha, 35,12));
              end
              else
              begin
-               Price.back              := Trim(Copy( Linha, 38,12));
+               Price.back       := Trim(Copy( Linha, 38,12));
              end;
 
              Try
-                 varStd_roll             := Trim(Copy(Linha,52,8));
+                 varStd_roll    := Trim(Copy(Linha,52,8));
                  if varStd_roll <> '' then
                    Price.std_roll        := StrToFloat(varStd_roll)
                  else Price.std_roll     := 0;
 
-                 Price.fiber             := Trim(Copy( Linha, 60, 45));
-                 Price.brand             := Trim(Copy( Linha, 105, 10));
+                 Price.fiber    := Trim(Copy( Linha, 60, 45));
+                 Price.brand    := Trim(Copy( Linha, 105, 10));
 
                  varRollPrice            := StringReplace(Trim(Copy( Linha, 115, 9)),'$','',[rfReplaceAll, rfIgnoreCase]);
                  if varRollPrice <> '' then
                    Price.rollprice       := StrToFloat( varRollPrice )
                  else Price.rollprice    := 0;
 
-                 varCutPrice             := StringReplace(Trim(Copy( Linha, 124, 38)),'$','',[rfReplaceAll, rfIgnoreCase]);
+                 varCutPrice    := StringReplace(Trim(Copy( Linha, 124, 38)),'$','',[rfReplaceAll, rfIgnoreCase]);
 
                  if varCutPrice <> ''  then
                    Price.cutprice        := StrToFloat(varCutPrice )
                  else Price.cutprice     := 0;
 
-                 Price.um                := Trim(Copy( Linha, 162, 2));
+                 Price.um       := Trim(Copy( Linha, 162, 2));
 
              Except
 
                  Price.style_description := Trim(Copy( Linha, 8,20));
-
-
                  Price.size              := Trim(Copy( Linha, 28,10));
                  if ((Pos('ACT', Price.size) > 0) OR
                      (Pos('NEX', Price.size) > 0) OR
                      (Pos('MOD', Price.size) > 0) OR
                      (Pos('FLO', Price.size) > 0)) then
                  begin
-                   Price.size              := Trim(Copy( Linha, 25,10));
-                   Price.back              := Trim(Copy( Linha, 35,12));
-
+                   Price.size            := Trim(Copy( Linha, 25,10));
+                   Price.back            := Trim(Copy( Linha, 35,12));
                  end
                  else
                  begin
-                   Price.back              := Trim(Copy( Linha, 38,12));
+                   Price.back            := Trim(Copy( Linha, 38,12));
                  end;
 
                  varStd_roll             := Trim(Copy(Linha,50,8));
@@ -516,19 +561,20 @@ begin
                  else Price.cutprice     := 0;
 
                  Price.um                := Trim(Copy( Linha, 162, 2));
-
-
-
              End;
 
              Price.Save;
 
          end;
-         ShowMessage('End of Process');
+         Mensagem('End of Process!');
      end;
     end;
   Finally
+    FreeAndNil(Price);
+    Mensagem( EmptyStr );
     CloseFile(arq);
+    DeleteFile(NewFile);
+    DeleteFile(FileName);
   End;
 
 end;
@@ -665,7 +711,6 @@ begin
     sqlContact.Params.ParamByName('ID_ADDRESS').AsInteger  :=  sqlAddress.FieldByName('ID_ADDRESS').AsInteger;
     sqlContact.Params.ParamByName('ID_SUPPLIER').AsInteger :=  sqlGridID_SUPPLIER.AsInteger;
     sqlContact.Open;
-
 end;
 
 procedure TfrmSupplier.sqlAddressBeforePost(DataSet: TDataSet);

@@ -5,6 +5,7 @@ interface
 uses
   uClassDBGenerics,
   uClassSalesProcess,
+  uClassContractor,
   uFunctions,
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, dxSkinsCore, dxSkinBlack, dxSkinBlue,
@@ -36,7 +37,6 @@ type
     Page: TcxPageControl;
     Panel27: TPanel;
     ButNovo: TcxButton;
-    ButAlterar: TcxButton;
     ButExcluir: TcxButton;
     ButImprimir: TcxButton;
     ButSair: TcxButton;
@@ -112,6 +112,10 @@ type
     cxGrid2DBTableView1DATE_CHECKOUT: TcxGridDBColumn;
     cxGrid2DBTableView1DATE_RETURN: TcxGridDBColumn;
     Splitter1: TSplitter;
+    Label11: TLabel;
+    edtAbout: TEdit;
+    sqlSampleABOUTUS: TStringField;
+    cxButton1: TcxButton;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure ButNovoClick(Sender: TObject);
     procedure spbCleanCustomerClick(Sender: TObject);
@@ -120,6 +124,7 @@ type
     procedure ButCancelarClick(Sender: TObject);
     procedure sqlSampleAfterScroll(DataSet: TDataSet);
     procedure ButSairClick(Sender: TObject);
+    procedure cxButton1Click(Sender: TObject);
   private
     { Private declarations }
     SAMPLE      : TSalesProcess;
@@ -144,7 +149,7 @@ implementation
 
 {$R *.dfm}
 
-uses SetParametro, MensFun, uDMConectDB, AsyncCalls;
+uses SetParametro, MensFun, uDMConectDB, AsyncCalls, ufrmFollowUP;
 
 
 Const
@@ -185,7 +190,6 @@ end;
 procedure TfrmSampleCheckout.ButCancelarClick(Sender: TObject);
 begin
   LimpaEdits;
-
 end;
 
 procedure TfrmSampleCheckout.ButNovoClick(Sender: TObject);
@@ -206,7 +210,7 @@ begin
     varNextKey.UpdateKey(varNewKey, SAMPLE_HEADER); // atualiza a nova chave no banco
     varNewKeyItem := 0;
 
-    SAMPLE := TSalesProcess.Create(Self);
+
     SAMPLE.id_process := varNewKey;
     SAMPLE.tablename  := SAMPLE_HEADER;
 
@@ -220,7 +224,7 @@ end;
 
 procedure TfrmSampleCheckout.ButProcessOff(S: String);
 begin
-  ButAlterar.Enabled   := Copy(S,1,1) = 'T' = True;
+  //ButAlterar.Enabled   := Copy(S,1,1) = 'T' = True;
   ButExcluir.Enabled   := Copy(S,2,1) = 'T' = True;
   ButImprimir.Enabled  := Copy(S,3,1) = 'T' = True;
 end;
@@ -233,10 +237,26 @@ end;
 
 procedure TfrmSampleCheckout.ButSalvarClick(Sender: TObject);
 begin
-  varOption := 'I';
   SaveHeader;
   AtualizaSampleGrid;
+end;
 
+procedure TfrmSampleCheckout.cxButton1Click(Sender: TObject);
+begin
+   Try
+     Application.CreateForm(TfrmFollowUP, frmFollowUP);
+     frmFollowUP.sqlFollowup.Close;
+     frmFollowUP.sqlFollowup.Params.ParamByName('ID_PROCESS').AsInteger := SAMPLE.id_process;
+     frmFollowUP.sqlFollowup.Params.ParamByName('TABLENAME').AsString   := SAMPLE_HEADER;
+     frmFollowUP.sqlFollowup.Open;
+     frmFollowUP.varID_Process       := SAMPLE.id_process;
+     frmFollowUP.varTableName        := SAMPLE_HEADER;
+     frmFollowUP.lblCustomer.Caption := edtCustomerName.Text;
+     frmFollowUP.lblOrder.Caption    := IntToStr(SAMPLE.id_process);
+     frmFollowUP.ShowModal;
+   Finally
+     FreeAndNil(frmFollowUP);
+   End;
 end;
 
 procedure TfrmSampleCheckout.SaveHeader;
@@ -254,7 +274,7 @@ begin
    SAMPLE.Customer.Email            := edtEmail.Text;
    SAMPLE.Customer.Company.id_company := varID_Company;
    SAMPLE.Customer.typeperson       := 'P'; // perpective
-
+   SAMPLE.comments                  := edtAbout.Text;
    Address := TAddress.Create;
    try
        Address.Address  := edtAddress.Text;
@@ -265,7 +285,9 @@ begin
        SAMPLE.Customer.Address.Add(Address);
 
    if varOption = 'I' then
-       SAMPLE.SaveSampleBoard;
+       SAMPLE.SaveSampleBoard
+   else if varOption = 'U' then
+       SAMPLE.UpdateSampleBoard;
 
    finally
      FreeAndNil(Address);
@@ -292,6 +314,7 @@ end;
 procedure TfrmSampleCheckout.FormClose(Sender: TObject;
   var Action: TCloseAction);
 begin
+  FreeAndNil(SAMPLE);
   frmSampleCheckout := nil;
   Action := caFree;
 end;
@@ -307,10 +330,12 @@ begin
   SALESREP := TVendor.Create;
   Try
     SALESREP.Search(DBDados.varID_USER, True);
-    varID_Company := SALESREP.Company.id_company;
+    varID_Company := SALESREP.id_company;
   Finally
     FreeAndNil(SALESREP);
   End;
+
+  SAMPLE := TSalesProcess.Create(Self);
   SetParametros(edtCliente, TipoCustomerCompany);
   SetParametros(edtSupplier, TipoSupplier);
   AtualizaSampleGrid;
@@ -333,10 +358,20 @@ end;
 
 procedure TfrmSampleCheckout.sqlSampleAfterScroll(DataSet: TDataSet);
 begin
+
+
   if  not sqlSample.IsEmpty then
   begin
+     varOption := 'U';
+     SAMPLE.id_process := sqlSampleID_SAMPLECHECKOUT.AsInteger;
+     SAMPLE.tablename  := SAMPLE_HEADER;
+     DatePickup.Date   := sqlSampleDATE_CHECKOUT.AsDateTime;
+     DateReturn.Date   := sqlSampleDATE_RETURN.AsDateTime;
+
      edtCliente.SetValue('C.ID_CUSTOMER = ' + IntToStr(sqlSample.FieldByName('ID_CUSTOMER').AsInteger));
      edtClienteClick(Self);
+     edtAbout.Text := sqlSampleABOUTUS.AsString;
+     pnlTop.Enabled := True;
   end;
 end;
 

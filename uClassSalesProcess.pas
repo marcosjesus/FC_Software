@@ -3,7 +3,7 @@ unit uClassSalesProcess;
 interface
 
 
-uses  Contnrs, TypInfo, uDMConectDB, uClassDBGenerics, uClassProduct, uClassCompany, uClassCustomer, Messages, MensFun, System.DateUtils, Data.SqlTimSt,
+uses  Contnrs, TypInfo, uDMConectDB, uClassDBGenerics, uClassContractor, uClassProduct, uClassCompany, uClassCustomer, Messages, MensFun, System.DateUtils, Data.SqlTimSt,
   System.SysUtils, System.Classes, IniFiles,  Vcl.Forms, Vcl.Dialogs, uFunctions,
   FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
   FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
@@ -133,6 +133,7 @@ type
        Fid_process        : integer;
        FCompany           : TCompany;
        FCustomer          : TCustomer;
+       Fid_address        : Integer;
        FContractors       : TVendor;
        Fdt_process        : TdateTime;
        Fdt_process_valid  : TdateTime;
@@ -194,6 +195,7 @@ type
     function getItens(index: Integer): TSalesProcessItem;
     function GetNroItens: Integer;
     procedure setFid_payment_method(const Value: Integer);
+    procedure setFid_address(const Value: Integer);
 
     public
        procedure setItens(index: Integer; const Value: TSalesProcessItem);
@@ -229,6 +231,7 @@ type
        property dt_shippingDate   : TDateTime read Fdt_shippingDate   write setFdt_shippingDate;
        property dt_completed      : TDateTime read Fdt_completed write setFdt_completed;
        property id_payment_method : Integer read Fid_payment_method write setFid_payment_method;
+       property id_address        : Integer read Fid_address write setFid_address;
 
         property Itens[index: Integer]: TSalesProcessItem read getItens
       write setItens; default;
@@ -242,6 +245,7 @@ type
        procedure Delete;
 
        procedure SaveSampleBoard;
+       procedure UpdateSampleBoard;
   end;
 
 
@@ -286,6 +290,7 @@ begin
     id_origen         := 0;
     status            := '';
     id_payment_method := 0;
+    id_address        := 0;
 end;
 
 procedure TSalesProcess.Delete;
@@ -421,7 +426,10 @@ begin
         sqlDados.SQL.Add(',id_payment_method');
 
         if id_customer <> 0 then
+        begin
           sqlDados.SQL.Add(',id_customer');
+          sqlDados.SQL.Add(',id_address');
+        end;
         sqlDados.SQL.Add(') Values (');
 
         sqlDados.SQL.Add( QuotedStr(tablename) + ',' );
@@ -454,7 +462,10 @@ begin
         sqlDados.SQL.Add( IntToStr(id_payment_method) );
 
         if id_customer <> 0 then
+        begin
           sqlDados.SQL.Add(', ' + IntToStr(id_customer));
+          sqlDados.SQL.Add(', ' + IntToStr(id_address));
+        end;
         sqlDados.SQL.Add(')');
 
        // DBDados.GetComando(sqlDados, True);
@@ -519,12 +530,13 @@ begin
           Try
             sqlDados.Close;
             sqlDados.SQL.Clear;
-            sqlDados.SQL.Add('Insert into TBSAMPLECHECKOUT (ID_SAMPLECHECKOUT, ID_CUSTOMER, DATE_CHECKOUT, DATE_RETURN, ID_USER)');
-            sqlDados.SQL.Add(' Values (:ID_SAMPLECHECKOUT, :ID_CUSTOMER, :DATE_CHECKOUT, :DATE_RETURN, :ID_USER) ');
+            sqlDados.SQL.Add('Insert into TBSAMPLECHECKOUT (ID_SAMPLECHECKOUT, ID_CUSTOMER, DATE_CHECKOUT, DATE_RETURN, ABOUTUS, ID_USER)');
+            sqlDados.SQL.Add(' Values (:ID_SAMPLECHECKOUT, :ID_CUSTOMER, :DATE_CHECKOUT, :DATE_RETURN, :ABOUTUS, :ID_USER) ');
             sqlDados.Params.ParamByName('ID_SAMPLECHECKOUT').AsInteger := id_process;
             sqlDados.Params.ParamByName('ID_CUSTOMER').AsInteger       := Customer.id_customer;
             sqlDados.Params.ParamByName('DATE_CHECKOUT').AsString      := FormatDateTime('mm/dd/yyyy hh:mm:ss', dt_process);
             sqlDados.Params.ParamByName('DATE_RETURN').AsString        := FormatDateTime('mm/dd/yyyy hh:mm:ss', dt_process_valid);
+            sqlDados.Params.ParamByName('ABOUTUS').AsString            := comments;
             sqlDados.Params.ParamByName('ID_USER').AsInteger           := User.id_user;
             Try
                sqlDados.ExecSQL;
@@ -561,7 +573,7 @@ begin
       Try
         sqlDados.Close;
         sqlDados.SQL.Clear;
-        sqlDados.SQL.Add('Select tablename, id_process, id_customer, id_company, id_contractors, dt_process, dt_process_valid, ');
+        sqlDados.SQL.Add('Select tablename, id_process, id_customer, id_address, id_company, id_contractors, dt_process, dt_process_valid, ');
         sqlDados.SQL.Add(' dt_shipping, customer_name, customer_phone, customer_email, address1, ');
         sqlDados.SQL.Add(' zipcode, st, city, county, ponumber, comments, subtotal, percent_discount,');
         sqlDados.SQL.Add(' discount, tax, shipping, total, id_origen, status, id_user, add_date, upd_date, id_payment_method');
@@ -580,11 +592,12 @@ begin
            Company.id_company :=  sqlDados.FieldByName('id_company').AsInteger;
 
            //if sqlDados.FieldByName('id_customer').ASString <> '' then
-           //  Customer.Search(sqlDados.FieldByName('id_customer').AsInteger);
+           Customer.Search(sqlDados.FieldByName('id_customer').AsInteger);
            Customer.Id_customer := sqlDados.FieldByName('id_customer').AsInteger;
+           id_address           := sqlDados.FieldByName('id_address').AsInteger;
 
            // if sqlDados.FieldByName('id_contractors').AsInteger > 0 Then
-           //   Contractors.Search(sqlDados.FieldByName('id_contractors').AsInteger);
+           Contractors.Search(sqlDados.FieldByName('id_contractors').AsInteger);
            Contractors.id_contractor :=  sqlDados.FieldByName('id_contractors').AsInteger;
 
 
@@ -700,6 +713,11 @@ begin
   Fst := Value;
 end;
 
+
+procedure TSalesProcess.setFid_address(const Value: Integer);
+begin
+  Fid_address := Value;
+end;
 
 procedure TSalesProcess.setFid_customer(const Value: Integer);
 begin
@@ -820,8 +838,10 @@ begin
         sqlDados.SQL.Add(',id_payment_method = :id_payment_method');
 
         if id_customer <> 0 then
+        begin
            sqlDados.SQL.Add(',id_customer = :id_customer');
-
+           sqlDados.SQL.Add(',id_address = :id_address');
+        end;
         sqlDados.SQL.Add(' Where tablename = :tablename and id_process = :id_process ');
 
 
@@ -855,7 +875,45 @@ begin
         sqlDados.Params.ParamByName('id_payment_method').AsInteger   := id_payment_method;
 
         if id_customer <> 0 then
+        begin
           sqlDados.Params.ParamByName('id_customer').AsInteger       := id_customer;
+          sqlDados.Params.ParamByName('id_address').AsInteger       := id_address;
+        end;
+        Try
+           sqlDados.ExecSQL;
+
+        except
+            on E: EDatabaseError do
+              Mens_MensErro(E.ClassName+' error raised, with message : '+E.Message);
+
+        end;
+       Finally
+         FreeAndNil(sqlDados);
+       End;
+   end;
+
+end;
+
+procedure TSalesProcess.UpdateSampleBoard;
+var
+  sqlDados : TFDQuery;
+begin
+   with DBDados do
+   begin
+       sqlDados := TFDQuery.Create(Nil);
+       sqlDados.Connection := FDConnection;
+       Try
+        sqldados.Close;
+        sqldados.sql.clear;
+        sqldados.sql.add('Update TBSAMPLECHECKOUT '  );
+        sqldados.sql.add(' Set DATE_RETURN = :DATE_RETURN, ABOUTUS = :ABOUTUS, UPD_DATE = :UPD_DATE, ID_USER = :ID_USER ');
+        sqldados.sql.add(' WHERE ID_SAMPLECHECKOUT = :ID_SAMPLECHECKOUT ');
+        sqlDados.Params.ParamByName('DATE_RETURN').AsString        := FormatDateTime('mm/dd/yyyy hh:mm:ss', dt_process_valid);
+        sqlDados.Params.ParamByName('ABOUTUS').AsString            := comments;
+        sqlDados.Params.ParamByName('UPD_DATE').AsString           := FormatDateTime('mm/dd/yyyy hh:mm:ss', DATE);
+        sqlDados.Params.ParamByName('ID_USER').AsInteger           := User.id_user;
+        sqlDados.Params.ParamByName('ID_SAMPLECHECKOUT').AsInteger := id_process;
+
 
         Try
            sqlDados.ExecSQL;
@@ -869,6 +927,7 @@ begin
          FreeAndNil(sqlDados);
        End;
    end;
+
 
 end;
 

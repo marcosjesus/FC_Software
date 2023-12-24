@@ -1,0 +1,77 @@
+unit uClassContractor;
+
+interface
+
+uses uDMConectDB, uClassSupplier, Messages, MensFun, System.DateUtils, Data.SqlTimSt,
+  System.SysUtils, System.Classes, IniFiles,  Vcl.Forms, Vcl.Dialogs, uFunctions,
+  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  FireDAC.Comp.DataSet, FireDAC.Comp.Client,  Data.DB;
+
+
+Type
+   TVendor = class
+     private
+       Fid_contractor : integer;
+       Fnome          : string;
+       Fposition      : string;
+       Fcomissao      : Double;
+       Femail         : String;
+       FSupplier      : TSupplier;
+    procedure setFcomissao(const Value: Double);
+    procedure setFid_contractor(const Value: integer);
+    procedure setFposition(const Value: string);
+    procedure setFnome(const Value: string);
+    procedure setFemail(const Value: string);
+    public
+      property id_contractor  : integer read Fid_contractor write setFid_contractor;
+      property position       : string read Fposition write setFposition;
+      property comissao       : Double read Fcomissao write setFcomissao;
+      property nome           : string read Fnome write setFnome;
+      property email          : string read Femail write setFemail;
+      property Supplier       : TSupplier read FSupplier;
+
+      Constructor Create;
+      procedure Search(id_user : Integer; SelectCompany : Boolean = False);
+   end;
+
+implementation
+
+{ TVendor }
+
+constructor TVendor.Create;
+begin
+
+end;
+
+procedure TVendor.Search(id_user: Integer; SelectCompany: Boolean);
+begin
+
+end;
+
+procedure TVendor.setFcomissao(const Value: Double);
+begin
+
+end;
+
+procedure TVendor.setFemail(const Value: string);
+begin
+
+end;
+
+procedure TVendor.setFid_contractor(const Value: integer);
+begin
+
+end;
+
+procedure TVendor.setFnome(const Value: string);
+begin
+
+end;
+
+procedure TVendor.setFposition(const Value: string);
+begin
+
+end;
+
+end.

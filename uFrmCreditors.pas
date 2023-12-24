@@ -94,9 +94,6 @@ type
     pnl5: TPanel;
     Label4: TLabel;
     rsSuperEdit3: TrsSuperEdit;
-    pnl6: TPanel;
-    Label5: TLabel;
-    rsSuperEdit4: TrsSuperEdit;
     pnl7: TPanel;
     rsSuperEdit5: TrsSuperEdit;
     cxLookupComboBoxExpense: TcxLookupComboBox;
@@ -109,11 +106,8 @@ type
     InvoiceDateDue: TcxDateEdit;
     Label12: TLabel;
     InvoiceDate: TcxDateEdit;
-    edtAmount: TcxCurrencyEdit;
     sqlPaymentMethod: TFDQuery;
     dsPaymentMethod: TDataSource;
-    Label6: TLabel;
-    cxLookupComboBoxPaymentMethod: TcxLookupComboBox;
     dsGrid: TDataSource;
     edtPaymentDesc: TcxTextEdit;
     Label7: TLabel;
@@ -146,6 +140,20 @@ type
     sqlGridID_COMPANY: TIntegerField;
     sqlGridADD_DATE: TSQLTimeStampField;
     sqlGridUPD_DATE: TSQLTimeStampField;
+    Panel2: TPanel;
+    Label8: TLabel;
+    Label10: TLabel;
+    rsSuperEdit7: TrsSuperEdit;
+    cxLookupComboBoxPaymentMethod: TcxLookupComboBox;
+    cxLookupComboBoxBank: TcxLookupComboBox;
+    dsBank: TDataSource;
+    sqlBank: TFDQuery;
+    sqlBankID_BANK: TFDAutoIncField;
+    sqlBankID_COMPANY: TIntegerField;
+    sqlBankACCOUNT: TStringField;
+    sqlGridID_BANK: TIntegerField;
+    Label5: TLabel;
+    edtAmount: TcxCurrencyEdit;
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -200,8 +208,12 @@ begin
    else if sqlGridPAYMENT_STATUS.AsString = 'Void' Then
      rgStatus.ItemIndex := 3;
 
-   cxLookupComboBoxExpense.EditValue := sqlGridID_EXPENSECATEGORY.AsInteger;
+   sqlBank.Close;
+   sqlBank.Params.ParamByName('ID_COMPANY').AsInteger := sqlGridID_COMPANY.AsInteger;
+   sqlBank.Open;
 
+   cxLookupComboBoxExpense.EditValue := sqlGridID_EXPENSECATEGORY.AsInteger;
+   cxLookupComboBoxBank.EditValue    := sqlGridID_BANK.AsInteger;
    cxLookupComboBoxCompany.EditValue := sqlGridID_COMPANY.AsInteger;
 
    edtSupplier.SetValue( 'S.ID_SUPPLIER = ' + sqlGridID_SUPPLIER.AsString);
@@ -262,11 +274,15 @@ begin
     Finance.payment_amount      := edtAmount.Value;
     Finance.payment_description := edtPaymentDesc.Text;
     Finance.id_payment_method   := cxLookupComboBoxPaymentMethod.EditValue;
+    Finance.id_bank             := cxLookupComboBoxBank.EditValue;
 
     if varOption = 'I' then
       Finance.SavePAYABLE
     else if varOption = 'U' then
-         Finance.UpdatePAYABLE;
+    begin
+        Finance.SearchPayable(Finance.id_payable);
+        Finance.UpdatePAYABLE;
+    end;
 
  Finally
   FreeAndNil(Finance);
@@ -325,6 +341,9 @@ procedure TFrmCreditors.LimpaTela;
 begin
   rgStatus.ItemIndex := 0;
   cxLookupComboBoxCompany.EditValue := DBDados.varIDMAIN_COMPANY;
+  sqlBank.Close;
+  sqlBank.Params.ParamByName('ID_COMPANY').AsInteger :=  DBDados.varIDMAIN_COMPANY;
+  sqlBank.Open;
   edtSupplier.Text := '';
   edtSupplier.bs_KeyValues.Clear;
   edtInvoice.Text := '';

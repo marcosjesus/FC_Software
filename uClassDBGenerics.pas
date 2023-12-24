@@ -2,7 +2,7 @@ unit uClassDBGenerics;
 
 interface
 
-uses uDMConectDB, uClassCompany, Data.DB, Messages,MensFun, System.DateUtils, Data.SqlTimSt,
+uses uDMConectDB,  Data.DB, Messages,MensFun, System.DateUtils, Data.SqlTimSt,
   System.SysUtils, System.Classes, IniFiles,  Vcl.Forms, Vcl.Dialogs, uFunctions,
   FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
   FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
@@ -22,6 +22,7 @@ Type
     Fdescription : String;
     Fadd_date    : TDateTime;
     Fid_user     : Integer;
+    FGroup       : String;
     procedure setFadd_date(const Value: TDateTime);
     procedure setFdate_due(const Value: TDateTime);
     procedure setFdescription(const Value: String);
@@ -31,18 +32,19 @@ Type
     procedure setFnum_days(const Value: Integer);
     procedure setFtablename(const Value: String);
     procedure setFvalue(const Value: Currency);
+    procedure setFgroup(const Value: String);
 
    public
     property id_process  : integer   read Fid_process  write setFid_process;
     property tablename   : String    read Ftablename   write setFtablename;
     property dt_process  : TDateTime read Fdt_process  write setFdt_process;
     property num_days    : Integer   read Fnum_days    write setFnum_days;
-    property date_due    : TDateTime read Fdate_due   write setFdate_due;
+    property date_due    : TDateTime read Fdate_due    write setFdate_due;
     property value       : Currency  read Fvalue       write setFvalue;
     property description : String    read Fdescription write setFdescription;
     property add_date    : TDateTime read Fadd_date    write setFadd_date;
     property id_user     : Integer   read Fid_user     write setFid_user;
-
+    property group       : String    read Fgroup       write setFgroup;
     Constructor Create;
     procedure Save;
 
@@ -67,34 +69,6 @@ Type
 
      Constructor Create;
   end;
-
-
-
-Type
-   TVendor = class
-     private
-       Fid_contractor : integer;
-       Fnome          : string;
-       Fposition      : string;
-       Fcomissao      : Double;
-       Femail         : String;
-       FCompany       : TCompany;
-    procedure setFcomissao(const Value: Double);
-    procedure setFid_contractor(const Value: integer);
-    procedure setFposition(const Value: string);
-    procedure setFnome(const Value: string);
-    procedure setFemail(const Value: string);
-    public
-      property id_contractor  : integer read Fid_contractor write setFid_contractor;
-      property position       : string read Fposition write setFposition;
-      property comissao       : Double read Fcomissao write setFcomissao;
-      property nome           : string read Fnome write setFnome;
-      property email          : string read Femail write setFemail;
-      property Company        : TCompany read FCompany;
-
-      Constructor Create;
-      procedure Search(id_user : Integer; SelectCompany : Boolean = False);
-   end;
 
 
 Type
@@ -679,83 +653,6 @@ begin
   Fupd_date := Value;
 end;
 
-{ TVendor }
-
-constructor TVendor.Create;
-begin
-  id_contractor := 0;
-  nome := '';
-  position := '';
-  comissao := 0.00;
-  email := '';
-  FCompany := TCompany.Create;
-end;
-
-
-
-procedure TVendor.Search(id_user: Integer; SelectCompany : Boolean);
-var
-  sqlDados : TFDQuery;
-begin
-   with DBDados do
-   begin
-       sqlDados := TFDQuery.Create(Nil);
-       sqlDados.Connection := FDConnection;
-       Try
-        sqlDados.Close;
-        sqlDados.SQL.Clear;
-        sqlDados.SQL.Add('SELECT C.ID_COMPANY,  C.ID_CONTRACTORS, C.NAME AS VENDORNAME, C.COMISSION, P.NAME AS POSITION, C.EMAIL ');
-        sqlDados.SQL.Add('FROM TBCONTRACTORS C WITH (NOLOCK) ');
-        sqlDados.SQL.Add('LEFT OUTER JOIN TBPOSITION P ON P.ID_POSITION = C.ID_POSITION ');
-        sqlDados.SQL.Add('WHERE  C.ID_MAIN_USER = :ID_USER');
-
-       // sqlDados.SQL.Add('WHERE P.NAME IN ( ''MANAGER'',''SALES REPRESENTATIVE'') and C.ID_MAIN_USER = :ID_USER');
-        sqlDados.Params.ParamByName('ID_USER').AsInteger := id_user;
-        sqlDados.Open;
-        if not sqlDados.IsEmpty  then
-        begin
-           id_contractor := sqlDados.FieldList.Fields[1].AsInteger; // sqlDados.FieldByName('ID_CONTRACTORS').AsInteger;
-           nome          := sqlDados.FieldList.Fields[2].AsString; //sqlDados.FieldByName('VENDORNAME').AsString;
-           position      := sqlDados.FieldList.Fields[4].AsString; //sqlDados.FieldByName('POSITION').AsString;
-           comissao      := sqlDados.FieldList.Fields[3].AsFloat; //sqlDados.FieldByName('COMISSION').AsFloat;
-           email         := sqlDados.FieldList.Fields[5].AsString; //sqlDados.FieldByName('EMAIL').AsString;
-
-           Company.id_company :=  sqlDados.FieldList.Fields[0].AsInteger; //sqlDados.FieldByName('ID_COMPANY').AsInteger;
-           if SelectCompany then
-             Company.Search(sqlDados.FieldList.Fields[0].AsInteger);
-        end;
-
-       Finally
-         FreeAndNil(sqlDados);
-       End;
-   end;
-end;
-
-procedure TVendor.setFcomissao(const Value: Double);
-begin
-  Fcomissao := Value;
-end;
-
-procedure TVendor.setFemail(const Value: string);
-begin
-  Femail := Value;
-end;
-
-procedure TVendor.setFid_contractor(const Value: integer);
-begin
-  Fid_contractor := Value;
-end;
-
-
-procedure TVendor.setFnome(const Value: string);
-begin
-  Fnome := Value;
-end;
-
-procedure TVendor.setFposition(const Value: string);
-begin
-  Fposition := Value;
-end;
 
 { TFolder }
 
@@ -814,6 +711,7 @@ begin
     description := '';
     add_date    := 0;
     id_user     := 0;
+    group       := '';
 end;
 
 procedure TTerms.Save;
@@ -835,6 +733,7 @@ begin
          sqlDados.SQL.Add(',NUM_DAYS');
          sqlDados.SQL.Add(',DATE_DUE');
          sqlDados.SQL.Add(',VALUE');
+         sqlDados.SQL.Add(',GROUPX');
          sqlDados.SQL.Add(',DESCRIPTION');
          sqlDados.SQL.Add(',ADD_DATE');
          sqlDados.SQL.Add(',ID_USER)');
@@ -846,6 +745,7 @@ begin
          sqlDados.SQL.Add(',:NUM_DAYS');
          sqlDados.SQL.Add(',:DATE_DUE');
          sqlDados.SQL.Add(',:VALUE');
+         sqlDados.SQL.Add(',:GROUPX');
          sqlDados.SQL.Add(',:DESCRIPTION');
          sqlDados.SQL.Add(',:ADD_DATE');
          sqlDados.SQL.Add(',:ID_USER)');
@@ -856,6 +756,7 @@ begin
          sqlDados.Params.ParamByName('NUM_DAYS').AsInteger   := num_days;
          sqlDados.Params.ParamByName('DATE_DUE').AsString    := FormatDateTime('mm/dd/yyyy hh:mm:ss', date_due);
          sqlDados.Params.ParamByName('VALUE').AsFloat        := value;
+         sqlDados.Params.ParamByName('GROUPX').AsString      := group;
          sqlDados.Params.ParamByName('DESCRIPTION').AsString := description;
          sqlDados.Params.ParamByName('ADD_DATE').AsString    := FormatDateTime('mm/dd/yyyy hh:mm:ss', add_date);
          sqlDados.Params.ParamByName('ID_USER').AsInteger    := id_user;
@@ -894,6 +795,11 @@ end;
 procedure TTerms.setFdt_process(const Value: TDateTime);
 begin
   Fdt_process := Value;
+end;
+
+procedure TTerms.setFgroup(const Value: String);
+begin
+  FGroup := Value;
 end;
 
 procedure TTerms.setFid_process(const Value: integer);

@@ -4,7 +4,7 @@ interface
 
 uses
   uFunctions,
-  UClassDBGenerics,
+  UClassDBGenerics, uClassContractor,
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.RibbonLunaStyleActnCtrls, Vcl.Ribbon,
   cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxContainer,
@@ -85,6 +85,7 @@ type
     dxBarLargeButtonRequestOrder: TdxBarLargeButton;
     dxBarLargeButtonSupplierInvoice: TdxBarLargeButton;
     dxBarLargeButtonSample: TdxBarLargeButton;
+    dxBarLargeButtonWorkOrder: TdxBarLargeButton;
     procedure dxBarLargeButtonSIOPRelatoriosFaturamentoPedidoClick(
       Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
@@ -120,6 +121,8 @@ type
     procedure dxBarLargeButtonInvoiceClick(Sender: TObject);
     procedure dxBarLargeButtonSupplierInvoiceClick(Sender: TObject);
     procedure dxBarLargeButtonSampleClick(Sender: TObject);
+    procedure dxBarLargeButtonDebitorsClick(Sender: TObject);
+    procedure dxBarLargeButtonWorkOrderClick(Sender: TObject);
   private
     { Private declarations }
     procedure System_Acess;
@@ -141,7 +144,7 @@ uses AsyncCalls, uDMConectDB, uFrmLogin, MensFun, ufrmAccount, uFrmSupplier, uFr
   uFrmCompany, uFrmProduct, uFrmCreditors, ufrmPosition, uFrmVendorsContractors,
   uFrmPriceTable, ufrmBrandType, ufrmEstimate, ufrmCreateAccount,
   ufrmAccessControl, ufrmInventory, ufrmCustomerLP, ufrmRequestOrder,
-  ufrmSupplierInvoice, ufrmSampleCheckout;
+  ufrmSupplierInvoice, ufrmSampleCheckout, uFrmDebitors, uFrmWorkOrder;
 
 procedure TfrmMenuPrincipal.dxBarLargeButtonCreditorsClick(Sender: TObject);
 
@@ -212,6 +215,28 @@ begin
     FrmCustomerLP.Visible := True;
     FrmCustomerLP.BringToFront;
     FrmCustomerLP.Update;
+end;
+
+procedure TfrmMenuPrincipal.dxBarLargeButtonDebitorsClick(Sender: TObject);
+  procedure SetuTable;
+  begin
+
+    FrmDebitors.SetupTable; // Estimate
+
+  end;
+
+begin
+  if DBDados.varLogado = False  then Exit;
+
+  if not Assigned(FrmDebitors) then
+    FrmDebitors := TFrmDebitors.Create(Self);
+    FrmDebitors.Show;
+
+    FrmDebitors.Visible := True;
+    FrmDebitors.BringToFront;
+    FrmDebitors.Update;
+
+    LocalAsyncVclCall( @SetuTable );
 end;
 
 procedure TfrmMenuPrincipal.dxBarLargeButton5Click(Sender: TObject);
@@ -732,6 +757,28 @@ begin
   end;
 end;
 
+procedure TfrmMenuPrincipal.dxBarLargeButtonWorkOrderClick(Sender: TObject);
+ procedure SetuTable;
+  begin
+
+    frmWorkOrder.SetupTable;
+
+  end;
+begin
+ if DBDados.varLogado = False  then Exit;
+
+  if not Assigned(frmWorkOrder) then
+    frmWorkOrder := TfrmWorkOrder.Create(Self);
+    frmWorkOrder.Show;
+
+    frmWorkOrder.Visible := True;
+    frmWorkOrder.BringToFront;
+    frmWorkOrder.Update;
+
+    LocalAsyncVclCall( @SetuTable );
+
+end;
+
 procedure TfrmMenuPrincipal.dxBarLargeButtonStaffClick(Sender: TObject);
 begin
  if DBDados.varLogado = False  then Exit;
@@ -749,7 +796,6 @@ procedure TfrmMenuPrincipal.System_Acess;
 var
  I, X, Y : integer;
  menu, menu1, menu2, menu0, menu4 : string;
- varContaAction : Integer;
 begin
 
    DBDados.varReturnCompanies :=  DBDados.CompanyFilter;

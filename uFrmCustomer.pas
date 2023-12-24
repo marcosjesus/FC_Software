@@ -5,6 +5,7 @@ interface
 uses
   uSetupFolder,
   uClassDBGenerics,
+  uClassContractor,
   uClassCustomer,
   MensFun,
   uFunctions,

@@ -49,6 +49,10 @@ object frmCustomerLP: TfrmCustomerLP
       Font.Style = []
       ImageIndex = 0
       ParentFont = False
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object cxGrid1: TcxGrid
         Left = 0
         Top = 0
@@ -115,6 +119,10 @@ object frmCustomerLP: TfrmCustomerLP
       Caption = 'Registration Form'
       ImageIndex = 1
       TabVisible = False
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object Panel1: TPanel
         Tag = -2
         Left = 0
@@ -174,6 +182,10 @@ object frmCustomerLP: TfrmCustomerLP
           Font.Style = [fsBold]
           ImageIndex = 0
           ParentFont = False
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object Panel3: TPanel
             Left = 0
             Top = 258
@@ -442,6 +454,10 @@ object frmCustomerLP: TfrmCustomerLP
                 Font.Style = [fsBold]
                 ImageIndex = 0
                 ParentFont = False
+                ExplicitLeft = 0
+                ExplicitTop = 0
+                ExplicitWidth = 0
+                ExplicitHeight = 0
                 object Panel200: TPanel
                   Tag = -1
                   Left = 3

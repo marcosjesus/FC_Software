@@ -232,6 +232,7 @@ begin
   emSMTP     := TIdSMTP.Create;
   emMessage := TIdMessage.Create;
   SSLHandler := TIdSSLIOHandlerSocketOpenSSL.Create(nil);
+  bEnvio := True;
   Try
 
    SSLHandler.MaxLineAction          := maException;
@@ -242,10 +243,14 @@ begin
 
    emSMTP.IOHandler := SSLHandler;
    emSMTP.Host      := 'smtp.sendgrid.net';
-   emSMTP.Port      := 25;
+   emSMTP.Port      := 587;
    emSMTP.Username  := 'apikey';
-   emSMTP.Password  := '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';
-   emSMTP.UseTLS    := utUseImplicitTLS;
+  // emSMTP.Password  := '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';
+
+   emSMTP.Password  := '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';
+
+
+   emSMTP.UseTLS    := utUseExplicitTLS;
 
    emSMTP.Connect;
    Try
@@ -303,24 +308,20 @@ begin
 
          Attachment := TIdAttachmentFile.Create(emMessage.MessageParts, varGlobalArquivo);
 
-      end;
-
-
-      try
-         emSMTP.Send(emMessage);
-         bEnvio := True;
-      except
-         on E : Exception do
-         begin
-            bEnvio := False;
-            exception.Create(E.ClassName+' error raised, with message : '+E.Message);
+         try
+             emSMTP.Send(emMessage);
+         except
+             on E : Exception do
+             begin
+                bEnvio := False;
+                exception.Create(E.ClassName+' error raised, with message : '+E.Message);
+             end;
          end;
       end;
 
-    Finally
+   Finally
      emSMTP.Disconnect;
-
-    End;
+   End;
     result := bEnvio;
   Finally
      FreeAndNil(emMessage);

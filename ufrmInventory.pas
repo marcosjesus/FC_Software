@@ -5,6 +5,8 @@ interface
 uses
   jpeg, pngimage,   bde.dbtables,
   uClassSalesProcess,
+  uClassCompany,
+  uClassContractor,
   MensFun,
   uFunctions,
   cxGridDBDataDefinitions, uClassDBGenerics, cxCurrencyEdit, FireDAC.Stan.Intf,
@@ -156,6 +158,7 @@ type
     varTempAreaTotal : Double;
     ABand  : TcxGridBand;
     SalesRep : TVendor;
+    Company : TCompany;
     procedure AddColumns;
     procedure OpenInventory;
     procedure CleanScreen;
@@ -797,27 +800,27 @@ begin
 
           if ((UpperCase(sqlInventoty.Fields[1].AsString) <> 'CARPET') AND (UpperCase(sqlInventoty.Fields[1].AsString) <> 'VINYL')) Then
           begin
-              if EdtQty.Text = '0' then
-              begin
+             if EdtQty.Text = '0' then
+             begin
                 EdtQty.Text        := FormatFloat('0.00',  (  Item.width * Item.height ) / sqlInventoty.Fields[9].AsFloat  );
                 edttotalarea.value := Item.width * Item.height;
                 varTempAreaTotal   := edttotalarea.Value;
-              end
-              else
-              begin
+             end
+             else
+             begin
                 edttotalarea.Value := EdtQty.Value * edtAreaSquareFeetPerBox.Value;
                 lblInfoQuant.Caption     := 'Quantity Per Carton';
                 lblUnidadeMedida.Caption := 'sqft';
-              end;
-              lblTax.Caption      := FormatFloat('0.00',(((edttotalarea.Value *  sqlInventoty.Fields[7].AsFloat) / 100) *  SalesRep.Company.Tax));
-              item.tax            := StrToFloat(lblTax.Caption);
-
+             end;
           end else
           begin
-           edttotalarea.value       := Item.height * 1.334;
-           lblInfoQuant.Caption     := 'Quantity Per Roll';
-           lblUnidadeMedida.Caption := 'yds';
+             edttotalarea.value       := Item.height * 1.334;
+             lblInfoQuant.Caption     := 'Quantity Per Roll';
+             lblUnidadeMedida.Caption := 'yds';
           end;
+
+          lblTax.Caption      := FormatFloat('0.00',(((edttotalarea.Value *  sqlInventoty.Fields[7].AsFloat) / 100) *  Company.Tax));
+          item.tax            := StrToFloat(lblTax.Caption);
 
 
           lblAmount.Caption   := FormatFloat('0.00',(edttotalarea.Value  *  sqlInventoty.Fields[7].AsFloat));
@@ -867,6 +870,9 @@ begin
 
   if SalesRep <> Nil then
     FreeAndNil(SalesRep);
+
+  if Company <> Nil then
+    FreeAndNil(Company);
 
   frmInventory := nil;
   Action       := caFree;
@@ -972,7 +978,10 @@ begin
   if not Assigned(Carrinho) then
   begin
     SalesRep := TVendor.Create;
-    SalesRep.Search(DBDados.varID_USER);
+    SalesRep.Search(DBDados.varID_USER, True);
+
+    Company := TCompany.Create;
+    Company.Search(SalesRep.id_company);
 
     Carrinho  := TSalesProcess.Create(Self);
     Item      := TSalesProcessItem.Create(Self);
@@ -996,7 +1005,7 @@ begin
     Carrinho.tablename   := 'TBESTIMATE';
     Carrinho.id_process  :=  CartID;
     Carrinho.Contractors.id_contractor := SalesRep.id_contractor;
-    Carrinho.Company.id_company        := SalesRep.Company.id_company;
+    Carrinho.Company.id_company        := SalesRep.id_company;
 
     cxGrid1.SetFocus;
 

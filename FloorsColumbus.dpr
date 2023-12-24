@@ -40,7 +40,10 @@ uses
   uClassFinance in 'uClassFinance.pas',
   ufrmLabor in 'ufrmLabor.pas' {frmLabor},
   uClassImportPrice in 'uClassImportPrice.pas',
-  ufrmSampleCheckout in 'ufrmSampleCheckout.pas' {frmSampleCheckout};
+  ufrmSampleCheckout in 'ufrmSampleCheckout.pas' {frmSampleCheckout},
+  uFrmDebitors in 'uFrmDebitors.pas' {FrmDebitors},
+  uClassContractor in 'uClassContractor.pas',
+  uFrmWorkOrder in 'uFrmWorkOrder.pas' {frmWorkOrder};
 
 {$R *.res}
 

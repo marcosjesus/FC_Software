@@ -6,6 +6,7 @@ uses
   RLPreview,
   jpeg, pngimage,   bde.dbtables,
   uClassDBGenerics,
+  uClassContractor,
   uClassSalesProcess,
   uFunctions,
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
@@ -383,16 +384,6 @@ type
     sqlWorkerPHONE: TStringField;
     sqlWorkerEMAIL: TStringField;
     Panel10: TPanel;
-    Panel5: TPanel;
-    Label2: TLabel;
-    cxLookupComboBoxWorker: TcxLookupComboBox;
-    Panel8: TPanel;
-    Label49: TLabel;
-    memServiceComment: TMemo;
-    Label47: TLabel;
-    lblPhone: TLabel;
-    Label48: TLabel;
-    lblEmail: TLabel;
     Panel9: TPanel;
     Label50: TLabel;
     Label51: TLabel;
@@ -406,17 +397,11 @@ type
     lblCity: TLabel;
     lblState: TLabel;
     lblPhoneWorker: TLabel;
-    btnSaveService: TcxButton;
     sqlService: TFDQuery;
     dsService: TDataSource;
-    cxDateWork: TcxDateEdit;
-    When: TLabel;
-    Label56: TLabel;
-    edtSidemark: TEdit;
     sqlServiceID_SERVICE: TFDAutoIncField;
     sqlServiceID_PROCESS: TIntegerField;
     sqlServiceCUSTOMER: TStringField;
-    sqlServiceID_CONTRACTORS: TIntegerField;
     sqlServiceDT_SERVICE: TSQLTimeStampField;
     sqlServiceSIDEMARK: TStringField;
     sqlServiceDT_FINISH: TSQLTimeStampField;
@@ -462,8 +447,6 @@ type
     sqlHeaderSERVICE_START_DATE: TSQLTimeStampField;
     sqlHeaderINSTALLER_NAME: TStringField;
     sqlFollowup: TFDQuery;
-    sqlFollowupID_SERVICE_FOLLOWUP: TFDAutoIncField;
-    sqlFollowupID_SERVICE: TIntegerField;
     sqlFollowupCOMMENTS: TMemoField;
     sqlFollowupADD_DATE: TSQLTimeStampField;
     sqlFollowupUPD_DATE: TSQLTimeStampField;
@@ -541,8 +524,6 @@ type
     RLDBText28: TRLDBText;
     RLDBText29: TRLDBText;
     RLDBText30: TRLDBText;
-    RLLabel35: TRLLabel;
-    RLDBText42: TRLDBText;
     RLBand12: TRLBand;
     RLGroup3: TRLGroup;
     RLBand13: TRLBand;
@@ -559,13 +540,6 @@ type
     RLDBText41: TRLDBText;
     RLDBText43: TRLDBText;
     RLLabel36: TRLLabel;
-    RLBand16: TRLBand;
-    RLSubDetail2: TRLSubDetail;
-    RLGroup4: TRLGroup;
-    RLBand17: TRLBand;
-    RLLabel37: TRLLabel;
-    RLBand18: TRLBand;
-    RLDBMemo1: TRLDBMemo;
     RLBand1: TRLBand;
     RLDBText7: TRLDBText;
     RLDBText8: TRLDBText;
@@ -639,6 +613,55 @@ type
     RLDBText16: TRLDBText;
     RLBand2: TRLBand;
     lblfooterAddress: TRLLabel;
+    lblfooterService: TRLLabel;
+    RLDBText2: TRLDBText;
+    RLLabel6: TRLLabel;
+    sqlFollowupID_FOLLOWUP: TFDAutoIncField;
+    sqlFollowupTABLENAME: TStringField;
+    sqlFollowupID_PROCESS: TIntegerField;
+    RLImageLogoService: TRLImage;
+    STPPRICELISTCOMISSION: TBCDField;
+    Panel12: TPanel;
+    Panel5: TPanel;
+    Label60: TLabel;
+    edtSupplier: TEditBusca;
+    sqlCrew: TFDQuery;
+    dsCrew: TDataSource;
+    sqlCrewID_SERVICECREW: TFDAutoIncField;
+    sqlCrewID_CONTRACTOR: TIntegerField;
+    sqlCrewTYPEJOB: TStringField;
+    sqlCrewTOTALHOUR: TFloatField;
+    sqlCrewAMOUNT: TBCDField;
+    sqlCrewTOTAL: TBCDField;
+    sqlCrewID_USER: TIntegerField;
+    sqlCrewFINANCIAL_RELEASED: TSmallintField;
+    sqlCrewADD_DATE: TSQLTimeStampField;
+    sqlCrewUPD_DATE: TSQLTimeStampField;
+    sqlAux: TFDQuery;
+    sqlCrewSUBTOTAL: TCurrencyField;
+    cxGrid5: TcxGrid;
+    cxGridDBTableViewCrew: TcxGridDBTableView;
+    cxGridDBTableViewCrewID_CONTRACTOR: TcxGridDBColumn;
+    cxGridDBTableViewCrewTYPEJOB: TcxGridDBColumn;
+    cxGridDBTableViewCrewTOTALHOUR: TcxGridDBColumn;
+    cxGridDBTableViewCrewAMOUNT: TcxGridDBColumn;
+    cxGridDBTableViewCrewSUBTOTAL: TcxGridDBColumn;
+    cxGridLevel2: TcxGridLevel;
+    Panel8: TPanel;
+    Label49: TLabel;
+    When: TLabel;
+    Label56: TLabel;
+    memServiceComment: TMemo;
+    cxDateWork: TcxDateEdit;
+    edtSidemark: TEdit;
+    btnSaveService: TcxButton;
+    sqlCrewTABLENAME: TStringField;
+    sqlCrewID_PROCESS: TIntegerField;
+    RLLabel35: TRLLabel;
+    lblInstallers: TRLLabel;
+    sqlCrewNAME: TStringField;
+    RLLabel8: TRLLabel;
+    RLDBText3: TRLDBText;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure spbCleanCustomerClick(Sender: TObject);
@@ -697,8 +720,16 @@ type
     procedure sqlServicesItemBeforePost(DataSet: TDataSet);
     procedure sqlServicesItemAfterScroll(DataSet: TDataSet);
     procedure RLBand2BeforePrint(Sender: TObject; var PrintIt: Boolean);
+    procedure RLBand12BeforePrint(Sender: TObject; var PrintIt: Boolean);
+    procedure edtSupplierClick(Sender: TObject);
+    procedure sqlCrewBeforePost(DataSet: TDataSet);
+    procedure sqlCrewAfterEdit(DataSet: TDataSet);
+    procedure sqlCrewCalcFields(DataSet: TDataSet);
+    procedure RLBand10BeforePrint(Sender: TObject; var PrintIt: Boolean);
+    procedure sqlServiceBeforeDelete(DataSet: TDataSet);
   private
     { Private declarations }
+
 
     varProcessTotal    : Double;
     varProcessSubTotal : Double;
@@ -709,7 +740,7 @@ type
     varProcessPercentDiscount : Double;
     varAV, varEP, VarOP, varSQFT : Double;
 
-
+    varCrewTotal    : Double;
     varServiceTotal : Double;
     varID_SERVICE : Integer;
     varGravaService : ShortString;
@@ -744,12 +775,15 @@ type
     function ValidCustomer : Boolean;
     function ValidItemPendingonPurchaseOrder : Boolean;
     procedure ShowImagem;
-    procedure ShowLogo;
+    procedure ShowLogo(varType : String);
     procedure LoadItemToHeader;
     procedure SetaConsultaProduto(varID_PRODUCT : String = '');
     procedure LoadService;
     procedure PreDefineEmail(Sender: TObject);
     procedure CalculaServiceSubTotal;
+    procedure ShowDocumentCreated;
+    procedure CalculaCrewSubTotal;
+    function ValidToPrint: Boolean;
 
   public
     { Public declarations }
@@ -835,7 +869,7 @@ begin
 end;
 
 
-procedure TfrmEstimate.ShowLogo;
+procedure TfrmEstimate.ShowLogo(varType : String);
 var
   Jpg         : TJPEGImage;
   foto        : TMemoryStream;
@@ -851,8 +885,16 @@ begin
      if   TBCOMPANY.FieldByName('IMAGEM').AsVariant = Null then
      begin
         OpenPictureDialog.FileName := ExtractFilePath(Application.ExeName) + 'noimage.jpg';
-        RLImageLogo.Picture.LoadFromFile(OpenPictureDialog.FileName);
-        RLImageLogo.Picture.Graphic.SaveToStream(S);
+        if varType = 'SALE' then
+        begin
+           RLImageLogo.Picture.LoadFromFile(OpenPictureDialog.FileName);
+           RLImageLogo.Picture.Graphic.SaveToStream(S);
+        end
+        else if varType = 'SERVICE' then
+             begin
+                RLImageLogoService.picture.LoadFromFile(OpenPictureDialog.FileName);
+                RLImageLogoService.Picture.Graphic.SaveToStream(S);
+             end;
      end
      else
         TBlobField(TBCOMPANY.FieldByName('IMAGEM')).SaveToStream(S);
@@ -874,7 +916,9 @@ begin
 
      try
       Graphic.LoadFromStream(S);
-      RLImageLogo.Picture.Assign(Graphic);
+      if varType = 'SALE' then
+         RLImageLogo.Picture.Assign(Graphic)
+      else RLImageLogoService.Picture.Assign(Graphic);
     finally
       Graphic.Free;
     end;
@@ -1009,8 +1053,32 @@ begin
   End;
 end;
 
+function TfrmEstimate.ValidToPrint : Boolean;
+var
+  varResult : Boolean;
+  sqlDados : TFDQuery;
+begin
+   varResult := False;
+   sqlDados := TFDQuery.Create(Nil);
+   Try
+     sqlDados.Connection := DBDados.Connection;
+     sqlDados.Close;
+     sqlDados.SQL.Clear;
+     sqlDados.SQL.Add('Select  INVOICE_ID From TBRECEIVABLE Where INVOICE_ID = :INVOICE_ID and PAYMENT_STATUS = :PAYMENT_STATUS AND GROUPX = ''PRODUCT'' ');
+     sqlDados.Params.ParamByName('INVOICE_ID').AsInteger    := Process.id_process;
+     sqlDados.Params.ParamByName('PAYMENT_STATUS').AsString := 'PAID';
+     sqlDados.Open;
+     varResult := not sqlDados.IsEmpty;
+   Finally
+     FreeAndNil(sqlDados);
+   End;
+   result := varResult;
+
+end;
+
 procedure TfrmEstimate.ButImprimirClick(Sender: TObject);
 begin
+
    Process := TSalesProcess.Create(Self);
    Process.Search(TBHeader, sqlProcessID_PROCESS.AsInteger);
    SetParametros(edtCliente, TipoCustomerCompany);
@@ -1022,8 +1090,21 @@ begin
         ReportSale.PreviewOptions.Caption := 'Order'
         else if TBHeader = INVOICE_HEADER then
              ReportSale.PreviewOptions.Caption := 'Invoice';
-   ReportSale.Preview;
 
+   if TBHeader = INVOICE_HEADER then
+   begin
+      if ValidToPrint then
+         ReportSale.Preview
+      else
+      begin
+         Mens_MensInf('The Invoice Nº ' + IntToStr(Process.id_process) + ' still has Pending status. Contact to Financial Dept.');
+         Exit;
+      end;
+   end
+   else
+   begin
+      ReportSale.Preview;
+   end;
 end;
 
 procedure TfrmEstimate.ButItensOnOff(S: String);
@@ -1131,16 +1212,16 @@ end;
 
 procedure TfrmEstimate.LoadService;
 begin
-  if cxLookupComboBoxWorker.EditValue <> - 1 then
-  begin
+
+
     sqlService.Close;
     sqlService.SQL.Clear;
     sqlService.SQL.Add ('SELECT  ');
     sqlService.SQL.Add ('   A.ID_SERVICE,  ');
     sqlService.SQL.Add ('   A.ID_PROCESS,  ');
+    sqlService.SQL.Add ('   A.ID_SUPPLIER,  ');
     sqlService.SQL.Add ('   C.LAST_NAME + '', '' + C.FIRST_NAME AS CUSTOMER,  ');
     sqlService.SQL.Add ('   E.ADDRESS1, E.ZIPCODE, E.CITY, E.COUNTY, E.STATEE, ');
-    sqlService.SQL.Add ('   A.ID_CONTRACTORS,  ');
     sqlService.SQL.Add ('   A.DT_SERVICE,  ');
     sqlService.SQL.Add ('   A.SIDEMARK,  ');
     sqlService.SQL.Add ('   A.DT_FINISH,  ');
@@ -1153,11 +1234,12 @@ begin
     sqlService.SQL.Add ('INNER JOIN TBCUSTOMER C ON C.ID_CUSTOMER = B.ID_CUSTOMER   ');
     sqlService.SQL.Add ('INNER JOIN TBUSER D ON D.ID_USER = A.ID_USER  ');
     sqlService.SQL.Add ('LEFT OUTER JOIN TBADDRESS E ON E.ID_CUSTOMER = C.ID_CUSTOMER ');
-    sqlService.SQL.Add ('WHERE A.ID_CONTRACTORS = :ID_CONTRACTORS   ');
+    sqlService.SQL.Add ('WHERE A.ID_PROCESS = :ID_PROCESS AND A.TABLENAME = :TABLENAME  ');
+    sqlService.Params.ParamByName('ID_PROCESS').AsInteger := varNewKey;
+    sqlService.Params.ParamByName('TABLENAME').AsString   := TBHeader;
 
-    sqlService.Params.ParamByName('ID_CONTRACTORS').AsInteger :=cxLookupComboBoxWorker.EditValue;
     sqlService.Open;
-  end;
+
 end;
 
 procedure TfrmEstimate.ReportSaleBeforePrint(Sender: TObject; var PrintIt: Boolean);
@@ -1170,7 +1252,7 @@ begin
    sqlHeader.Open;
 
    if TBCOMPANY.Locate('ID_COMPANY',sqlHeaderCOMPANY_ID.AsInteger, []) Then
-      ShowLogo;
+      ShowLogo('SALE');
 
 
    sqlParcelas.Close;
@@ -1187,6 +1269,33 @@ begin
   else if TBHeader = INVOICE_HEADER then
      LblProcess.Caption := 'Invoice Nº :'
    }
+end;
+
+procedure TfrmEstimate.RLBand10BeforePrint(Sender: TObject;
+  var PrintIt: Boolean);
+  var
+    varInstaller : String;
+begin
+  sqlCrew.First;
+  varInstaller := '';
+  while not sqlCrew.Eof do
+  begin
+     varInstaller := varInstaller + ' / '  + sqlCrewNAME.AsString + ' / ';
+     sqlCrew.Next;
+  end;
+  lblInstallers.Caption := varInstaller;
+end;
+
+procedure TfrmEstimate.RLBand12BeforePrint(Sender: TObject;
+  var PrintIt: Boolean);
+begin
+   lblfooterService.Caption := sqlHeaderCOMPANY_NAME.AsString + '   -   Address: ' +
+     sqlHeaderCOMPANY_ADRRESS.AsString + ' ' +
+     sqlHeaderCOMPANY_COUNTY.AsString + ' ' +
+     sqlHeaderCOMPANY_CITY.AsString + ' ' +
+     sqlHeaderCOMPANY_ST.AsString + ' ' +
+     sqlHeaderCOMPANY_ZIPCODE.AsString + ' - Phone: ' +
+     sqlHeaderCOMPANY_PHONENUMBER.AsString;
 end;
 
 procedure TfrmEstimate.RLBand2BeforePrint(Sender: TObject;
@@ -1234,7 +1343,7 @@ begin
          end
          else if TBHeader = ORDER_HEADER then
          begin
-             varArquivo := varLocal + Process.Customer.folder.pasta + '\' + Folder_Invoice + '\Invoice_' + sqlProcessID_PROCESS.AsString + '.PDF';
+             varArquivo := varLocal + Process.Customer.folder.pasta  + '\' + Folder_Invoice + '\Invoice_' + sqlProcessID_PROCESS.AsString + '.PDF';
              if FileExists(varArquivo) Then
                  DeleteFile(varArquivo);
              varGlobalSubject := 'Invoice Nr ' +  sqlProcessID_PROCESS.AsString;
@@ -1249,10 +1358,11 @@ begin
    end
    else if TPEMAIL = WORK_EMAIL then
        begin
-           varArquivo := varLocal + Process.Customer.folder.pasta + '\' + Folder_Service + '\WorkOrder_' + sqlProcessID_PROCESS.AsString + '.PDF';
+           varArquivo := varLocal + Process.Customer.folder.pasta  + '\' + Folder_Service + '\WorkOrder_' + sqlProcessID_PROCESS.AsString + '.PDF';
            if FileExists(varArquivo) Then
               DeleteFile(varArquivo);
-           varGlobalEmailDestino := lblEmail.Caption;
+          //HOLD
+          // varGlobalEmailDestino := lblEmail.Caption;
        end;
 
    Prev := TRLPreviewForm(Sender).Preview;
@@ -1265,12 +1375,7 @@ begin
    varGlobalFromName  := Process.Contractors.nome;
    varGlobalArquivo   := varArquivo;
 
-   //EnviarEmail(varGlobalEmailDestino, 'This is your File');
-
-
-   if Assigned(Process) then
-     FreeAndNil(Process);
-
+   EnviarEmail(varGlobalEmailDestino, 'This is your File');
 
 end;
 
@@ -1320,6 +1425,9 @@ begin
    sqlHeader.Params.ParamByName('ID_PROCESS').AsInteger :=  sqlProcessID_PROCESS.AsInteger;
    sqlHeader.Params.ParamByName('TABLENAME').AsString   :=  TBHeader;
    sqlHeader.Open;
+
+   if TBCOMPANY.Locate('ID_COMPANY',sqlHeaderCOMPANY_ID.AsInteger, []) Then
+      ShowLogo('SERVICE');
 end;
 
 procedure TfrmEstimate.AtualizaGrade;
@@ -1519,17 +1627,25 @@ procedure TfrmEstimate.btnSaveServiceClick(Sender: TObject);
 var
  sqlDados : TFDQuery;
 begin
-  if cxLookupComboBoxWorker.ItemIndex = -1 then
+
+  if sqlCrew.IsEmpty  then
   begin
-      Mens_MensInf('Worker not Selected.') ;
-      cxLookupComboBoxWorker.SetFocus;
+      Mens_MensInf('Enter worker name for this job.') ;
+      edtSupplier.SetFocus;
+      exit;
+  end;
+
+  if ((edtSupplier.Text = '') and (edtSupplier.bs_KeyValues.Count = 0)) then
+  begin
+      Mens_MensInf('Service Supplier Company not Selected.') ;
+      edtSupplier.SetFocus;
       exit;
   end;
 
 
   if cxDateWork.Text = '' then
   begin
-      Mens_MensInf('Date of Service not informed.') ;
+      Mens_MensInf('Installation Date not informed.') ;
       cxDateWork.SetFocus;
       exit;
   end;
@@ -1544,10 +1660,11 @@ begin
         sqlDados.Close;
         sqlDados.SQL.Clear;
         sqlDados.SQL.Add('Insert INTO TBSERVICE ');
-        sqlDados.SQL.Add('(ID_PROCESS,  ID_CONTRACTORS,  DT_SERVICE, SIDEMARK,  ID_USER) ');
-        sqlDados.SQL.Add('VALUES (:ID_PROCESS,  :ID_CONTRACTORS,  :DT_SERVICE, :SIDEMARK,   :ID_USER  )');
+        sqlDados.SQL.Add('(ID_PROCESS, TABLENAME, ID_SUPPLIER,  DT_SERVICE, SIDEMARK,  ID_USER) ');
+        sqlDados.SQL.Add('VALUES (:ID_PROCESS,  :TABLENAME, :ID_SUPPLIER, :DT_SERVICE, :SIDEMARK,   :ID_USER  )');
         sqlDados.Params.ParamByName('ID_PROCESS').AsInteger     := varNewKey;
-        sqlDados.Params.ParamByName('ID_CONTRACTORS').AsInteger := cxLookupComboBoxWorker.EditValue;
+        sqlDados.Params.ParamByName('TABLENAME').AsString       := TBHeader;
+        sqlDados.Params.ParamByName('ID_SUPPLIER').AsInteger    := edtSupplier.bs_KeyValue;
         sqlDados.Params.ParamByName('DT_SERVICE').AsString      := FormatDateTime('mm/dd/yyyy hh:mm:ss', cxDateWork.Date);
         sqlDados.Params.ParamByName('SIDEMARK').AsString        := edtSidemark.Text;
         sqlDados.Params.ParamByName('ID_USER').AsInteger        := DBDados.varID_USER;
@@ -1561,12 +1678,12 @@ begin
 
         end;
 
-        sqlDados.Close;
-        sqlDados.SQL.Clear;
-        sqlDados.SQL.Add(' Select @@IDENTITY as ID_SERVICE ');
-        sqlDados.Open;
 
-        varID_SERVICE := sqlDados.FieldByName('ID_SERVICE').AsInteger;
+        sqlCrew.Close;
+        sqlCrew.Params.ParamByName('TABLENAME').AsString   := TBHeader;
+        sqlCrew.Params.ParamByName('ID_PROCESS').AsInteger := varNewKey;
+        sqlCrew.Open;
+
      end;
 
       if sqlService.State IN [dsEdit] then
@@ -1574,11 +1691,12 @@ begin
 
       sqlDados.Close;
       sqlDados.SQL.Clear;
-      sqlDados.SQL.Add('Insert INTO TBSERVICE_FOLLOWUP ');
-      sqlDados.SQL.Add(' (ID_SERVICE, COMMENTS, ID_USER) ');
-      sqlDados.SQL.Add(' VALUES (:ID_SERVICE, :COMMENTS, :ID_USER) ');
+      sqlDados.SQL.Add('Insert INTO TBFOLLOWUP ');
+      sqlDados.SQL.Add(' (ID_PROCESS, TABLENAME, COMMENTS, ID_USER) ');
+      sqlDados.SQL.Add(' VALUES (:ID_PROCESS, :TABLENAME, :COMMENTS, :ID_USER) ');
 
-      sqlDados.Params.ParamByName('ID_SERVICE').AsInteger := varID_SERVICE;
+      sqlDados.Params.ParamByName('ID_PROCESS').AsInteger := varNewKey;
+      sqlDados.Params.ParamByName('TABLENAME').AsString   := TBHeader;
       sqlDados.Params.ParamByName('COMMENTS').AsString    := Trim(memServiceComment.Lines.Text);
       sqlDados.Params.ParamByName('ID_USER').AsInteger    := DBDados.varID_USER;
 
@@ -1591,6 +1709,10 @@ begin
            Mens_MensErro(E.ClassName+' error raised, with message : '+E.Message);
 
       end;
+
+      cxDateWork.Date := 0;
+      edtSidemark.Text := '';
+      memComments.Lines.Clear;
 
   Finally
     FreeAndNil(sqlDados);
@@ -1613,6 +1735,8 @@ begin
 
      Terms := TTerms.Create;
      Try
+
+       CalculaProcess;
        if varProcessoProduto > 0 then
        begin
          Terms.id_process  := Process.id_process;
@@ -1624,9 +1748,11 @@ begin
          Terms.description := 'Materials Total(deposit payment)';
          Terms.add_date    := Date;
          Terms.id_user     := DBDados.varID_USER;
+         Terms.group       := 'PRODUCT';
          Terms.Save;
        end;
 
+       CalculaServiceSubTotal;
        if varServiceTotal > 0 then
        begin
          Terms.id_process  := Process.id_process;
@@ -1638,6 +1764,7 @@ begin
          Terms.description := 'Labor Total(due upen completion)';
          Terms.add_date    := Date;
          Terms.id_user     := DBDados.varID_USER;
+         Terms.group       := 'SERVICE';
          Terms.Save;
        end;
 
@@ -1676,8 +1803,7 @@ begin
         edtTermsDesc.SetFocus;
         Exit;
        end;
-
-       if StrToInt(edtDays.Text) > Contractor.Company.estimateDays then
+       if StrToInt(edtDays.Text) >  TBCOMPANYESTIMATEDAYS.AsInteger then
        begin
            Mens_MensInf('Terms can not be greater than Date Valid Until.') ;
            edtDays.SetFocus;
@@ -1951,6 +2077,8 @@ begin
     FreeAndNil(varNextKey);
   End;
 
+
+
   ButProcessOff('FFF');
   sqlTerms.Close;
   Initialize;
@@ -2220,49 +2348,57 @@ end;
 
 procedure TfrmEstimate.ButSalvarClick(Sender: TObject);
 begin
-  if ValidItemPendingonPurchaseOrder = False then Exit;
-
-  if ValidCustomer = False then Exit;
-
-  if TBHeader = ESTIMATE_HEADER then
-    Caption   := 'Quotation'
-  else if TBHeader = ORDER_HEADER then
-        Caption := 'Order'
-        else Caption := 'Invoice';
-
-  pnlTop.Enabled        := True;
-  pnlTerms.Enabled      := True;
-  pnlBtnLateral.Enabled := True;
-  cmbStatus.Enabled     := True;
-
-  DisabledTotalField;
-
   if varOption = 'X' then
   begin
      Mens_MensInf('The Form not in edit or insert mode.') ;
      Exit;
   end;
-  if varProcessTotal <> 0 then
-     Process.total    := varProcessTotal
-  else  Process.total := 0.00;
 
-  if ValidTerms = False then Exit;
+  if ValidItemPendingonPurchaseOrder Then
+  begin
 
-  SaveHeader;
-  LimpaEdits;
-  cxPageEstimate.ActivePage := cxTabEstimateList;
-  AtualizaGrade;
-  CalculaServiceSubTotal;
+      if ValidCustomer then
+      begin
 
-  edtTotal.EditValue := sqlProcessTOTAL.AsFloat;
+      if TBHeader = ESTIMATE_HEADER then
+        Caption   := 'Quotation'
+      else if TBHeader = ORDER_HEADER then
+            Caption := 'Order'
+            else Caption := 'Invoice';
 
-  if  Process <> Nil then
-     FreeAndNil(Process);
+      pnlTop.Enabled        := True;
+      pnlTerms.Enabled      := True;
+      pnlBtnLateral.Enabled := True;
+      cmbStatus.Enabled     := True;
 
-  ButProcessOff('TTT');
+      DisabledTotalField;
 
-   varOption := 'X';
 
+      if varProcessTotal <> 0 then
+         Process.total    := varProcessTotal
+      else  Process.total := 0.00;
+
+          if ValidTerms Then
+          begin
+
+              SaveHeader;
+              LimpaEdits;
+              cxPageEstimate.ActivePage := cxTabEstimateList;
+              AtualizaGrade;
+              CalculaServiceSubTotal;
+
+              edtTotal.EditValue := sqlProcessTOTAL.AsFloat;
+
+              if  Process <> Nil then
+                 FreeAndNil(Process);
+
+              ButProcessOff('TTT');
+
+              varOption := 'X';
+
+          end;
+      end;
+  end;
 end;
 
 procedure  TfrmEstimate.SaveItem;
@@ -2343,8 +2479,10 @@ begin
    Process.dt_process_valid          := cxDateProcessValid.Date;
 
    if ((edtCliente.bs_KeyValue <> '') and (edtCliente.bs_KeyValues.Count > 0)) then
+   begin
       Process.id_customer            := edtCliente.bs_KeyValue;
-
+      Process.id_address             := StrToInt(edtCliente.bs_KeyValues[17]);
+   end;
    Process.customer_name             := edtCustomerName.Text;
    Process.customer_phone            := edtPhone.Text;
    Process.customer_email            := edtEmail.Text;
@@ -2374,9 +2512,42 @@ begin
    else if varOption = 'U' then
         Process.Update;
 
-
+   if TBHeader <> INVOICE_HEADER then
+     ShowDocumentCreated;
 end;
 
+procedure  TfrmEstimate.ShowDocumentCreated;
+var
+ sqlDados : TFDQuery;
+begin
+  sqlDados := TFDQuery.Create(Nil);
+  Try
+
+    sqlDados.Connection := DBDados.Connection;
+    sqlDados.Close;
+    sqlDados.SQL.Clear;
+
+    if TBHeader = ESTIMATE_HEADER then
+        sqlDados.SQL.Add('SELECT ID_PROCESS FROM TBPROCESS WHERE TABLENAME = ''TBORDER'' AND ID_ORIGEN = :ID_ORIGEN')
+
+    else if TBHeader = ORDER_HEADER then
+        sqlDados.SQL.Add('SELECT ID_PROCESS FROM TBPROCESS WHERE TABLENAME = ''TBINVOICE'' AND ID_ORIGEN = :ID_ORIGEN');
+
+    sqlDados.Params.ParamByName('ID_ORIGEN').AsInteger := Process.id_process;
+    sqlDados.Open;
+
+    if not sqlDados.IsEmpty then
+    begin
+      if TBHeader = ESTIMATE_HEADER then
+        Mens_MensInf('The Order Document Nº ' + sqlDados.FieldByName('ID_PROCESS').AsString  + ' has been created.')
+      else if TBHeader = ORDER_HEADER then
+        Mens_MensInf('The Invoice Document Nº ' + sqlDados.FieldByName('ID_PROCESS').AsString  + ' has been created.');
+    end;
+
+  Finally
+    FreeAndNil(sqlDados);
+  End;
+end;
 
 procedure TfrmEstimate.ButSalvarItemClick(Sender: TObject);
 var
@@ -2480,6 +2651,8 @@ end;
 
 procedure TfrmEstimate.CalculaProcess;
 begin
+  CalculaServiceSubTotal;
+
   varProcessSubTotal := 0;
   varProcessTaxble   := 0;
   varProcessDiscount := 0;
@@ -2497,7 +2670,7 @@ begin
 
     if sqlProcessItemTAXBLE.AsString = 'Y' then
     begin
-       varProcessTaxble := varProcessTaxble + ((sqlProcessItemAMOUT.AsFloat / 100) *  Contractor.Company.Tax);// Process.Company.Tax);
+       varProcessTaxble := varProcessTaxble + ((sqlProcessItemAMOUT.AsFloat / 100) *  TBCOMPANYTAX.AsFloat);// Process.Company.Tax);
        varProcessTaxble :=   Round(varProcessTaxble*100)/100;
     end;
 
@@ -2561,9 +2734,11 @@ begin
    Try
      Application.CreateForm(TfrmFollowUP, frmFollowUP);
      frmFollowUP.sqlFollowup.Close;
-     frmFollowUP.sqlFollowup.Params.ParamByName('ID_SERVICE').AsInteger := sqlServiceID_SERVICE.AsInteger;
+     frmFollowUP.sqlFollowup.Params.ParamByName('ID_PROCESS').AsInteger := sqlServiceID_PROCESS.AsInteger;
+     frmFollowUP.sqlFollowup.Params.ParamByName('TABLENAME').AsString   := TBHeader;
      frmFollowUP.sqlFollowup.Open;
-     frmFollowUP.varID_Service :=  sqlServiceID_SERVICE.AsInteger;
+     frmFollowUP.varID_Process       := sqlServiceID_PROCESS.AsInteger;
+     frmFollowUP.varTableName        := TBHeader;
      frmFollowUP.lblCustomer.Caption := sqlServiceCUSTOMER.AsString;
      frmFollowUP.lblOrder.Caption    := sqlServiceID_PROCESS.AsString;
      frmFollowUP.ShowModal;
@@ -2578,7 +2753,8 @@ procedure TfrmEstimate.cxEditRepository1ButtonImprimirPropertiesButtonClick(
 begin
   TPEMAIL := WORK_EMAIL;
   sqlFollowup.Close;
-  sqlFollowup.Params.ParamByName('ID_SERVICE').AsInteger := sqlServiceID_SERVICE.AsInteger;
+  sqlFollowup.Params.ParamByName('ID_PROCESS').AsInteger := sqlServiceID_PROCESS.AsInteger;
+  sqlFollowup.Params.ParamByName('TABLENAME').AsString   := TBHeader;
   sqlFollowup.Open;
 
   ReportService.PreviewOptions.Caption := 'Work Order';
@@ -2621,14 +2797,15 @@ end;
 
 procedure TfrmEstimate.cxLookupComboBoxWorkerClick(Sender: TObject);
 begin
-   lblPhone.Caption := sqlWorkerPHONE.AsString;
-   lblEmail.Caption := sqlWorkerEMAIL.AsString;
+   //lblPhone.Caption := sqlWorkerPHONE.AsString;
+  // lblEmail.Caption := sqlWorkerEMAIL.AsString;
    LoadService;
 end;
 
 procedure TfrmEstimate.cxLookupComboBoxCompanyClick(Sender: TObject);
 begin
-  if (( Contractor.Company.id_company = 0) or ( Contractor.Company.id_company  = null))  then
+
+  if (( Contractor.id_company = 0) or ( Contractor.id_company  = null))  then
   begin
      cxDateProcessValid.Date := Date + TBCOMPANYESTIMATEDAYS.AsInteger;
      Process.Company.Search(TBCOMPANYID_COMPANY.AsInteger);
@@ -2638,11 +2815,13 @@ begin
      edtCliente.bs_Filter := 'C.ID_COMPANY = ' +   QuotedStr(IntToStr(TBCOMPANYID_COMPANY.AsInteger));
 
   end;
+
 end;
 
 procedure TfrmEstimate.cxPageForm2Change(Sender: TObject);
 var
- sqlDados : TFDQuery;
+ sqlDados    : TFDQuery;
+ varNextKey  : TDBNextKey;
 begin
   if cxPageForm2.ActivePage = cxTabSheetService then
   begin
@@ -2652,7 +2831,7 @@ begin
     lblCity.Caption        := edtCity.Text;
     lblPhoneWorker.Caption := edtPhone.Text;
     lblState.Caption       := edtST.Text;
-    cxLookupComboBoxWorker.Enabled := True;
+    //cxLookupComboBoxWorker.Enabled := True;
     cxDateWork.Enabled := True;
     edtSidemark.Enabled := True;
     sqlDados := TFDQuery.Create(Nil);
@@ -2662,8 +2841,8 @@ begin
         sqlDados.Close;
         sqlDados.SQL.Clear;
         sqlDados.SQL.Add ('SELECT  ');
+        sqlDados.SQL.Add ('   A.ID_SUPPLIER, ');
         sqlDados.SQL.Add ('   A.ID_SERVICE, ');
-        sqlDados.SQL.Add ('   A.ID_CONTRACTORS, ');
         sqlDados.SQL.Add ('   A.DT_SERVICE, ');
         sqlDados.SQL.Add ('   A.SIDEMARK ');
         sqlDados.SQL.Add ('FROM TBSERVICE A    ');
@@ -2675,14 +2854,25 @@ begin
         begin
           varGravaService                  := 'U';
           varID_SERVICE                    := sqlDados.FieldByName('ID_SERVICE').AsInteger;
-          cxLookupComboBoxWorker.EditValue := sqlDados.FieldByName('ID_CONTRACTORS').AsInteger;
           cxDateWork.Date                  := sqlDados.FieldByName('DT_SERVICE').AsDateTime;
           edtSidemark.Text                 := sqlDados.FieldByName('SIDEMARK').AsString;
           cxDateWork.Enabled               := False;
           edtSidemark.Enabled              := False;
           cxLookupComboBoxWorkerClick(Self);
-          cxLookupComboBoxWorker.Enabled   := False;
+
+          edtSupplier.SetValue(' S.ID_SUPPLIER = ' + sqlDados.FieldByName('ID_SUPPLIER').AsString);
+          edtSupplierClick(Nil);
+
+          sqlCrew.Close;
+          sqlCrew.Params.ParamByName('TABLENAME').AsString   := TBHeader;
+          sqlCrew.Params.ParamByName('ID_PROCESS').AsInteger := varNewKey;
+          sqlCrew.Open;
+
           memServiceComment.SetFocus;
+        end
+        else
+        begin
+
         end;
     Finally
         FreeAndNil(sqlDados);
@@ -2957,7 +3147,9 @@ end;
 
 procedure TfrmEstimate.edtSalesRepClick(Sender: TObject);
 begin
-  if (( Contractor.Company.id_company = 0) or ( Contractor.Company.id_company  = null))  then
+
+
+  if (( Contractor.id_company = 0) or ( Contractor.id_company  = null))  then
   begin
      if edtSalesRep.bs_KeyValue <> 0 then
      begin
@@ -2969,11 +3161,27 @@ begin
       // edtCliente.SetValue('C.ID_CONTRACTORS = ' + IntToStr(edtSalesRep.bs_KeyValue));
      end;
   end;
+
 end;
 
 procedure TfrmEstimate.edtShippingExit(Sender: TObject);
 begin
  CalculaProcess;
+end;
+
+procedure TfrmEstimate.edtSupplierClick(Sender: TObject);
+begin
+   if ((edtSupplier.Text <> '') and (edtSupplier.bs_KeyValues.Count > 0)) then
+   begin
+      sqlCrew.Close;
+      sqlCrew.Params.ParamByName('TABLENAME').AsString   := TBHeader;
+      sqlCrew.Params.ParamByName('ID_PROCESS').AsInteger := varNewKey;
+      sqlCrew.Open;
+
+      sqlWorker.Close;
+      sqlWorker.Params.ParamByName('ID_SUPPLIER').AsInteger := edtSupplier.bs_KeyValue;
+      sqlWorker.Open;
+   end;
 end;
 
 procedure TfrmEstimate.edttotalareaExit(Sender: TObject);
@@ -3024,12 +3232,23 @@ end;
 
 procedure TfrmEstimate.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-  sqlTerms.Close;
-  sqlProcess.Close;
-  sqlProcessItem.Close;
+  SQLPARCELAS.CLOSE;
+  SQLSERVICE.CLOSE;
+  SQLPROCESSITEM.CLOSE;
+  SQLHEADER.CLOSE;
+  SQLFOLLOWUP.CLOSE;
+  TBROOM.CLOSE;
+  SQLTERMS.CLOSE;
+  SQLAUX.CLOSE;
+  SQLWORKER.CLOSE;
+  sqlServicesItem.CLOSE;
+  SQLIMAGE.CLOSE;
+  SQLPROCESS.CLOSE;
+  SQLPAYMENTMETHOD.CLOSE;
+  TBCOMPANY.CLOSE;
+  STPPRICELIST.CLOSE;
 
-  if  Process <> Nil then
-   FreeAndNil(Process);
+  FreeAndNil(Process);
 
   if Contractor <> Nil then
     FreeAndNil(Contractor);
@@ -3171,6 +3390,8 @@ begin
  // 3 INVOICE
  lblShippingDate.Visible := True;
  cxDateShippingDate.Visible := True;
+ btnCart.Visible := False;
+ btnCart.Caption  := '0';
 
  if varTbIdentificador = 1 then
  begin
@@ -3219,6 +3440,10 @@ begin
   varNewKey := 0;
   varNewKeyItem := 0;
   ButCancelarClick(Self);
+
+  SetParametros(edtSupplier, TipoSupplier);
+
+  edtSupplier.bs_Filter := ' S.INDUSTRY = ''Service Supplier''';
 
   AtualizaGrade;
  {
@@ -3297,17 +3522,20 @@ begin
   SetParametros(edtCliente,  TipoCustomerCompany);
   varFiltroCompanyPadrao := edtCliente.bs_Filter;
 
+
   if Contractor.id_contractor <> 0 then
   begin
-    cxDateProcessValid.Date := Date + Contractor.Company.estimateDays;
 
-    if (( Contractor.Company.id_company = 0) or ( Contractor.Company.id_company  = null))  then
+    if (( Contractor.id_company = 0) or ( Contractor.id_company  = null))  then
       cxLookupComboBoxCompany.EditValue := -1
     else
     begin
-      cxLookupComboBoxCompany.EditValue := Contractor.Company.id_company;
+      cxLookupComboBoxCompany.EditValue := Contractor.id_company;
      // Process.Company.Search(cxLookupComboBoxCompany.EditValue);
     end;
+
+    TBCOMPANY.Locate('ID_COMPANY', Contractor.id_company, []);
+    cxDateProcessValid.Date := Date + TBCOMPANYESTIMATEDAYS.AsInteger;
 
    // SetParametros(edtCliente,  TipoCustomer);
     edtSalesRep.SetValue('ID_CONTRACTORS=' + QuotedStr(IntToStr(Contractor.id_contractor)));
@@ -3317,12 +3545,14 @@ begin
     STPPRICELIST.ParamByName( '@ID_CONTRACTOR' ).AsInteger := Contractor.id_contractor;
     STPPRICELIST.Open;
 
-   while not STPPRICELIST.Eof do
+    while not STPPRICELIST.Eof do
     begin
         if STPPRICELISTACTIVE.AsString = 'Y' then
            cxLookupComboBoxPrincing.EditValue := STPPRICELISTID_PRICELIST.AsInteger;
         STPPRICELIST.Next;
     end;
+
+
 
   end;
 
@@ -3359,6 +3589,70 @@ begin
  edtEmail.Text        := '';
  edtPhone.Text        := '';
  edtCustomerName.SetFocus;
+
+end;
+
+procedure TfrmEstimate.sqlCrewAfterEdit(DataSet: TDataSet);
+begin
+ sqlCrewUPD_DATE.AsDateTime := Date;
+ sqlCrewID_USER.AsInteger := DBDados.varID_USER;
+end;
+
+procedure TfrmEstimate.sqlCrewBeforePost(DataSet: TDataSet);
+begin
+  CalculaCrewSubTotal;
+  sqlCrewID_PROCESS.AsInteger := varNewKey;
+  sqlCrewTABLENAME.AsString   := TBHeader;
+  sqlCrewID_USER.AsInteger    := DBDados.varID_USER;
+  sqlCrewTOTAL.AsFloat        := varCrewTotal;
+end;
+
+procedure TfrmEstimate.sqlCrewCalcFields(DataSet: TDataSet);
+begin
+   sqlCrewSUBTOTAL.AsFloat := sqlCrewTOTALHOUR.AsFloat * sqlCrewAMOUNT.AsFloat;
+end;
+
+
+
+procedure TfrmEstimate.CalculaCrewSubTotal;
+var
+  AIndex      : Integer;
+  Value       : Variant;
+
+begin
+  varCrewTotal := 0;
+
+  with cxGrid5 do
+  begin
+       with cxGridDBTableViewCrew.DataController.Summary do
+       begin
+          AIndex :=  FooterSummaryItems.IndexOfItemLink(cxGridDBTableViewCrewSUBTOTAL);
+          Value :=  FooterSummaryValues[AIndex]
+       end;
+       if Value <> Null then
+         varCrewTotal  := Value;
+  end;
+end;
+
+
+procedure TfrmEstimate.sqlServiceBeforeDelete(DataSet: TDataSet);
+begin
+   sqlAux.Close;
+   sqlAux.SQL.Clear;
+   sqlAux.SQL.Add('Delete From TBSERVICE_CREW where Tablename = :Tablename and ID_Process = :ID_Process');
+   sqlAux.Params.ParamByName('Tablename').AsString   :=  TBHeader;
+   sqlAux.Params.ParamByName('ID_Process').AsInteger :=  Process.id_process;
+   Try
+       sqlAux.ExecSQL;
+   except
+       on E: EDatabaseError do
+         Mens_MensErro(E.ClassName+' error raised, with message : '+E.Message);
+   end;
+
+   sqlCrew.Close;
+   sqlCrew.Params.ParamByName('TABLENAME').AsString   := TBHeader;
+   sqlCrew.Params.ParamByName('ID_PROCESS').AsInteger := Process.id_process;
+   sqlCrew.Open;
 
 end;
 

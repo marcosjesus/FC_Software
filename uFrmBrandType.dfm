@@ -50,7 +50,6 @@ object FrmBrandType: TFrmBrandType
           Align = alClient
           TabOrder = 0
           RootLevelOptions.DetailTabsPosition = dtpTop
-          ExplicitTop = -2
           object cxGridDBTableViewType: TcxGridDBTableView
             Navigator.Buttons.ConfirmDelete = True
             Navigator.Buttons.CustomButtons = <>
@@ -344,8 +343,6 @@ object FrmBrandType: TFrmBrandType
       object cxTabSheet1: TcxTabSheet
         Caption = 'Services'
         ImageIndex = 4
-        ExplicitLeft = 3
-        ExplicitTop = 25
         object cxGrid3: TcxGrid
           Left = 0
           Top = 0
@@ -354,7 +351,6 @@ object FrmBrandType: TFrmBrandType
           Align = alClient
           TabOrder = 0
           RootLevelOptions.DetailTabsPosition = dtpTop
-          ExplicitTop = -2
           object cxGridDBTableView3: TcxGridDBTableView
             Navigator.Buttons.ConfirmDelete = True
             Navigator.Buttons.CustomButtons = <>
