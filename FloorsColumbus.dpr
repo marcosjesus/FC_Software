@@ -43,7 +43,10 @@ uses
   ufrmSampleCheckout in 'ufrmSampleCheckout.pas' {frmSampleCheckout},
   uFrmDebitors in 'uFrmDebitors.pas' {FrmDebitors},
   uClassContractor in 'uClassContractor.pas',
-  uFrmWorkOrder in 'uFrmWorkOrder.pas' {frmWorkOrder};
+  uFrmWorkOrder in 'uFrmWorkOrder.pas' {frmWorkOrder},
+  ufrmGrossProfit in 'ufrmGrossProfit.pas' {frmGrossProfit},
+  ufrmDashBoard in 'ufrmDashBoard.pas' {frmDashBoard},
+  ufrmRelDashBoard in 'ufrmRelDashBoard.pas' {frmRelDashBoard};
 
 {$R *.res}
 

@@ -208,8 +208,6 @@ object frmRequestOrder: TfrmRequestOrder
     TabOrder = 2
     Properties.ActivePage = cxTabSheetForm
     Properties.CustomButtons.Buttons = <>
-    ExplicitLeft = -8
-    ExplicitTop = -16
     ClientRectBottom = 459
     ClientRectLeft = 4
     ClientRectRight = 1025
@@ -239,8 +237,6 @@ object frmRequestOrder: TfrmRequestOrder
         Font.Style = []
         ParentFont = False
         TabOrder = 0
-        ExplicitTop = 304
-        ExplicitHeight = 130
         object cxGrid2DBTableView1: TcxGridDBTableView
           Navigator.Buttons.CustomButtons = <>
           Navigator.Buttons.Insert.Enabled = False
@@ -354,7 +350,6 @@ object frmRequestOrder: TfrmRequestOrder
         Font.Style = []
         ParentFont = False
         TabOrder = 1
-        ExplicitTop = -2
         object cxGridDBTableView1: TcxGridDBTableView
           Navigator.Buttons.CustomButtons = <>
           Navigator.Buttons.Insert.Visible = False
@@ -1079,8 +1074,8 @@ object frmRequestOrder: TfrmRequestOrder
       'INNER JOIN TBCOMPANY B ON A.ID_COMPANY = B.ID_COMPANY'
       'INNER JOIN TBCONTRACTORS C ON C.ID_CONTRACTORS = A.ID_CONTRACTOR'
       
-        'INNER JOIN TBPROCESS K ON K.ID_PROCESS = A.ID_PROCESS AND K.TABL' +
-        'ENAME = '#39'TBORDER'#39
+        'INNER JOIN TBPROCESS K ON K.ID_PROCESS = A.ID_PROCESS AND RTRIM(' +
+        'K.TABLENAME) = '#39'TBORDER'#39
       'INNER JOIN TBSUPPLIER E ON E.ID_SUPPLIER = A.ID_SUPPLIER'
       'INNER JOIN TBPRODUCT F ON F.ID_PRODUCT = A.ID_PRODUCT'
       'LEFT OUTER JOIN TBADDRESS G ON G.ID_SUPPLIER = E.ID_SUPPLIER'

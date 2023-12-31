@@ -73,7 +73,6 @@ type
     sqlGridID_SUPPLIER: TIntegerField;
     sqlGridID_EXPENSECATEGORY: TIntegerField;
     sqlGridID_USER: TIntegerField;
-    cxGrid2DBTableView1ID_PAYABLE: TcxGridDBColumn;
     cxGrid2DBTableView1INVOICE_ID: TcxGridDBColumn;
     cxGrid2DBTableView1INVOICE_DATE: TcxGridDBColumn;
     cxGrid2DBTableView1NAMEBUSINESS: TcxGridDBColumn;
@@ -154,6 +153,8 @@ type
     sqlGridID_BANK: TIntegerField;
     Label5: TLabel;
     edtAmount: TcxCurrencyEdit;
+    sqlGridNOTES: TMemoField;
+    cxGrid2DBTableView1NOTES: TcxGridDBColumn;
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -164,6 +165,7 @@ type
     procedure ButCancelarClick(Sender: TObject);
     procedure ButSairClick(Sender: TObject);
     procedure ButAlterarClick(Sender: TObject);
+    procedure ButExcluirClick(Sender: TObject);
   private
     { Private declarations }
     Finance : TFinance;
@@ -199,13 +201,13 @@ begin
    Finance.id_payable := sqlGridID_PAYABLE.AsInteger;
 
    cxLookupComboBoxCompany.EditValue := DBDados.varIDMAIN_COMPANY;
-   if sqlGridPAYMENT_STATUS.AsString = 'Open' Then
+   if sqlGridPAYMENT_STATUS.AsString = 'PENDING' Then
      rgStatus.ItemIndex := 0
-   else if sqlGridPAYMENT_STATUS.AsString = 'Paid' Then
+   else if sqlGridPAYMENT_STATUS.AsString = 'PAID' Then
      rgStatus.ItemIndex := 1
-   else if sqlGridPAYMENT_STATUS.AsString = 'Overdue' Then
+   else if sqlGridPAYMENT_STATUS.AsString = 'OVERDUE' Then
      rgStatus.ItemIndex := 2
-   else if sqlGridPAYMENT_STATUS.AsString = 'Void' Then
+   else if sqlGridPAYMENT_STATUS.AsString = 'VOID' Then
      rgStatus.ItemIndex := 3;
 
    sqlBank.Close;
@@ -226,6 +228,8 @@ begin
    cxLookupComboBoxPaymentMethod.EditValue := sqlGridID_PAYMENT_METHOD.AsInteger;
    cxPageControl.ActivePage          := cxTabSheetForm;
 
+
+
    StatusBar1.Panels[0].Text := 'User: ' + sqlGridDBUSER.AsString;
    StatusBar1.Panels[1].Text := 'Date created: ' + sqlGridADD_DATE.AsString;
    StatusBar1.Panels[2].Text := 'Date modified: ' + sqlGridUPD_DATE.AsString;
@@ -240,6 +244,34 @@ begin
   LimpaTela;
   FreeAndNil(Finance);
   cxPageControl.ActivePage := cxTabSheetList;
+end;
+
+procedure TFrmCreditors.ButExcluirClick(Sender: TObject);
+var
+  varPAYMENT_STATUS : String;
+begin
+ varPAYMENT_STATUS    :=  sqlGridPAYMENT_STATUS.AsString;
+
+
+ if UpperCase(varPAYMENT_STATUS) <> 'PENDING' then
+ begin
+    Mens_MensInf('The Document  has ' + UpperCase(varPAYMENT_STATUS)  + ' status. You can not Delete it.') ;
+    Exit;
+ end;
+
+ If Mens_MensConf('Delete Document Nrº ' + sqlGridDESCRIPTION.AsString    +  '? ') <> mrOk then
+    Exit;
+
+ if not Assigned(Finance) then
+ begin
+   Finance := TFinance.Create;
+   Finance.DeletePayable(sqlGridID_PAYABLE.AsInteger);
+   FreeAndNil(Finance);
+ end
+ else
+   Finance.DeletePayable(sqlGridID_PAYABLE.AsInteger);
+
+ SetupTable;
 end;
 
 procedure TFrmCreditors.ButNovoClick(Sender: TObject);
@@ -264,7 +296,7 @@ begin
  if ValidFields = False then Exit;
 
  Try
-    Finance.payment_status      := rgStatus.Properties.Items[rgStatus.ItemIndex].Caption;
+    Finance.payment_status      := UpperCase(rgStatus.Properties.Items[rgStatus.ItemIndex].Caption);
     Finance.id_expensecategory  := cxLookupComboBoxExpense.EditValue;
     Finance.id_company          := cxLookupComboBoxCompany.EditValue;
     Finance.id_supplier         := edtSupplier.bs_KeyValue;
@@ -275,6 +307,8 @@ begin
     Finance.payment_description := edtPaymentDesc.Text;
     Finance.id_payment_method   := cxLookupComboBoxPaymentMethod.EditValue;
     Finance.id_bank             := cxLookupComboBoxBank.EditValue;
+    Finance.date_paid           := InvoiceDateDue.Date;
+    Finance.amount_paid         := edtAmount.Value;
 
     if varOption = 'I' then
       Finance.SavePAYABLE
@@ -290,7 +324,8 @@ begin
 
  SetupTable;
  varOption := 'X';
-
+ sqlGrid.Close;
+ sqlGrid.Open;
  cxPageControl.ActivePage := cxTabSheetList;
 
 

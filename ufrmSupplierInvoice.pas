@@ -361,6 +361,14 @@ begin
     Exit;
   end;
 
+  if cxLookupComboBoxPaymentMethod.EditValue = Null then
+  begin
+    Mens_MensInf('The payment method field is required.') ;
+    cxLookupComboBoxPaymentMethod.SetFocus;
+    Exit;
+  end;
+
+
 
   varOptionItem := 'I';
   pnlTop.Enabled := False;
@@ -532,12 +540,42 @@ begin
 end;
 
 procedure TfrmSupplierInvoice.ButExcluirItemClick(Sender: TObject);
+var
+  varProcessName : String;
 begin
   if sqlItem.IsEmpty then
   begin
     Mens_MensInf('There is no Data to Delete.') ;
     Exit;
   end;
+
+  cmbStatus.ItemIndex     :=  cmbStatus.Properties.Items.IndexOf(cmbStatus.text);
+
+  varProcessName := 'Invoice Item  #: ' + sqlItemID_PRODUCT.AsString;
+
+  if cmbStatus.ItemIndex = 1 then
+  begin
+    Mens_MensInf(varProcessName + ' has ' + cmbStatus.Text + ' status. You can not Delete it.') ;
+    Exit;
+  end;
+
+  If Mens_MensConf('Delete ' + varProcessName +  '? ') <> mrOk then
+    Exit;
+
+
+  Item := TInvoiceItem.Create(Self);
+  Try
+    Item.id_sup_invoiceitem :=  sqlItemID_SUP_INVOICEITEM.AsInteger;
+    Item.id_sup_invoice     :=  sqlItemID_SUP_INVOICE.AsInteger;
+    Item.invoice_id         :=  sqlItemINVOICE_ID.AsString;
+    Item.id_supplier        :=  sqlItemID_SUPPLIER.AsInteger;
+    Item.id_product         :=  sqlItemID_PRODUCT.AsInteger;
+    Item.Delete;
+    AtualizaGradeItem;
+  Finally
+    FreeAndNil(Item);
+  End;
+
 
 end;
 
@@ -1208,11 +1246,11 @@ begin
 
     if sqlDados.FieldByName('Total').AsFloat > 0 then
      begin
-       if sqlDados.FieldByName('Total').AsFloat < Invoice.total then
+       if ((Round(sqlDados.FieldByName('Total').AsFloat*100)/100) < (Round(Invoice.Total*100)/100))    then
        begin
           bRetorno := False;
           Mens_MensInf('The Terms definition is incomplete.') ;
-   //       edtTotal.EditValue :=  Invoice.total  - sqlDados.FieldByName('Total').AsFloat;
+          edtTotal.EditValue :=  Invoice.total  - sqlDados.FieldByName('Total').AsFloat;
           edtDays.SetFocus;
        end;
      end;

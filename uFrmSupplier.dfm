@@ -37,7 +37,7 @@ object frmSupplier: TfrmSupplier
     Font.Style = []
     ParentFont = False
     TabOrder = 0
-    Properties.ActivePage = cxTabSheetForm
+    Properties.ActivePage = cxTabSheetList
     Properties.CustomButtons.Buttons = <>
     OnChange = cxPageControlChange
     ClientRectBottom = 555

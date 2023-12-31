@@ -81,6 +81,7 @@ type
      constructor Create(AOwner: TComponent); override;
      procedure Save;
      procedure Update;
+     procedure Delete;
      function SearchProductonSale : Boolean;
 
   end;
@@ -551,6 +552,47 @@ constructor TInvoiceItem.Create(AOwner: TComponent);
 begin
   inherited;
   Inicializar;
+end;
+
+procedure TInvoiceItem.Delete;
+var
+ sqlDados : TFDQuery;
+begin
+  with DBDados do
+  begin
+    sqlDados := TFDQuery.Create(Nil);
+    Try
+        sqlDados.Connection := FDConnection;
+        sqlDados.Close;
+
+
+        sqlDados.SQL.Clear;
+        sqlDados.SQL.Add('Delete From TBSUP_INVOICEITEM ');
+        sqlDados.SQL.Add(' Where  id_sup_invoiceitem = :id_sup_invoiceitem ');
+        sqlDados.SQL.Add(' and id_sup_invoice = :id_sup_invoice');
+        sqlDados.SQL.Add(' and invoice_id = :invoice_id ');
+        sqlDados.SQL.Add(' and id_supplier = :id_supplier ');
+        sqlDados.SQL.Add(' and id_product = :id_product ');
+        sqlDados.Params.ParamByName('id_sup_invoiceitem').AsInteger := id_sup_invoiceitem;
+        sqlDados.Params.ParamByName('id_sup_invoice').AsInteger     := id_sup_invoice;
+        sqlDados.Params.ParamByName('invoice_id').AsString          := invoice_id;
+        sqlDados.Params.ParamByName('id_supplier').AsInteger        := id_supplier;
+        sqlDados.Params.ParamByName('id_product').AsInteger         := id_product;
+
+        Try
+           sqlDados.ExecSQL;
+        except
+            on E: EDatabaseError do
+              Mens_MensErro(E.ClassName+' error raised, with message : '+E.Message);
+        end;
+
+    Finally
+      FreeAndNil(sqlDados);
+    End;
+  end;
+
+
+
 end;
 
 procedure TInvoiceItem.Inicializar;

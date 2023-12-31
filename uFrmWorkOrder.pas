@@ -3,6 +3,7 @@ unit uFrmWorkOrder;
 interface
 
 uses
+  MensFun,
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, cxGraphics, cxLookAndFeels,
   cxLookAndFeelPainters, Vcl.Menus, dxSkinsCore, dxSkinBlack, dxSkinBlue,
@@ -68,6 +69,7 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure ButSairClick(Sender: TObject);
     procedure rgStatusClick(Sender: TObject);
+    procedure sqlGridBeforePost(DataSet: TDataSet);
   private
     { Private declarations }
   public
@@ -119,6 +121,31 @@ begin
     cxGrid2.Enabled := False;
   end;
   sqlGrid.Open;
+
+end;
+
+procedure TfrmWorkOrder.sqlGridBeforePost(DataSet: TDataSet);
+var
+ sqlDados : TFDQuery;
+begin
+   sqlDados := TFDQuery.Create(Nil);
+   Try
+     sqlDados.Connection := DBDados.Connection;
+     sqlDados.Close;
+     sqlDados.SQL.Clear;
+     sqlDados.SQL.Add('Select STATUS from TBProcess where RTRIM(TableName) = :TABLENAME and ID_PROCESS = :ID_PROCESS');
+     sqlDados.Params.ParamByName('TABLENAME').AsString  := 'TBINVOICE';
+     sqlDados.Params.ParamByName('ID_PROCESS').AsInteger := sqlGridID_PROCESS.AsInteger;
+     sqlDados.Open;
+     if UpperCase(sqlDados.FieldByName('STATUS').AsString) = 'PENDING' then
+     begin
+        Mens_MensInf('The invoice is still pending status.');
+        sqlGrid.Cancel;
+     end;
+
+   Finally
+     FreeAndNil(sqlDados);
+   End;
 
 end;
 

@@ -34,7 +34,6 @@ uses
 
 type
   TFrmDebitors = class(TForm)
-    StatusBar1: TStatusBar;
     Panel27: TPanel;
     ButNovo: TcxButton;
     ButAlterar: TcxButton;
@@ -56,7 +55,6 @@ type
     sqlGridDATE_DUE: TDateField;
     sqlGridPAYMENT_AMOUNT: TBCDField;
     sqlGridPAYMENT_STATUS: TStringField;
-    sqlGridNOTES: TMemoField;
     sqlGridADD_DATE: TSQLTimeStampField;
     sqlGridUPD_DATE: TSQLTimeStampField;
     sqlGridID_USER: TIntegerField;
@@ -185,32 +183,30 @@ begin
    Finance := TFinance.Create;
    Finance.id_user    := DBDados.varID_USER;
    Finance.id_payable := sqlGridID_RECEIVABLE.AsInteger;
-   if sqlGridPAYMENT_STATUS.AsString = 'Open' Then
+   if sqlGridPAYMENT_STATUS.AsString = 'PENDING' Then
      rgStatus.ItemIndex := 0
-   else if sqlGridPAYMENT_STATUS.AsString = 'Paid' Then
+   else if sqlGridPAYMENT_STATUS.AsString = 'PAID' Then
      rgStatus.ItemIndex := 1
-   else if sqlGridPAYMENT_STATUS.AsString = 'Overdue' Then
+   else if sqlGridPAYMENT_STATUS.AsString = 'OVERDUE' Then
      rgStatus.ItemIndex := 2
-   else if sqlGridPAYMENT_STATUS.AsString = 'Void' Then
+   else if sqlGridPAYMENT_STATUS.AsString = 'VOID' Then
      rgStatus.ItemIndex := 3;
    cxLookupComboBoxCompany.EditValue := sqlGridID_COMPANY.AsInteger;
    edtCliente.SetValue('C.ID_CUSTOMER = ' + sqlGridID_CUSTOMER.AsString);
-   edtInvoice.Text := sqlGridINVOICE_ID.AsString;
-   InvoiceDate.Date := sqlGridINVOICE_DATE.AsDateTime;
+   edtInvoice.Text     := sqlGridINVOICE_ID.AsString;
+   InvoiceDate.Date    := sqlGridINVOICE_DATE.AsDateTime;
    InvoiceDateDue.Date := sqlGridDATE_DUE.AsDateTime;
-   edtAmount.Value := sqlGridPAYMENT_AMOUNT.AsFloat;
-   edtDatePay.Date := Now;
+   edtAmount.Value     := sqlGridPAYMENT_AMOUNT.AsFloat;
+   edtDatePay.Date     := Now;
    edtPaymentDesc.Text := sqlGridPAYMENT_DESCRIPTION.AsString;
    sqlBank.Close;
    sqlBank.Params.ParamByName('ID_COMPANY').AsInteger := sqlGridID_COMPANY.AsInteger;
    sqlBank.Open;
 
    cxLookupComboBoxPaymentMethod.EditValue := sqlGridID_PAYMENT_METHOD.AsInteger;
-   StatusBar1.Panels[0].Text := 'User: ' + sqlGridID_USER.AsString;
-   StatusBar1.Panels[1].Text := 'Date Created: ' + sqlGridADD_DATE.AsString;
-   StatusBar1.Panels[2].Text := 'Date Modified: ' + sqlGridUPD_DATE.AsString;
 
    DisabledFields(False);
+
 
    cxPageControl.ActivePage          := cxTabSheetForm;
 
@@ -240,50 +236,58 @@ begin
    if rgStatus.ItemIndex <> 0  then
    begin
 
-      if cxLookupComboBoxIncome.EditValue = Null then
+      if  rgStatus.ItemIndex <> 3  then
       begin
-        Mens_MensInf('The Income Category field is required.') ;
-        cxLookupComboBoxIncome.SetFocus;
-        Exit;
+          if cxLookupComboBoxIncome.EditValue = Null then
+          begin
+            Mens_MensInf('The Income Category field is required.') ;
+            cxLookupComboBoxIncome.SetFocus;
+            Exit;
+          end;
+
+          if edtDatePay.EditValue = Null then
+          begin
+            Mens_MensInf('The Payment Date field is required.') ;
+            edtDatePay.SetFocus;
+            Exit;
+          end;
+
+          if edtDatePay.Date < InvoiceDateDue.Date then
+          begin
+            Mens_MensInf('The Payment Date is invalid.') ;
+            edtDatePay.SetFocus;
+            Exit;
+          end;
+
+          if edtAmountPaid.Value = 0 then
+          begin
+            Mens_MensInf('The Payment Amount is required.') ;
+            edtDatePay.SetFocus;
+            Exit;
+          end;
+
+          if cxLookupComboBoxPaymentMethod.EditValue = Null then
+          begin
+            Mens_MensInf('The payment method field is required.') ;
+            cxLookupComboBoxPaymentMethod.SetFocus;
+            Exit;
+          end;
+
+
+          if cxLookupComboBoxBank.EditValue = Null then
+          begin
+            Mens_MensInf('The Bank Account field is required.') ;
+            cxLookupComboBoxBank.SetFocus;
+            Exit;
+          end;
       end;
 
-      if edtDatePay.EditValue = Null then
-      begin
-        Mens_MensInf('The Payment Date field is required.') ;
-        edtDatePay.SetFocus;
-        Exit;
-      end;
-
-      if edtDatePay.Date < InvoiceDateDue.Date then
-      begin
-        Mens_MensInf('The Payment Date is invalid.') ;
-        edtDatePay.SetFocus;
-        Exit;
-      end;
-
-      if edtAmountPaid.Value = 0 then
-      begin
-        Mens_MensInf('The Payment Amount is required.') ;
-        edtDatePay.SetFocus;
-        Exit;
-      end;
-
-      if cxLookupComboBoxPaymentMethod.EditValue = Null then
-      begin
-        Mens_MensInf('The payment method field is required.') ;
-        cxLookupComboBoxPaymentMethod.SetFocus;
-        Exit;
-      end;
+      if varOption = 'U' then
+        If Mens_MensConf('Confirm changing of invoice status Nº ' + Finance.invoice_id +  '? ') <> mrOk then
+          Exit;
 
 
-      if cxLookupComboBoxBank.EditValue = Null then
-      begin
-        Mens_MensInf('The Bank Account field is required.') ;
-        cxLookupComboBoxBank.SetFocus;
-        Exit;
-      end;
-
-      Finance.payment_status      := rgStatus.Properties.Items[rgStatus.ItemIndex].Caption;
+      Finance.payment_status      := UpperCase(rgStatus.Properties.Items[rgStatus.ItemIndex].Caption);
       Finance.id_expensecategory  := cxLookupComboBoxIncome.EditValue;
       Finance.id_company          := cxLookupComboBoxCompany.EditValue;
       Finance.id_customer         := edtCliente.bs_KeyValue;
@@ -301,14 +305,18 @@ begin
         Finance.SaveRECEIVABLE
       else if varOption = 'U' then
       begin
+         Finance.id_receivable := sqlGridID_RECEIVABLE.AsInteger;
          Finance.SearchReceivable(Finance.id_receivable);
          Finance.UpdateRECEIVABLE;
       end;
 
    end;
 
+   varOption := 'X';
    LimpaTela;
    DisabledFields(True);
+   sqlGrid.Close;
+   sqlGrid.Open;
    cxPageControl.ActivePage          := cxTabSheetList;
 end;
 
@@ -348,23 +356,40 @@ begin
   edtAmount.EditValue := 0;
   edtPaymentDesc.Text := '';
   cxLookupComboBoxIncome.ItemIndex := -1;
-  StatusBar1.Panels[0].Text := 'User';
-  StatusBar1.Panels[1].Text := 'Date created';
-  StatusBar1.Panels[2].Text := 'Date modified';
+  edtDatePay.Text := '';
+  edtAmountPaid.EditValue := 0;
+  cxLookupComboBoxPaymentMethod.EditValue := -1;
+  cxLookupComboBoxBank.EditValue := -1;
 
 end;
 
 procedure TFrmDebitors.SetupTable;
 begin
+
    sqlGrid.Close;
    sqlGrid.Open;
-   TBCOMPANY.Close;
-   TBCOMPANY.Open;
+
+
+  if sqlExpenseCategory.Active = False then
+  begin
+    sqlExpenseCategory.Close;
+    sqlExpenseCategory.Open;
+  end;
+
+  if sqlPaymentMethod.Active = False then
+  begin
    sqlPaymentMethod.Close;
    sqlPaymentMethod.Open;
-   sqlExpenseCategory.Close;
-   sqlExpenseCategory.Open;
+  end;
+
+  if TBCOMPANY.Active = False then
+  begin
+   TBCOMPANY.Close;
+   TBCOMPANY.Open;
+  end;
+
    SetParametros(edtCliente, TipoCustomerCompany);
+
 end;
 
 end.

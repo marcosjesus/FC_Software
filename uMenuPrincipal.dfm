@@ -1595,6 +1595,7 @@ object frmMenuPrincipal: TfrmMenuPrincipal
     TabOrder = 0
     TabStop = False
     object dxRibbonTabAdmin: TdxRibbonTab
+      Active = True
       Caption = 'Admin'
       Groups = <
         item
@@ -1640,11 +1641,12 @@ object frmMenuPrincipal: TfrmMenuPrincipal
       Index = 3
     end
     object dxRibbonTabFinance: TdxRibbonTab
-      Active = True
       Caption = 'Finance'
       Groups = <
         item
           ToolbarName = 'dxBarManagerBarFinance'
+        end
+        item
         end>
       Index = 4
     end
@@ -1905,8 +1907,17 @@ object frmMenuPrincipal: TfrmMenuPrincipal
       FloatTop = 8
       FloatClientWidth = 0
       FloatClientHeight = 0
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Segoe UI'
+      Font.Style = []
       Images = cxLargeImages
       ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxBarLargeButtonDashBoard'
+        end
         item
           Visible = True
           ItemName = 'dxBarLargeButtonCreditors'
@@ -1917,7 +1928,7 @@ object frmMenuPrincipal: TfrmMenuPrincipal
         end>
       OneOnRow = True
       Row = 0
-      UseOwnFont = False
+      UseOwnFont = True
       Visible = True
       WholeRow = False
     end
@@ -1950,9 +1961,9 @@ object frmMenuPrincipal: TfrmMenuPrincipal
       WholeRow = False
     end
     object dxBarLargeButtonLogin: TdxBarLargeButton
-      Caption = 'Login'
+      Caption = 'Log In'
       Category = 0
-      Hint = 'Login'
+      Hint = 'Log In'
       Visible = ivAlways
       LargeImageIndex = 56
       OnClick = dxBarLargeButtonLoginClick
@@ -2040,9 +2051,9 @@ object frmMenuPrincipal: TfrmMenuPrincipal
       OnClick = dxBarLargeButtonAccountClick
     end
     object dxBarLargeButtonLogout: TdxBarLargeButton
-      Caption = 'Logout'
+      Caption = 'Log Out'
       Category = 0
-      Hint = 'Logout'
+      Hint = 'Log Out'
       Visible = ivAlways
       LargeImageIndex = 10
       OnClick = dxBarLargeButton5Click
@@ -3094,6 +3105,21 @@ object frmMenuPrincipal: TfrmMenuPrincipal
         0001000000010000000200000002000000030000000300000003000000030000
         0003000000030000000200000001000000010000000000000000000000000000
         0000000000000000000000000000000000000000000000000000}
+      Width = 100
+    end
+    object dxBarButton1: TdxBarButton
+      Caption = 'New Button'
+      Category = 0
+      Hint = 'New Button'
+      Visible = ivAlways
+    end
+    object dxBarLargeButtonDashBoard: TdxBarLargeButton
+      Caption = 'DashBoard'
+      Category = 0
+      Hint = 'DashBoard'
+      Visible = ivAlways
+      LargeImageIndex = 44
+      OnClick = dxBarLargeButtonDashBoardClick
       Width = 100
     end
   end

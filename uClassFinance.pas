@@ -33,6 +33,7 @@ Type
        Fdate_paid           : TDatetime;
        Famount_paid         : Currency;
        Fid_bankstatement    : Integer;
+       FGroupx              : String;
 
     procedure SetFadd_date(const Value: TDateTime);
     procedure SetFdate_due(const Value: TDateTime);
@@ -57,6 +58,7 @@ Type
 
     procedure InsertBankStatement(Operation : String);
     procedure setFid_bankstatement(const Value: Integer);
+    procedure setFGroupx(const Value: String);
 
     public
      property  id_payable          : Integer     read Fid_payable          write setFid_payable;
@@ -81,6 +83,7 @@ Type
      property date_paid            : TDateTime   read Fdate_paid          write setFdate_paid;
      property amount_paid          : Currency    read Famount_paid        write setFamount_paid;
      property id_bankstatement     : Integer     read Fid_bankstatement   write setFid_bankstatement;
+     property groupx               : String      read FGroupx             write setFGroupx;
 
      Constructor Create;
      procedure SavePAYABLE;
@@ -88,6 +91,9 @@ Type
 
      procedure SaveRECEIVABLE;
      procedure UpdateRECEIVABLE;
+
+     procedure DeletePayable(varID_Payable : Integer);
+     procedure DeleteReceivable(varID_Receivable : Integer);
 
      procedure SearchPayable(varID_Payable : Integer);
      procedure SearchReceivable(varID_Receivable : Integer);
@@ -119,6 +125,62 @@ begin
    id_user             := 0;
    date_paid           := 0;
    amount_paid         := 0;
+   id_bankstatement    := 0;
+   groupx              := '';
+end;
+
+procedure TFinance.DeletePayable(varID_Payable: Integer);
+var
+ sqlAux : TFDQuery;
+begin
+   sqlAux := TFDQuery.Create(nil);
+   Try
+    sqlAux.Connection := DBDados.Connection;
+    SqlAux.Close;
+    SqlAux.SQL.Clear;
+    SqlAux.SQL.Add('DELETE  FROM TBPAYABLE ');
+    SqlAux.SQL.Add('where id_payable = :id_payable');
+    sqlAux.Params.ParamByName('id_payable').AsInteger :=  varID_payable;
+    TRY
+
+       SqlAux.ExecSQL;
+    except
+        on E: EDatabaseError do
+          Mens_MensErro(E.ClassName+' error raised, with message : '+E.Message);
+
+    end;
+
+   Finally
+     FreeAndNil(sqlAux);
+   End;
+
+end;
+
+procedure TFinance.DeleteReceivable(varID_Receivable: Integer);
+var
+ sqlAux : TFDQuery;
+begin
+   sqlAux := TFDQuery.Create(nil);
+   Try
+    sqlAux.Connection := DBDados.Connection;
+    SqlAux.Close;
+    SqlAux.SQL.Clear;
+    SqlAux.SQL.Add('DELETE  FROM TBRECEIVABLE ');
+    SqlAux.SQL.Add('where ID_RECEIVABLE = :ID_RECEIVABLE');
+    sqlAux.Params.ParamByName('ID_RECEIVABLE').AsInteger :=  varID_Receivable;
+    TRY
+
+       SqlAux.ExecSQL;
+    except
+        on E: EDatabaseError do
+          Mens_MensErro(E.ClassName+' error raised, with message : '+E.Message);
+
+    end;
+
+   Finally
+     FreeAndNil(sqlAux);
+   End;
+
 end;
 
 procedure TFinance.InsertBankStatement(Operation : String);
@@ -167,7 +229,7 @@ begin
           sqlAux.SQL.Clear;
           sqlAux.SQL.Add('Update TBPAYABLE');
           sqlAux.SQL.Add(' set ID_BANKSTATEMENT = ' + IntToStr(varID_BANKSTATEMENT));
-          sqlAux.SQL.Add('  ID_PAYABLE = :ID_PAYABLE' );
+          sqlAux.SQL.Add(' WHERE  ID_PAYABLE = :ID_PAYABLE' );
           sqlAux.Params.ParamByName('ID_PAYABLE').AsInteger :=  id_payable;
         end
         else
@@ -176,7 +238,7 @@ begin
           sqlAux.SQL.Clear;
           sqlAux.SQL.Add('Update TBRECEIVABLE');
           sqlAux.SQL.Add(' set ID_BANKSTATEMENT = ' + IntToStr(varID_BANKSTATEMENT));
-          sqlAux.SQL.Add('  ID_RECEIVABLE = :ID_RECEIVABLE' );
+          sqlAux.SQL.Add(' WHERE  ID_RECEIVABLE = :ID_RECEIVABLE' );
           sqlAux.Params.ParamByName('ID_RECEIVABLE').AsInteger :=  id_receivable;
         end;
 
@@ -380,11 +442,12 @@ begin
     sqlAux.Connection := DBDados.Connection;
     SqlAux.Close;
     SqlAux.SQL.Clear;
-    SqlAux.SQL.Add('SELECT ID_BANKSTATEMENT FROM TBRECEIVABLE ');
+    SqlAux.SQL.Add('SELECT ID_BANKSTATEMENT, GROUPX FROM TBRECEIVABLE ');
     SqlAux.SQL.Add('where id_receivable = :id_receivable');
     sqlAux.Params.ParamByName('id_receivable').AsInteger :=  varID_Receivable;
     sqlAux.Open;
     id_bankstatement := sqlAux.FieldByName('ID_BANKSTATEMENT').AsInteger;
+    groupx           := sqlAux.FieldByName('GROUPX').AsString;
    Finally
      FreeAndNil(sqlAux);
    End;
@@ -408,6 +471,11 @@ end;
 procedure TFinance.setFdate_paid(const Value: TDateTime);
 begin
   Fdate_paid := Value;
+end;
+
+procedure TFinance.setFGroupx(const Value: String);
+begin
+  FGroupx := Value;
 end;
 
 procedure TFinance.setFid_bank(const Value: Integer);
@@ -542,25 +610,31 @@ begin
     Try
        SqlAux.ExecSQL;
 
-       sqlAux.Close;
-       sqlAux.SQL.Clear;
-       sqlAux.SQL.Add('Update TBBANKSTATEMENT');
-       sqlAux.SQL.Add(' Set  ID_BANK = :ID_BANK ');
-       sqlAux.SQL.Add(',DESCRIPTION = :DESCRIPTION ');
-       sqlAux.SQL.Add(',DT_DEPOSIT = :DT_DEPOSIT ');
-       sqlAux.SQL.Add(',AMOUNT = :AMOUNT ');
-       sqlAux.SQL.Add(',UPD_DATE = :UPD_DATE ');
-       sqlAux.SQL.Add(',ID_USER = :ID_USER');
-       sqlAux.SQL.Add(' WHERE ID_BANKSTATEMENT = :ID_BANKSTATEMENT');
-       sqlAux.Params.ParamByName('ID_BANKSTATEMENT').AsInteger := id_bankstatement;
-       sqlAux.Params.ParamByName('ID_BANK').AsInteger    := id_bank;
-       sqlAux.Params.ParamByName('DESCRIPTION').AsString := payment_description;
-       sqlAux.Params.ParamByName('DT_DEPOSIT').AsString  := FormatDateTime('mm/dd/yyyy hh:mm:ss', date_paid);
-       sqlAux.Params.ParamByName('AMOUNT').AsFloat       := amount_paid * -1;
-       sqlAux.Params.ParamByName('ID_USER').AsInteger    := id_user;
+       if id_bankstatement = 0 then
+         InsertBankStatement('NEGATIVE')
+       else
+       begin
 
-       SqlAux.ExecSQL;
+           sqlAux.Close;
+           sqlAux.SQL.Clear;
+           sqlAux.SQL.Add('Update TBBANKSTATEMENT');
+           sqlAux.SQL.Add(' Set  ID_BANK = :ID_BANK ');
+           sqlAux.SQL.Add(',DESCRIPTION = :DESCRIPTION ');
+           sqlAux.SQL.Add(',DT_DEPOSIT = :DT_DEPOSIT ');
+           sqlAux.SQL.Add(',AMOUNT = :AMOUNT ');
+           sqlAux.SQL.Add(',UPD_DATE = :UPD_DATE ');
+           sqlAux.SQL.Add(',ID_USER = :ID_USER');
+           sqlAux.SQL.Add(' WHERE ID_BANKSTATEMENT = :ID_BANKSTATEMENT');
+           sqlAux.Params.ParamByName('ID_BANKSTATEMENT').AsInteger := id_bankstatement;
+           sqlAux.Params.ParamByName('ID_BANK').AsInteger    := id_bank;
+           sqlAux.Params.ParamByName('DESCRIPTION').AsString := payment_description;
+           sqlAux.Params.ParamByName('DT_DEPOSIT').AsString  := FormatDateTime('mm/dd/yyyy hh:mm:ss', date_paid);
+           sqlAux.Params.ParamByName('AMOUNT').AsFloat       := amount_paid * -1;
+           SqlAux.Params.ParamByName('UPD_DATE').AsString    := FormatDateTime('mm/dd/yyyy hh:mm:ss', now);
+           sqlAux.Params.ParamByName('ID_USER').AsInteger    := id_user;
 
+           SqlAux.ExecSQL;
+       end;
     except
         on E: EDatabaseError do
           Mens_MensErro(E.ClassName+' error raised, with message : '+E.Message);
@@ -582,7 +656,7 @@ begin
     sqlAux.Connection := DBDados.Connection;
     SqlAux.Close;
     SqlAux.SQL.Clear;
-    SqlAux.SQL.Add('UPDATE RECEIVABLE ');
+    SqlAux.SQL.Add('UPDATE TBRECEIVABLE ');
     SqlAux.SQL.Add(' SET INVOICE_ID = :INVOICE_ID');
     SqlAux.SQL.Add(',ID_COMPANY = :ID_COMPANY');
     SqlAux.SQL.Add(',INVOICE_DATE = :INVOICE_DATE');
@@ -598,6 +672,7 @@ begin
     SqlAux.SQL.Add(',ID_TERM = :ID_TERM');
     SqlAux.SQL.Add(',UPD_DATE = :UPD_DATE ');
     SqlAux.SQL.Add(',ID_USER = :ID_USER');
+    SqlAux.SQL.Add(',GROUPX = :GROUPX');
     SqlAux.SQL.Add(' WHERE ID_RECEIVABLE = :ID_RECEIVABLE');
 
     SqlAux.Params.ParamByName('ID_RECEIVABLE').AsInteger       := id_receivable;
@@ -616,29 +691,49 @@ begin
     SqlAux.Params.ParamByName('ID_TERM').AsInteger             := 0;
     SqlAux.Params.ParamByName('UPD_DATE').AsString             := FormatDateTime('mm/dd/yyyy hh:mm:ss', now);
     SqlAux.Params.ParamByName('ID_USER').AsInteger             := id_user;
+    SqlAux.Params.ParamByName('GROUPX').AsString               := groupx;
+
 
     Try
        SqlAux.ExecSQL;
 
        sqlAux.Close;
        sqlAux.SQL.Clear;
-       sqlAux.SQL.Add('Update TBBANKSTATEMENT');
-       sqlAux.SQL.Add(' Set  ID_BANK = :ID_BANK ');
-       sqlAux.SQL.Add(',DESCRIPTION = :DESCRIPTION ');
-       sqlAux.SQL.Add(',DT_DEPOSIT = :DT_DEPOSIT ');
-       sqlAux.SQL.Add(',AMOUNT = :AMOUNT ');
-       sqlAux.SQL.Add(',UPD_DATE = :UPD_DATE ');
-       sqlAux.SQL.Add(',ID_USER = :ID_USER');
-       sqlAux.SQL.Add(' WHERE ID_BANKSTATEMENT = :ID_BANKSTATEMENT');
-       sqlAux.Params.ParamByName('ID_BANKSTATEMENT').AsInteger := id_bankstatement;
-       sqlAux.Params.ParamByName('ID_BANK').AsInteger    := id_bank;
-       sqlAux.Params.ParamByName('DESCRIPTION').AsString := payment_description;
-       sqlAux.Params.ParamByName('DT_DEPOSIT').AsString  := FormatDateTime('mm/dd/yyyy hh:mm:ss', date_paid);
-       sqlAux.Params.ParamByName('AMOUNT').AsFloat       := amount_paid;
-       sqlAux.Params.ParamByName('ID_USER').AsInteger    := id_user;
-
+       sqlAux.SQL.Add('Update TBTERMS' );
+       sqlAux.SQL.Add(' SET DESCRIPTION = DESCRIPTION + '' PAID'' ');
+       sqlAux.SQL.Add(' WHERE TABLENAME = ''TBINVOICE'' AND GROUPX = :GROUPX  AND ID_PROCESS = :ID_PROCESS');
+       sqlAux.Params.ParamByName('ID_PROCESS').AsInteger := StrToInt(invoice_id);
+       sqlAux.Params.ParamByName('GROUPX').AsString      := groupx;
        SqlAux.ExecSQL;
 
+       if id_bankstatement = 0 then
+         InsertBankStatement('POSITIVE')
+       else
+       begin
+           if id_bankstatement <> 0 then
+           begin
+           sqlAux.Close;
+             sqlAux.SQL.Clear;
+             sqlAux.SQL.Add('Update TBBANKSTATEMENT');
+             sqlAux.SQL.Add(' Set  ID_BANK = :ID_BANK ');
+             sqlAux.SQL.Add(',DESCRIPTION = :DESCRIPTION ');
+             sqlAux.SQL.Add(',DT_DEPOSIT = :DT_DEPOSIT ');
+             sqlAux.SQL.Add(',AMOUNT = :AMOUNT ');
+             sqlAux.SQL.Add(',UPD_DATE = :UPD_DATE ');
+             sqlAux.SQL.Add(',ID_USER = :ID_USER');
+             sqlAux.SQL.Add(' WHERE ID_BANKSTATEMENT = :ID_BANKSTATEMENT');
+             sqlAux.Params.ParamByName('ID_BANKSTATEMENT').AsInteger := id_bankstatement;
+             sqlAux.Params.ParamByName('ID_BANK').AsInteger    := id_bank;
+             sqlAux.Params.ParamByName('DESCRIPTION').AsString := payment_description;
+             sqlAux.Params.ParamByName('DT_DEPOSIT').AsString  := FormatDateTime('mm/dd/yyyy hh:mm:ss', date_paid);
+             sqlAux.Params.ParamByName('AMOUNT').AsFloat       := amount_paid;
+             SqlAux.Params.ParamByName('UPD_DATE').AsString    := FormatDateTime('mm/dd/yyyy hh:mm:ss', now);
+             sqlAux.Params.ParamByName('ID_USER').AsInteger    := id_user;
+
+             SqlAux.ExecSQL;
+           end;
+
+       end;
 
     except
         on E: EDatabaseError do

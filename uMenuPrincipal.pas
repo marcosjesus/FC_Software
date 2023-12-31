@@ -86,6 +86,8 @@ type
     dxBarLargeButtonSupplierInvoice: TdxBarLargeButton;
     dxBarLargeButtonSample: TdxBarLargeButton;
     dxBarLargeButtonWorkOrder: TdxBarLargeButton;
+    dxBarButton1: TdxBarButton;
+    dxBarLargeButtonDashBoard: TdxBarLargeButton;
     procedure dxBarLargeButtonSIOPRelatoriosFaturamentoPedidoClick(
       Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
@@ -123,6 +125,7 @@ type
     procedure dxBarLargeButtonSampleClick(Sender: TObject);
     procedure dxBarLargeButtonDebitorsClick(Sender: TObject);
     procedure dxBarLargeButtonWorkOrderClick(Sender: TObject);
+    procedure dxBarLargeButtonDashBoardClick(Sender: TObject);
   private
     { Private declarations }
     procedure System_Acess;
@@ -144,7 +147,8 @@ uses AsyncCalls, uDMConectDB, uFrmLogin, MensFun, ufrmAccount, uFrmSupplier, uFr
   uFrmCompany, uFrmProduct, uFrmCreditors, ufrmPosition, uFrmVendorsContractors,
   uFrmPriceTable, ufrmBrandType, ufrmEstimate, ufrmCreateAccount,
   ufrmAccessControl, ufrmInventory, ufrmCustomerLP, ufrmRequestOrder,
-  ufrmSupplierInvoice, ufrmSampleCheckout, uFrmDebitors, uFrmWorkOrder;
+  ufrmSupplierInvoice, ufrmSampleCheckout, uFrmDebitors, uFrmWorkOrder,
+  ufrmDashBoard;
 
 procedure TfrmMenuPrincipal.dxBarLargeButtonCreditorsClick(Sender: TObject);
 
@@ -215,6 +219,21 @@ begin
     FrmCustomerLP.Visible := True;
     FrmCustomerLP.BringToFront;
     FrmCustomerLP.Update;
+end;
+
+procedure TfrmMenuPrincipal.dxBarLargeButtonDashBoardClick(Sender: TObject);
+begin
+  if DBDados.varLogado = False  then Exit;
+
+  if not Assigned(FrmDashBoard) then
+    FrmDashBoard := TFrmDashBoard.Create(Self);
+    FrmDashBoard.Show;
+
+    FrmDashBoard.Visible := True;
+    FrmDashBoard.BringToFront;
+    FrmDashBoard.Update;
+
+   // LocalAsyncVclCall( @SetuTable );
 end;
 
 procedure TfrmMenuPrincipal.dxBarLargeButtonDebitorsClick(Sender: TObject);
@@ -838,7 +857,7 @@ begin
                   menu0 := dxRibbon.Tabs[I].Groups[X].ToolBar.ItemLinks[Y].Item.Caption;
 
 
-                  // doSaveLog('C:\Temp\', 'insert into TBMENU ( DESCRIPTION, Menus, Groups, Screens ) values ( ''' + menu4 + '->' + menu0 +  ''',''' + menu + ''',''' + menu1 + ''',''' + menu2 + ''')');
+                  //doSaveLog('C:\Temp\', 'insert into TBMENU ( DESCRIPTION, Menus, Groups, Screens ) values ( ''' + menu4 + '->' + menu0 +  ''',''' + menu + ''',''' + menu1 + ''',''' + menu2 + ''')');
                 end;
           end;
        end;

@@ -358,7 +358,7 @@ begin
 
         sqlDados.Close;
         sqlDados.SQL.Clear;
-        sqlDados.SQL.Add('Delete From TBPROCESS Where TableName = :tablename and id_process = :id_process');
+        sqlDados.SQL.Add('Delete From TBPROCESS Where RTRIM(TableName) = :tablename and id_process = :id_process');
         sqlDados.Params.ParamByName('tablename').AsString   := tablename;
         sqlDados.Params.ParamByName('id_process').AsInteger := id_process;
         Try
@@ -577,7 +577,7 @@ begin
         sqlDados.SQL.Add(' dt_shipping, customer_name, customer_phone, customer_email, address1, ');
         sqlDados.SQL.Add(' zipcode, st, city, county, ponumber, comments, subtotal, percent_discount,');
         sqlDados.SQL.Add(' discount, tax, shipping, total, id_origen, status, id_user, add_date, upd_date, id_payment_method');
-        sqlDados.SQL.Add('From TBPROCESS With (NOLOCK) Where id_process = :id_process and tablename = :tablename');
+        sqlDados.SQL.Add('From TBPROCESS With (NOLOCK) Where id_process = :id_process and RTRIM(TableName) = :tablename');
         sqlDados.Params.ParamByName('tablename').AsString   := varTableName;
         sqlDados.Params.ParamByName('id_process').AsInteger := varID_Process;
         sqlDados.Open;
@@ -1049,7 +1049,7 @@ begin
         sqlDados.SQL.Add('SELECT ISNULL(SUM(I.TOTALAREA),0) AS SQUAREFEET ');
         sqlDados.SQL.Add('FROM TBPROCESS_ITEM I With (NOLOCK)  ');
 
-        sqlDados.SQL.Add('INNER JOIN TBPROCESS H ON H.ID_PROCESS = I.ID_PROCESS AND H.TABLENAME = :TABLEHEADER ');
+        sqlDados.SQL.Add('INNER JOIN TBPROCESS H ON H.ID_PROCESS = I.ID_PROCESS AND RTRIM(H.TableName) = :TABLEHEADER ');
 
         sqlDados.SQL.Add('WHERE I.TABLENAME  = :TABLEITEM ');
         sqlDados.SQL.Add('AND   I.ID_PRODUCT = :ID_PRODUCT ');

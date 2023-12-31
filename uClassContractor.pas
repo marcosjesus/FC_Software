@@ -82,7 +82,7 @@ begin
            id_company    := sqlDados.FieldList.Fields[6].AsInteger;
 
            Supplier.id_supplier :=  sqlDados.FieldList.Fields[0].AsInteger; //sqlDados.FieldByName('ID_COMPANY').AsInteger;
-           Supplier.SearchSupplier(sqlDados.FieldList.Fields[0].AsInteger);
+           //Supplier.SearchSupplier(sqlDados.FieldList.Fields[0].AsInteger);
         end;
 
        Finally

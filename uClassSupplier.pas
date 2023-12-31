@@ -185,7 +185,7 @@ begin
        sqlDados.Connection := FDConnection;
        Try
         sqlDados.SQL.Clear;
-        sqlDados.SQL.Add('Select * From TBSUPPLIER Where id_supplier = :id_supplier');
+        sqlDados.SQL.Add('Select ID_SUPPLIER, ADD_DATE, UPD_DATE, namebusiness, tradiningname, industry, product_service, website, additioninfo, id_user From TBSUPPLIER Where id_supplier = :id_supplier');
         sqlDados.Params.ParamByName('id_supplier').AsInteger := varID_Supplier;
         sqlDados.Open;
         if not sqlDados.IsEmpty  then

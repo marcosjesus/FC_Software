@@ -33,7 +33,7 @@ object FrmCreditors: TFrmCreditors
     Font.Style = []
     ParentFont = False
     TabOrder = 0
-    Properties.ActivePage = cxTabSheetList
+    Properties.ActivePage = cxTabSheetForm
     Properties.CustomButtons.Buttons = <>
     OnChange = cxPageControlChange
     ClientRectBottom = 437
@@ -96,10 +96,11 @@ object FrmCreditors: TFrmCreditors
           OptionsData.Inserting = False
           OptionsView.Footer = True
           OptionsView.Indicator = True
-          object cxGrid2DBTableView1ID_PAYABLE: TcxGridDBColumn
-            Caption = 'ID'
-            DataBinding.FieldName = 'ID_PAYABLE'
-            Width = 100
+          object cxGrid2DBTableView1INVOICE_ID: TcxGridDBColumn
+            AlternateCaption = 'j'
+            Caption = 'Document'
+            DataBinding.FieldName = 'INVOICE_ID'
+            Width = 67
           end
           object cxGrid2DBTableView1INTERNALCOD: TcxGridDBColumn
             Caption = 'Account Plan'
@@ -109,18 +110,22 @@ object FrmCreditors: TFrmCreditors
           object cxGrid2DBTableView1EXPENSECATEGORY: TcxGridDBColumn
             Caption = 'Expense Category'
             DataBinding.FieldName = 'EXPENSECATEGORY'
-            Width = 144
+            Width = 173
           end
           object cxGrid2DBTableView1NAMEBUSINESS: TcxGridDBColumn
             Caption = 'Manufactorer'
             DataBinding.FieldName = 'NAMEBUSINESS'
-            Width = 112
+            Width = 165
           end
-          object cxGrid2DBTableView1INVOICE_ID: TcxGridDBColumn
-            AlternateCaption = 'j'
-            Caption = 'Document'
-            DataBinding.FieldName = 'INVOICE_ID'
-            Width = 100
+          object cxGrid2DBTableView1DESCRIPTION: TcxGridDBColumn
+            Caption = 'Description'
+            DataBinding.FieldName = 'DESCRIPTION'
+            Width = 185
+          end
+          object cxGrid2DBTableView1NOTES: TcxGridDBColumn
+            Caption = 'Note'
+            DataBinding.FieldName = 'NOTES'
+            Width = 138
           end
           object cxGrid2DBTableView1INVOICE_DATE: TcxGridDBColumn
             Caption = 'Invoce Date'
@@ -145,11 +150,6 @@ object FrmCreditors: TFrmCreditors
           object cxGrid2DBTableView1METHOD: TcxGridDBColumn
             Caption = 'Payment Method'
             DataBinding.FieldName = 'METHOD'
-            Width = 100
-          end
-          object cxGrid2DBTableView1DESCRIPTION: TcxGridDBColumn
-            Caption = 'Description'
-            DataBinding.FieldName = 'DESCRIPTION'
             Width = 100
           end
           object cxGrid2DBTableView1DBUSER: TcxGridDBColumn
@@ -738,12 +738,12 @@ object FrmCreditors: TFrmCreditors
       end
       object rgStatus: TcxRadioGroup
         Left = 0
-        Top = 28
+        Top = 31
         Caption = 'Status'
         Properties.Columns = 4
         Properties.Items = <
           item
-            Caption = 'Open'
+            Caption = 'Pending'
             Value = '1'
           end
           item
@@ -1099,6 +1099,7 @@ object FrmCreditors: TFrmCreditors
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
+      OnClick = ButExcluirClick
     end
     object ButSair: TcxButton
       Left = 142
@@ -1430,6 +1431,7 @@ object FrmCreditors: TFrmCreditors
       '   ,P.ADD_DATE'
       '   ,P.UPD_DATE'
       '   ,p.ID_BANK'
+      '   ,P.NOTES'
       ''
       'FROM  TBPAYABLE P'
       'LEFT OUTER JOIN TBSUPPLIER S ON S.ID_SUPPLIER = P.ID_SUPPLIER'
@@ -1558,6 +1560,12 @@ object FrmCreditors: TFrmCreditors
     object sqlGridID_BANK: TIntegerField
       FieldName = 'ID_BANK'
       Origin = 'ID_BANK'
+    end
+    object sqlGridNOTES: TMemoField
+      FieldName = 'NOTES'
+      Origin = 'NOTES'
+      BlobType = ftMemo
+      Size = 2147483647
     end
   end
   object sqlExpenseCategory: TFDQuery

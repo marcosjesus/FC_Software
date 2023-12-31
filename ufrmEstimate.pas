@@ -36,7 +36,7 @@ uses
   FireDAC.Comp.Client, cxCurrencyEdit, Vcl.Mask, RLReport, RLPDFFilter,
   RLFilters, RLHTMLFilter, RLPreviewForm, cxCheckListBox, cxDBCheckListBox,
   Vcl.CheckLst, Vcl.Samples.Spin, Vcl.DBCtrls, Vcl.ExtDlgs, cxButtonEdit,
-  Vcl.ImgList, cxEditRepositoryItems, cxSpinEdit, cxSplitter;
+  Vcl.ImgList, cxEditRepositoryItems, cxSpinEdit, cxSplitter, dximctrl;
 
 
 
@@ -122,7 +122,6 @@ type
     sqlProcessADD_DATE: TSQLTimeStampField;
     sqlProcessUPD_DATE: TSQLTimeStampField;
     TBRoom: TFDTable;
-    DsRoom: TDataSource;
     TBRoomID_MISCELLANEOUS: TFDAutoIncField;
     TBRoomVALUE: TStringField;
     TBRoomDESCRIPTION: TStringField;
@@ -242,18 +241,12 @@ type
     Panel6: TPanel;
     Panel7: TPanel;
     cxDateShippingDate: TcxDateEdit;
-    pnlBtnLateral: TPanel;
-    ButNovoItem: TcxButton;
-    ButAlterarItem: TcxButton;
-    ButExcluirItem: TcxButton;
-    ButSalvarItem: TcxButton;
-    ButCAncelarItem: TcxButton;
     Page: TcxPageControl;
     cxTabSheetGrade: TcxTabSheet;
     cxGrid1: TcxGrid;
     cxGrid1DBTableViewItem: TcxGridDBTableView;
     cxGrid1Level1: TcxGridLevel;
-    Panel3: TPanel;
+    pnlBottom: TPanel;
     Label21: TLabel;
     Label22: TLabel;
     Label23: TLabel;
@@ -383,7 +376,7 @@ type
     sqlWorkerNAME: TStringField;
     sqlWorkerPHONE: TStringField;
     sqlWorkerEMAIL: TStringField;
-    Panel10: TPanel;
+    pnlServiceTop: TPanel;
     Panel9: TPanel;
     Label50: TLabel;
     Label51: TLabel;
@@ -417,7 +410,7 @@ type
     cxEditRepository1ButtonImprimir: TcxEditRepositoryButtonItem;
     cxEditRepository1ButtonEmail: TcxEditRepositoryButtonItem;
     cxSmallImages: TcxImageList;
-    cxGridPosition: TcxGrid;
+    cxGridTasks: TcxGrid;
     cxTableViewPosition: TcxGridDBTableView;
     cxTableViewPositionFollowUP: TcxGridDBColumn;
     cxGridLevelPosition: TcxGridLevel;
@@ -445,7 +438,6 @@ type
     sqlHeaderSERVICE_DT_SERVICE: TSQLTimeStampField;
     sqlHeaderSERVICE_SIDEMARK: TStringField;
     sqlHeaderSERVICE_START_DATE: TSQLTimeStampField;
-    sqlHeaderINSTALLER_NAME: TStringField;
     sqlFollowup: TFDQuery;
     sqlFollowupCOMMENTS: TMemoField;
     sqlFollowupADD_DATE: TSQLTimeStampField;
@@ -458,8 +450,6 @@ type
     cxGridDBTableViewServiceItem: TcxGridDBTableView;
     cxGridLevel1: TcxGridLevel;
     ImageList1: TImageList;
-    Shape1: TShape;
-    btnLoadService: TcxButton;
     sqlServicesItem: TFDQuery;
     dsServicesItem: TDataSource;
     sqlServicesItemID_SERVICE_ITEM: TIntegerField;
@@ -662,6 +652,26 @@ type
     sqlCrewNAME: TStringField;
     RLLabel8: TRLLabel;
     RLDBText3: TRLDBText;
+    Panel13: TPanel;
+    pnlBtnLateral: TPanel;
+    Shape1: TShape;
+    ButNovoItem: TcxButton;
+    ButAlterarItem: TcxButton;
+    ButExcluirItem: TcxButton;
+    ButSalvarItem: TcxButton;
+    ButCAncelarItem: TcxButton;
+    btnLoadService: TcxButton;
+    btnGrossProfit: TcxButton;
+    sqlProcessPURCHASE_ORDER: TIntegerField;
+    cxStyleRepository1: TcxStyleRepository;
+    cxStylePending: TcxStyle;
+    cxStyleAprovado: TcxStyle;
+    cxGrid2DBTableView1PURCHASE_ORDER: TcxGridDBColumn;
+    sqlProcessPAYMENT_STATUS: TStringField;
+    cxGrid2DBTableView1PAYMENT_STATUS: TcxGridDBColumn;
+    cxStyleStatusPaid: TcxStyle;
+    cxStyleStatusPending: TcxStyle;
+    dxImageListBox1: TdxImageListBox;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure spbCleanCustomerClick(Sender: TObject);
@@ -727,6 +737,14 @@ type
     procedure sqlCrewCalcFields(DataSet: TDataSet);
     procedure RLBand10BeforePrint(Sender: TObject; var PrintIt: Boolean);
     procedure sqlServiceBeforeDelete(DataSet: TDataSet);
+    procedure btnGrossProfitClick(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
+    procedure cxGrid2DBTableView1StylesGetContentStyle(
+      Sender: TcxCustomGridTableView; ARecord: TcxCustomGridRecord;
+      AItem: TcxCustomGridTableItem; var AStyle: TcxStyle);
+    procedure cxGrid1DBTableViewItemStylesGetContentStyle(
+      Sender: TcxCustomGridTableView; ARecord: TcxCustomGridRecord;
+      AItem: TcxCustomGridTableItem; var AStyle: TcxStyle);
   private
     { Private declarations }
 
@@ -784,6 +802,7 @@ type
     procedure ShowDocumentCreated;
     procedure CalculaCrewSubTotal;
     function ValidToPrint: Boolean;
+    procedure UnfrezzeScreen;
 
   public
     { Public declarations }
@@ -799,7 +818,7 @@ implementation
 {$R *.dfm}
 
 uses SetParametro, MensFun, uDMConectDB, ufrmRelEstimate, ufrmInventory,
-  ufrmFollowUP, uSetupFolder, ufrmLabor, AsyncCalls;
+  ufrmFollowUP, uSetupFolder, ufrmLabor, AsyncCalls, ufrmGrossProfit;
 
 Const
 
@@ -933,14 +952,8 @@ end;
 
 procedure TfrmEstimate.ButCancelarClick(Sender: TObject);
 begin
-   LimpaEdits;
-
-   pnlTop.Enabled        := True;
-   pnlTerms.Enabled      := True;
-   pnlBtnLateral.Enabled := True;
-   cmbStatus.Enabled     := True;
-
-   sqlProcessItem.Close;
+  LimpaEdits;
+  sqlProcessItem.Close;
 
   if Process <> Nil then
      FreeAndNil(Process);
@@ -955,6 +968,7 @@ begin
   ButItensOnOff('TTTFFTTT');
   ButProcessOff('TTT');
 
+  UnfrezzeScreen;
   Page.ActivePage := cxTabSheetGrade;
   cxPageEstimate.ActivePage := cxTabEstimateList;
 
@@ -997,15 +1011,24 @@ begin
  If Mens_MensConf('Delete ' + varProcessName +  '? ') <> mrOk then
     Exit;
 
-  Process := TSalesProcess.Create(Self);
-  Try
+  if not Assigned(Process) then
+  begin
+    Process := TSalesProcess.Create(Self);
+    Try
+      Process.Search(TBHeader, sqlProcessID_PROCESS.AsInteger);
+      Process.Delete;
+    Finally
+      FreeAndNil(Process);
+    End;
+
+  end
+  else
+  begin
     Process.Search(TBHeader, sqlProcessID_PROCESS.AsInteger);
     Process.Delete;
-    AtualizaGrade;
-  Finally
-    FreeAndNil(Process);
-  End;
-
+  end;
+  cxPageEstimate.ActivePage := cxTabEstimateList;
+  AtualizaGrade;
 
 end;
 
@@ -1013,7 +1036,7 @@ procedure TfrmEstimate.ButExcluirItemClick(Sender: TObject);
 var
   varProcessName : String;
 begin
-  if sqlProcess.IsEmpty then
+  if sqlProcessItem.IsEmpty then
   begin
     Mens_MensInf('There is no Data to Delete.') ;
     Exit;
@@ -1084,6 +1107,7 @@ begin
    SetParametros(edtCliente, TipoCustomerCompany);
    edtCliente.SetValue('C.ID_CUSTOMER = ' + IntToStr(Process.Customer.Id_customer));
    TPEMAIL := SALES_EMAIL;
+
    if TBHeader = ESTIMATE_HEADER then
      ReportSale.PreviewOptions.Caption := 'Quotation'
    else if TBHeader = ORDER_HEADER then
@@ -1093,6 +1117,8 @@ begin
 
    if TBHeader = INVOICE_HEADER then
    begin
+      if Process.status = 'Accepted' Then
+      begin
       if ValidToPrint then
          ReportSale.Preview
       else
@@ -1100,11 +1126,21 @@ begin
          Mens_MensInf('The Invoice Nº ' + IntToStr(Process.id_process) + ' still has Pending status. Contact to Financial Dept.');
          Exit;
       end;
+      end
+      else
+      begin
+         Mens_MensInf('The Invoice Nº ' + IntToStr(Process.id_process) + ' has not been accepted yet.');
+         Exit;
+      end;
+
+
    end
    else
    begin
       ReportSale.Preview;
    end;
+
+
 end;
 
 procedure TfrmEstimate.ButItensOnOff(S: String);
@@ -1169,7 +1205,7 @@ begin
 
            sqlItems.Close;
            sqlItems.SQL.Clear;
-           sqlItems.SQL.Add('SELECT * FROM TBPROCESS_ITEM With (NOLOCK) WHERE TABLENAME = :TABLENAME');
+           sqlItems.SQL.Add('SELECT tablename, id_process_item, id_process, id_pricelist, id_product, qty, rate, amout, id_user, add_date, upd_date, room, width, height, totalarea, req_purchase_order, dif_totalarea FROM TBPROCESS_ITEM With (NOLOCK) WHERE TABLENAME = :TABLENAME');
            sqlItems.SQL.Add(' AND ID_PROCESS = :ID_PROCESS');
            sqlItems.Params.ParamByName('TABLENAME').AsString    := TBItem;
            sqlItems.Params.ParamByName('ID_PROCESS').AsInteger  := Process.id_process;
@@ -1185,7 +1221,7 @@ begin
                ItemOfHeader.id_process      := sqlItems.FieldByName('id_process').AsInteger;
                ItemOfHeader.id_pricelist    := sqlItems.FieldByName('id_pricelist').AsInteger;
                ItemOfHeader.id_product      := sqlItems.FieldByName('id_product').AsInteger;
-               ItemOfHeader.qty             := sqlItems.FieldByName('id_product').AsFloat;
+               ItemOfHeader.qty             := sqlItems.FieldByName('qty').AsFloat;
                ItemOfHeader.rate            := sqlItems.FieldByName('rate').AsFloat;
                ItemOfHeader.amout           := sqlItems.FieldByName('amout').AsFloat;
                ItemOfHeader.id_user         := sqlItems.FieldByName('id_user').AsInteger;
@@ -1230,7 +1266,7 @@ begin
     sqlService.SQL.Add ('   A.UPD_DATE,   ');
     sqlService.SQL.Add ('   D.LASTNAME + '', '' + D.FIRST_NAME AS USERX  ');
     sqlService.SQL.Add ('FROM TBSERVICE A    ');
-    sqlService.SQL.Add ('INNER JOIN TBPROCESS B ON B.ID_PROCESS = A.ID_PROCESS AND B.TABLENAME = ''TBORDER''  ');
+    sqlService.SQL.Add ('INNER JOIN TBPROCESS B ON B.ID_PROCESS = A.ID_PROCESS AND RTRIM(B.TABLENAME) = ''TBORDER''  ');
     sqlService.SQL.Add ('INNER JOIN TBCUSTOMER C ON C.ID_CUSTOMER = B.ID_CUSTOMER   ');
     sqlService.SQL.Add ('INNER JOIN TBUSER D ON D.ID_USER = A.ID_USER  ');
     sqlService.SQL.Add ('LEFT OUTER JOIN TBADDRESS E ON E.ID_CUSTOMER = C.ID_CUSTOMER ');
@@ -1260,15 +1296,13 @@ begin
    sqlParcelas.Params.ParamByName('TABLENAME').AsString   := TBHeader;
    sqlParcelas.Open;
 
-   cxTabSheetItems.Caption := 'ID: ';
-  {
   if TBHeader = ESTIMATE_HEADER then
      LblProcess.Caption := 'Quotation Nº :'
   else if TBHeader = ORDER_HEADER Then
      LblProcess.Caption := 'Order Nº :'
   else if TBHeader = INVOICE_HEADER then
      LblProcess.Caption := 'Invoice Nº :'
-   }
+
 end;
 
 procedure TfrmEstimate.RLBand10BeforePrint(Sender: TObject;
@@ -1563,6 +1597,23 @@ begin
 
 end;
 
+procedure TfrmEstimate.btnGrossProfitClick(Sender: TObject);
+begin
+  if not sqlProcessItem.IsEmpty  then
+  begin
+    Try
+      Application.CreateForm(TfrmGrossProfit, frmGrossProfit);
+      frmGrossProfit.varTable := TBHeader;
+      frmGrossProfit.varTableItem := TBItem;
+      frmGrossProfit.varID_Process := Process.id_process;
+      frmGrossProfit.Setup;
+      frmGrossProfit.ShowModal;
+    Finally
+      FreeAndNil(frmGrossProfit);
+    End;
+  end;
+end;
+
 procedure TfrmEstimate.btnLoadServiceClick(Sender: TObject);
 
 
@@ -1743,7 +1794,7 @@ begin
          Terms.tablename   := TBHeader;
          Terms.dt_process  := Process.dt_process;
          Terms.num_days    := 1;
-         Terms.date_due    := Now + 1;
+         Terms.date_due    := Now;
          Terms.value       := varProcessoProduto;
          Terms.description := 'Materials Total(deposit payment)';
          Terms.add_date    := Date;
@@ -1761,7 +1812,7 @@ begin
          Terms.num_days    := 7;
          Terms.date_due    := Now + 7;
          Terms.value       := varServiceTotal;
-         Terms.description := 'Labor Total(due upen completion)';
+         Terms.description := 'Labor Total(due upon completion)';
          Terms.add_date    := Date;
          Terms.id_user     := DBDados.varID_USER;
          Terms.group       := 'SERVICE';
@@ -1886,10 +1937,10 @@ begin
    cxLookupComboBoxPrincing.ItemIndex := -1;
    if edtSalesRep.bs_KeyValue > 0 then
    begin
-     STPPRICELIST.Close;
-     STPPRICELIST.Prepare;
-     STPPRICELIST.ParamByName( '@ID_CONTRACTOR' ).AsInteger := edtSalesRep.bs_KeyValue;
-     STPPRICELIST.Open;
+       STPPRICELIST.Close;
+       STPPRICELIST.Prepare;
+       STPPRICELIST.ParamByName( '@ID_CONTRACTOR' ).AsInteger := edtSalesRep.bs_KeyValue;
+       STPPRICELIST.Open;
    end;
 
    cxDateProcess.Date      := sqlProcessDT_PROCESS.AsDateTime;
@@ -1901,14 +1952,13 @@ begin
    Process := TSalesProcess.Create(Self);
    Process.Search(TBHeader, sqlProcessID_PROCESS.AsInteger);
    LoadItemToHeader;
-  cxTabSheetItems.Caption := 'ID: ' + ZeroLeft(IntToStr(Process.id_process),7);
+   cxTabSheetItems.Caption := 'ID: ' + ZeroLeft(IntToStr(Process.id_process),7);
 
 
    if sqlProcessID_CUSTOMER.AsString <> '' then
    begin
        SetParametros(edtCliente, TipoCustomerCompany);
        edtCliente.SetValue('C.ID_CUSTOMER = ' + IntToStr(Process.Customer.Id_customer));
-
        edtClienteClick(Self);
    end
    else
@@ -1943,26 +1993,15 @@ begin
    // 2 Closed
    // 3 Rejected
 
-   pnlTop.Enabled        := True;
-   pnlTerms.Enabled      := True;
-   pnlBtnLateral.Enabled := True;
-   cmbStatus.Enabled     := True;
-
-   if (TBHeader = ESTIMATE_HEADER) then
-   begin
-       if ((cmbStatus.ItemIndex  = 1) or (cmbStatus.ItemIndex = 2)) Then
-       begin
-           pnlTop.Enabled := False;
-           pnlTerms.Enabled := False;
-           pnlBtnLateral.Enabled := False;
-           cmbStatus.Enabled := False;
-       end;
-   end;
-
    AtualizTerms;
    DisabledTotalField;
    CalculaProcess;
 
+   Page.Enabled              := cmbStatus.ItemIndex = 0;
+   pnlTop.Enabled            := cmbStatus.ItemIndex = 0;
+   pnlBtnLateral.Enabled     := cmbStatus.ItemIndex = 0;
+   pnlServiceTop.Enabled     := cmbStatus.ItemIndex = 0;
+   cxGridTasks.Enabled       := cmbStatus.ItemIndex = 0;
 
 end;
 
@@ -2059,6 +2098,7 @@ begin
   pnlTop.Enabled := True;
   LimpaEdits;
   varOption := 'I';
+  UnfrezzeScreen;
   cxPageEstimate.ActivePage := cxTabEstimateForm;
 
   Page.ActivePage           := cxTabSheetGrade;
@@ -2076,9 +2116,6 @@ begin
   finally
     FreeAndNil(varNextKey);
   End;
-
-
-
   ButProcessOff('FFF');
   sqlTerms.Close;
   Initialize;
@@ -2366,11 +2403,6 @@ begin
             Caption := 'Order'
             else Caption := 'Invoice';
 
-      pnlTop.Enabled        := True;
-      pnlTerms.Enabled      := True;
-      pnlBtnLateral.Enabled := True;
-      cmbStatus.Enabled     := True;
-
       DisabledTotalField;
 
 
@@ -2399,6 +2431,16 @@ begin
           end;
       end;
   end;
+  UnfrezzeScreen;
+end;
+
+procedure TfrmEstimate.UnfrezzeScreen;
+begin
+   Page.Enabled            := True;
+   pnlTop.Enabled          := True;
+   pnlBtnLateral.Enabled   := True;
+   pnlServiceTop.Enabled   := True;
+   cxGridTasks.Enabled     := True;
 end;
 
 procedure  TfrmEstimate.SaveItem;
@@ -2528,10 +2570,10 @@ begin
     sqlDados.SQL.Clear;
 
     if TBHeader = ESTIMATE_HEADER then
-        sqlDados.SQL.Add('SELECT ID_PROCESS FROM TBPROCESS WHERE TABLENAME = ''TBORDER'' AND ID_ORIGEN = :ID_ORIGEN')
+        sqlDados.SQL.Add('SELECT ID_PROCESS FROM TBPROCESS WHERE RTRIM(TABLENAME) = ''TBORDER'' AND ID_ORIGEN = :ID_ORIGEN')
 
     else if TBHeader = ORDER_HEADER then
-        sqlDados.SQL.Add('SELECT ID_PROCESS FROM TBPROCESS WHERE TABLENAME = ''TBINVOICE'' AND ID_ORIGEN = :ID_ORIGEN');
+        sqlDados.SQL.Add('SELECT ID_PROCESS FROM TBPROCESS WHERE RTRIM(TABLENAME) = ''TBINVOICE'' AND ID_ORIGEN = :ID_ORIGEN');
 
     sqlDados.Params.ParamByName('ID_ORIGEN').AsInteger := Process.id_process;
     sqlDados.Open;
@@ -2651,6 +2693,8 @@ end;
 
 procedure TfrmEstimate.CalculaProcess;
 begin
+ if sqlProcessItem.Active = False then Exit;
+
   CalculaServiceSubTotal;
 
   varProcessSubTotal := 0;
@@ -2659,6 +2703,15 @@ begin
   varProcessShipping := 0;
   varProcessTotal    := 0;
   varProcessoProduto := 0;
+
+  if (edtShipping.Value <> 0) then
+  begin
+    varProcessShipping := edtShipping.Value;
+    varProcessShipping := Round(varProcessShipping*100)/100;
+  end;
+
+  varProcessSubTotal :=  varProcessShipping;
+
 
 
   sqlProcessItem.First;
@@ -2670,7 +2723,7 @@ begin
 
     if sqlProcessItemTAXBLE.AsString = 'Y' then
     begin
-       varProcessTaxble := varProcessTaxble + ((sqlProcessItemAMOUT.AsFloat / 100) *  TBCOMPANYTAX.AsFloat);// Process.Company.Tax);
+       varProcessTaxble := varProcessTaxble + ((varProcessSubTotal / 100) *  TBCOMPANYTAX.AsFloat);// Process.Company.Tax);
        varProcessTaxble :=   Round(varProcessTaxble*100)/100;
     end;
 
@@ -2689,15 +2742,11 @@ begin
      varProcessDiscount         := Round(varProcessDiscount*100)/100;
   end;
 
-  if (edtShipping.Value <> 0) then
-  begin
-    varProcessShipping := edtShipping.Value;
-    varProcessShipping := Round(varProcessShipping*100)/100;
-  end;
+
 
   varProcessSubTotal      := varProcessSubTotal - varProcessDiscount;
-  varProcessoProduto      := varProcessSubTotal + varProcessTaxble +  varProcessShipping;
-  varProcessTotal         := varProcessSubTotal + varProcessTaxble +  varProcessShipping + varServiceTotal;
+  varProcessoProduto      := varProcessSubTotal + varProcessTaxble ;
+  varProcessTotal         := varProcessSubTotal + varProcessTaxble + varServiceTotal;
 
 
   lblTotal.Caption := CurrToStrF(varProcessTotal, ffCurrency, 2);
@@ -2765,6 +2814,18 @@ procedure TfrmEstimate.cxGrid1DBTableViewItemDblClick(Sender: TObject);
 begin
    ButAlterarItemClick(Self);
 end;
+procedure TfrmEstimate.cxGrid1DBTableViewItemStylesGetContentStyle(
+  Sender: TcxCustomGridTableView; ARecord: TcxCustomGridRecord;
+  AItem: TcxCustomGridTableItem; var AStyle: TcxStyle);
+begin
+   if AItem = nil then exit;
+
+   if ARecord.Values[13] = 'Y' then
+     AStyle := cxStylePending
+   else if  ARecord.Values[13]  = 'N' then
+     AStyle := cxStyleAprovado;
+end;
+
 {
 procedure TfrmEstimate.cxGrid1DBTableView1StylesGetContentStyle(
   Sender: TcxCustomGridTableView; ARecord: TcxCustomGridRecord;
@@ -2793,6 +2854,30 @@ end;
 procedure TfrmEstimate.cxGrid2DBTableView1DblClick(Sender: TObject);
 begin
   ButAlterarClick(Self);
+end;
+
+procedure TfrmEstimate.cxGrid2DBTableView1StylesGetContentStyle(
+  Sender: TcxCustomGridTableView; ARecord: TcxCustomGridRecord;
+  AItem: TcxCustomGridTableItem; var AStyle: TcxStyle);
+begin
+
+   if AItem = nil then exit;
+
+   if TBHeader = ORDER_HEADER then
+   begin
+     if ARecord.Values[14] > 0 then
+       AStyle := cxStylePending
+     else if  ARecord.Values[14]  = 0 then
+       AStyle := cxStyleAprovado;
+   end;
+
+   if TBHeader = INVOICE_HEADER then
+   begin
+     if ARecord.Values[15] = 'PAID' then
+       AStyle := cxStyleStatusPaid
+     else if  ARecord.Values[15]  = 'PENDING' then
+       AStyle := cxStyleStatusPending;
+   end;
 end;
 
 procedure TfrmEstimate.cxLookupComboBoxWorkerClick(Sender: TObject);
@@ -2846,7 +2931,7 @@ begin
         sqlDados.SQL.Add ('   A.DT_SERVICE, ');
         sqlDados.SQL.Add ('   A.SIDEMARK ');
         sqlDados.SQL.Add ('FROM TBSERVICE A    ');
-        sqlDados.SQL.Add ('INNER JOIN TBPROCESS B ON B.ID_PROCESS = A.ID_PROCESS AND B.TABLENAME = ''TBORDER''  ');
+        sqlDados.SQL.Add ('INNER JOIN TBPROCESS B ON B.ID_PROCESS = A.ID_PROCESS AND RTRIM(B.TABLENAME) = ''TBORDER''  ');
         sqlDados.SQL.Add (' WHERE A.ID_PROCESS = :ID_PROCESS ');
         sqlDados.Params.ParamByName('ID_PROCESS').AsInteger := varNewKey;
         sqlDados.Open;
@@ -2867,8 +2952,8 @@ begin
           sqlCrew.Params.ParamByName('TABLENAME').AsString   := TBHeader;
           sqlCrew.Params.ParamByName('ID_PROCESS').AsInteger := varNewKey;
           sqlCrew.Open;
-
-          memServiceComment.SetFocus;
+          if pnlServiceTop.Enabled  then
+            memServiceComment.SetFocus;
         end
         else
         begin
@@ -3230,6 +3315,17 @@ begin
   end;
 end;
 
+procedure TfrmEstimate.FormActivate(Sender: TObject);
+begin
+  if Process <> Nil then
+  begin
+    sqlServicesItem.Close;
+    sqlServicesItem.Params.ParamByName('ID_PROCESS').AsInteger := Process.id_process;
+    sqlServicesItem.Params.ParamByName('TABLENAME').AsString   := TBItem;
+    sqlServicesItem.Open;
+  end;
+end;
+
 procedure TfrmEstimate.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   SQLPARCELAS.CLOSE;
@@ -3388,6 +3484,8 @@ begin
  // 1 TBESTIMATE
  // 2 ORDER
  // 3 INVOICE
+
+ cxTabEstimateReports.TabVisible := False;
  lblShippingDate.Visible := True;
  cxDateShippingDate.Visible := True;
  btnCart.Visible := False;
@@ -3400,7 +3498,7 @@ begin
       TBItem   := ESTIMATE_ITEM;
       lblShippingDate.Visible := False;
       cxDateShippingDate.Visible := False;
-
+      btnGrossProfit.Visible := False;
       if Assigned(frmInventory) then
         if frmInventory.Carrinho <> Nil then
           if frmInventory.Carrinho.ItensNF.Count > 0 then
@@ -3419,7 +3517,7 @@ begin
              Panel4.Color := $0080FFFF;
              TBHeader := ORDER_HEADER;
              TBItem   := ORDER_ITEM;
-
+             btnGrossProfit.Visible := True;
              sqlWorker.Close;
              sqlWorker.Open;
           end
@@ -3428,6 +3526,7 @@ begin
                   Panel4.Color := $00FFAAAA;
                   TBHeader := INVOICE_HEADER;
                   TBItem   := INVOICE_ITEM;
+                  btnGrossProfit.Visible := True;
                   sqlWorker.Close;
                   sqlWorker.Open;
                  end;
@@ -3600,16 +3699,18 @@ end;
 
 procedure TfrmEstimate.sqlCrewBeforePost(DataSet: TDataSet);
 begin
-  CalculaCrewSubTotal;
+//  CalculaCrewSubTotal;
   sqlCrewID_PROCESS.AsInteger := varNewKey;
   sqlCrewTABLENAME.AsString   := TBHeader;
   sqlCrewID_USER.AsInteger    := DBDados.varID_USER;
   sqlCrewTOTAL.AsFloat        := varCrewTotal;
+  varCrewTotal := 0;
 end;
 
 procedure TfrmEstimate.sqlCrewCalcFields(DataSet: TDataSet);
 begin
    sqlCrewSUBTOTAL.AsFloat := sqlCrewTOTALHOUR.AsFloat * sqlCrewAMOUNT.AsFloat;
+   varCrewTotal :=  sqlCrewSUBTOTAL.AsFloat;
 end;
 
 
@@ -3658,8 +3759,11 @@ end;
 
 procedure TfrmEstimate.sqlServicesItemAfterScroll(DataSet: TDataSet);
 begin
-  CalculaServiceSubTotal;
-  CalculaProcess;
+  if sqlServicesItem.RecordCount > 0 then
+  begin
+  //  CalculaServiceSubTotal;
+    CalculaProcess;
+  end;
 end;
 
 procedure TfrmEstimate.sqlServicesItemBeforePost(DataSet: TDataSet);
@@ -3764,7 +3868,14 @@ begin
           edtTotal.EditValue := Process.total  - sqlDados.FieldByName('Total').AsFloat;
           edtDays.SetFocus;
        end;
-     end;
+     end
+     else if sqlDados.FieldByName('Total').AsFloat = 0 then
+          begin
+            bRetorno := False;
+            Mens_MensInf('The Terms not found.') ;
+            edtDays.SetFocus;
+          end;
+
    Finally
      FreeAndNil(sqlDados);
    End;
