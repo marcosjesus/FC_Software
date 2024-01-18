@@ -237,8 +237,6 @@ object frmGrossProfit: TfrmGrossProfit
       ShowHint = True
       TabOrder = 0
       OnClick = ButCancelarClick
-      ExplicitLeft = 712
-      ExplicitHeight = 35
     end
     object edtIncome: TcxCurrencyEdit
       Left = 80
@@ -274,10 +272,6 @@ object frmGrossProfit: TfrmGrossProfit
     TabOrder = 1
     Properties.ActivePage = cxTabSheet2
     Properties.CustomButtons.Buttons = <>
-    ExplicitLeft = 432
-    ExplicitTop = 280
-    ExplicitWidth = 289
-    ExplicitHeight = 193
     ClientRectBottom = 166
     ClientRectLeft = 4
     ClientRectRight = 821
@@ -285,10 +279,6 @@ object frmGrossProfit: TfrmGrossProfit
     object cxTabSheet2: TcxTabSheet
       Caption = 'Expense'
       ImageIndex = 0
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 162
       object cxGrid4: TcxGrid
         Left = 0
         Top = 0
@@ -302,10 +292,6 @@ object frmGrossProfit: TfrmGrossProfit
         Font.Style = []
         ParentFont = False
         TabOrder = 0
-        ExplicitLeft = 136
-        ExplicitTop = -26
-        ExplicitWidth = 825
-        ExplicitHeight = 190
         object cxGridDBTableViewExpense: TcxGridDBTableView
           Navigator.Buttons.ConfirmDelete = True
           Navigator.Buttons.CustomButtons = <>
@@ -361,9 +347,6 @@ object frmGrossProfit: TfrmGrossProfit
     TabOrder = 2
     Properties.ActivePage = cxTabSheet1
     Properties.CustomButtons.Buttons = <>
-    ExplicitLeft = 216
-    ExplicitTop = 225
-    ExplicitWidth = 289
     ClientRectBottom = 189
     ClientRectLeft = 4
     ClientRectRight = 821
@@ -377,10 +360,6 @@ object frmGrossProfit: TfrmGrossProfit
       Font.Style = []
       ImageIndex = 0
       ParentFont = False
-      ExplicitLeft = 5
-      ExplicitTop = 25
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object cxGrid1: TcxGrid
         Left = 0
         Top = 0
@@ -394,10 +373,6 @@ object frmGrossProfit: TfrmGrossProfit
         Font.Style = []
         ParentFont = False
         TabOrder = 0
-        ExplicitLeft = 136
-        ExplicitTop = -26
-        ExplicitWidth = 825
-        ExplicitHeight = 190
         object cxGridDBTableViewIncome: TcxGridDBTableView
           Navigator.Buttons.ConfirmDelete = True
           Navigator.Buttons.CustomButtons = <>

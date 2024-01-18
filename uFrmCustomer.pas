@@ -289,10 +289,17 @@ begin
      Exit;
   end;
 
+  if sqlAddress.IsEmpty  then
+  begin
+     Mens_MensInf('The Customer´s Address is missing.') ;
+     Exit;
+  end;
 
   if Check = False then exit;
 
   if Customer = Nil then exit;
+
+
 
 
   Try
@@ -308,26 +315,12 @@ begin
       Customer.AdditionInformation  := memObservacao.Lines.Text;
       Customer.Company.id_company   := cxLookupComboBoxCompany.EditValue;
       Customer.id_contractors       := cxLookupComboBoxVendor.EditValue;
-      Customer.id_pricelist         := cxLookupComboBoxPrincing.EditValue;
+      if cxLookupComboBoxPrincing.EditValue <> -1 then
+        Customer.id_pricelist       := cxLookupComboBoxPrincing.EditValue
+      else Customer.id_pricelist    := 0;
 
       GenerateFolder('NP', IntToStr(varNewKey));
       Customer.folder.pasta := Folder_Documents + '\NP_' + ZeroLeft(IntToStr(varNewKey),7);
-      {
-      Customer.folder.pasta         := 'NP_' + ZeroLeft(IntToStr(varNewKey),7);
-      Customer.folder.CreateFolder;
-
-      Customer.folder.subpasta      := 'Quotation';
-      Customer.folder.CreateSubPasta;
-
-      Customer.folder.subpasta      := 'Order';
-      Customer.folder.CreateSubPasta;
-
-      Customer.folder.subpasta      := 'Invoice';
-      Customer.folder.CreateSubPasta;
-
-      Customer.folder.subpasta      := 'Service';
-      Customer.folder.CreateSubPasta;
-       }
 
       Customer.typeperson           := 'N'; // Natural Person
 
@@ -513,8 +506,11 @@ begin
   sqlGrid.Close;
   sqlGrid.Params.ParamByName('TYPEPERSON').AsString := 'N';
   sqlGrid.MacroByName( 'WHERE1' ).AsRaw := ' AND C.' + DBDados.varReturnCompanies;
+
   if DBDados.varView_All_CustomersNaturalPerson = False then
      sqlGrid.MacroByName( 'WHERE2' ).AsRaw := ' AND C.ID_USER = ' + IntToStr(DBDados.varID_USER);
+
+
   sqlGrid.Open;
 end;
 

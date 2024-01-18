@@ -6,6 +6,7 @@ uses
   jpeg, pngimage,   bde.dbtables,
   uClassDBGenerics,
   uClassCompany,
+  uClassFinance,
   MensFun,
   uFunctions,
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
@@ -161,8 +162,10 @@ type
     procedure btnSaveImageClick(Sender: TObject);
     procedure sqlBankAfterEdit(DataSet: TDataSet);
     procedure sqlBankNewRecord(DataSet: TDataSet);
+    procedure sqlBankAfterPost(DataSet: TDataSet);
   private
     { Private declarations }
+    Finance : TFinance;
     varOption : char;  // I = Insert / U = Update
     varNewKey : Integer;
     Company : TCompany;
@@ -234,6 +237,40 @@ procedure TfrmCompany.sqlBankAfterEdit(DataSet: TDataSet);
 begin
   sqlBankUPD_DATE.AsDateTime := now;
   sqlBankID_USER.AsInteger   := DBDados.varID_USER;
+end;
+
+procedure TfrmCompany.sqlBankAfterPost(DataSet: TDataSet);
+var
+ sqlAux : TFDquery;
+begin
+  sqlAux := TFDQuery.Create(Nil);
+  Try
+      sqlAux.Connection := DBDados.Connection;
+      sqlAux.Close;
+      sqlAux.SQL.Clear;
+      sqlAux.SQL.Add('Select ID_Bank From TBBANKSTATEMENT' );
+      sqlAux.SQL.Add(' Where ID_Bank = :ID_Bank ');
+      sqlAux.SQL.Add(' AND DESCRIPTION = :DESCRIPTION ');
+      sqlAux.Params.ParamByName('ID_Bank').AsInteger :=  sqlBankID_BANK.AsInteger;
+      sqlAux.Params.ParamByName('DESCRIPTION').AsString :=  'ACCOUNT STARTS';
+      sqlAux.Open;
+      if sqlAux.IsEmpty  then
+      Begin
+          Finance := TFinance.Create;
+          Try
+            Finance.id_bank             :=  sqlBankID_BANK.AsInteger;
+            Finance.payment_description := 'ACCOUNT STARTS';
+            Finance.date_paid           := Date;
+            Finance.amount_paid         := sqlBankBALANCE.AsFloat;
+            Finance.id_user             := DBDados.varID_USER;
+            Finance.InsertBankStatement('BEGIN');
+          Finally
+            FreeAndNil(Finance);
+          End;
+      End;
+  Finally
+    FreeAndNil(sqlAux);
+  End;
 end;
 
 procedure TfrmCompany.sqlBankNewRecord(DataSet: TDataSet);

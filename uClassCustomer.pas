@@ -30,6 +30,7 @@ Type
      Ffolder              : TFolder;
      Ftypeperson          : string;
      Fid_pricelist        : integer;
+     Fcredit              : Currency;
 
     procedure setFadd_date(const Value: string);
     procedure setFId_Customer(const Value: integer);
@@ -45,6 +46,7 @@ Type
     procedure SetFid_contractors(const Value: integer);
     procedure SetFtypeperson(const Value: String);
     procedure SetFid_pricelist(const Value: integer);
+    procedure SetFcredit(const Value: Currency);
 
     public
       property Id_customer          : integer read FId_Customer          write setFId_Customer;
@@ -65,6 +67,7 @@ Type
       property folder               : TFolder read FFolder;
       property typeperson           : String read Ftypeperson           write SetFtypeperson;
       property id_pricelist         : integer read Fid_pricelist        write SetFid_pricelist;
+      property credit               : Currency read Fcredit             write SetFcredit;
 
       constructor Create;
       procedure Save;
@@ -94,10 +97,11 @@ begin
    FAddress             := TObjectList<TAddress>.Create;
    FUser                := TUser.Create;
    FCompany             := TCompany.Create;
-   id_contractors      := 0;
+   id_contractors       := 0;
    FFolder              := TFolder.Create;
-   typeperson          := '';
-   id_pricelist        := -1;
+   typeperson           := '';
+   id_pricelist         := -1;
+   credit               := 0;
 end;
 
 procedure TCustomer.Delete;
@@ -156,6 +160,7 @@ begin
         sqlDados.SQL.Add(',id_contractors ');
         sqlDados.SQL.Add(',folder ');
         sqlDados.SQL.Add(',typeperson ');
+        sqlDados.SQL.Add(',credit ');
         sqlDados.SQL.Add(',id_pricelist ');
         sqlDados.SQL.Add(',id_user )');
         sqlDados.SQL.Add(' Values (');
@@ -172,7 +177,13 @@ begin
         sqlDados.SQL.Add( IntToStr(id_contractors) +  ',' );
         sqlDados.SQL.Add( QuotedStr(folder.pasta) +  ',' );
         sqlDados.SQL.Add( QuotedStr(typeperson) + ',' );
-        sqlDados.SQL.Add( IntToStr(id_pricelist) + ',' );
+        sqlDados.SQL.Add( QuotedStr( FloatToStr( credit )) +  ',' );
+
+        if id_pricelist = 0 then
+          sqlDados.SQL.Add( 'Null,' )
+        else
+          sqlDados.SQL.Add( IntToStr(id_pricelist) + ',' );
+
         sqlDados.SQL.Add( IntToStr(ID_USER) +  ')' );
 
         Try
@@ -206,7 +217,7 @@ begin
       Try
         sqlDados.SQL.Clear;
         sqlDados.SQL.Add('Select id_customer, id_company, add_date, upd_date, last_name, middle_name, first_name, email,');
-        sqlDados.SQL.Add(' phone1, phone2, addition_information, id_user, id_contractors, folder, typeperson, id_pricelist');
+        sqlDados.SQL.Add(' phone1, phone2, addition_information, id_user, id_contractors, folder, typeperson, id_pricelist, credit');
         sqlDados.SQL.Add(' From TBCUSTOMER WITH (NOLOCK) Where id_customer = :id_customer');
         sqlDados.Params.ParamByName('id_customer').AsInteger := varID_Customer;
         sqlDados.Open;
@@ -228,6 +239,8 @@ begin
           folder.pasta        := sqlDados.FieldByName('folder').AsString;
           typeperson          := sqlDados.FieldByName('typeperson').AsString;
           id_pricelist        := sqlDados.FieldByName('id_pricelist').AsInteger;
+          credit              := sqlDados.FieldByName('credit').AsFloat;
+
 
           if SelectUser then
              User.Search(id_user);
@@ -286,6 +299,11 @@ end;
 procedure TCustomer.setFadd_date(const Value: string);
 begin
   Fadd_date := Value;
+end;
+
+procedure TCustomer.SetFcredit(const Value: Currency);
+begin
+  Fcredit := Value;
 end;
 
 procedure TCustomer.setFEmail(const Value: string);
@@ -373,6 +391,7 @@ begin
         sqldados.sql.add(',id_contractors = :id_contractors ');
         sqldados.sql.add(',id_pricelist = :id_pricelist ');
         sqldados.sql.add(',typeperson = :typeperson ');
+        sqldados.sql.add(',credit = :credit ');
         sqlDados.SQL.Add(' Where Id_customer = :Id_customer ');
 
         sqlDados.Params.ParamByName('upd_date').AsString             := FormatDateTime('mm/dd/yyyy hh:mm:ss', now);
@@ -388,6 +407,7 @@ begin
         sqlDados.Params.ParamByName('id_contractors').AsInteger      := id_contractors;
         sqlDados.Params.ParamByName('id_pricelist').AsInteger        := id_pricelist;
         sqlDados.Params.ParamByName('typeperson').AsString           := typeperson;
+        sqlDados.Params.ParamByName('credit').AsFloat                := credit;
         sqlDados.Params.ParamByName('Id_customer').AsInteger         := Id_customer;
 
 

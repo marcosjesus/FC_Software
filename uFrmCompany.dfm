@@ -28,7 +28,7 @@ object frmCompany: TfrmCompany
     Height = 509
     Align = alClient
     TabOrder = 0
-    Properties.ActivePage = cxTabSheetList
+    Properties.ActivePage = cxTabSheetForm
     Properties.CustomButtons.Buttons = <>
     OnChange = cxPageControlChange
     ClientRectBottom = 505
@@ -552,7 +552,6 @@ object frmCompany: TfrmCompany
           object cxTabSheet1: TcxTabSheet
             Caption = 'Bank Account'
             ImageIndex = 1
-            ExplicitLeft = 6
             object cxGrid3: TcxGrid
               Left = 0
               Top = 0
@@ -561,8 +560,6 @@ object frmCompany: TfrmCompany
               Align = alClient
               TabOrder = 0
               RootLevelOptions.DetailTabsPosition = dtpTop
-              ExplicitWidth = 964
-              ExplicitHeight = 616
               object cxGridDBTableView3: TcxGridDBTableView
                 Navigator.Buttons.ConfirmDelete = True
                 Navigator.Buttons.CustomButtons = <>
@@ -1328,6 +1325,7 @@ object frmCompany: TfrmCompany
   end
   object sqlBank: TFDQuery
     AfterEdit = sqlBankAfterEdit
+    AfterPost = sqlBankAfterPost
     OnNewRecord = sqlBankNewRecord
     Connection = DBDados.FDConnection
     SQL.Strings = (

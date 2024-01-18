@@ -52,8 +52,6 @@ type
     cxGridDBTableViewBrand: TcxGridDBTableView;
     cxGridDBTableViewBrandCATEGORY: TcxGridDBColumn;
     cxGridDBTableViewBrandDESCRIPTION: TcxGridDBColumn;
-    cxGridDBTableViewBrandPROFIT_MIN: TcxGridDBColumn;
-    cxGridDBTableViewBrandPROFIT_REGULAR: TcxGridDBColumn;
     cxGridLevelBrand: TcxGridLevel;
     StatusBar1: TStatusBar;
     cxGrid1: TcxGrid;
@@ -98,6 +96,7 @@ type
     cxGridDBTableView3DESCRIPTION: TcxGridDBColumn;
     sqlServiceID_LABOR: TFDAutoIncField;
     sqlServiceDESCRIPTION: TStringField;
+    sqlServiceID_TYPEBRAND: TIntegerField;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure sqlGridTypeAfterEdit(DataSet: TDataSet);
     procedure sqlGridTypeNewRecord(DataSet: TDataSet);
@@ -136,6 +135,8 @@ begin
   if Supplier <> Nil then
      FreeAndNil(Supplier);
 
+
+  DBDados.LoadRoom;
 
   FrmBrandType := nil;
   Action := caFree;

@@ -59,7 +59,7 @@ type
     dxBarLargeButtonSupplier: TdxBarLargeButton;
     dxBarLargeButtonCustomer: TdxBarLargeButton;
     dxBarLargeButtonProduct: TdxBarLargeButton;
-    dxBarLargeButtonEstimates: TdxBarLargeButton;
+    dxBarLargeButtonDashSales: TdxBarLargeButton;
     dxBarLargeButtonOrders: TdxBarLargeButton;
     dxBarLargeButtonInvoice: TdxBarLargeButton;
     dxBarLargeButtonSROrders: TdxBarLargeButton;
@@ -88,6 +88,7 @@ type
     dxBarLargeButtonWorkOrder: TdxBarLargeButton;
     dxBarButton1: TdxBarButton;
     dxBarLargeButtonDashBoard: TdxBarLargeButton;
+    dxBarLargeButtonEstimates: TdxBarLargeButton;
     procedure dxBarLargeButtonSIOPRelatoriosFaturamentoPedidoClick(
       Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
@@ -112,7 +113,7 @@ type
     procedure dxBarLargeButtonStaffClick(Sender: TObject);
     procedure dxBarLargeButtonPriceTableClick(Sender: TObject);
     procedure dxBarLargeButtonMiscClick(Sender: TObject);
-    procedure dxBarLargeButtonEstimatesClick(Sender: TObject);
+    procedure dxBarLargeButtonDashSalesClick(Sender: TObject);
     procedure dxBarLargeButtonOrdersClick(Sender: TObject);
     procedure dxBarLargeButtonSROrdersClick(Sender: TObject);
     procedure dxBarLargeButtonUserClick(Sender: TObject);
@@ -126,6 +127,7 @@ type
     procedure dxBarLargeButtonDebitorsClick(Sender: TObject);
     procedure dxBarLargeButtonWorkOrderClick(Sender: TObject);
     procedure dxBarLargeButtonDashBoardClick(Sender: TObject);
+    procedure dxBarLargeButtonEstimatesClick(Sender: TObject);
   private
     { Private declarations }
     procedure System_Acess;
@@ -148,7 +150,7 @@ uses AsyncCalls, uDMConectDB, uFrmLogin, MensFun, ufrmAccount, uFrmSupplier, uFr
   uFrmPriceTable, ufrmBrandType, ufrmEstimate, ufrmCreateAccount,
   ufrmAccessControl, ufrmInventory, ufrmCustomerLP, ufrmRequestOrder,
   ufrmSupplierInvoice, ufrmSampleCheckout, uFrmDebitors, uFrmWorkOrder,
-  ufrmDashBoard;
+  ufrmDashBoard, ufrmDashSale;
 
 procedure TfrmMenuPrincipal.dxBarLargeButtonCreditorsClick(Sender: TObject);
 
@@ -256,6 +258,35 @@ begin
     FrmDebitors.Update;
 
     LocalAsyncVclCall( @SetuTable );
+end;
+
+procedure TfrmMenuPrincipal.dxBarLargeButtonEstimatesClick(Sender: TObject);
+
+  procedure SetuTable;
+  begin
+
+    frmEstimate.SetupTable(1); // Estimate
+
+  end;
+begin
+
+
+  if not Assigned(frmEstimate) then
+    frmEstimate := TfrmEstimate.Create(Self);
+    frmEstimate.Caption := 'Quotation';
+    frmEstimate.lblProcessName.Caption := frmEstimate.Caption;
+    frmEstimate.varFilter := False;
+    frmEstimate.varIDExterna  := 0;
+    frmEstimate.Show;
+
+    frmEstimate.Visible := True;
+    frmEstimate.BringToFront;
+    frmEstimate.Update;
+
+    LocalAsyncVclCall( @SetuTable );
+
+
+
 end;
 
 procedure TfrmMenuPrincipal.dxBarLargeButton5Click(Sender: TObject);
@@ -373,18 +404,30 @@ begin
     FrmCustomer.Update;
 end;
 
-procedure TfrmMenuPrincipal.dxBarLargeButtonEstimatesClick(Sender: TObject);
+procedure TfrmMenuPrincipal.dxBarLargeButtonDashSalesClick(Sender: TObject);
 
   procedure SetuTable;
   begin
 
-    frmEstimate.SetupTable(1); // Estimate
+    frmDashSale.SetupTable; // Tracking
 
   end;
 begin
+
   if DBDados.varLogado = False  then Exit;
 
+  if not Assigned(frmDashSale) then
+    frmDashSale := TfrmDashSale.Create(Self);
+    frmDashSale.Caption := 'Tracking';
+    frmDashSale.Show;
 
+    frmDashSale.Visible := True;
+    frmDashSale.BringToFront;
+    frmDashSale.Update;
+
+    LocalAsyncVclCall( @SetuTable );
+
+{
   if not Assigned(frmEstimate) then
     frmEstimate := TfrmEstimate.Create(Self);
     frmEstimate.Caption := 'Quotation';
@@ -395,7 +438,9 @@ begin
     frmEstimate.BringToFront;
     frmEstimate.Update;
 
-    LocalAsyncVclCall( @SetuTable );
+
+
+    }
 end;
 
 procedure TfrmMenuPrincipal.dxBarLargeButtonInventoryClick(Sender: TObject);
@@ -435,6 +480,8 @@ begin
     frmEstimate := TfrmEstimate.Create(Self);
     frmEstimate.Caption := 'Invoice';
     frmEstimate.lblProcessName.Caption := frmEstimate.Caption;
+    frmEstimate.varFilter := False;
+    frmEstimate.varIDExterna  := 0;
     frmEstimate.Show;
 
     frmEstimate.Visible := True;
@@ -480,6 +527,8 @@ begin
     frmEstimate := TfrmEstimate.Create(Self);
     frmEstimate.Caption := 'Order';
     frmEstimate.lblProcessName.Caption := frmEstimate.Caption;
+    frmEstimate.varFilter := False;
+    frmEstimate.varIDExterna  := 0;
     frmEstimate.Show;
 
     frmEstimate.Visible := True;

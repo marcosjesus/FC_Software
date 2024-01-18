@@ -27,7 +27,6 @@ uses
 
 type
   TfrmLabor = class(TForm)
-    chklistService: TCheckListBox;
     Panel27: TPanel;
     ButCancelar: TcxButton;
     dsLabor: TDataSource;
@@ -35,15 +34,22 @@ type
     sqlLaborID_LABOR: TFDAutoIncField;
     sqlLaborDESCRIPTION: TStringField;
     Panel1: TPanel;
+    Panel2: TPanel;
+    Panel4: TPanel;
+    chklistService: TCheckListBox;
+    btnSave: TcxButton;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure btnSaveClick(Sender: TObject);
     procedure ButCancelarClick(Sender: TObject);
   private
     { Private declarations }
 
   public
     { Public declarations }
-    Process_ID : Integer;
-    TableName  : String;
+    varRoom     : String;
+    varSplitted : TArray<String>;
+    Process_ID  : Integer;
+    TableName   : String;
     procedure LoadService;
   end;
 
@@ -58,10 +64,10 @@ uses uDMConectDB;
 
 { TfrmLabor }
 
-procedure TfrmLabor.ButCancelarClick(Sender: TObject);
+procedure TfrmLabor.btnSaveClick(Sender: TObject);
 var
   sqlDados   : TFDQuery;
-  I          : Integer;
+  I, Y       : Integer;
   Service_ID : Integer;
   varNextKey : TDBNextKey;
 begin
@@ -69,39 +75,60 @@ begin
   sqlDados := TFDQuery.Create(Nil);
   Try
     sqlDados.Connection := DBDados.Connection;
+    varSplitted := varRoom.Split([';']);
+
     sqlDados.Close;
     sqlDados.SQL.Clear;
 
-    sqlDados.SQL.Add('Insert Into TBSERVICE_ITEM (ID_SERVICE_ITEM, TABLENAME, ID_PROCESS, DESC_PRODUCT, ID_USER, ADD_DATE)');
-    sqlDados.SQL.Add('Values (:ID_SERVICE_ITEM, :TABLENAME, :ID_PROCESS, :DESC_PRODUCT, :ID_USER, :ADD_DATE)');
+    sqlDados.SQL.Add('Insert Into TBSERVICE_ITEM (ID_SERVICE_ITEM, TABLENAME, ID_PROCESS, DESC_PRODUCT, ID_USER, ADD_DATE, ROOM, ID_ROOM)');
+    sqlDados.SQL.Add('Values (:ID_SERVICE_ITEM, :TABLENAME, :ID_PROCESS, :DESC_PRODUCT, :ID_USER, :ADD_DATE, :ROOM, :ID_ROOM)');
     for i := 0 to chklistService.Items.Count -1 do
     begin
          if chklistService.Checked[I] then
          begin
-             varNextKey  := TDBNextKey.Create('TBSERVICE_ITEM');
-             Service_ID := varNextKey.Key;
-             sqlDados.Params.ParamByName('ID_SERVICE_ITEM').AsInteger := Service_ID;
-             sqlDados.Params.ParamByName('TABLENAME').AsString        := TableName;
-             sqlDados.Params.ParamByName('ID_PROCESS').AsInteger      := Process_ID;
-             sqlDados.Params.ParamByName('DESC_PRODUCT').AsString     := chklistService.Items[i];
-             sqlDados.Params.ParamByName('ID_USER').AsInteger         := DBDados.varID_USER;
-             sqlDados.Params.ParamByName('ADD_DATE').AsString         := FormatDateTime('mm/dd/yyyy hh:mm:ss', now);
-             sqlDados.Prepare;
+             for Y := 0 to Length(varSplitted)-1 do
+             begin
+               varNextKey  := TDBNextKey.Create('TBSERVICE_ITEM');
+               Try
+                   Service_ID := varNextKey.Key;
+                   sqlDados.Params.ParamByName('ID_SERVICE_ITEM').AsInteger := Service_ID;
+                   sqlDados.Params.ParamByName('TABLENAME').AsString        := TableName;
+                   sqlDados.Params.ParamByName('ID_PROCESS').AsInteger      := Process_ID;
+                   sqlDados.Params.ParamByName('DESC_PRODUCT').AsString     := chklistService.Items[i];
+                   sqlDados.Params.ParamByName('ID_USER').AsInteger         := DBDados.varID_USER;
+                   sqlDados.Params.ParamByName('ADD_DATE').AsString         := FormatDateTime('mm/dd/yyyy hh:mm:ss', now);
+                   sqlDados.Params.ParamByName('ROOM').AsString             := varSplitted[y];
+                   DBDados.sqlRoom.Locate('DESCRIPTION', varSplitted[y], []);
+                   sqlDados.Params.ParamByName('ID_ROOM').AsInteger          := DBDados.sqlRoomID_MISCELLANEOUS.AsInteger;
 
-             Try
-                 varNextKey.UpdateKey(Service_ID, 'TBSERVICE_ITEM'); // atualiza a nova chave no banco
-                 sqlDados.ExecSQL;
-             except
-                 varNextKey.UpdateKey(Service_ID-1, 'TBSERVICE_ITEM');
+                   sqlDados.Prepare;
+
+                   Try
+                       varNextKey.UpdateKey(Service_ID, 'TBSERVICE_ITEM'); // atualiza a nova chave no banco
+                       sqlDados.ExecSQL;
+                   except
+                       varNextKey.UpdateKey(Service_ID-1, 'TBSERVICE_ITEM');
+                   end;
+               Finally
+               FreeAndNil(varNextKey);
+
+               End;
+
              end;
-             FreeAndNil(varNextKey);
-
          end;
     end;
+
+
   Finally
     FreeAndNil(sqlDados);
   End;
 
+  Close;
+
+end;
+
+procedure TfrmLabor.ButCancelarClick(Sender: TObject);
+begin
   Close;
 end;
 
@@ -125,5 +152,6 @@ begin
       sqlLabor.Next;
     end;
 end;
+
 
 end.

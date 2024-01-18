@@ -536,6 +536,11 @@ begin
      Exit;
   end;
 
+  if sqlAddress.IsEmpty  then
+  begin
+     Mens_MensInf('The Customer´s Address is missing.') ;
+     Exit;
+  end;
 
   if Check = False then exit;
 

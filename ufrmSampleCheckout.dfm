@@ -34,6 +34,10 @@ object frmSampleCheckout: TfrmSampleCheckout
     object cxSampleForm: TcxTabSheet
       Caption = 'ID'
       ImageIndex = 0
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object Splitter1: TSplitter
         Left = 639
         Top = 0
@@ -60,9 +64,8 @@ object frmSampleCheckout: TfrmSampleCheckout
           Left = 635
           Top = 235
           Width = 3
-          Height = 240
+          Height = 13
           Align = alRight
-          ExplicitHeight = 13
         end
         object Panel1: TPanel
           Left = 1

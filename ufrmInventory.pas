@@ -1004,8 +1004,8 @@ begin
     CartID               := 1;
     Carrinho.tablename   := 'TBESTIMATE';
     Carrinho.id_process  :=  CartID;
-    Carrinho.Contractors.id_contractor := SalesRep.id_contractor;
-    Carrinho.Company.id_company        := SalesRep.id_company;
+    Carrinho.id_contractor := SalesRep.id_contractor;
+    Carrinho.id_company        := SalesRep.id_company;
 
     cxGrid1.SetFocus;
 

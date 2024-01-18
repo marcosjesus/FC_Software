@@ -5,6 +5,7 @@ interface
 uses
   uClassImportPrice,
   ComObj,OleCtrls,
+  uSetupFolder,
   uClassSupplier,  MensFun, uClassDBGenerics,
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, dxSkinsCore, dxSkinBlack, dxSkinBlue,
@@ -171,6 +172,7 @@ type
     cxButton1: TcxButton;
     sqlGridINDUSTRY: TStringField;
     cxGrid1DBTableView1INDUSTRY: TcxGridDBColumn;
+    sqlGridFOLDER: TStringField;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure ButNovoClick(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -331,6 +333,11 @@ begin
         Supplier.product_service     := MemoProductService.Text;
         Supplier.website             := edtWebSite.Text;
         Supplier.additioninfo        := memObservacao.Text;
+
+        GenerateFolderSupplier('MANUFACTURER',  IntToStr(varNewKey));
+
+        Supplier.folder.pasta := Folder_Documents + '\MANUFACTURER_' + ZeroLeft(IntToStr(varNewKey),7);
+
 
         if varOption = 'I' then
           Supplier.SaveSupplier

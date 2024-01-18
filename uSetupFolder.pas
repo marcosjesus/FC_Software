@@ -16,8 +16,12 @@ Const
    Folder_Order     : String = 'Order';
    Folder_Invoice   : String = 'Invoice';
    Folder_Service   : String = 'Service';
+   Folder_RequestOrder : String = 'RequestOrder';
+   Folder_PurchaseOrder : String = 'PurchaseOrder';
+
 
   procedure GenerateFolder(varInitial, varID : String);
+  procedure GenerateFolderSupplier(varInitial, varID : String);
 
 implementation
 
@@ -42,10 +46,28 @@ begin
       Folder.subpasta      := Folder_Service;
       Folder.CreateSubPasta;
 
+      Folder.subpasta      := Folder_PurchaseOrder;
+      Folder.CreateSubPasta;
+
   Finally
      FreeAndNil(Folder);
   End;
 
 end;
 
+procedure GenerateFolderSupplier(varInitial, varID : String);
+begin
+  Folder := TFolder.Create;
+  Try
+      Folder.pasta         := varInitial + '_' +  ZeroLeft(varID,7);
+      Folder.CreateFolder;
+
+      Folder.subpasta      := Folder_RequestOrder;
+      Folder.CreateSubPasta;
+
+  Finally
+     FreeAndNil(Folder);
+  End;
+
+end;
 end.

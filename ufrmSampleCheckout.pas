@@ -7,6 +7,7 @@ uses
   uClassSalesProcess,
   uClassContractor,
   uFunctions,
+  uClassCustomer,
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, dxSkinsCore, dxSkinBlack, dxSkinBlue,
   dxSkinBlueprint, dxSkinCaramel, dxSkinCoffee, dxSkinDarkRoom, dxSkinDarkSide,
@@ -263,35 +264,41 @@ procedure TfrmSampleCheckout.SaveHeader;
 var
  I : Integer;
  Address : TAddress;
+ Customer : TCustomer;
 begin
 
-   SAMPLE.dt_process                := DatePickup.Date;
-   SAMPLE.dt_process_valid          := DateReturn.Date;
-   SAMPLE.User.id_user              := DBDados.varID_USER;
+   Customer := TCustomer.Create;
+   Try
+       SAMPLE.dt_process         := DatePickup.Date;
+       SAMPLE.dt_process_valid   := DateReturn.Date;
+       SAMPLE.id_user            := DBDados.varID_USER;
 
-   SAMPLE.Customer.LastName         := edtCustomerName.Text;
-   SAMPLE.Customer.Phone1           := edtPhone.Text;
-   SAMPLE.Customer.Email            := edtEmail.Text;
-   SAMPLE.Customer.Company.id_company := varID_Company;
-   SAMPLE.Customer.typeperson       := 'P'; // perpective
-   SAMPLE.comments                  := edtAbout.Text;
-   Address := TAddress.Create;
-   try
-       Address.Address  := edtAddress.Text;
-       Address.zipcode  := edtZipCode.Text;
-       Address.st       := edtST.Text;
-       Address.city     := edtCity.Text;
-       Address.County   := edtCounty.Text;
-       SAMPLE.Customer.Address.Add(Address);
+       Customer.LastName         := edtCustomerName.Text;
+       Customer.Phone1           := edtPhone.Text;
+       Customer.Email            := edtEmail.Text;
+       Customer.Company.id_company := varID_Company;
+       Customer.typeperson       := 'P'; // perpective
+       SAMPLE.comments                  := edtAbout.Text;
+       Address := TAddress.Create;
+       try
+           Address.Address  := edtAddress.Text;
+           Address.zipcode  := edtZipCode.Text;
+           Address.st       := edtST.Text;
+           Address.city     := edtCity.Text;
+           Address.County   := edtCounty.Text;
+           Customer.Address.Add(Address);
 
-   if varOption = 'I' then
-       SAMPLE.SaveSampleBoard
-   else if varOption = 'U' then
-       SAMPLE.UpdateSampleBoard;
+       if varOption = 'I' then
+           SAMPLE.SaveSampleBoard
+       else if varOption = 'U' then
+           SAMPLE.UpdateSampleBoard;
 
-   finally
-     FreeAndNil(Address);
-   end;
+       finally
+         FreeAndNil(Address);
+       end;
+   Finally
+     FreeAndNil(Customer);
+   End;
 
 end;
 

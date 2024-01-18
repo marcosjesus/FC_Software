@@ -532,7 +532,7 @@ begin
 
   if ((edtSupplier.Text = '') and (edtSupplier.bs_KeyValues.Count = 0)) then
   begin
-       Mens_MensInf('Supplier is missing.');
+       Mens_MensInf('Supplier is required.');
        edtSupplier.SetFocus;
        Retorno := False;
   end;
@@ -542,7 +542,7 @@ begin
 
       if edtColor.Text = '' then
       begin
-           Mens_MensInf('Color is missing.');
+           Mens_MensInf('Color is required.');
            edtColor.SetFocus;
            Retorno := False;
       end;
@@ -550,7 +550,7 @@ begin
 
       if cxLookupComboBoxType.ItemIndex = -1 then
       begin
-           Mens_MensInf('Type is missing.');
+           Mens_MensInf('Type is required.');
            cxLookupComboBoxType.SetFocus;
            Retorno := False;
       end;
@@ -558,21 +558,21 @@ begin
 
       if memProduct.Text = '' then
       begin
-           Mens_MensInf('Product´s Name is missing.');
+           Mens_MensInf('Product´s Name is required.');
            memProduct.SetFocus;
            Retorno := False;
       end;
 
       if edProductStyle.Text = '' then
       begin
-           Mens_MensInf('Style is missing.');
+           Mens_MensInf('Style is required.');
            edProductStyle.SetFocus;
            Retorno := False;
       end;
 
       if edtProductStyleName.Text = '' then
       begin
-           Mens_MensInf('Style is missing.');
+           Mens_MensInf('Style is required.');
            edtProductStyleName.SetFocus;
            Retorno := False;
       end;
@@ -581,17 +581,42 @@ begin
 
   if edtCostValue.Text = '' then
   begin
-       Mens_MensInf('Cost Value is missing.');
+       Mens_MensInf('Cost Value is required.');
        edtCostValue.SetFocus;
        Retorno := False;
   end;
 
   if edtMskQty.Text = '' then
   begin
-       Mens_MensInf('Qty is missing.');
+       Mens_MensInf('Qty is required.');
        edtMskQty.SetFocus;
        Retorno := False;
   end;
+
+  if edtAreaSquareFeetPerBox.Text = '' then
+  begin
+       Mens_MensInf('Quantity Per Carton/Roll is required.');
+       edtAreaSquareFeetPerBox.SetFocus;
+       Retorno := False;
+  end;
+
+  if (( cxLookupComboBoxType.Text = 'CARPET') OR (cxLookupComboBoxType.Text = 'VINYL')) then
+  begin
+    if edtWidth.Text = '' then
+    begin
+       Mens_MensInf('Width is required.');
+       edtWidth.SetFocus;
+       Retorno := False;
+    end;
+
+    if edtHeight.Text = '' then
+    begin
+       Mens_MensInf('Length is required.');
+       edtHeight.SetFocus;
+       Retorno := False;
+    end;
+  end;
+
 
   Result := Retorno;
 

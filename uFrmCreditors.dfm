@@ -1,9 +1,10 @@
 object FrmCreditors: TFrmCreditors
   Left = 0
   Top = 0
+  BorderStyle = bsSingle
   Caption = 'Account Payable'
-  ClientHeight = 496
-  ClientWidth = 1073
+  ClientHeight = 506
+  ClientWidth = 1083
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -23,8 +24,8 @@ object FrmCreditors: TFrmCreditors
   object cxPageControl: TcxPageControl
     Left = 0
     Top = 0
-    Width = 1073
-    Height = 441
+    Width = 1083
+    Height = 451
     Align = alClient
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -35,11 +36,12 @@ object FrmCreditors: TFrmCreditors
     TabOrder = 0
     Properties.ActivePage = cxTabSheetForm
     Properties.CustomButtons.Buttons = <>
+    Properties.HideTabs = True
     OnChange = cxPageControlChange
-    ClientRectBottom = 437
+    ClientRectBottom = 447
     ClientRectLeft = 4
-    ClientRectRight = 1069
-    ClientRectTop = 24
+    ClientRectRight = 1079
+    ClientRectTop = 4
     object cxTabSheetList: TcxTabSheet
       Caption = 'Accounts Payable'
       Font.Charset = DEFAULT_CHARSET
@@ -52,8 +54,8 @@ object FrmCreditors: TFrmCreditors
       object cxGrid2: TcxGrid
         Left = 0
         Top = 0
-        Width = 1065
-        Height = 413
+        Width = 1075
+        Height = 443
         Align = alClient
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -63,6 +65,7 @@ object FrmCreditors: TFrmCreditors
         ParentFont = False
         TabOrder = 0
         object cxGrid2DBTableView1: TcxGridDBTableView
+          OnDblClick = cxGrid2DBTableView1DblClick
           Navigator.Buttons.CustomButtons = <>
           DataController.DataSource = dsGrid
           DataController.KeyFieldNames = 'ID_PAYABLE'
@@ -172,11 +175,12 @@ object FrmCreditors: TFrmCreditors
       Font.Style = []
       ImageIndex = 1
       ParentFont = False
+      TabVisible = False
       object Panel1: TPanel
         Tag = -2
         Left = 0
         Top = 0
-        Width = 1065
+        Width = 1075
         Height = 27
         Align = alTop
         Alignment = taLeftJustify
@@ -867,8 +871,8 @@ object FrmCreditors: TFrmCreditors
   end
   object Panel27: TPanel
     Left = 0
-    Top = 441
-    Width = 1073
+    Top = 451
+    Width = 1083
     Height = 36
     Align = alBottom
     BevelOuter = bvNone
@@ -1391,8 +1395,8 @@ object FrmCreditors: TFrmCreditors
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 477
-    Width = 1073
+    Top = 487
+    Width = 1083
     Height = 19
     Panels = <
       item
@@ -1424,13 +1428,13 @@ object FrmCreditors: TFrmCreditors
       '   ,M.PAYMENT_DESCRIPTION AS METHOD'
       '   ,(U.LASTNAME + '#39','#39' + U.FIRST_NAME) AS DBUSER'
       '   ,P.ID_SUPPLIER'
-      '   ,P.ID_EXPENSECATEGORY'
-      '   ,P.ID_PAYMENT_METHOD'
+      '   ,ISNULL(P.ID_EXPENSECATEGORY, -1) AS ID_EXPENSECATEGORY'
+      '   ,ISNULL(P.ID_PAYMENT_METHOD, -1) AS ID_PAYMENT_METHOD'
       '   ,P.ID_USER'
       '   ,P.ID_COMPANY'
       '   ,P.ADD_DATE'
       '   ,P.UPD_DATE'
-      '   ,p.ID_BANK'
+      '   ,ISNULL(p.ID_BANK, -1) AS ID_BANK'
       '   ,P.NOTES'
       ''
       'FROM  TBPAYABLE P'
@@ -1441,9 +1445,38 @@ object FrmCreditors: TFrmCreditors
       
         'LEFT OUTER JOIN TBPAYMENT_METHOD M ON M.ID_PAYMENT_METHOD = P.ID' +
         '_PAYMENT_METHOD'
-      'LEFT OUTER JOIN TBUSER U ON U.ID_USER = P.ID_USER')
+      'LEFT OUTER JOIN TBUSER U ON U.ID_USER = P.ID_USER'
+      
+        'LEFT OUTER JOIN TBPROCESS B ON B.ID_PROCESS = P.INVOICE_ID AND  ' +
+        'B.TABLENAME = '#39'TBINVOICE'#39
+      'WHERE (1 = 1)'
+      '&WHERE1'
+      '&WHERE2'
+      '&WHERE3'
+      '&WHERE4')
     Left = 796
     Top = 312
+    MacroData = <
+      item
+        Value = Null
+        Name = 'WHERE1'
+        DataType = mdIdentifier
+      end
+      item
+        Value = Null
+        Name = 'WHERE2'
+        DataType = mdIdentifier
+      end
+      item
+        Value = Null
+        Name = 'WHERE3'
+        DataType = mdIdentifier
+      end
+      item
+        Value = Null
+        Name = 'WHERE4'
+        DataType = mdIdentifier
+      end>
     object sqlGridID_PAYABLE: TFDAutoIncField
       FieldName = 'ID_PAYABLE'
       Origin = 'ID_PAYABLE'

@@ -23,6 +23,7 @@ Type
        Fadditioninfo        : string;
        Fid_user             : integer;
        FUser                : TUser;
+       Ffolder              : TFolder;
 
     procedure setFid_supplier(const Value: integer);
     procedure setFadditioninfo(const Value: string);
@@ -46,6 +47,7 @@ Type
        property additioninfo        : string read Fadditioninfo        write setFadditioninfo;
        property id_user             : integer read Fid_user            write setFid_user;
        property User                : TUser read FUser;
+       property folder              : TFolder read FFolder;
 
        Constructor Create;
        procedure SearchSupplier(varID_Supplier : Integer);
@@ -74,6 +76,7 @@ begin
     additioninfo        := '';
     id_user             := 0;
     FUser               := TUser.Create;
+    FFolder             := TFolder.Create;
 end;
 
 
@@ -147,6 +150,7 @@ begin
         sqlDados.SQL.Add(',product_service');
         sqlDados.SQL.Add(',website');
         sqlDados.SQL.Add(',id_user');
+        sqlDados.SQL.Add(',folder ');
         sqlDados.SQL.Add(',additioninfo )');
         sqlDados.SQL.Add(' Values (');
         sqlDados.SQL.Add( IntToStr(id_supplier) + ',' );
@@ -157,6 +161,7 @@ begin
         sqlDados.SQL.Add( QuotedStr(product_service) +  ',' );
         sqlDados.SQL.Add( QuotedStr(website) +  ',' );
         sqlDados.SQL.Add( IntToStr(id_user) +  ',' );
+        sqlDados.SQL.Add( QuotedStr(folder.pasta) +  ',' );
         sqlDados.SQL.Add( QuotedStr(additioninfo)  +  ')' );
 
         Try
@@ -185,7 +190,7 @@ begin
        sqlDados.Connection := FDConnection;
        Try
         sqlDados.SQL.Clear;
-        sqlDados.SQL.Add('Select ID_SUPPLIER, ADD_DATE, UPD_DATE, namebusiness, tradiningname, industry, product_service, website, additioninfo, id_user From TBSUPPLIER Where id_supplier = :id_supplier');
+        sqlDados.SQL.Add('Select ID_SUPPLIER, ADD_DATE, UPD_DATE, namebusiness, tradiningname, industry, product_service, website, additioninfo, id_user, folder From TBSUPPLIER Where id_supplier = :id_supplier');
         sqlDados.Params.ParamByName('id_supplier').AsInteger := varID_Supplier;
         sqlDados.Open;
         if not sqlDados.IsEmpty  then
@@ -200,6 +205,7 @@ begin
           website             := sqlDados.FieldByName('website').ASString;
           additioninfo        := sqlDados.FieldByName('additioninfo').ASString;
           id_user             := sqlDados.FieldByName('id_user').AsInteger;
+          folder.pasta        := sqlDados.FieldByName('folder').AsString;
           User.Search(id_user);
 
         end;

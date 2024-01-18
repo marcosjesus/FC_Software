@@ -74,7 +74,8 @@ type
     { Private declarations }
   public
     { Public declarations }
-    procedure SetupTable;
+    varIDExterna : Integer;
+    procedure SetupTable(varstatus : string = ''; varid_customer : string = '');
   end;
 
 var
@@ -102,24 +103,42 @@ begin
   SetupTable;
 end;
 
-procedure TfrmWorkOrder.SetupTable;
+procedure TfrmWorkOrder.SetupTable(varstatus : string; varid_customer : string);
 begin
   sqlGrid.Close;
-  if rgStatus.ItemIndex = 0 then
+  if varstatus = '' then
   begin
-    sqlGrid.Params.ParamByName('STATUS').AsString := 'PENDING';
-    cxGrid2.Enabled := True;
-  end
-  else if rgStatus.ItemIndex = 1 then
-  begin
-    sqlGrid.Params.ParamByName('STATUS').AsString := 'DONE';
-    cxGrid2.Enabled := False;
+
+    if rgStatus.ItemIndex = 0 then
+    begin
+      sqlGrid.MacroByName( 'WHERE1' ).AsRaw := ' AND A.STATUS = ''PENDING''';
+      cxGrid2.Enabled := True;
+    end
+    else if rgStatus.ItemIndex = 1 then
+    begin
+      sqlGrid.MacroByName( 'WHERE1' ).AsRaw := ' AND A.STATUS = ''COMPLETED''';
+      cxGrid2.Enabled := False;
+    end
+    else
+    begin
+      sqlGrid.MacroByName( 'WHERE1' ).AsRaw := ' AND A.STATUS = ''CANCELED''';
+      cxGrid2.Enabled := False;
+    end;
+
   end
   else
   begin
-    sqlGrid.Params.ParamByName('STATUS').AsString := 'CANCELED';
-    cxGrid2.Enabled := False;
+    if ((varstatus <> '') and (varid_customer <> '')) then
+    begin
+     sqlGrid.MacroByName( 'WHERE1' ).AsRaw := ' AND A.STATUS = ' + QuotedStr(varstatus);
+     sqlGrid.MacroByName( 'WHERE2' ).AsRaw := ' AND B.ID_CUSTOMER = ' + QuotedStr(varid_customer)
+    end;
   end;
+
+  if varIDExterna <> 0 then
+     sqlGrid.MacroByName( 'WHERE3' ).AsRaw := ' AND A.ID_PROCESS = ' + IntToStr(varIDExterna)
+  else sqlGrid.MacroByName( 'WHERE3' ).AsRaw := '';
+
   sqlGrid.Open;
 
 end;

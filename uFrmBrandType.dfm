@@ -1,9 +1,10 @@
 object FrmBrandType: TFrmBrandType
   Left = 0
   Top = 0
+  BorderStyle = bsSingle
   Caption = 'Miscellaneous'
-  ClientHeight = 665
-  ClientWidth = 974
+  ClientHeight = 675
+  ClientWidth = 984
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -22,34 +23,48 @@ object FrmBrandType: TFrmBrandType
   object Panel2: TPanel
     Left = 0
     Top = 0
-    Width = 974
-    Height = 665
+    Width = 984
+    Height = 675
     Align = alClient
     TabOrder = 0
+    ExplicitWidth = 974
+    ExplicitHeight = 665
     object Page: TcxPageControl
       Left = 1
       Top = 1
-      Width = 972
-      Height = 644
+      Width = 982
+      Height = 654
       Align = alClient
       TabOrder = 0
-      Properties.ActivePage = cxTabSheet1
+      Properties.ActivePage = TabMaterial
       Properties.CustomButtons.Buttons = <>
-      ClientRectBottom = 640
+      ExplicitWidth = 972
+      ExplicitHeight = 644
+      ClientRectBottom = 650
       ClientRectLeft = 4
-      ClientRectRight = 968
+      ClientRectRight = 978
       ClientRectTop = 24
       object TabMaterial: TcxTabSheet
         Caption = 'Product Type'
         ImageIndex = 0
+        ExplicitWidth = 964
+        ExplicitHeight = 616
         object cxGridPriceType: TcxGrid
           Left = 0
           Top = 0
-          Width = 964
-          Height = 616
+          Width = 974
+          Height = 626
           Align = alClient
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ParentFont = False
           TabOrder = 0
           RootLevelOptions.DetailTabsPosition = dtpTop
+          ExplicitWidth = 964
+          ExplicitHeight = 616
           object cxGridDBTableViewType: TcxGridDBTableView
             Navigator.Buttons.ConfirmDelete = True
             Navigator.Buttons.CustomButtons = <>
@@ -129,14 +144,18 @@ object FrmBrandType: TFrmBrandType
         AlignWithMargins = True
         Caption = 'Product Style'
         ImageIndex = 1
+        ExplicitWidth = 958
+        ExplicitHeight = 610
         object cxGridBrand: TcxGrid
           Left = 0
           Top = 0
-          Width = 958
-          Height = 610
+          Width = 968
+          Height = 620
           Align = alClient
           TabOrder = 0
           RootLevelOptions.DetailTabsPosition = dtpTop
+          ExplicitWidth = 958
+          ExplicitHeight = 610
           object cxGridDBTableViewBrand: TcxGridDBTableView
             Navigator.Buttons.ConfirmDelete = True
             Navigator.Buttons.CustomButtons = <>
@@ -194,16 +213,6 @@ object FrmBrandType: TFrmBrandType
               DataBinding.FieldName = 'DESCRIPTION'
               Width = 400
             end
-            object cxGridDBTableViewBrandPROFIT_MIN: TcxGridDBColumn
-              Caption = 'Profit minimun %'
-              DataBinding.FieldName = 'PROFIT_MIN'
-              Width = 100
-            end
-            object cxGridDBTableViewBrandPROFIT_REGULAR: TcxGridDBColumn
-              Caption = 'Profit %'
-              DataBinding.FieldName = 'PROFIT_REGULAR'
-              Width = 100
-            end
           end
           object cxGridLevelBrand: TcxGridLevel
             Caption = 'Product Style'
@@ -214,14 +223,18 @@ object FrmBrandType: TFrmBrandType
       object TabRoom: TcxTabSheet
         Caption = 'Room'
         ImageIndex = 2
+        ExplicitWidth = 964
+        ExplicitHeight = 616
         object cxGrid1: TcxGrid
           Left = 0
           Top = 0
-          Width = 964
-          Height = 616
+          Width = 974
+          Height = 626
           Align = alClient
           TabOrder = 0
           RootLevelOptions.DetailTabsPosition = dtpTop
+          ExplicitWidth = 964
+          ExplicitHeight = 616
           object cxGridDBTableView1: TcxGridDBTableView
             Navigator.Buttons.ConfirmDelete = True
             Navigator.Buttons.CustomButtons = <>
@@ -281,14 +294,18 @@ object FrmBrandType: TFrmBrandType
       object TabDisplay: TcxTabSheet
         Caption = 'Sample Board'
         ImageIndex = 3
+        ExplicitWidth = 964
+        ExplicitHeight = 616
         object cxGrid2: TcxGrid
           Left = 0
           Top = 0
-          Width = 964
-          Height = 616
+          Width = 974
+          Height = 626
           Align = alClient
           TabOrder = 0
           RootLevelOptions.DetailTabsPosition = dtpTop
+          ExplicitWidth = 964
+          ExplicitHeight = 616
           object cxGridDBTableView2: TcxGridDBTableView
             Navigator.Buttons.ConfirmDelete = True
             Navigator.Buttons.CustomButtons = <>
@@ -343,14 +360,24 @@ object FrmBrandType: TFrmBrandType
       object cxTabSheet1: TcxTabSheet
         Caption = 'Services'
         ImageIndex = 4
+        ExplicitWidth = 964
+        ExplicitHeight = 616
         object cxGrid3: TcxGrid
           Left = 0
           Top = 0
-          Width = 964
-          Height = 616
+          Width = 974
+          Height = 626
           Align = alClient
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ParentFont = False
           TabOrder = 0
           RootLevelOptions.DetailTabsPosition = dtpTop
+          ExplicitWidth = 964
+          ExplicitHeight = 616
           object cxGridDBTableView3: TcxGridDBTableView
             Navigator.Buttons.ConfirmDelete = True
             Navigator.Buttons.CustomButtons = <>
@@ -410,10 +437,12 @@ object FrmBrandType: TFrmBrandType
     end
     object StatusBar1: TStatusBar
       Left = 1
-      Top = 645
-      Width = 972
+      Top = 655
+      Width = 982
       Height = 19
       Panels = <>
+      ExplicitTop = 645
+      ExplicitWidth = 972
     end
   end
   object sqlGridType: TFDQuery
@@ -573,7 +602,7 @@ object FrmBrandType: TFrmBrandType
   object sqlService: TFDQuery
     Connection = DBDados.FDConnection
     SQL.Strings = (
-      'SELECT ID_LABOR, DESCRIPTION FROM TBLABOR')
+      'SELECT ID_LABOR, DESCRIPTION, ID_TYPEBRAND FROM TBLABOR')
     Left = 181
     Top = 241
     object sqlServiceID_LABOR: TFDAutoIncField
@@ -586,6 +615,10 @@ object FrmBrandType: TFrmBrandType
       FieldName = 'DESCRIPTION'
       Origin = 'DESCRIPTION'
       Size = 100
+    end
+    object sqlServiceID_TYPEBRAND: TIntegerField
+      FieldName = 'ID_TYPEBRAND'
+      Origin = 'ID_TYPEBRAND'
     end
   end
   object dsService: TDataSource

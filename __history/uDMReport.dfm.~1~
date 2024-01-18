@@ -1,0 +1,5 @@
+object DMReport: TDMReport
+  OldCreateOrder = False
+  Height = 370
+  Width = 596
+end

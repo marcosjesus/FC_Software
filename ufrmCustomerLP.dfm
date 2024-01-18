@@ -49,10 +49,6 @@ object frmCustomerLP: TfrmCustomerLP
       Font.Style = []
       ImageIndex = 0
       ParentFont = False
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object cxGrid1: TcxGrid
         Left = 0
         Top = 0
@@ -119,10 +115,6 @@ object frmCustomerLP: TfrmCustomerLP
       Caption = 'Registration Form'
       ImageIndex = 1
       TabVisible = False
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object Panel1: TPanel
         Tag = -2
         Left = 0
@@ -182,10 +174,6 @@ object frmCustomerLP: TfrmCustomerLP
           Font.Style = [fsBold]
           ImageIndex = 0
           ParentFont = False
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
           object Panel3: TPanel
             Left = 0
             Top = 258
@@ -199,8 +187,6 @@ object frmCustomerLP: TfrmCustomerLP
             Font.Style = [fsBold]
             ParentFont = False
             TabOrder = 0
-            ExplicitTop = 225
-            ExplicitHeight = 149
             object cxPageControl2: TcxPageControl
               Left = 1
               Top = 1
@@ -209,7 +195,6 @@ object frmCustomerLP: TfrmCustomerLP
               Align = alClient
               TabOrder = 0
               Properties.CustomButtons.Buttons = <>
-              ExplicitHeight = 147
               ClientRectBottom = 110
               ClientRectLeft = 4
               ClientRectRight = 563
@@ -229,7 +214,6 @@ object frmCustomerLP: TfrmCustomerLP
               ParentFont = False
               TabOrder = 1
               RootLevelOptions.DetailTabsPosition = dtpTop
-              ExplicitHeight = 147
               object cxTableViewAddress: TcxGridDBTableView
                 Navigator.Buttons.ConfirmDelete = True
                 Navigator.Buttons.CustomButtons = <>
@@ -454,10 +438,6 @@ object frmCustomerLP: TfrmCustomerLP
                 Font.Style = [fsBold]
                 ImageIndex = 0
                 ParentFont = False
-                ExplicitLeft = 0
-                ExplicitTop = 0
-                ExplicitWidth = 0
-                ExplicitHeight = 0
                 object Panel200: TPanel
                   Tag = -1
                   Left = 3
@@ -648,8 +628,6 @@ object frmCustomerLP: TfrmCustomerLP
             Font.Style = [fsBold]
             ParentFont = False
             TabOrder = 2
-            ExplicitTop = 225
-            ExplicitHeight = 149
             object cxGrid2: TcxGrid
               Left = 1
               Top = 1
@@ -664,7 +642,6 @@ object frmCustomerLP: TfrmCustomerLP
               ParentFont = False
               TabOrder = 0
               RootLevelOptions.DetailTabsPosition = dtpTop
-              ExplicitHeight = 147
               object cxGridDBTableView1: TcxGridDBTableView
                 Navigator.Buttons.ConfirmDelete = True
                 Navigator.Buttons.CustomButtons = <>
@@ -747,8 +724,6 @@ object frmCustomerLP: TfrmCustomerLP
             Width = 6
             Height = 116
             Control = Panel3
-            ExplicitTop = 225
-            ExplicitHeight = 149
           end
         end
       end

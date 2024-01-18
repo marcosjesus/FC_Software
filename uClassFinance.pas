@@ -56,7 +56,6 @@ Type
     procedure setFamount_paid(const Value: Currency);
     procedure setFdate_paid(const Value: TDateTime);
 
-    procedure InsertBankStatement(Operation : String);
     procedure setFid_bankstatement(const Value: Integer);
     procedure setFGroupx(const Value: String);
 
@@ -97,6 +96,8 @@ Type
 
      procedure SearchPayable(varID_Payable : Integer);
      procedure SearchReceivable(varID_Receivable : Integer);
+
+     procedure InsertBankStatement(Operation : String);
 
   end;
 implementation

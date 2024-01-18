@@ -131,10 +131,9 @@ type
     private
        Ftablename         : string;
        Fid_process        : integer;
-       FCompany           : TCompany;
-       FCustomer          : TCustomer;
+       Fid_company        : Integer;
        Fid_address        : Integer;
-       FContractors       : TVendor;
+       Fid_contractor     : Integer;
        Fdt_process        : TdateTime;
        Fdt_process_valid  : TdateTime;
        Fcustomer_name     : string;
@@ -153,7 +152,7 @@ type
        Ftax               : double;
        Fshipping          : double;
        Ftotal             : double;
-       FUser              : TUser;
+       Fid_user           : Integer;
        Fadd_date          : TdateTime;
        Fupd_date          : TdateTime;
        Fid_customer       : Integer;
@@ -164,6 +163,10 @@ type
        FItens             : TList;
        FItensNF           : TItensNF;
        Fid_payment_method : Integer;
+       Fpurchase_order    : String;
+       Ffolder            : String;
+       Fsalesrep_email    : String;
+       Fsalesrep_name     : String;
 
     procedure setFaddress1(const Value: string);
     procedure setFcity(const Value: string);
@@ -196,15 +199,21 @@ type
     function GetNroItens: Integer;
     procedure setFid_payment_method(const Value: Integer);
     procedure setFid_address(const Value: Integer);
+    procedure setFpurchase_order(const Value: String);
+    procedure setFid_company(const Value: Integer);
+    procedure setFfolder(const Value: String);
+    procedure setFid_contractor(const Value: Integer);
+    procedure setFsalesrep_email(const Value: String);
+    procedure setFsalesrep_name(const Value: String);
+    procedure setFid_user(const Value: integer);
 
     public
        procedure setItens(index: Integer; const Value: TSalesProcessItem);
-       property tablename         : string    read Ftablename       write setFtablename;
-       property id_process        : integer   read Fid_process     write setFid_process;
-       property Company           : TCompany  read FCompany;
-       property Customer          : TCustomer read FCustomer;
-       property Contractors       : TVendor   read FContractors;
-       property dt_process         : TdateTime read Fdt_process       write setFdt_process;
+       property tablename         : string    read Ftablename        write setFtablename;
+       property id_process        : integer   read Fid_process       write setFid_process;
+       property id_company        : Integer   read Fid_company       write setFid_company;
+       property id_contractor     : Integer   read Fid_contractor   write setFid_contractor;
+       property dt_process        : TdateTime read Fdt_process       write setFdt_process;
        property dt_process_valid  : TdateTime read Fdt_process_valid write setFdt_process_valid;
        property customer_name     : string read Fcustomer_name     write setFcustomer_name;
        property customer_phone    : string read Fcustomer_phone    write setFcustomer_phone;
@@ -222,7 +231,7 @@ type
        property tax               : double read Ftax               write setFtax;
        property shipping          : double read Fshipping          write setFFshipping;
        property total             : double read Ftotal             write setFtotal;
-       property User              : TUser read FUser;
+       property id_user           : integer read Fid_user          write setFid_user;
        property add_date          : TdateTime read Fadd_date       write setFFadd_date;
        property upd_date          : TdateTime read Fupd_date       write setFupd_date;
        property id_customer       : Integer read Fid_customer      write setFid_customer;
@@ -232,8 +241,12 @@ type
        property dt_completed      : TDateTime read Fdt_completed write setFdt_completed;
        property id_payment_method : Integer read Fid_payment_method write setFid_payment_method;
        property id_address        : Integer read Fid_address write setFid_address;
+       property purchase_order    : String read Fpurchase_order write setFpurchase_order;
+       property folder            : String read Ffolder write setFfolder;
+       property salesrep_email    : String read Fsalesrep_email write setFsalesrep_email;
+       property salesrep_name     : String read Fsalesrep_name write setFsalesrep_name;
 
-        property Itens[index: Integer]: TSalesProcessItem read getItens
+       property Itens[index: Integer]: TSalesProcessItem read getItens
       write setItens; default;
 
        property ItensNF        : TItensNF        read FItensNF        write FItensNF;
@@ -261,9 +274,8 @@ begin
     FItens            := TList.Create;
     tablename         := '';
     id_process        := 0;
-    FCompany          := TCompany.Create;
-    FCustomer         := TCustomer.Create;
-    FContractors      := TVendor.Create;
+    id_company        := 0;
+    id_contractor     := 0;
     dt_process        := Date;
     dt_process_valid  := Date;
     dt_shippingDate   := Date;
@@ -284,13 +296,17 @@ begin
     tax               := 0.0;
     shipping          := 0.0;
     total             := 0.0;
-    FUser             := TUser.Create;
+    id_user           := 0;
     add_date          := 0;
     upd_date          := 0;
     id_origen         := 0;
     status            := '';
     id_payment_method := 0;
     id_address        := 0;
+    purchase_order    := '';
+    folder            := '';
+    salesrep_email    := '';
+    salesrep_name     := '';
 end;
 
 procedure TSalesProcess.Delete;
@@ -423,6 +439,7 @@ begin
         sqlDados.SQL.Add(',status');
         sqlDados.SQL.Add(',id_user');
         sqlDados.SQL.Add(',add_date');
+        sqlDados.SQL.Add(',purchase_order');
         sqlDados.SQL.Add(',id_payment_method');
 
         if id_customer <> 0 then
@@ -434,11 +451,11 @@ begin
 
         sqlDados.SQL.Add( QuotedStr(tablename) + ',' );
         sqlDados.SQL.Add( IntToStr(id_process) + ',' );
-        sqlDados.SQL.Add( IntToStr(FCompany.id_company) + ',' );
+        sqlDados.SQL.Add( IntToStr(id_company) + ',' );
         sqlDados.SQL.Add( QuotedStr(FormatDateTime('mm/dd/yyyy hh:mm:ss', dt_process)) +  ',' );
         sqlDados.SQL.Add( QuotedStr(FormatDateTime('mm/dd/yyyy hh:mm:ss', dt_process_valid)) +  ',' );
         sqlDados.SQL.Add( QuotedStr(FormatDateTime('mm/dd/yyyy hh:mm:ss', dt_shippingDate)) +  ',' );
-        sqlDados.SQL.Add( IntToStr(FContractors.id_contractor) + ',' );
+        sqlDados.SQL.Add( IntToStr(id_contractor) + ',' );
         sqlDados.SQL.Add( QuotedStr(customer_name) +  ',' );
         sqlDados.SQL.Add( QuotedStr(customer_phone) +  ',' );
         sqlDados.SQL.Add( QuotedStr(customer_email) +  ',' );
@@ -457,8 +474,9 @@ begin
         sqlDados.SQL.Add( QuotedStr( FloatToStr( total )) +  ',' );
         sqlDados.SQL.Add( IntToStr(id_origen) +  ',' );
         sqlDados.SQL.Add( QuotedStr(status) +  ',' );
-        sqlDados.SQL.Add( IntToStr(FUser.id_user) + ',' );
+        sqlDados.SQL.Add( IntToStr(id_user) + ',' );
         sqlDados.SQL.Add( QuotedStr(FormatDateTime('mm/dd/yyyy hh:mm:ss', now)) + ',' );
+        sqlDados.SQL.Add( QuotedStr(purchase_order) +  ',' );
         sqlDados.SQL.Add( IntToStr(id_payment_method) );
 
         if id_customer <> 0 then
@@ -489,10 +507,12 @@ procedure TSalesProcess.SaveSampleBoard;
   varNextKey : TDBNextKey;
   varNewCustomer, varNewAddress  :  Integer;
   sqlDados : TFDQuery;
+  Customer : TCustomer;
 begin
   varNewCustomer := 0;
   varNewAddress  := 0;
-
+  Customer := TCustomer.Create;
+  Try
   Try
 
       varNextKey  := TDBNextKey.Create('TBCUSTOMER');
@@ -502,6 +522,7 @@ begin
       Finally
         FreeAndNil(varNextKey);
       End;
+
       Customer.Id_customer := varNewCustomer;
       // Saving Customer
       Customer.Save;
@@ -537,7 +558,7 @@ begin
             sqlDados.Params.ParamByName('DATE_CHECKOUT').AsString      := FormatDateTime('mm/dd/yyyy hh:mm:ss', dt_process);
             sqlDados.Params.ParamByName('DATE_RETURN').AsString        := FormatDateTime('mm/dd/yyyy hh:mm:ss', dt_process_valid);
             sqlDados.Params.ParamByName('ABOUTUS').AsString            := comments;
-            sqlDados.Params.ParamByName('ID_USER').AsInteger           := User.id_user;
+            sqlDados.Params.ParamByName('ID_USER').AsInteger           := id_user;
             Try
                sqlDados.ExecSQL;
 
@@ -555,6 +576,9 @@ begin
         Mens_MensErro(E.ClassName + ' error raised, with message : '+E.Message);
 
   end;
+  Finally
+    FreeAndNil(Customer);
+  End;
 
 end;
 
@@ -573,11 +597,17 @@ begin
       Try
         sqlDados.Close;
         sqlDados.SQL.Clear;
-        sqlDados.SQL.Add('Select tablename, id_process, id_customer, id_address, id_company, id_contractors, dt_process, dt_process_valid, ');
-        sqlDados.SQL.Add(' dt_shipping, customer_name, customer_phone, customer_email, address1, ');
-        sqlDados.SQL.Add(' zipcode, st, city, county, ponumber, comments, subtotal, percent_discount,');
-        sqlDados.SQL.Add(' discount, tax, shipping, total, id_origen, status, id_user, add_date, upd_date, id_payment_method');
-        sqlDados.SQL.Add('From TBPROCESS With (NOLOCK) Where id_process = :id_process and RTRIM(TableName) = :tablename');
+        sqlDados.SQL.Add('Select p.tablename, p.id_process, p.id_customer, p.id_address, p.id_company, p.id_contractors, p.dt_process, p.dt_process_valid, ');
+        sqlDados.SQL.Add(' p.dt_shipping, p.customer_name, p.customer_phone, p.customer_email, p.address1, ');
+        sqlDados.SQL.Add(' p.zipcode, p.st, p.city, p.county, p.ponumber, p.comments, p.subtotal, p.percent_discount,');
+        sqlDados.SQL.Add(' p.discount, p.tax, p.shipping, p.total, p.id_origen, p.status, p.id_user, p.add_date, p.upd_date, p.id_payment_method, p.purchase_order, ');
+        sqlDados.SQL.Add(' c.folder, ct.email as salesrep_email, ct.name as salesrep_name ');
+        sqlDados.SQL.Add('From TBPROCESS p With (NOLOCK)  ');
+        sqlDados.SQL.Add(' left outer join TBCUSTOMER c on c.id_customer = p.id_customer ');
+        sqlDados.SQL.Add(' left outer join TBCONTRACTORS ct on ct.id_contractors = p.id_contractors ');
+
+        sqlDados.SQL.Add('Where p.id_process = :id_process and RTRIM(p.TableName) = :tablename');
+
         sqlDados.Params.ParamByName('tablename').AsString   := varTableName;
         sqlDados.Params.ParamByName('id_process').AsInteger := varID_Process;
         sqlDados.Open;
@@ -585,20 +615,23 @@ begin
         begin
            tablename         := sqlDados.FieldByName('tablename').ASString;
            id_process        := sqlDados.FieldByName('id_process').AsInteger;
+           folder            := sqlDados.FieldByName('folder').ASString;
+           salesrep_email    := sqlDados.FieldByName('salesrep_email').ASString;
+           salesrep_name     := sqlDados.FieldByName('salesrep_name').ASString;
 
            //if sqlDados.FieldByName('id_company').AsInteger > 0 then
            //  Company.Search(sqlDados.FieldByName('id_company').AsInteger);
 
-           Company.id_company :=  sqlDados.FieldByName('id_company').AsInteger;
+           id_company :=  sqlDados.FieldByName('id_company').AsInteger;
 
            //if sqlDados.FieldByName('id_customer').ASString <> '' then
-           Customer.Search(sqlDados.FieldByName('id_customer').AsInteger);
-           Customer.Id_customer := sqlDados.FieldByName('id_customer').AsInteger;
+          // Customer.Search(sqlDados.FieldByName('id_customer').AsInteger);
+           Id_customer      := sqlDados.FieldByName('id_customer').AsInteger;
            id_address           := sqlDados.FieldByName('id_address').AsInteger;
 
            // if sqlDados.FieldByName('id_contractors').AsInteger > 0 Then
-           Contractors.Search(sqlDados.FieldByName('id_contractors').AsInteger);
-           Contractors.id_contractor :=  sqlDados.FieldByName('id_contractors').AsInteger;
+         //  Contractors.Search(sqlDados.FieldByName('id_contractors').AsInteger);
+            id_contractor :=  sqlDados.FieldByName('id_contractors').AsInteger;
 
 
            dt_process        := sqlDados.FieldByName('dt_process').AsDateTime;
@@ -623,9 +656,8 @@ begin
            id_origen         := sqlDados.FieldByName('id_origen').AsInteger;
            status            := sqlDados.FieldByName('status').AsString;
            id_payment_method := sqlDados.FieldByName('id_payment_method').AsInteger;
-
-           if sqlDados.FieldByName('id_user').AsInteger > 0 then
-             User.Search(sqlDados.FieldByName('id_user').AsInteger);
+           purchase_order    := sqlDados.FieldByName('purchase_order').AsString;
+           id_user           := sqlDados.FieldByName('id_user').AsInteger;
 
            add_date          := sqlDados.FieldByName('add_date').AsDateTime;
            upd_date          := sqlDados.FieldByName('upd_date').AsDateTime;
@@ -703,6 +735,11 @@ begin
   Fcounty := Value;
 end;
 
+procedure TSalesProcess.setFfolder(const Value: String);
+begin
+  Ffolder := Value;
+end;
+
 procedure TSalesProcess.setFFshipping(const Value: double);
 begin
   Fshipping := Value;
@@ -718,6 +755,17 @@ procedure TSalesProcess.setFid_address(const Value: Integer);
 begin
   Fid_address := Value;
 end;
+
+procedure TSalesProcess.setFid_company(const Value: Integer);
+begin
+  Fid_company := Value;
+end;
+
+procedure TSalesProcess.setFid_contractor(const Value: Integer);
+begin
+  Fid_contractor := Value;
+end;
+
 
 procedure TSalesProcess.setFid_customer(const Value: Integer);
 begin
@@ -739,6 +787,11 @@ begin
   Fid_process := Value;
 end;
 
+procedure TSalesProcess.setFid_user(const Value: integer);
+begin
+  Fid_user := Value;
+end;
+
 procedure TSalesProcess.setFpercent_discount(const Value: double);
 begin
   Fpercent_discount := Value;
@@ -749,11 +802,26 @@ begin
   Fponumber := Value;
 end;
 
+procedure TSalesProcess.setFpurchase_order(const Value: String);
+begin
+  Fpurchase_order := Value;
+end;
+
 procedure TSalesProcess.setFdt_shippingDate(const Value: TDateTime);
 begin
   Fdt_shippingDate := Value;
 end;
 
+
+procedure TSalesProcess.setFsalesrep_email(const Value: String);
+begin
+  Fsalesrep_email := Value;
+end;
+
+procedure TSalesProcess.setFsalesrep_name(const Value: String);
+begin
+  Fsalesrep_name := Value;
+end;
 
 procedure TSalesProcess.setFstatus(const Value: string);
 begin
@@ -835,6 +903,7 @@ begin
         sqlDados.SQL.Add(',id_origen = :id_origen');
         sqlDados.SQL.Add(',status = :status ');
         sqlDados.SQL.Add(',upd_date = :upd_date');
+        sqlDados.SQL.Add(',purchase_order = :purchase_order');
         sqlDados.SQL.Add(',id_payment_method = :id_payment_method');
 
         if id_customer <> 0 then
@@ -845,11 +914,11 @@ begin
         sqlDados.SQL.Add(' Where tablename = :tablename and id_process = :id_process ');
 
 
-        sqlDados.Params.ParamByName('id_company').AsInteger          := FCompany.id_company;
+        sqlDados.Params.ParamByName('id_company').AsInteger          := id_company;
         sqlDados.Params.ParamByName('dt_process').AsString           := FormatDateTime('mm/dd/yyyy hh:mm:ss', dt_process);
         sqlDados.Params.ParamByName('dt_process_valid').AsString     := FormatDateTime('mm/dd/yyyy hh:mm:ss', dt_process_valid);
         sqlDados.Params.ParamByName('dt_shipping').AsString          := FormatDateTime('mm/dd/yyyy hh:mm:ss', dt_shippingDate);
-        sqlDados.Params.ParamByName('id_contractors').AsInteger      := FContractors.id_contractor;
+        sqlDados.Params.ParamByName('id_contractors').AsInteger      := id_contractor;
         sqlDados.Params.ParamByName('customer_name').AsString        := customer_name;
         sqlDados.Params.ParamByName('customer_phone').AsString       := customer_phone;
         sqlDados.Params.ParamByName('customer_email').AsString       := customer_email;
@@ -866,10 +935,11 @@ begin
         sqlDados.Params.ParamByName('tax').AsFloat                   := tax;
         sqlDados.Params.ParamByName('shipping').AsFloat              := shipping;
         sqlDados.Params.ParamByName('total').AsFloat                 := total;
-        sqlDados.Params.ParamByName('id_user').AsInteger             := FUser.id_user;
+        sqlDados.Params.ParamByName('id_user').AsInteger             := id_user;
         sqlDados.Params.ParamByName('id_origen').AsInteger           := id_origen;
         sqlDados.Params.ParamByName('status').AsString               := status;
         sqlDados.Params.ParamByName('upd_date').AsString             := FormatDateTime('mm/dd/yyyy hh:mm:ss', now);
+        sqlDados.Params.ParamByName('purchase_order').AsString       := purchase_order;
         sqlDados.Params.ParamByName('id_process').AsInteger          := id_process;
         sqlDados.Params.ParamByName('tablename').AsString            := tablename;
         sqlDados.Params.ParamByName('id_payment_method').AsInteger   := id_payment_method;
@@ -911,7 +981,7 @@ begin
         sqlDados.Params.ParamByName('DATE_RETURN').AsString        := FormatDateTime('mm/dd/yyyy hh:mm:ss', dt_process_valid);
         sqlDados.Params.ParamByName('ABOUTUS').AsString            := comments;
         sqlDados.Params.ParamByName('UPD_DATE').AsString           := FormatDateTime('mm/dd/yyyy hh:mm:ss', DATE);
-        sqlDados.Params.ParamByName('ID_USER').AsInteger           := User.id_user;
+        sqlDados.Params.ParamByName('ID_USER').AsInteger           := id_user;
         sqlDados.Params.ParamByName('ID_SAMPLECHECKOUT').AsInteger := id_process;
 
 

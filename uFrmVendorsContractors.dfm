@@ -36,7 +36,6 @@ object FrmVendorsContractors: TFrmVendorsContractors
     Properties.ActivePage = cxTabSheetVendor
     Properties.CustomButtons.Buttons = <>
     OnChange = cxPageControl1Change
-    ExplicitWidth = 1090
     ClientRectBottom = 718
     ClientRectLeft = 4
     ClientRectRight = 1251
@@ -50,7 +49,6 @@ object FrmVendorsContractors: TFrmVendorsContractors
       Font.Style = []
       ImageIndex = 0
       ParentFont = False
-      ExplicitWidth = 1082
       object cxGridPosition: TcxGrid
         Left = 0
         Top = 0
@@ -65,7 +63,6 @@ object FrmVendorsContractors: TFrmVendorsContractors
         ParentFont = False
         TabOrder = 0
         RootLevelOptions.DetailTabsPosition = dtpTop
-        ExplicitWidth = 1082
         object cxTableViewPosition: TcxGridDBTableView
           Navigator.Buttons.ConfirmDelete = True
           Navigator.Buttons.CustomButtons = <>
@@ -162,14 +159,23 @@ object FrmVendorsContractors: TFrmVendorsContractors
             DataBinding.FieldName = 'EMAIL'
             Width = 100
           end
-          object cxTableViewPositionDRIVER_LICENSE: TcxGridDBColumn
-            Caption = 'DL'
-            DataBinding.FieldName = 'DRIVER_LICENSE'
-            Width = 100
-          end
-          object cxTableViewPositionCOMISSION: TcxGridDBColumn
-            Caption = 'Commision %'
-            DataBinding.FieldName = 'COMISSION'
+          object cxTableViewPositionBUYER: TcxGridDBColumn
+            Caption = 'Buyer'
+            DataBinding.FieldName = 'BUYER'
+            PropertiesClassName = 'TcxImageComboBoxProperties'
+            Properties.Items = <
+              item
+                Description = 'NO'
+                ImageIndex = 0
+                Tag = 1
+                Value = 'N'
+              end
+              item
+                Description = 'YES'
+                ImageIndex = 0
+                Value = 'Y'
+              end>
+            Width = 60
           end
           object cxTableViewPositionBotao: TcxGridDBColumn
             Caption = ' View Pricing Table'
@@ -194,7 +200,6 @@ object FrmVendorsContractors: TFrmVendorsContractors
     object cxTabSheetPricing: TcxTabSheet
       Caption = 'Pricing Table'
       ImageIndex = 1
-      ExplicitWidth = 1082
       object Panel1: TPanel
         Left = 0
         Top = 0
@@ -202,7 +207,6 @@ object FrmVendorsContractors: TFrmVendorsContractors
         Height = 97
         Align = alTop
         TabOrder = 0
-        ExplicitWidth = 1082
         object Label1: TLabel
           Left = 48
           Top = 24
@@ -396,7 +400,6 @@ object FrmVendorsContractors: TFrmVendorsContractors
         Font.Style = []
         ParentFont = False
         TabOrder = 1
-        ExplicitWidth = 1082
         object cxGrid1: TcxGrid
           Left = 1
           Top = 1
@@ -410,7 +413,6 @@ object FrmVendorsContractors: TFrmVendorsContractors
           Font.Style = []
           ParentFont = False
           TabOrder = 0
-          ExplicitWidth = 1080
           object cxGrid1DBTableView1: TcxGridDBTableView
             Navigator.Buttons.CustomButtons = <>
             DataController.DataSource = dsVendorPricingTable
@@ -469,8 +471,8 @@ object FrmVendorsContractors: TFrmVendorsContractors
   end
   object dsVendor: TDataSource
     DataSet = sqlVendor
-    Left = 392
-    Top = 448
+    Left = 264
+    Top = 280
   end
   object sqlGrid: TFDQuery
     AfterEdit = sqlGridAfterEdit
@@ -546,6 +548,12 @@ object FrmVendorsContractors: TFrmVendorsContractors
       FieldName = 'ID_SUPPLIER'
       Origin = 'ID_SUPPLIER'
     end
+    object sqlGridBUYER: TStringField
+      FieldName = 'BUYER'
+      Origin = 'BUYER'
+      FixedChar = True
+      Size = 1
+    end
   end
   object dsGrid: TDataSource
     DataSet = sqlGrid
@@ -558,8 +566,8 @@ object FrmVendorsContractors: TFrmVendorsContractors
       
         'select ID_USER, LastName +'#39','#39'+ First_Name as NAME, PHONE_NUMBER,' +
         ' EMAIL, ID_COMPANY from TBUser order by LastName')
-    Left = 720
-    Top = 312
+    Left = 792
+    Top = 272
     object sqlUserID_USER: TFDAutoIncField
       FieldName = 'ID_USER'
       Origin = 'ID_USER'
@@ -647,8 +655,8 @@ object FrmVendorsContractors: TFrmVendorsContractors
   end
   object sqlAux: TFDQuery
     Connection = DBDados.FDConnection
-    Left = 604
-    Top = 361
+    Left = 484
+    Top = 417
   end
   object sqlSupplier: TFDQuery
     Connection = DBDados.FDConnection

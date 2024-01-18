@@ -3,7 +3,7 @@ unit ufrmDashBoard;
 interface
 
 uses
-  cxGridDBDataDefinitions,  cxCurrencyEdit,
+  cxGridDBDataDefinitions,  cxCurrencyEdit,   uDMReport, MensFun,
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, cxGraphics, cxControls,
   cxLookAndFeels, cxLookAndFeelPainters, cxContainer, cxEdit, dxSkinsCore,
@@ -29,7 +29,8 @@ uses
   cxDateUtils, cxCalendar, cxSpinEdit, System.DateUtils, cxFilter, cxData,
   cxDataStorage, cxNavigator, cxGridCustomTableView, cxGridTableView,
   cxGridDBTableView, cxGridBandedTableView, cxGridDBBandedTableView,
-  Vcl.CategoryButtons, Vcl.Mask, Vcl.DBCtrls, cxGroupBox, cxRadioGroup;
+  Vcl.CategoryButtons, Vcl.Mask, Vcl.DBCtrls, cxGroupBox, cxRadioGroup,
+  cxLookupEdit, cxDBLookupEdit, cxDBLookupComboBox;
 
 type
   TfrmDashBoard = class(TForm)
@@ -73,22 +74,13 @@ type
     Label5: TLabel;
     Label6: TLabel;
     Label7: TLabel;
-    Label8: TLabel;
+    lblTipo: TLabel;
     Label9: TLabel;
     sqlGrid: TFDQuery;
     dsGrid: TDataSource;
     cxGrid1: TcxGrid;
     cxGrid1DBBandedTableView1: TcxGridDBBandedTableView;
     cxGrid1Level1: TcxGridLevel;
-    dbMonthYear: TDBEdit;
-    SpeedButton1: TSpeedButton;
-    SpeedButton2: TSpeedButton;
-    sqlTempo: TFDQuery;
-    dsTempo: TDataSource;
-    sqlTempoID_TIME: TFDAutoIncField;
-    sqlTempoMES: TIntegerField;
-    sqlTempoEXTENSION: TStringField;
-    sqlTempoANO: TIntegerField;
     cxGrid2: TcxGrid;
     cxGridDBChartView1: TcxGridDBChartView;
     cxGridDBChartDataGroup1: TcxGridDBChartDataGroup;
@@ -104,9 +96,8 @@ type
     Panel6: TPanel;
     Splitter2: TSplitter;
     cxStyleRepository: TcxStyleRepository;
-    cxStyleInsatisfatorio: TcxStyle;
-    cxStyleCondicional: TcxStyle;
-    cxStyleSatisfatorio: TcxStyle;
+    cxStyleDebito: TcxStyle;
+    cxStyleCredito: TcxStyle;
     pnlFilter: TPanel;
     btnPrint: TSpeedButton;
     edtFiltro: TcxTextEdit;
@@ -114,6 +105,50 @@ type
     btnFiltro: TSpeedButton;
     btnCleanFiltro: TSpeedButton;
     rgStatus: TcxRadioGroup;
+    Panel3: TPanel;
+    Panel7: TPanel;
+    Label10: TLabel;
+    dsBank: TDataSource;
+    cxLookupComboBoxBank: TcxLookupComboBox;
+    sqlBank: TFDQuery;
+    sqlBankID_BANK: TFDAutoIncField;
+    sqlBankID_COMPANY: TIntegerField;
+    sqlBankACCOUNT: TStringField;
+    cxGrid5: TcxGrid;
+    cxGridDBTableViewCrew: TcxGridDBTableView;
+    cxGridLevel2: TcxGridLevel;
+    sqlStatement: TFDQuery;
+    dsStatement: TDataSource;
+    sqlStatementID_BANKSTATEMENT: TFDAutoIncField;
+    sqlStatementDESCRIPTION: TStringField;
+    sqlStatementDT_DEPOSIT: TDateField;
+    sqlStatementAMOUNT: TBCDField;
+    cxGridDBTableViewCrewDESCRIPTION: TcxGridDBColumn;
+    cxGridDBTableViewCrewDT_DEPOSIT: TcxGridDBColumn;
+    cxGridDBTableViewCrewAMOUNT: TcxGridDBColumn;
+    cxStyleRepository1: TcxStyleRepository;
+    cxStylePending: TcxStyle;
+    cxStyleAprovado: TcxStyle;
+    cxStyleStatusPaid: TcxStyle;
+    cxStyleStatusPending: TcxStyle;
+    DtStart: TcxDateEdit;
+    DtEnd: TcxDateEdit;
+    Label11: TLabel;
+    Label12: TLabel;
+    SpeedButton3: TSpeedButton;
+    sqlTempo: TFDQuery;
+    sqlTempoID_TIME: TFDAutoIncField;
+    sqlTempoMES: TIntegerField;
+    sqlTempoANO: TIntegerField;
+    sqlTempoEXTENSION: TStringField;
+    dbMonthYear: TDBEdit;
+    SpeedButton1: TSpeedButton;
+    SpeedButton2: TSpeedButton;
+    lblFrom: TLabel;
+    lblTo: TLabel;
+    cxStartFilterUser: TcxDateEdit;
+    cxEndFilterUser: TcxDateEdit;
+    btnFilterUser: TSpeedButton;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormActivate(Sender: TObject);
     procedure cxComboBoxOptionClick(Sender: TObject);
@@ -129,7 +164,18 @@ type
     procedure FormCreate(Sender: TObject);
     procedure btnFiltroClick(Sender: TObject);
     procedure btnCleanFiltroClick(Sender: TObject);
+    procedure cxGridDBTableViewCrewStylesGetContentStyle(
+      Sender: TcxCustomGridTableView; ARecord: TcxCustomGridRecord;
+      AItem: TcxCustomGridTableItem; var AStyle: TcxStyle);
+    procedure SpeedButton3Click(Sender: TObject);
+    procedure btnFilterUserClick(Sender: TObject);
+    procedure btnVencidosClick(Sender: TObject);
+    procedure btnAPagarClick(Sender: TObject);
+    procedure btnVenceHojeClick(Sender: TObject);
+    procedure btnPGVenceHojeClick(Sender: TObject);
   private
+    varUserFilter : Boolean;
+    varUltimoBotao : Integer;
     varFiltro : String;
     varDontDoIt : Boolean;
     varGlobalOption : Integer;
@@ -146,6 +192,10 @@ type
                              var ADone: Boolean);
     procedure Filter(Formulario : TForm);
     procedure LimpaFiltro(Formulario: TForm);
+    procedure StatementFilter;
+    procedure ShowMonths(varMesStart, varMesEnd : TDateTime);
+  protected
+
     { Private declarations }
   public
     { Public declarations }
@@ -334,39 +384,75 @@ begin
      btnFiltro.Visible := True;
    end;
 end;
+procedure TfrmDashBoard.btnAPagarClick(Sender: TObject);
+begin
+   cxPageControlTop.ActivePage := cxTabSheetTopUnique;
+   cxComboBoxOption.ItemIndex := 1;
+   btnuqvencidosClick(Self);
+{
+   rgStatus.Properties.Items[1].Caption := 'Paid';
+   cxPageControlTop.ActivePage := cxTabSheetTopUnique;
+   cxPageControlBody.ActivePage := cxTabSheetDetail;
+   lblTipo.Caption := 'Paid';
+   sqlGrid.Close;
+   doPayable;
+ }
+
+
+end;
+
 procedure TfrmDashBoard.btnCleanFiltroClick(Sender: TObject);
 begin
-  LimpaFiltro(frmDashBoard); 
+  LimpaFiltro(frmDashBoard);
 end;
 
 procedure TfrmDashBoard.Filter(Formulario : TForm);
 var
  varStatusFiltro : String;
+ varTipo : String;
 begin
   varFiltro       := '';
   varStatusFiltro := '';
+  varTipo := '';
+
+
   if sqlGrid.IsEmpty = True then Exit;
 
-  if edtFiltro.Text <> '' then
+  if cxComboBoxOption.ItemIndex = 0 then
+    varTipo := 'RECEIVED'
+  else varTipo := 'PAID';
+
+  if (edtFiltro.Text <> '')  then
   begin
+
    if rgStatus.ItemIndex = 0 then
       varStatusFiltro := ' AND PAYMENT_STATUS = ''PENDING'' '
    else if rgStatus.ItemIndex = 1 then
-      varStatusFiltro := ' AND PAYMENT_STATUS = ''PAID'' ';
-  
+      varStatusFiltro := ' AND PAYMENT_STATUS = ''' + varTipo + '''';
    with Formulario do
    begin
      sqlGrid.Filtered := False;
      sqlGrid.Filter   := '';
      sqlGrid.Filtered := True;
+    {
+     if varGlobalOption = 5 Then
+     begin
+         if rgStatus.ItemIndex = 0 then
+          varFiltro :=  'PAYMENT_STATUS = ''PENDING'' '
+         else if rgStatus.ItemIndex =  1 then
+          varFiltro :=  'PAYMENT_STATUS = ' + varTipo;
+     end
+     else
+     begin
+     }
+         if cbxFiltro.ItemIndex = 0 then
+          varFiltro :=  'PAYMENT_DESCRIPTION LIKE ' + QuotedStr(edtFiltro.Text+ '%') + Trim(varStatusFiltro)
+         else if cbxFiltro.ItemIndex = 1 then
+             varFiltro := 'NAME LIKE ' + QuotedStr(edtFiltro.Text + '%')  + Trim(varStatusFiltro)
+         else  if cbxFiltro.ItemIndex = 2 then
+             varFiltro := 'PAYMENT_AMOUNT = ' + QuotedStr(edtFiltro.Text) + Trim(varStatusFiltro);
 
-     if cbxFiltro.ItemIndex = 0 then
-      varFiltro :=  'PAYMENT_DESCRIPTION LIKE ' + QuotedStr(edtFiltro.Text+ '%') + Trim(varStatusFiltro)
-     else if cbxFiltro.ItemIndex = 1 then
-         varFiltro := 'NAME LIKE ' + QuotedStr(edtFiltro.Text + '%')  + Trim(varStatusFiltro)
-     else  if cbxFiltro.ItemIndex = 2 then
-         varFiltro := 'PAYMENT_AMOUNT = ' + QuotedStr(edtFiltro.Text) + Trim(varStatusFiltro);
-
+  //   end;
      btnCleanFiltro.Visible := True;
      btnFiltro.Visible      := False;
 
@@ -379,9 +465,24 @@ begin
   end;
 end;
 
+procedure TfrmDashBoard.btnFilterUserClick(Sender: TObject);
+begin
+  if sqlGrid.IsEmpty  then Exit;
+  
+  varUserFilter := True;
+  OpenGrid(varUltimoBotao);
+end;
+
 procedure TfrmDashBoard.btnFiltroClick(Sender: TObject);
 begin
   Filter(frmDashBoard);
+end;
+
+procedure TfrmDashBoard.btnPGVenceHojeClick(Sender: TObject);
+begin
+   cxPageControlTop.ActivePage := cxTabSheetTopUnique;
+   cxComboBoxOption.ItemIndex := 1;
+   btnuqvencehojeClick(Self);
 end;
 
 procedure TfrmDashBoard.btnPrintClick(Sender: TObject);
@@ -486,6 +587,9 @@ begin
              end;
 
            end;
+           sqlGrid.SQL.Add(' &WHERE1 ');
+           sqlGrid.MacroByName( 'WHERE1' ).AsRaw := ' AND ' + DBDados.varReturnCompanies;
+
            sqlGrid.Open;
            if varFiltro <> '' then
            begin
@@ -509,6 +613,8 @@ end;
 procedure TfrmDashBoard.btnuqavencerClick(Sender: TObject);
 begin
    // To be Due
+   varUltimoBotao := btnuqavencer.Tag;
+   varUserFilter := False;
    varSubTitle := Label7.Caption;
    OpenGrid(3);
 end;
@@ -516,13 +622,17 @@ end;
 procedure TfrmDashBoard.btnuqrecebidosClick(Sender: TObject);
 begin
    // Received
-   varSubTitle := Label8.Caption;
+   varUltimoBotao := btnuqrecebidos.Tag;
+   varUserFilter := False;
+   varSubTitle := lblTipo.Caption;
    OpenGrid(4);
 end;
 
 procedure TfrmDashBoard.btnuqtotalperiodoClick(Sender: TObject);
 begin
    // Total
+   varUltimoBotao := btnuqtotalperiodo.Tag;
+   varUserFilter := False;
    varSubTitle := Label9.Caption;
    OpenGrid(5);
 end;
@@ -530,6 +640,8 @@ end;
 procedure TfrmDashBoard.btnuqvencehojeClick(Sender: TObject);
 begin
    // Due Date
+   varUltimoBotao := btnuqvencehoje.Tag;
+   varUserFilter := False;
    varSubTitle := Label6.Caption;
    OpenGrid(2);
 end;
@@ -537,23 +649,52 @@ end;
 procedure TfrmDashBoard.btnuqvencidosClick(Sender: TObject);
 begin
    // Overdue
+   varUltimoBotao := btnuqvencidos.Tag;
+   varUserFilter := False;
    varSubTitle := Label5.Caption;
    OpenGrid(1);
+end;
+
+procedure TfrmDashBoard.btnVenceHojeClick(Sender: TObject);
+begin
+   cxPageControlTop.ActivePage := cxTabSheetTopUnique;
+   cxComboBoxOption.ItemIndex := 1;
+   btnuqvencehojeClick(Self);
+end;
+
+procedure TfrmDashBoard.btnVencidosClick(Sender: TObject);
+begin
+   cxPageControlTop.ActivePage := cxTabSheetTopUnique;
+
+   cxComboBoxOption.ItemIndex := 0;
+   {
+   rgStatus.Properties.Items[1].Caption := 'Received';
+   cxPageControlTop.ActivePage := cxTabSheetTopUnique;
+   cxPageControlBody.ActivePage := cxTabSheetDetail;
+   lblTipo.Caption := 'Received';
+   sqlGrid.Close;
+   doReceivables;
+   }
+   btnuqvencidosClick(Self);
 end;
 
 procedure TfrmDashBoard.cxComboBoxOptionClick(Sender: TObject);
 begin
      if cxComboBoxOption.ItemIndex = 0 then
      begin
+       rgStatus.Properties.Items[1].Caption := 'Received';
        cxPageControlTop.ActivePage := cxTabSheetTopUnique;
        cxPageControlBody.ActivePage := cxTabSheetDetail;
+       lblTipo.Caption := 'Received';
        sqlGrid.Close;
        doReceivables;
      end
      else if cxComboBoxOption.ItemIndex = 1 then
      begin
+       rgStatus.Properties.Items[1].Caption := 'Paid';
        cxPageControlTop.ActivePage := cxTabSheetTopUnique;
        cxPageControlBody.ActivePage := cxTabSheetDetail;
+       lblTipo.Caption := 'Paid';
        sqlGrid.Close;
        doPayable;
      end
@@ -564,6 +705,37 @@ begin
        cxPageControlBody.ActivePage := cxTabSheetChart;
        doBoth;
      end;
+end;
+
+procedure TfrmDashBoard.cxGridDBTableViewCrewStylesGetContentStyle(
+  Sender: TcxCustomGridTableView; ARecord: TcxCustomGridRecord;
+  AItem: TcxCustomGridTableItem; var AStyle: TcxStyle);
+begin
+   if AItem = nil then exit;
+
+     if ARecord.Values[2] > 0 then
+       AStyle := cxStyleCredito
+     else if  ARecord.Values[2]  < 0 then
+       AStyle := cxStyleDebito;
+end;
+
+procedure  TfrmDashBoard.StatementFilter;
+begin
+  if DtStart.Date > DtEnd.Date then
+  begin
+     Mens_MensInf(' Start Date cannot be greater than End Date');
+     DtStart.SetFocus;
+     Exit;
+  end;
+
+  if cxLookupComboBoxBank.ItemIndex <> -1 then
+  begin
+   sqlStatement.Close;
+   sqlStatement.Params.ParamByName('ID_BANK').AsInteger := cxLookupComboBoxBank.EditValue;
+   sqlStatement.Params.ParamByName('DTSTART').AsString  := FormatDateTime('mm/dd/yyyy hh:mm:ss', DtStart.Date);
+   sqlStatement.Params.ParamByName('DTEND').AsString    := FormatDateTime('mm/dd/yyyy hh:mm:ss', DtEnd.Date);
+   sqlStatement.Open;
+  end;
 end;
 
 procedure  TfrmDashBoard.doReceivables;
@@ -587,10 +759,10 @@ begin
     sqlDados.SQL.Clear;
     sqlDados.SQL.Add('SELECT SUM(PAYMENT_AMOUNT) as PAYMENT_AMOUNT FROM TBRECEIVABLE ');
     sqlDados.SQL.Add('WHERE PAYMENT_STATUS = ''PENDING'' ');
-    sqlDados.SQL.Add('AND  DATE_DUE >= :DT_INI AND  DATE_DUE < :DT_FIM');
+    sqlDados.SQL.Add('AND  DATE_DUE >= :DT_INI AND  DATE_DUE <= :DT_FIM &WHERE1 ');
     sqlDados.ParamByName( 'DT_INI' ).AsDate := System.DateUtils.StartOfTheMonth(myDate);
-    sqlDados.ParamByName( 'DT_FIM' ).AsDate := myDate;
-
+    sqlDados.ParamByName( 'DT_FIM' ).AsDate := myDate-1;
+    sqlDados.MacroByName( 'WHERE1' ).AsRaw := ' AND ' + DBDados.varReturnCompanies;
     sqlDados.Open;
 
     varTotal :=   sqlDados.FieldByName('PAYMENT_AMOUNT').AsFloat;
@@ -602,8 +774,9 @@ begin
     sqlDados.SQL.Clear;
     sqlDados.SQL.Add('SELECT SUM(PAYMENT_AMOUNT) as PAYMENT_AMOUNT FROM TBRECEIVABLE ');
     sqlDados.SQL.Add('WHERE PAYMENT_STATUS = ''PENDING'' ');
-    sqlDados.SQL.Add('AND DATE_DUE = :DT_INI ');
+    sqlDados.SQL.Add('AND DATE_DUE = :DT_INI  &WHERE1  ');
     sqlDados.ParamByName( 'DT_INI' ).AsDate := myDate;
+    sqlDados.MacroByName( 'WHERE1' ).AsRaw := ' AND ' + DBDados.varReturnCompanies;
     sqlDados.Open;
     varTotal :=  varTotal + sqlDados.FieldByName('PAYMENT_AMOUNT').AsFloat;
     btnuqvencehoje.Font.Color := clTeal;
@@ -614,10 +787,10 @@ begin
     sqlDados.SQL.Clear;
     sqlDados.SQL.Add('SELECT SUM(PAYMENT_AMOUNT) as PAYMENT_AMOUNT FROM TBRECEIVABLE ');
     sqlDados.SQL.Add('WHERE PAYMENT_STATUS = ''PENDING'' ');
-    sqlDados.SQL.Add('AND  DATE_DUE > :DT_INI AND DATE_DUE <= :DT_FIM ');
-    sqlDados.ParamByName( 'DT_INI' ).AsDate := MyDate;
+    sqlDados.SQL.Add('AND  DATE_DUE >= :DT_INI AND DATE_DUE <= :DT_FIM &WHERE1 ');
+    sqlDados.ParamByName( 'DT_INI' ).AsDate := MyDate+1;
     sqlDados.ParamByName( 'DT_FIM' ).AsDate := System.DateUtils.EndOfTheMonth(myDate);
-
+    sqlDados.MacroByName( 'WHERE1' ).AsRaw := ' AND ' + DBDados.varReturnCompanies;
     sqlDados.Open;
     varTotal :=  varTotal + sqlDados.FieldByName('PAYMENT_AMOUNT').AsFloat;
     btnuqavencer.Font.Color := clTeal;
@@ -626,11 +799,13 @@ begin
     sqlDados.Close;
     sqlDados.SQL.Clear;
     sqlDados.SQL.Add('SELECT SUM(PAYMENT_AMOUNT) as PAYMENT_AMOUNT FROM TBRECEIVABLE ');
-    sqlDados.SQL.Add('WHERE PAYMENT_STATUS = ''PAID'' ');
-    sqlDados.SQL.Add('AND DATE_DUE >= :DT_INI AND DATE_DUE <= :DT_FIM ');
+    sqlDados.SQL.Add('WHERE PAYMENT_STATUS = ''RECEIVED'' ');
+    sqlDados.SQL.Add('AND DATE_DUE >= :DT_INI AND DATE_DUE <= :DT_FIM &WHERE1 ');
     sqlDados.ParamByName( 'DT_INI' ).AsDate := System.DateUtils.StartOfTheMonth(myDate);
     sqlDados.ParamByName( 'DT_FIM' ).AsDate := System.DateUtils.EndOfTheMonth(myDate);
+    sqlDados.MacroByName( 'WHERE1' ).AsRaw := ' AND ' + DBDados.varReturnCompanies;
     sqlDados.Open;
+
     varTotal :=  varTotal + sqlDados.FieldByName('PAYMENT_AMOUNT').AsFloat;
     btnuqrecebidos.Font.Color := clTeal;
     btnuqrecebidos.Caption :=  FormatFloat('0.00', sqlDados.FieldByName('PAYMENT_AMOUNT').AsFloat);
@@ -663,10 +838,10 @@ begin
     sqlDados.SQL.Clear;
     sqlDados.SQL.Add('SELECT SUM(PAYMENT_AMOUNT) as PAYMENT_AMOUNT FROM TBPAYABLE ');
     sqlDados.SQL.Add('WHERE PAYMENT_STATUS = ''PENDING'' ');
-    sqlDados.SQL.Add('AND  DATE_DUE >= :DT_INI AND  DATE_DUE < :DT_FIM');
+    sqlDados.SQL.Add('AND  DATE_DUE >= :DT_INI AND  DATE_DUE < :DT_FIM &WHERE1 ');
     sqlDados.ParamByName( 'DT_INI' ).AsDate := System.DateUtils.StartOfTheMonth(myDate);
     sqlDados.ParamByName( 'DT_FIM' ).AsDate := myDate;
-
+    sqlDados.MacroByName( 'WHERE1' ).AsRaw := ' AND ' + DBDados.varReturnCompanies;
     sqlDados.Open;
     varTotal :=   sqlDados.FieldByName('PAYMENT_AMOUNT').AsFloat;
     btnuqvencidos.Font.Color := clRed;
@@ -677,8 +852,9 @@ begin
     sqlDados.SQL.Clear;
     sqlDados.SQL.Add('SELECT SUM(PAYMENT_AMOUNT) as PAYMENT_AMOUNT FROM TBPAYABLE ');
     sqlDados.SQL.Add('WHERE PAYMENT_STATUS = ''PENDING'' ');
-    sqlDados.SQL.Add('AND DATE_DUE = :DT_INI ');
+    sqlDados.SQL.Add('AND DATE_DUE = :DT_INI &WHERE1 ');
     sqlDados.ParamByName( 'DT_INI' ).AsDate := myDate;
+    sqlDados.MacroByName( 'WHERE1' ).AsRaw := ' AND ' + DBDados.varReturnCompanies;
     sqlDados.Open;
     varTotal :=  varTotal + sqlDados.FieldByName('PAYMENT_AMOUNT').AsFloat;
     btnuqvencehoje.Font.Color := clRed;
@@ -689,10 +865,10 @@ begin
     sqlDados.SQL.Clear;
     sqlDados.SQL.Add('SELECT SUM(PAYMENT_AMOUNT) as PAYMENT_AMOUNT FROM TBPAYABLE ');
     sqlDados.SQL.Add('WHERE PAYMENT_STATUS = ''PENDING'' ');
-    sqlDados.SQL.Add('AND  DATE_DUE > :DT_INI AND DATE_DUE <= :DT_FIM ');
+    sqlDados.SQL.Add('AND  DATE_DUE > :DT_INI AND DATE_DUE <= :DT_FIM &WHERE1');
     sqlDados.ParamByName( 'DT_INI' ).AsDate := MyDate;
     sqlDados.ParamByName( 'DT_FIM' ).AsDate := System.DateUtils.EndOfTheMonth(myDate);
-
+    sqlDados.MacroByName( 'WHERE1' ).AsRaw := ' AND ' + DBDados.varReturnCompanies;
     sqlDados.Open;
     varTotal :=  varTotal + sqlDados.FieldByName('PAYMENT_AMOUNT').AsFloat;
     btnuqavencer.Font.Color := clRed;
@@ -702,9 +878,10 @@ begin
     sqlDados.SQL.Clear;
     sqlDados.SQL.Add('SELECT SUM(PAYMENT_AMOUNT) as PAYMENT_AMOUNT FROM TBPAYABLE ');
     sqlDados.SQL.Add('WHERE PAYMENT_STATUS = ''PAID'' ');
-    sqlDados.SQL.Add('AND DATE_DUE >= :DT_INI AND DATE_DUE <= :DT_FIM ');
+    sqlDados.SQL.Add('AND DATE_DUE >= :DT_INI AND DATE_DUE <= :DT_FIM &WHERE1 ');
     sqlDados.ParamByName( 'DT_INI' ).AsDate := System.DateUtils.StartOfTheMonth(myDate);
     sqlDados.ParamByName( 'DT_FIM' ).AsDate := System.DateUtils.EndOfTheMonth(myDate);
+    sqlDados.MacroByName( 'WHERE1' ).AsRaw := ' AND ' + DBDados.varReturnCompanies;
     sqlDados.Open;
     varTotal :=  varTotal + sqlDados.FieldByName('PAYMENT_AMOUNT').AsFloat;
     btnuqrecebidos.Font.Color := clRed;
@@ -746,8 +923,9 @@ begin
     sqlDados.SQL.Clear;
     sqlDados.SQL.Add('SELECT SUM(PAYMENT_AMOUNT) as PAYMENT_AMOUNT FROM TBRECEIVABLE ');
     sqlDados.SQL.Add('WHERE PAYMENT_STATUS = ''PENDING'' ');
-    sqlDados.SQL.Add('AND DATE_DUE < :DT_INI ');
-    sqlDados.Params.ParamByName('DT_INI').AsDate := MyDate;
+    sqlDados.SQL.Add('AND DATE_DUE <= :DT_INI &WHERE1 ');
+    sqlDados.MacroByName( 'WHERE1' ).AsRaw := ' AND ' + DBDados.varReturnCompanies;
+    sqlDados.Params.ParamByName('DT_INI').AsDate := MyDate-1;
     sqlDados.Open;
     btnVencidos.Caption :=  FormatFloat('0.00', sqlDados.FieldByName('PAYMENT_AMOUNT').AsFloat);
 
@@ -755,8 +933,9 @@ begin
     sqlDados.SQL.Clear;
     sqlDados.SQL.Add('SELECT SUM(PAYMENT_AMOUNT) as PAYMENT_AMOUNT FROM TBRECEIVABLE ');
     sqlDados.SQL.Add('WHERE PAYMENT_STATUS = ''PENDING'' ');
-    sqlDados.SQL.Add('AND DATE_DUE = :DT_INI ');
+    sqlDados.SQL.Add('AND DATE_DUE = :DT_INI &WHERE1 ');
     sqlDados.Params.ParamByName('DT_INI').AsDate := MyDate;
+    sqlDados.MacroByName( 'WHERE1' ).AsRaw := ' AND ' + DBDados.varReturnCompanies;
     sqlDados.Open;
     btnVenceHoje.Caption := FormatFloat('0.00',sqlDados.FieldByName('PAYMENT_AMOUNT').AsFloat);
 
@@ -764,7 +943,8 @@ begin
     sqlDados.SQL.Clear;
     sqlDados.SQL.Add('SELECT SUM(PAYMENT_AMOUNT) as PAYMENT_AMOUNT FROM TBRECEIVABLE ');
     sqlDados.SQL.Add('WHERE PAYMENT_STATUS = ''PENDING'' ');
-    sqlDados.SQL.Add('AND  DATE_DUE <= EOMONTH(DATE_DUE)  ');
+    sqlDados.SQL.Add('AND  DATE_DUE <= EOMONTH(DATE_DUE)  &WHERE1 ');
+    sqlDados.MacroByName( 'WHERE1' ).AsRaw := ' AND ' + DBDados.varReturnCompanies;
     sqlDados.Open;
     lblVenceFuturo.Caption := 'UP To End of the Month U$ ' +  FormatFloat('0.00',sqlDados.FieldByName('PAYMENT_AMOUNT').AsFloat);
 
@@ -774,8 +954,9 @@ begin
     sqlDados.SQL.Clear;
     sqlDados.SQL.Add('SELECT SUM(PAYMENT_AMOUNT) as PAYMENT_AMOUNT FROM TBPAYABLE ');
     sqlDados.SQL.Add('WHERE PAYMENT_STATUS = ''PENDING'' ');
-    sqlDados.SQL.Add('AND DATE_DUE <=  :DT_INI ');
-    sqlDados.Params.ParamByName('DT_INI').AsDate := MyDate;
+    sqlDados.SQL.Add('AND DATE_DUE <=  :DT_INI &WHERE1 ');
+    sqlDados.Params.ParamByName('DT_INI').AsDate := MyDate-1;
+    sqlDados.MacroByName( 'WHERE1' ).AsRaw := ' AND ' + DBDados.varReturnCompanies;
     sqlDados.Open;
     btnAPagar.Caption := FormatFloat('0.00',sqlDados.FieldByName('PAYMENT_AMOUNT').AsFloat);
 
@@ -784,8 +965,9 @@ begin
     sqlDados.SQL.Clear;
     sqlDados.SQL.Add('SELECT SUM(PAYMENT_AMOUNT) as PAYMENT_AMOUNT FROM TBPAYABLE ');
     sqlDados.SQL.Add('WHERE PAYMENT_STATUS = ''PENDING'' ');
-    sqlDados.SQL.Add('AND DATE_DUE =  :DT_INI ');
+    sqlDados.SQL.Add('AND DATE_DUE =  :DT_INI &WHERE1 ');
     sqlDados.Params.ParamByName('DT_INI').AsDate := MyDate;
+    sqlDados.MacroByName( 'WHERE1' ).AsRaw := ' AND ' + DBDados.varReturnCompanies;
     sqlDados.Open;
     btnPGVenceHoje.Caption :=  FormatFloat('0.00',sqlDados.FieldByName('PAYMENT_AMOUNT').AsFloat);
 
@@ -794,7 +976,8 @@ begin
     sqlDados.SQL.Clear;
     sqlDados.SQL.Add('SELECT SUM(PAYMENT_AMOUNT) as PAYMENT_AMOUNT FROM TBPAYABLE ');
     sqlDados.SQL.Add('WHERE PAYMENT_STATUS = ''PENDING'' ');
-    sqlDados.SQL.Add('AND  DATE_DUE <= EOMONTH(DATE_DUE)  ');
+    sqlDados.SQL.Add('AND  DATE_DUE <= EOMONTH(DATE_DUE)  &WHERE1 ');
+    sqlDados.MacroByName( 'WHERE1' ).AsRaw := ' AND ' + DBDados.varReturnCompanies;
     sqlDados.Open;
     lblpgVenceFuturo.Caption := 'UP To End of the Month U$ ' +  FormatFloat('0.00',sqlDados.FieldByName('PAYMENT_AMOUNT').AsFloat);
 
@@ -819,15 +1002,25 @@ begin
     DecodeDate(Date, Ano,Mes, Dia);
     sqlTempo.Locate('ANO;MES', VarArrayOf([ANO,MES]), []);
 
+
     cxComboBoxOptionClick(Nil);
 
     sqlSalesChart.Close;
+    sqlSalesChart.MacroByName( 'WHERE1' ).AsRaw := ' AND ' + DBDados.varReturnCompanies;
     sqlSalesChart.Open;
 
     sqlIncExpChart.Close;
+    sqlIncExpChart.MacroByName( 'WHERE1' ).AsRaw := ' AND ' + DBDados.varReturnCompanies;
+    sqlIncExpChart.MacroByName( 'WHERE2' ).AsRaw := ' AND ' + DBDados.varReturnCompanies;
     sqlIncExpChart.Params.ParamByName('ANO').AsInteger := Ano;
     sqlIncExpChart.Open;
 
+    sqlBank.Close;
+    sqlBank.MacroByName( 'WHERE1' ).AsRaw := ' AND ' + DBDados.varReturnCompanies;
+    sqlBank.Open;
+
+    DtStart.Date := Date;
+    DtEnd.Date := Date + 7;
    end;
 end;
 
@@ -848,9 +1041,12 @@ var
   ano, mes, dia : word;
 begin
 
- DecodeDate(Date, ano, mes, dia);
 
+ DecodeDate(Date, ano, mes, dia);
  myDate := EncodeDate(sqlTempoANO.AsInteger, sqlTempoMES.AsInteger, dia);
+
+
+
  varGlobalOption := varOption;
  sqlGrid.Close;
  sqlGrid.SQL.Clear;
@@ -863,37 +1059,88 @@ begin
    sqlGrid.SQL.Add('INNER JOIN TBCUSTOMER C ON C.ID_CUSTOMER = R.ID_CUSTOMER ');
    if varOption = 1 then     // Overdue
    begin
-    sqlGrid.SQL.Add('WHERE R.PAYMENT_STATUS = ''PENDING'' ');
-    sqlGrid.SQL.Add('AND R.DATE_DUE >= :DT_INI AND R.DATE_DUE < :DT_FIM');
-    sqlGrid.ParamByName( 'DT_INI' ).AsDate := System.DateUtils.StartOfTheMonth(myDate);
-    sqlGrid.ParamByName( 'DT_FIM' ).AsDate := myDate;
+
+    if varUserFilter = False then
+    begin
+      sqlGrid.SQL.Add('WHERE R.PAYMENT_STATUS = ''PENDING'' ');
+      sqlGrid.SQL.Add('AND R.DATE_DUE >= :DT_INI AND R.DATE_DUE <= :DT_FIM');
+
+      sqlGrid.ParamByName( 'DT_INI' ).AsDate := System.DateUtils.StartOfTheMonth(myDate);
+      sqlGrid.ParamByName( 'DT_FIM' ).AsDate := myDate-1;
+      ShowMonths(System.DateUtils.StartOfTheMonth(myDate), myDate-1);
+    end
+    else
+    begin
+      sqlGrid.SQL.Add('WHERE R.PAYMENT_STATUS = ''PENDING'' ');
+      sqlGrid.SQL.Add('AND R.DATE_DUE >= :DT_INI AND R.DATE_DUE <= :DT_FIM');
+
+      sqlGrid.ParamByName( 'DT_INI' ).AsDate := cxStartFilterUser.Date;
+      sqlGrid.ParamByName( 'DT_FIM' ).AsDate := cxEndFilterUser.Date-1;
+    end;
    end
    else if varOption = 2 then // Due Date
    begin
-    sqlGrid.SQL.Add('WHERE R.PAYMENT_STATUS = ''PENDING'' ');
-    sqlGrid.SQL.Add('AND R.DATE_DUE = :DT_INI ');
-    sqlGrid.ParamByName( 'DT_INI' ).AsDate := myDate;
+      sqlGrid.SQL.Add('WHERE R.PAYMENT_STATUS = ''PENDING'' ');
+      sqlGrid.SQL.Add('AND R.DATE_DUE = :DT_INI ');
+      sqlGrid.ParamByName( 'DT_INI' ).AsDate := myDate;
+      ShowMonths(myDate, myDate);
    end
    else if varOption = 3 then  // To be Due
    begin
-    sqlGrid.SQL.Add('WHERE R.PAYMENT_STATUS = ''PENDING'' ');
-    sqlGrid.SQL.Add('AND R.DATE_DUE > :DT_INI AND R.DATE_DUE <= :DT_FIM ');
-    sqlGrid.ParamByName( 'DT_INI' ).AsDate := MyDate;
-    sqlGrid.ParamByName( 'DT_FIM' ).AsDate := System.DateUtils.EndOfTheMonth(myDate);
+    if varUserFilter = False then
+    begin
+      sqlGrid.SQL.Add('WHERE R.PAYMENT_STATUS = ''PENDING'' ');
+      sqlGrid.SQL.Add('AND R.DATE_DUE >= :DT_INI AND R.DATE_DUE <= :DT_FIM ');
+      sqlGrid.ParamByName( 'DT_INI' ).AsDate := MyDate+1;
+      sqlGrid.ParamByName( 'DT_FIM' ).AsDate := System.DateUtils.EndOfTheMonth(myDate);
+      ShowMonths(myDate+1, System.DateUtils.EndOfTheMonth(myDate));
+    end
+    else
+    begin
+      sqlGrid.SQL.Add('WHERE R.PAYMENT_STATUS = ''PENDING'' ');
+      sqlGrid.SQL.Add('AND R.DATE_DUE >= :DT_INI AND R.DATE_DUE <= :DT_FIM ');
+      sqlGrid.ParamByName( 'DT_INI' ).AsDate := cxStartFilterUser.Date;
+      sqlGrid.ParamByName( 'DT_FIM' ).AsDate := cxEndFilterUser.Date;
+    end;
    end
    else if varOption = 4 then // Received
    begin
-    sqlGrid.SQL.Add('WHERE R.PAYMENT_STATUS = ''PAID'' ');
-    sqlGrid.SQL.Add('AND R.DATE_DUE >= :DT_INI AND R.DATE_DUE <= :DT_FIM ');
-    sqlGrid.ParamByName( 'DT_INI' ).AsDate := System.DateUtils.StartOfTheMonth(myDate);
-    sqlGrid.ParamByName( 'DT_FIM' ).AsDate := System.DateUtils.EndOfTheMonth(myDate);
+    if varUserFilter = False then
+    begin
+      sqlGrid.SQL.Add('WHERE R.PAYMENT_STATUS = ''RECEIVED'' ');
+      sqlGrid.SQL.Add('AND R.DATE_DUE >= :DT_INI AND R.DATE_DUE <= :DT_FIM ');
+      sqlGrid.ParamByName( 'DT_INI' ).AsDate := System.DateUtils.StartOfTheMonth(myDate);
+      sqlGrid.ParamByName( 'DT_FIM' ).AsDate := System.DateUtils.EndOfTheMonth(myDate);
+      ShowMonths(System.DateUtils.StartOfTheMonth(myDate), System.DateUtils.EndOfTheMonth(myDate));
+    end
+    else
+    begin
+      sqlGrid.SQL.Add('WHERE R.PAYMENT_STATUS = ''RECEIVED'' ');
+      sqlGrid.SQL.Add('AND R.DATE_DUE >= :DT_INI AND R.DATE_DUE <= :DT_FIM ');
+      sqlGrid.ParamByName( 'DT_INI' ).AsDate := cxStartFilterUser.Date;
+      sqlGrid.ParamByName( 'DT_FIM' ).AsDate := cxEndFilterUser.Date;
+    end;
    end
    else if varOption = 5 then // Total
    begin
-    sqlGrid.SQL.Add('WHERE R.DATE_DUE >= :DT_INI AND R.DATE_DUE <= :DT_FIM ');
-    sqlGrid.ParamByName( 'DT_INI' ).AsDate := System.DateUtils.StartOfTheMonth(myDate);
-    sqlGrid.ParamByName( 'DT_FIM' ).AsDate := System.DateUtils.EndOfTheMonth(myDate);
+    if varUserFilter = False then
+    begin
+     sqlGrid.SQL.Add('WHERE R.DATE_DUE >= :DT_INI AND R.DATE_DUE <= :DT_FIM ');
+
+      sqlGrid.ParamByName( 'DT_INI' ).AsDate := System.DateUtils.StartOfTheMonth(myDate);
+      sqlGrid.ParamByName( 'DT_FIM' ).AsDate := System.DateUtils.EndOfTheMonth(myDate);
+      ShowMonths(System.DateUtils.StartOfTheMonth(myDate), System.DateUtils.EndOfTheMonth(myDate));
+    end
+    else
+    begin
+      sqlGrid.SQL.Add('WHERE R.DATE_DUE >= :DT_INI AND R.DATE_DUE <= :DT_FIM ');
+
+      sqlGrid.ParamByName( 'DT_INI' ).AsDate := cxStartFilterUser.Date;
+      sqlGrid.ParamByName( 'DT_FIM' ).AsDate := cxEndFilterUser.Date;
+    end;
    end;
+   sqlGrid.SQL.Add(' &WHERE1 ');
+   sqlGrid.MacroByName( 'WHERE1' ).AsRaw := ' AND R.' + DBDados.varReturnCompanies;
 
  end
  else if cxComboBoxOption.ItemIndex = 1 then
@@ -903,44 +1150,107 @@ begin
    sqlGrid.SQL.Add('INNER JOIN TBSUPPLIER S ON S.ID_SUPPLIER = P.ID_SUPPLIER ');
    if varOption = 1 then     // Overdue
    begin
-    sqlGrid.SQL.Add('WHERE P.PAYMENT_STATUS = ''PENDING'' ');
-    sqlGrid.SQL.Add('AND P.DATE_DUE >= :DT_INI and P.DATE_DUE < :DT_FIM');
-    sqlGrid.ParamByName( 'DT_INI' ).AsDate := System.DateUtils.StartOfTheMonth(myDate);
-    sqlGrid.ParamByName( 'DT_FIM' ).AsDate := myDate;
+    if varUserFilter = False then
+    begin
+      sqlGrid.SQL.Add('WHERE P.PAYMENT_STATUS = ''PENDING'' ');
+      sqlGrid.SQL.Add('AND P.DATE_DUE >= :DT_INI and P.DATE_DUE <= :DT_FIM');
 
+      sqlGrid.ParamByName( 'DT_INI' ).AsDate := System.DateUtils.StartOfTheMonth(myDate);
+      sqlGrid.ParamByName( 'DT_FIM' ).AsDate := myDate-1;
+      ShowMonths(System.DateUtils.StartOfTheMonth(myDate), myDate-1);
+    end
+    else
+    begin
+      sqlGrid.SQL.Add('WHERE P.PAYMENT_STATUS = ''PENDING'' ');
+      sqlGrid.SQL.Add('AND P.DATE_DUE >= :DT_INI and P.DATE_DUE <= :DT_FIM');
+
+      sqlGrid.ParamByName( 'DT_INI' ).AsDate := cxStartFilterUser.Date-1;
+      sqlGrid.ParamByName( 'DT_FIM' ).AsDate := cxEndFilterUser.Date;
+    end;
    end
    else if varOption = 2 then // Due Date
    begin
-    sqlGrid.SQL.Add('WHERE P.PAYMENT_STATUS = ''PENDING'' ');
-    sqlGrid.SQL.Add('AND P.DATE_DUE = :DT_INI ');
-    sqlGrid.ParamByName( 'DT_INI' ).AsDate := myDate;
+      sqlGrid.SQL.Add('WHERE P.PAYMENT_STATUS = ''PENDING'' ');
+      sqlGrid.SQL.Add('AND P.DATE_DUE = :DT_INI ');
+      sqlGrid.ParamByName( 'DT_INI' ).AsDate := myDate;
+      ShowMonths(myDate, myDate);
    end
    else if varOption = 3 then  // To be Due
    begin
-    sqlGrid.SQL.Add('WHERE P.PAYMENT_STATUS = ''PENDING'' ');
-    sqlGrid.SQL.Add('AND P.DATE_DUE > :DT_INI AND P.DATE_DUE <= :DT_FIM ');
-    sqlGrid.ParamByName( 'DT_INI' ).AsDate := MyDate;
-    sqlGrid.ParamByName( 'DT_FIM' ).AsDate := System.DateUtils.EndOfTheMonth(myDate);
+    if varUserFilter = False then
+    begin
+      sqlGrid.SQL.Add('WHERE P.PAYMENT_STATUS = ''PENDING'' ');
+      sqlGrid.SQL.Add('AND P.DATE_DUE > :DT_INI AND P.DATE_DUE <= :DT_FIM ');
+
+      sqlGrid.ParamByName( 'DT_INI' ).AsDate := MyDate+1;
+      sqlGrid.ParamByName( 'DT_FIM' ).AsDate := System.DateUtils.EndOfTheMonth(myDate);
+      ShowMonths( myDate+1, System.DateUtils.EndOfTheMonth(myDate));
+    end
+    else
+    begin
+      sqlGrid.SQL.Add('WHERE P.PAYMENT_STATUS = ''PENDING'' ');
+      sqlGrid.SQL.Add('AND P.DATE_DUE > :DT_INI AND P.DATE_DUE <= :DT_FIM ');
+
+      sqlGrid.ParamByName( 'DT_INI' ).AsDate := cxStartFilterUser.Date;
+      sqlGrid.ParamByName( 'DT_FIM' ).AsDate := cxEndFilterUser.Date;
+    end;
+
    end
    else if varOption = 4 then // Received
    begin
-    sqlGrid.SQL.Add('WHERE P.PAYMENT_STATUS = ''PAID'' ');
-    sqlGrid.SQL.Add('AND P.DATE_DUE >= :DT_INI AND DATE_DUE <= :DT_FIM ');
-    sqlGrid.ParamByName( 'DT_INI' ).AsDate := System.DateUtils.StartOfTheMonth(myDate);
-    sqlGrid.ParamByName( 'DT_FIM' ).AsDate := System.DateUtils.EndOfTheMonth(myDate);
+    if varUserFilter = False then
+    begin
+      sqlGrid.SQL.Add('WHERE P.PAYMENT_STATUS = ''PAID'' ');
+      sqlGrid.SQL.Add('AND P.DATE_DUE >= :DT_INI AND DATE_DUE <= :DT_FIM ');
+
+      sqlGrid.ParamByName( 'DT_INI' ).AsDate := System.DateUtils.StartOfTheMonth(myDate);
+      sqlGrid.ParamByName( 'DT_FIM' ).AsDate := System.DateUtils.EndOfTheMonth(myDate);
+      ShowMonths(  System.DateUtils.StartOfTheMonth(myDate), System.DateUtils.EndOfTheMonth(myDate));
+    end
+    else
+    begin
+      sqlGrid.SQL.Add('WHERE P.PAYMENT_STATUS = ''PAID'' ');
+      sqlGrid.SQL.Add('AND P.DATE_DUE >= :DT_INI AND DATE_DUE <= :DT_FIM ');
+
+      sqlGrid.ParamByName( 'DT_INI' ).AsDate := cxStartFilterUser.Date;
+      sqlGrid.ParamByName( 'DT_FIM' ).AsDate := cxEndFilterUser.Date;
+    end;
+
    end
    else if varOption = 5 then // Total
    begin
-    sqlGrid.SQL.Add('WHERE P.DATE_DUE >= :DT_INI AND P.DATE_DUE <= :DT_FIM ');
-    sqlGrid.ParamByName( 'DT_INI' ).AsDate := System.DateUtils.StartOfTheMonth(myDate);
-    sqlGrid.ParamByName( 'DT_FIM' ).AsDate := System.DateUtils.EndOfTheMonth(myDate);
-   end;
+    if varUserFilter = False then
+    begin
+      sqlGrid.SQL.Add('WHERE P.DATE_DUE >= :DT_INI AND P.DATE_DUE <= :DT_FIM ');
 
+      sqlGrid.ParamByName( 'DT_INI' ).AsDate := System.DateUtils.StartOfTheMonth(myDate);
+      sqlGrid.ParamByName( 'DT_FIM' ).AsDate := System.DateUtils.EndOfTheMonth(myDate);
+      ShowMonths(  System.DateUtils.StartOfTheMonth(myDate), System.DateUtils.EndOfTheMonth(myDate));
+    end
+    else
+    begin
+      sqlGrid.SQL.Add('WHERE P.DATE_DUE >= :DT_INI AND P.DATE_DUE <= :DT_FIM ');
+
+      sqlGrid.ParamByName( 'DT_INI' ).AsDate := cxStartFilterUser.Date;
+      sqlGrid.ParamByName( 'DT_FIM' ).AsDate := cxEndFilterUser.Date;
+    end;
+
+   end;
+   sqlGrid.SQL.Add(' &WHERE1 ');
+   sqlGrid.MacroByName( 'WHERE1' ).AsRaw := ' AND P.' + DBDados.varReturnCompanies;
  end;
+
+
  sqlGrid.Open;
 
  AddColumns(cxComboBoxOption.ItemIndex);
 
+end;
+
+procedure TfrmDashBoard.ShowMonths(varMesStart, varMesEnd : TDateTime);
+begin
+    cxStartFilterUser.Date  := varMesStart;
+    cxEndFilterUser.Date    := varMesEnd;
 end;
 
 procedure TfrmDashBoard.SpeedButton1Click(Sender: TObject);
@@ -960,6 +1270,11 @@ begin
  else sqlTempo.Last;
 
  cxComboBoxOptionClick(Nil);
+end;
+
+procedure TfrmDashBoard.SpeedButton3Click(Sender: TObject);
+begin
+ StatementFilter;
 end;
 
 end.

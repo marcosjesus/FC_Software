@@ -166,6 +166,7 @@ type
     procedure ButSairClick(Sender: TObject);
     procedure ButAlterarClick(Sender: TObject);
     procedure ButExcluirClick(Sender: TObject);
+    procedure cxGrid2DBTableView1DblClick(Sender: TObject);
   private
     { Private declarations }
     Finance : TFinance;
@@ -176,7 +177,8 @@ type
     procedure Save;
   public
     { Public declarations }
-    procedure SetupTable;
+    varInvoiceExterna : Integer;
+    procedure SetupTable( varstatus : string = ''; varid_customer : string = '');
 
   end;
 
@@ -199,7 +201,7 @@ begin
    Finance := TFinance.Create;
    Finance.id_user    := DBDados.varID_USER;
    Finance.id_payable := sqlGridID_PAYABLE.AsInteger;
-
+   Finance.invoice_id := sqlGridINVOICE_ID.AsString;
    cxLookupComboBoxCompany.EditValue := DBDados.varIDMAIN_COMPANY;
    if sqlGridPAYMENT_STATUS.AsString = 'PENDING' Then
      rgStatus.ItemIndex := 0
@@ -338,6 +340,11 @@ begin
   edtSupplier.SetFocus;
 end;
 
+procedure TFrmCreditors.cxGrid2DBTableView1DblClick(Sender: TObject);
+begin
+   ButAlterarClick(Nil);
+end;
+
 procedure TFrmCreditors.cxPageControlChange(Sender: TObject);
 begin
   if  varOption = 'X' then
@@ -397,9 +404,20 @@ begin
 
 end;
 
-procedure TFrmCreditors.SetupTable;
+procedure TFrmCreditors.SetupTable( varstatus : string ; varid_customer : string);
 begin
   sqlGrid.Close;
+   if ((varstatus <> '') and (varid_customer <> '')) then
+   begin
+    sqlGrid.MacroByName( 'WHERE1' ).AsRaw := ' AND P.PAYMENT_STATUS = ' + QuotedStr(varstatus);
+    sqlGrid.MacroByName( 'WHERE2' ).AsRaw := ' AND B.ID_CUSTOMER = ' + QuotedStr(varid_customer)
+   end;
+  sqlGrid.MacroByName( 'WHERE3' ).AsRaw := ' AND P.' + DBDados.varReturnCompanies;
+
+  if varInvoiceExterna <> 0 then
+    sqlGrid.MacroByName( 'WHERE4' ).AsRaw := ' AND P.INVOICE_ID = ' + IntToStr(varInvoiceExterna)
+  else  sqlGrid.MacroByName( 'WHERE4' ).AsRaw := '';
+
   sqlGrid.Open;
 
   if sqlExpenseCategory.Active = False then
@@ -427,7 +445,7 @@ var
 begin
    varRetorno := True;
 
-   if cxLookupComboBoxExpense.EditValue = Null then
+   if cxLookupComboBoxExpense.EditValue = -1 then
    begin
       varRetorno := False;
       Mens_MensInf('The Expense Category field is required.');
@@ -475,7 +493,14 @@ begin
       exit;
   end;
 
-  if cxLookupComboBoxPaymentMethod.EditValue = Null then
+  if cxLookupComboBoxBank.EditValue = -1 then
+  begin
+    Mens_MensInf('The Bank Account field is required.') ;
+    cxLookupComboBoxBank.SetFocus;
+    Exit;
+  end;
+
+  if cxLookupComboBoxPaymentMethod.EditValue = -1 then
   begin
       varRetorno := False;
       Mens_MensInf('The Payment Method field is required.') ;

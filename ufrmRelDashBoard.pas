@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, FireDAC.Stan.Intf, FireDAC.Stan.Option,
   FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
   FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, Data.DB,
-  FireDAC.Comp.DataSet, FireDAC.Comp.Client, RLReport;
+  FireDAC.Comp.DataSet, FireDAC.Comp.Client, RLReport, RLFilters, RLPDFFilter, RLPreviewForm;
 
 type
   TfrmRelDashBoard = class(TForm)
@@ -43,6 +43,7 @@ type
     RLLabel6: TRLLabel;
     lblSubTitle: TRLLabel;
     RLSystemInfo1: TRLSystemInfo;
+    RLPDFFilter1: TRLPDFFilter;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormActivate(Sender: TObject);
     procedure ReportFinanceBeforePrint(Sender: TObject; var PrintIt: Boolean);

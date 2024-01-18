@@ -32,7 +32,7 @@ object frmCreateAccount: TfrmCreateAccount
     Font.Style = []
     ParentFont = False
     TabOrder = 0
-    Properties.ActivePage = cxTabSheet1List
+    Properties.ActivePage = cxTabSheetForm
     Properties.CustomButtons.Buttons = <>
     ClientRectBottom = 474
     ClientRectLeft = 4
@@ -47,10 +47,6 @@ object frmCreateAccount: TfrmCreateAccount
       Font.Style = []
       ImageIndex = 0
       ParentFont = False
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object cxGrid1: TcxGrid
         Left = 0
         Top = 0
@@ -431,10 +427,6 @@ object frmCreateAccount: TfrmCreateAccount
       Font.Style = []
       ImageIndex = 1
       ParentFont = False
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object Panel1: TPanel
         Left = 0
         Top = 0
@@ -839,10 +831,8 @@ object frmCreateAccount: TfrmCreateAccount
       Font.Style = []
       ImageIndex = 2
       ParentFont = False
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
+      ExplicitLeft = 3
+      ExplicitTop = 25
       object Panel5: TPanel
         Left = 0
         Top = 0
@@ -1024,6 +1014,7 @@ object frmCreateAccount: TfrmCreateAccount
         Font.Style = []
         ParentFont = False
         TabOrder = 2
+        ExplicitHeight = 328
       end
     end
   end

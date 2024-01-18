@@ -151,7 +151,7 @@ begin
   edtIncome.Value  := varTotalIncome;
   edtExpense.Value := varTotalExpense;
   edtTotal.Value   := varTotalIncome + varTotalExpense;
-  varTotalExpense := varTotalExpense * -1;
+  varTotalExpense  := varTotalExpense * -1;
 
  // edtMargem.Value  := ( varTotalIncome / edtTotal.Value  ) * 100 ;
   edtMargem.Value  := ( varTotalIncome - varTotalExpense  ) * 100;

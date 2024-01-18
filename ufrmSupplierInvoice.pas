@@ -221,6 +221,9 @@ type
     lblReqOrder: TLabel;
     edtReqOrder: TcxTextEdit;
     sqlGridID_REQUESTORDER: TIntegerField;
+    Label22: TLabel;
+    lblqtyrequired: TLabel;
+    sqlItemCOUNTNEEDED: TFloatField;
     procedure ButSairClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure ButNovoClick(Sender: TObject);
@@ -347,7 +350,7 @@ begin
     Exit;
   end;
 
-  if cxDateProcess.Text = '' then
+  if cxDateProcess.Text = '12/30/1899' then
   begin
       Mens_MensInf('The Invoice Date is required.') ;
       cxDateProcess.SetFocus;
@@ -509,6 +512,7 @@ begin
   EdtQty.Value       := sqlItemQTY.AsInteger;
   edtUnitPrice.Value := sqlItemUNITPRICE.AsFloat;
   edtSubTotal.Value  := sqlItemAMOUNT.AsFloat;
+  lblqtyrequired.Caption := sqlItemCOUNTNEEDED.AsString;
   edtheightExit(Self);
   edtProduct.SetFocus;
 
@@ -594,6 +598,7 @@ begin
   lbladdress.Caption := '-';
   edtRoolNumber.Text := '';
   edtDyeLot.Text     := '';
+  lblqtyrequired.Caption := '0';
 end;
 
 
@@ -892,6 +897,12 @@ begin
     Exit;
    end;
 
+   if cxDateProcess.Text = '12/30/1899' then
+   begin
+    Mens_MensInf('The Invoice Date is incorrect.') ;
+    cxDateProcess.SetFocus;
+    Exit;
+   end;
 
 
 
@@ -914,6 +925,7 @@ begin
          sqlDados.SQL.Add(',DATE_DUE');
          sqlDados.SQL.Add(',VALUE');
          sqlDados.SQL.Add(',ADD_DATE');
+         sqlDados.SQL.Add(',ID_EXPENSECATEGORY');
          sqlDados.SQL.Add(',ID_USER)');
 
          sqlDados.SQL.Add('VALUES (');
@@ -925,6 +937,7 @@ begin
          sqlDados.SQL.Add(',:DATE_DUE');
          sqlDados.SQL.Add(',:VALUE');
          sqlDados.SQL.Add(',:ADD_DATE');
+         sqlDados.SQL.Add(',:ID_EXPENSECATEGORY');
          sqlDados.SQL.Add(',:ID_USER)');
 
 
@@ -936,6 +949,7 @@ begin
          sqlDados.Params.ParamByName('DATE_DUE').AsString    := FormatDateTime('mm/dd/yyyy hh:mm:ss', varDateDue);
          sqlDados.Params.ParamByName('VALUE').AsFloat        := edtTotal.EditValue;
          sqlDados.Params.ParamByName('ADD_DATE').AsString    := FormatDateTime('mm/dd/yyyy hh:mm:ss', now);
+         sqlDados.Params.ParamByName('ID_EXPENSECATEGORY').AsInteger := 14;
          sqlDados.Params.ParamByName('ID_USER').AsInteger    := DBDados.varID_USER;
 
          Try
@@ -1104,8 +1118,8 @@ end;
 
 procedure TfrmSupplierInvoice.edtUnitPriceExit(Sender: TObject);
 begin
-   if ((edtAreaSquareFeetPerBox.Text  <> '') and  (edtUnitPrice.Text <> '')) Then
-     edtSubTotal.Value := edtAreaSquareFeetPerBox.Value * edtUnitPrice.Value;
+   if ((edttotalarea.Text  <> '') and  (edtUnitPrice.Text <> '')) Then
+     edtSubTotal.Value := edttotalarea.Value * edtUnitPrice.Value;
 end;
 
 procedure TfrmSupplierInvoice.edtwidthEnter(Sender: TObject);
@@ -1293,7 +1307,7 @@ begin
 
       sqlAbre.Close;
       sqlAbre.SQL.Clear;
-      sqlAbre.SQL.Add('SELECT  A.ID_COMPANY ,A.ID_SUPPLIER, A.ID_PRODUCT, Count(B.AREASQUAREFEETPERBOX) as AREASQUAREFEETPERBOX FROM TBREQUESTORDER A ');
+      sqlAbre.SQL.Add('SELECT  A.ID_COMPANY ,A.ID_SUPPLIER, A.ID_PRODUCT, SUM(B.AREASQUAREFEETPERBOX) as AREASQUAREFEETPERBOX, SUM(COUNTNEED) AS COUNTNEED FROM TBREQUESTORDER A ');
       sqlAbre.SQL.Add(' LEFT OUTER JOIN TBPRODUCT B ON B.ID_PRODUCT = A.ID_PRODUCT ');
       sqlAbre.SQL.Add(' WHERE A.GROUPNUMBER = :GROUPNUMBER ');
       sqlAbre.SQL.Add(' GROUP BY A.ID_COMPANY ,A.ID_SUPPLIER, A.ID_PRODUCT ');
@@ -1314,8 +1328,8 @@ begin
 
         sqlSave.Close;
         sqlSave.SQL.Clear;
-        sqlSave.SQL.Add('Insert Into TBSUP_INVOICE (ID_SUP_INVOICE, ID_SUPPLIER, ID_COMPANY, STATUS, ID_USER, INVOICE_ID, ID_REQUESTORDER)');
-        sqlSave.SQL.Add('Values (:ID_SUP_INVOICE, :ID_SUPPLIER, :ID_COMPANY, :STATUS, :ID_USER, :INVOICE_ID, :ID_REQUESTORDER)');
+        sqlSave.SQL.Add('Insert Into TBSUP_INVOICE (ID_SUP_INVOICE, ID_SUPPLIER, ID_COMPANY, STATUS, ID_USER, INVOICE_ID, ID_REQUESTORDER, DATE_INVOICE)');
+        sqlSave.SQL.Add('Values (:ID_SUP_INVOICE, :ID_SUPPLIER, :ID_COMPANY, :STATUS, :ID_USER, :INVOICE_ID, :ID_REQUESTORDER, :DATE_INVOICE)');
         sqlSave.Params.ParamByName('ID_SUP_INVOICE').AsInteger := varNewKey;
         sqlSave.Params.ParamByName('ID_SUPPLIER').AsInteger    := sqlAbre.FieldByName('ID_SUPPLIER').AsInteger;
         sqlSave.Params.ParamByName('ID_COMPANY').AsInteger     := sqlAbre.FieldByName('ID_COMPANY').AsInteger;
@@ -1323,6 +1337,8 @@ begin
         sqlSave.Params.ParamByName('ID_USER').AsInteger        := DBDados.varID_USER;
         sqlSave.Params.ParamByName('INVOICE_ID').AsString      := edtManufactInvoice.Text;
         sqlSave.Params.ParamByName('ID_REQUESTORDER').AsString := edtLocator.EditValue;
+        sqlSave.Params.ParamByName('DATE_INVOICE').AsDate      := 0;
+
 
         Try
            sqlSave.ExecSQL;
@@ -1347,8 +1363,8 @@ begin
 
           sqlSave.Close;
           sqlSave.SQL.Clear;
-          sqlSave.SQL.Add('Insert Into TBSUP_INVOICEITEM (ID_SUP_INVOICEITEM, ID_SUP_INVOICE, ID_SUPPLIER, ID_PRODUCT, ID_USER, INVOICE_ID, AREASQUAREFEET)');
-          sqlSave.SQL.Add(' Values (:ID_SUP_INVOICEITEM, :ID_SUP_INVOICE, :ID_SUPPLIER, :ID_PRODUCT, :ID_USER, :INVOICE_ID, :AREASQUAREFEET)');
+          sqlSave.SQL.Add('Insert Into TBSUP_INVOICEITEM (ID_SUP_INVOICEITEM, ID_SUP_INVOICE, ID_SUPPLIER, ID_PRODUCT, ID_USER, INVOICE_ID, AREASQUAREFEET, COUNTNEEDED)');
+          sqlSave.SQL.Add(' Values (:ID_SUP_INVOICEITEM, :ID_SUP_INVOICE, :ID_SUPPLIER, :ID_PRODUCT, :ID_USER, :INVOICE_ID, :AREASQUAREFEET, :COUNTNEEDED)');
           sqlSave.Params.ParamByName('ID_SUP_INVOICEITEM').AsInteger := varNewKeyItem;
           sqlSave.Params.ParamByName('ID_SUP_INVOICE').AsInteger     := varNewKey;
           sqlSave.Params.ParamByName('ID_SUPPLIER').AsInteger        := sqlAbre.FieldByName('ID_SUPPLIER').AsInteger;
@@ -1356,10 +1372,12 @@ begin
           sqlSave.Params.ParamByName('ID_USER').AsInteger            := DBDados.varID_USER;
           sqlSave.Params.ParamByName('INVOICE_ID').AsString          := edtManufactInvoice.Text;
           sqlSave.Params.ParamByName('AREASQUAREFEET').AsFloat       := sqlAbre.FieldByName('AREASQUAREFEETPERBOX').AsFloat;
+          sqlSave.Params.ParamByName('COUNTNEEDED').AsFloat          := sqlAbre.FieldByName('COUNTNEED').AsFloat;
+
 
           Try
              sqlSave.ExecSQL;
-             Mens_MensInf('The Request Order and The Manufactorer Invoice has been linked.') ;
+             Mens_MensInf('The Request Order and The Manufacturer Invoice has been linked.') ;
 
           except
               on E: EDatabaseError do

@@ -1,9 +1,10 @@
 object frmDashBoard: TfrmDashBoard
   Left = 0
   Top = 0
+  BorderStyle = bsSingle
   Caption = 'DashBoard'
-  ClientHeight = 519
-  ClientWidth = 1323
+  ClientHeight = 529
+  ClientWidth = 1333
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -23,7 +24,7 @@ object frmDashBoard: TfrmDashBoard
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 1323
+    Width = 1333
     Height = 150
     Align = alTop
     Font.Charset = DEFAULT_CHARSET
@@ -35,7 +36,7 @@ object frmDashBoard: TfrmDashBoard
     TabOrder = 0
     object cxComboBoxOption: TcxComboBox
       Left = 0
-      Top = 0
+      Top = -2
       Properties.Items.Strings = (
         ' Receivable '
         ' Payable'
@@ -48,23 +49,35 @@ object frmDashBoard: TfrmDashBoard
     object Panel8: TPanel
       Left = 1
       Top = 24
-      Width = 1321
+      Width = 1331
       Height = 125
       Align = alBottom
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
       TabOrder = 1
       object cxPageControlTop: TcxPageControl
         Left = 1
         Top = 1
-        Width = 1319
+        Width = 1329
         Height = 123
         Align = alClient
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
         TabOrder = 0
-        Properties.ActivePage = cxTabSheetTopUnique
+        Properties.ActivePage = cxTabSheetTopBoth
         Properties.CustomButtons.Buttons = <>
         Properties.HideTabs = True
         ClientRectBottom = 119
         ClientRectLeft = 4
-        ClientRectRight = 1315
+        ClientRectRight = 1325
         ClientRectTop = 4
         object cxTabSheetTopBoth: TcxTabSheet
           Color = clTeal
@@ -128,6 +141,7 @@ object frmDashBoard: TfrmDashBoard
             Font.Name = 'Tahoma'
             Font.Style = []
             ParentFont = False
+            OnClick = btnVencidosClick
           end
           object btnVenceHoje: TSpeedButton
             Left = 366
@@ -142,6 +156,7 @@ object frmDashBoard: TfrmDashBoard
             Font.Name = 'Tahoma'
             Font.Style = []
             ParentFont = False
+            OnClick = btnVenceHojeClick
           end
           object btnAPagar: TSpeedButton
             Left = 678
@@ -156,6 +171,7 @@ object frmDashBoard: TfrmDashBoard
             Font.Name = 'Tahoma'
             Font.Style = []
             ParentFont = False
+            OnClick = btnAPagarClick
           end
           object btnPGVenceHoje: TSpeedButton
             Left = 878
@@ -170,6 +186,7 @@ object frmDashBoard: TfrmDashBoard
             Font.Name = 'Tahoma'
             Font.Style = []
             ParentFont = False
+            OnClick = btnPGVenceHojeClick
           end
           object lblpgVenceFuturo: TLabel
             Left = 878
@@ -224,9 +241,12 @@ object frmDashBoard: TfrmDashBoard
           ImageIndex = 1
           ParentFont = False
           TabVisible = False
-          ExplicitLeft = 5
-          ExplicitTop = -25
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object btnuqvencidos: TSpeedButton
+            Tag = 1
             Left = 174
             Top = 34
             Width = 153
@@ -242,6 +262,7 @@ object frmDashBoard: TfrmDashBoard
             OnClick = btnuqvencidosClick
           end
           object btnuqvencehoje: TSpeedButton
+            Tag = 2
             Left = 350
             Top = 34
             Width = 153
@@ -257,6 +278,7 @@ object frmDashBoard: TfrmDashBoard
             OnClick = btnuqvencehojeClick
           end
           object btnuqavencer: TSpeedButton
+            Tag = 3
             Left = 542
             Top = 34
             Width = 153
@@ -272,6 +294,7 @@ object frmDashBoard: TfrmDashBoard
             OnClick = btnuqavencerClick
           end
           object btnuqrecebidos: TSpeedButton
+            Tag = 4
             Left = 718
             Top = 34
             Width = 153
@@ -287,7 +310,8 @@ object frmDashBoard: TfrmDashBoard
             OnClick = btnuqrecebidosClick
           end
           object btnuqtotalperiodo: TSpeedButton
-            Left = 902
+            Tag = 5
+            Left = 901
             Top = 34
             Width = 153
             Height = 39
@@ -318,16 +342,28 @@ object frmDashBoard: TfrmDashBoard
           object Label7: TLabel
             Left = 592
             Top = 15
-            Width = 49
+            Width = 59
             Height = 13
-            Caption = 'To de Due'
+            Caption = 'Balance Due'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            ParentFont = False
           end
-          object Label8: TLabel
+          object lblTipo: TLabel
             Left = 768
             Top = 15
             Width = 44
             Height = 13
             Caption = 'Received'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            ParentFont = False
           end
           object Label9: TLabel
             Left = 960
@@ -337,8 +373,8 @@ object frmDashBoard: TfrmDashBoard
             Caption = 'Total'
           end
           object SpeedButton1: TSpeedButton
-            Left = 1088
-            Top = 1
+            Left = 1084
+            Top = 0
             Width = 33
             Height = 30
             Flat = True
@@ -387,7 +423,7 @@ object frmDashBoard: TfrmDashBoard
           end
           object SpeedButton2: TSpeedButton
             Left = 1266
-            Top = -1
+            Top = 0
             Width = 33
             Height = 30
             Flat = True
@@ -434,31 +470,13 @@ object frmDashBoard: TfrmDashBoard
             ParentFont = False
             OnClick = SpeedButton2Click
           end
-          object dbMonthYear: TDBEdit
-            Left = 1125
-            Top = 3
-            Width = 138
-            Height = 24
-            DataField = 'EXTENSION'
-            DataSource = dsTempo
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -13
-            Font.Name = 'Tahoma'
-            Font.Style = []
-            ParentFont = False
-            TabOrder = 0
-            OnEnter = dbMonthYearEnter
-          end
           object pnlFilter: TPanel
             Left = 0
             Top = 74
-            Width = 1311
+            Width = 1321
             Height = 41
             Align = alBottom
-            TabOrder = 1
-            ExplicitLeft = 16
-            ExplicitTop = 79
+            TabOrder = 0
             object btnPrint: TSpeedButton
               Left = 1155
               Top = 1
@@ -510,11 +528,16 @@ object frmDashBoard: TfrmDashBoard
               OnClick = btnPrintClick
             end
             object btnFiltro: TSpeedButton
-              Left = 600
-              Top = 10
+              Left = 608
+              Top = 9
               Width = 33
               Height = 25
               Flat = True
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = []
               Glyph.Data = {
                 36040000424D3604000000000000360000002800000010000000100000000100
                 2000000000000004000000000000000000000000000000000000000000000000
@@ -550,14 +573,20 @@ object frmDashBoard: TfrmDashBoard
                 E3FFD2CAC4FF9E8E86F93D333174000000030000000000000000000000010000
                 0003110E0E214A403C7E71625DBE7F6E68D598847DFF97837BFF7C6A64D56C5D
                 58BF453C387F110F0E2500000003000000010000000000000000}
+              ParentFont = False
               OnClick = btnFiltroClick
             end
             object btnCleanFiltro: TSpeedButton
-              Left = 600
-              Top = 10
+              Left = 608
+              Top = 9
               Width = 33
               Height = 25
               Flat = True
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = []
               Glyph.Data = {
                 36040000424D3604000000000000360000002800000010000000100000000100
                 2000000000000004000000000000000000000000000000000000000000000000
@@ -593,8 +622,72 @@ object frmDashBoard: TfrmDashBoard
                 0001000000030000000500000004000000010000000000000000000000000000
                 0000000000000000000000000000000000000000000000000000000000000000
                 0000000000000000000000000000000000000000000000000000}
+              ParentFont = False
               Visible = False
               OnClick = btnCleanFiltroClick
+            end
+            object lblFrom: TLabel
+              Left = 691
+              Top = 17
+              Width = 28
+              Height = 13
+              Caption = 'From:'
+            end
+            object lblTo: TLabel
+              Left = 861
+              Top = 17
+              Width = 16
+              Height = 13
+              Caption = 'To:'
+            end
+            object btnFilterUser: TSpeedButton
+              Left = 1015
+              Top = 9
+              Width = 33
+              Height = 25
+              Flat = True
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = []
+              Glyph.Data = {
+                36040000424D3604000000000000360000002800000010000000100000000100
+                2000000000000004000000000000000000000000000000000000000000000000
+                00000000000000000000000000000000000000000000000000020000000A0000
+                000E0000000A000000050000000A0000000F0000000B00000003000000000000
+                000000000000000000000000000000000000000000000000000913543BC11974
+                52FF12533AC10000001314553BC21B7653FF13543BC20000000A000000000000
+                00000000000000000000000000040000000D00000011000000131D7A56FF58D6
+                B3FF1C7955FF0000001A1D7957FF55D4B1FF1C7856FF0000000E000000000000
+                000000000000000000000000000C4F413BBB755E59FF31282577207E5BFF5ED8
+                B8FF1F7D5AFF00000019207D5AFF58D6B3FF1F7C59FF0000000D000000000000
+                000000000000000000000000000F8B756CFFEBE8E7FF4F4A4776248461FF9EEC
+                DBFF23835FFF0000001622815DFF5CD7B6FF217F5CFF0000000C000000000000
+                000000000000000000000000000E877169FFE5E0DDFF5B5450802A6F54DD2889
+                66FF1D654BC300000010258461FF5FD9B9FF248360FF0000000B000000000000
+                000000000000000000010000000E846E67FFE4DDDAFFA79A93DC3F322F900000
+                000E000000060000000A278865FF62DABBFF268663FF00000009000000000000
+                000000000001000000061A151449836C64FFDDD5D0FFC2B4ACFF775F59FF1A15
+                144A0000000700000008298B68FFA1EDDDFF288A67FF00000007000000000000
+                000100000006292220637E6861FB96837BFFB3A49DFF9A877EFF9A857BFF7F69
+                62FB28211F630000000B206A4FC12C8E6BFF20684FC100000004000000000000
+                000429221F5E86716AFFA89890FFD9D1CCFFCBBEB7FFAFA096FFA39086FFAB97
+                8AFF846F68FF27201E6000000008000000040000000300000001000000010504
+                041374625CE8AC9A92FFD5CDC7FFF0EDEAFFD7CFC9FFC0B5AEFFA7968DFFAD99
+                8CFF9C887EFF725F58E80404031400000001000000000000000000000003322A
+                276A94817AFFC2B6AEFFEEEBE8FFFBFAF9FFE0DBD7FFD2C9C3FFB1A29BFFAD99
+                8CFFA69387FF8B766FFF3027256C000000040000000000000000000000055A4B
+                47B2B5A79FFFE4DFD9FFF9F8F6FFF8F8F5FFF8F8F5FFF8F8F5FFF6F6F3FFE7E3
+                DEFFD5CCC4FFA6958DFF564844B300000006000000000000000000000005816E
+                67F4EEECE8FFCCC4C0FFAB9D98FF79635CFF77615AFF77615AFF79635CFFAB9D
+                98FFCCC4C0FFEBE8E4FF7A665FEF00000006000000000000000000000003433A
+                3773A99791F9D8D1CBFFEDEBE7FFF5F5F2FFF8F8F5FFF8F8F5FFF5F4F1FFEAE7
+                E3FFD2CAC4FF9E8E86F93D333174000000030000000000000000000000010000
+                0003110E0E214A403C7E71625DBE7F6E68D598847DFF97837BFF7C6A64D56C5D
+                58BF453C387F110F0E2500000003000000010000000000000000}
+              ParentFont = False
+              OnClick = btnFilterUserClick
             end
             object edtFiltro: TcxTextEdit
               Left = 375
@@ -640,6 +733,36 @@ object frmDashBoard: TfrmDashBoard
               Height = 40
               Width = 228
             end
+            object cxStartFilterUser: TcxDateEdit
+              Left = 724
+              Top = 14
+              Properties.ShowTime = False
+              TabOrder = 3
+              Width = 121
+            end
+            object cxEndFilterUser: TcxDateEdit
+              Left = 888
+              Top = 14
+              Properties.ShowTime = False
+              TabOrder = 4
+              Width = 121
+            end
+          end
+          object dbMonthYear: TDBEdit
+            Left = 1127
+            Top = 5
+            Width = 138
+            Height = 24
+            DataField = 'EXTENSION'
+            DataSource = dsTempo
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 1
+            OnEnter = dbMonthYearEnter
           end
         end
       end
@@ -648,24 +771,41 @@ object frmDashBoard: TfrmDashBoard
   object cxPageControlBody: TcxPageControl
     Left = 0
     Top = 150
-    Width = 1323
-    Height = 369
+    Width = 1333
+    Height = 379
     Align = alClient
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
     TabOrder = 1
     Properties.ActivePage = cxTabSheetDetail
     Properties.CustomButtons.Buttons = <>
-    ClientRectBottom = 365
+    Properties.HideTabs = True
+    ClientRectBottom = 375
     ClientRectLeft = 4
-    ClientRectRight = 1319
-    ClientRectTop = 24
+    ClientRectRight = 1329
+    ClientRectTop = 4
     object cxTabSheetChart: TcxTabSheet
       Caption = 'cxTabSheetChart'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
       ImageIndex = 0
+      ParentFont = False
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object Panel2: TPanel
         Left = 0
         Top = 0
-        Width = 1315
-        Height = 341
+        Width = 1325
+        Height = 371
         Align = alClient
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -677,14 +817,15 @@ object frmDashBoard: TfrmDashBoard
         object Splitter1: TSplitter
           Left = 401
           Top = 1
-          Height = 339
+          Height = 369
           ExplicitLeft = 9
           ExplicitTop = 2
+          ExplicitHeight = 339
         end
         object Splitter2: TSplitter
-          Left = 901
+          Left = 911
           Top = 1
-          Height = 339
+          Height = 369
           Align = alRight
           ExplicitLeft = 832
           ExplicitTop = 80
@@ -694,7 +835,7 @@ object frmDashBoard: TfrmDashBoard
           Left = 1
           Top = 1
           Width = 400
-          Height = 339
+          Height = 369
           Align = alLeft
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
@@ -707,7 +848,7 @@ object frmDashBoard: TfrmDashBoard
             Left = 1
             Top = 1
             Width = 398
-            Height = 337
+            Height = 367
             Align = alClient
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
@@ -749,8 +890,8 @@ object frmDashBoard: TfrmDashBoard
         object Panel5: TPanel
           Left = 404
           Top = 1
-          Width = 497
-          Height = 339
+          Width = 507
+          Height = 369
           Align = alClient
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
@@ -762,8 +903,8 @@ object frmDashBoard: TfrmDashBoard
           object cxGridTMAQ_ApontamentoGrafico01: TcxGrid
             Left = 1
             Top = 1
-            Width = 495
-            Height = 337
+            Width = 505
+            Height = 367
             Align = alClient
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
@@ -803,10 +944,10 @@ object frmDashBoard: TfrmDashBoard
           end
         end
         object Panel6: TPanel
-          Left = 904
+          Left = 914
           Top = 1
           Width = 410
-          Height = 339
+          Height = 369
           Align = alRight
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
@@ -815,17 +956,215 @@ object frmDashBoard: TfrmDashBoard
           Font.Style = []
           ParentFont = False
           TabOrder = 2
+          object Panel3: TPanel
+            Left = 1
+            Top = 1
+            Width = 408
+            Height = 80
+            Align = alTop
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 0
+            object Label10: TLabel
+              Left = 16
+              Top = 16
+              Width = 65
+              Height = 13
+              Caption = 'Bank Account'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = []
+              ParentFont = False
+            end
+            object Label11: TLabel
+              Left = 17
+              Top = 56
+              Width = 50
+              Height = 13
+              Caption = 'Start Date'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = []
+              ParentFont = False
+            end
+            object Label12: TLabel
+              Left = 222
+              Top = 56
+              Width = 44
+              Height = 13
+              Caption = 'End Date'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = []
+              ParentFont = False
+            end
+            object SpeedButton3: TSpeedButton
+              Left = 359
+              Top = 8
+              Width = 42
+              Height = 39
+              Flat = True
+              Glyph.Data = {
+                36040000424D3604000000000000360000002800000010000000100000000100
+                2000000000000004000000000000000000000000000000000000000000000000
+                00000000000000000002000000070000000C0000001000000012000000110000
+                000E000000080000000200000000000000000000000000000000000000000000
+                000100000004000101120D2A1D79184E36C6216B4BFF216B4BFF216C4BFF1A53
+                3AD20F2F21840001011500000005000000010000000000000000000000000000
+                0005050F0A351C5B40DC24805CFF29AC7EFF2CC592FF2DC894FF2DC693FF2AAE
+                80FF258560FF1A563DD405110C3D00000007000000010000000000000003040E
+                0A31206548ED299D74FF2FC896FF2EC996FF56D4ACFF68DAB5FF3BCD9DFF30C9
+                96FF32CA99FF2BA479FF227050F805110C3D00000005000000000000000A1A57
+                3DD02EA57CFF33CA99FF2EC896FF4CD2A8FF20835CFF00673BFF45BE96FF31CB
+                99FF31CB98FF34CC9CFF31AD83FF1B5C41D300010113000000020B23185E2E8A
+                66FF3BCD9EFF30CA97FF4BD3A9FF349571FF87AF9DFFB1CFC1FF238A60FF45D3
+                A8FF36CF9FFF33CD9BFF3ED0A3FF319470FF0F32237F00000007184D37B63DB3
+                8CFF39CD9FFF4BD5A9FF43A382FF699782FFF8F1EEFFF9F3EEFF357F5DFF56C4
+                A1FF43D5A8FF3ED3A4FF3CD1A4FF41BC95FF1B5C43CD0000000B1C6446DF4BCA
+                A4FF44D2A8FF4FB392FF4E826AFFF0E9E6FFC0C3B5FFEFE3DDFFCEDDD4FF1B75
+                4FFF60DCB8FF48D8ACFF47D6AAFF51D4ACFF247A58F80000000E217050F266D9
+                B8FF46D3A8FF0B6741FFD2D2CBFF6A8F77FF116B43FF73967EFFF1E8E3FF72A2
+                8BFF46A685FF5EDFBAFF4CD9AFFF6BE2C2FF278460FF020604191E684ADC78D9
+                BEFF52DAB1FF3DBA92FF096941FF2F9C76FF57DEB8FF2D9973FF73967EFFF0EA
+                E7FF4F886CFF5ABB9AFF5BDEB9FF7FE2C7FF27835FF80000000C19523BAB77C8
+                B0FF62E0BCFF56DDB7FF59DFBAFF5CE1BDFF5EE2BEFF5FE4C1FF288C67FF698E
+                76FFE6E1DCFF176B47FF5FD8B4FF83D5BDFF1E674CC60000000909201747439C
+                7BFF95ECD6FF5ADFBAFF5EE2BDFF61E4BFFF64E6C1FF67E6C5FF67E8C7FF39A1
+                7EFF1F6D4AFF288B64FF98EFD9FF4DAC8CFF1036286D00000004000000041C5F
+                46B578C6ADFF9AEED9FF65E5C0FF64E7C3FF69E7C6FF6BE8C8FF6CE9C9FF6BEA
+                C9FF5ED6B6FF97EDD7FF86D3BBFF237759D20102010C0000000100000001030A
+                0718247B5BDA70C1A8FFB5F2E3FF98F0DAFF85EDD4FF75EBCEFF88EFD6FF9CF2
+                DDFFBAF4E7FF78CDB3FF2A906DEA0615102E0000000200000000000000000000
+                0001030A07171E694FB844AB87FF85D2BBFFA8E6D6FFC5F4EBFFABE9D8FF89D8
+                C1FF4BB692FF237F60CB05130E27000000030000000000000000000000000000
+                000000000001000000030A241B411B60489D258464CF2C9D77EE258867CF1F71
+                56B00E3226560000000600000002000000000000000000000000}
+              OnClick = SpeedButton3Click
+            end
+            object cxLookupComboBoxBank: TcxLookupComboBox
+              Left = 87
+              Top = 13
+              Properties.DropDownRows = 20
+              Properties.KeyFieldNames = 'ID_BANK'
+              Properties.ListColumns = <
+                item
+                  FieldName = 'ACCOUNT'
+                end>
+              Properties.ListSource = dsBank
+              TabOrder = 0
+              Width = 266
+            end
+            object DtStart: TcxDateEdit
+              Left = 88
+              Top = 53
+              TabOrder = 1
+              Width = 121
+            end
+            object DtEnd: TcxDateEdit
+              Left = 272
+              Top = 53
+              TabOrder = 2
+              Width = 121
+            end
+          end
+          object Panel7: TPanel
+            Left = 1
+            Top = 81
+            Width = 408
+            Height = 287
+            Align = alClient
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 1
+            object cxGrid5: TcxGrid
+              Left = 1
+              Top = 1
+              Width = 406
+              Height = 285
+              Align = alClient
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = []
+              ParentFont = False
+              TabOrder = 0
+              object cxGridDBTableViewCrew: TcxGridDBTableView
+                Navigator.Buttons.ConfirmDelete = True
+                Navigator.Buttons.CustomButtons = <>
+                DataController.DataSource = dsStatement
+                DataController.KeyFieldNames = 'ID_BANKSTATEMENT'
+                DataController.Summary.DefaultGroupSummaryItems = <>
+                DataController.Summary.FooterSummaryItems = <
+                  item
+                    Format = '0.00'
+                    Kind = skSum
+                    FieldName = 'AMOUNT'
+                    Column = cxGridDBTableViewCrewAMOUNT
+                  end>
+                DataController.Summary.SummaryGroups = <>
+                OptionsData.CancelOnExit = False
+                OptionsData.Deleting = False
+                OptionsData.DeletingConfirmation = False
+                OptionsData.Editing = False
+                OptionsData.Inserting = False
+                OptionsView.Footer = True
+                OptionsView.GroupByBox = False
+                OptionsView.Indicator = True
+                Styles.OnGetContentStyle = cxGridDBTableViewCrewStylesGetContentStyle
+                object cxGridDBTableViewCrewDESCRIPTION: TcxGridDBColumn
+                  Caption = 'Description'
+                  DataBinding.FieldName = 'DESCRIPTION'
+                  Width = 176
+                end
+                object cxGridDBTableViewCrewDT_DEPOSIT: TcxGridDBColumn
+                  Caption = 'Date'
+                  DataBinding.FieldName = 'DT_DEPOSIT'
+                  Width = 100
+                end
+                object cxGridDBTableViewCrewAMOUNT: TcxGridDBColumn
+                  Caption = 'Amount'
+                  DataBinding.FieldName = 'AMOUNT'
+                end
+              end
+              object cxGridLevel2: TcxGridLevel
+                Caption = 'Crew'
+                GridView = cxGridDBTableViewCrew
+              end
+            end
+          end
         end
       end
     end
     object cxTabSheetDetail: TcxTabSheet
       Caption = 'cxTabSheetDetail'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
       ImageIndex = 1
+      ParentFont = False
+      TabVisible = False
       object cxGrid1: TcxGrid
         Left = 0
         Top = 0
-        Width = 1315
-        Height = 341
+        Width = 1325
+        Height = 371
         Align = alClient
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -863,10 +1202,16 @@ object frmDashBoard: TfrmDashBoard
         'SELECT CONVERT(varchar(3), DT_PROCESS, 100)  as Month , COUNT(1)' +
         ' AS SALES FROM TBPROCESS'
       'WHERE TABLENAME = '#39'TBINVOICE'#39
-      'AND STATUS = '#39'ACCEPTED'#39
+      'AND STATUS = '#39'ACCEPTED'#39' &WHERE1'
       'GROUP BY CONVERT(varchar(3), DT_PROCESS, 100)')
     Left = 581
     Top = 287
+    MacroData = <
+      item
+        Value = Null
+        Name = 'WHERE1'
+        DataType = mdIdentifier
+      end>
     object sqlSalesChartMonth: TStringField
       FieldName = 'Month'
       Origin = '[Month]'
@@ -894,37 +1239,6 @@ object frmDashBoard: TfrmDashBoard
     Left = 44
     Top = 318
   end
-  object sqlTempo: TFDQuery
-    Connection = DBDados.FDConnection
-    SQL.Strings = (
-      
-        'SELECT ID_TIME, MES, ANO, (CONVERT(VARCHAR,ANO) + '#39' '#39' + EXTENSIO' +
-        'N) AS EXTENSION  FROM TBTIME')
-    Left = 1134
-    Top = 191
-    object sqlTempoID_TIME: TFDAutoIncField
-      FieldName = 'ID_TIME'
-      Origin = 'ID_TIME'
-      ProviderFlags = [pfInWhere, pfInKey]
-      ReadOnly = True
-    end
-    object sqlTempoMES: TIntegerField
-      FieldName = 'MES'
-      Origin = 'MES'
-    end
-    object sqlTempoANO: TIntegerField
-      FieldName = 'ANO'
-      Origin = 'ANO'
-    end
-    object sqlTempoEXTENSION: TStringField
-      AutoGenerateValue = arDefault
-      FieldName = 'EXTENSION'
-      Origin = 'EXTENSION'
-      ProviderFlags = []
-      ReadOnly = True
-      Size = 46
-    end
-  end
   object dsTempo: TDataSource
     DataSet = sqlTempo
     Left = 1142
@@ -937,8 +1251,8 @@ object frmDashBoard: TfrmDashBoard
         'SELECT '#39'RECEIVABLE'#39' AS ACCOUNT, DATEPART(WEEK, DATE_DUE) WEEKNR ' +
         ', SUM(PAYMENT_AMOUNT) AS AMOUNT FROM TBRECEIVABLE '
       
-        'WHERE PAYMENT_STATUS = '#39'PAID'#39' AND DATEPART(YEAR, DATE_DUE) = :An' +
-        'o'
+        'WHERE PAYMENT_STATUS = '#39'RECEIVED'#39' AND DATEPART(YEAR, DATE_DUE) =' +
+        ' :Ano &WHERE1'
       'GROUP BY DATEPART(WEEK, DATE_DUE) '
       'UNION ALL'
       
@@ -946,7 +1260,7 @@ object frmDashBoard: TfrmDashBoard
         'UM(PAYMENT_AMOUNT) AS AMOUNT FROM TBPAYABLE'
       
         'WHERE PAYMENT_STATUS = '#39'PAID'#39' AND DATEPART(YEAR, DATE_DUE) = :An' +
-        'o'
+        'o &WHERE2'
       'GROUP BY DATEPART(WEEK, DATE_DUE) ')
     Left = 173
     Top = 287
@@ -956,6 +1270,17 @@ object frmDashBoard: TfrmDashBoard
         DataType = ftInteger
         ADDataType = dtInt32
         ParamType = ptInput
+      end>
+    MacroData = <
+      item
+        Value = Null
+        Name = 'WHERE1'
+        DataType = mdIdentifier
+      end
+      item
+        Value = Null
+        Name = 'WHERE2'
+        DataType = mdIdentifier
       end>
     object sqlIncExpChartACCOUNT: TStringField
       FieldName = 'ACCOUNT'
@@ -983,33 +1308,198 @@ object frmDashBoard: TfrmDashBoard
     Top = 351
   end
   object cxStyleRepository: TcxStyleRepository
-    Left = 88
-    Top = 48
+    Left = 1232
+    Top = 264
     PixelsPerInch = 96
-    object cxStyleInsatisfatorio: TcxStyle
+    object cxStyleDebito: TcxStyle
       AssignedValues = [svColor, svFont, svTextColor]
-      Color = clRed
+      Color = clWhite
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
       Font.Height = -11
       Font.Name = 'Tahoma'
       Font.Style = []
-      TextColor = clWhite
+      TextColor = clRed
     end
-    object cxStyleCondicional: TcxStyle
+    object cxStyleCredito: TcxStyle
       AssignedValues = [svColor, svFont, svTextColor]
-      Color = clYellow
+      Color = clWhite
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      TextColor = clBlue
+    end
+  end
+  object dsBank: TDataSource
+    DataSet = sqlBank
+    Left = 1009
+    Top = 257
+  end
+  object sqlBank: TFDQuery
+    Connection = DBDados.FDConnection
+    SQL.Strings = (
+      
+        'SELECT ID_BANK, ID_COMPANY,  '#39'Bank: '#39' + BANKNAME + '#39' Routing: '#39' ' +
+        '+ ROUTING + '#39' Account: '#39' + ACCOUNT as ACCOUNT'
+      'FROM TBBANK'
+      'WHERE 1 = 1 &WHERE1 ')
+    Left = 945
+    Top = 289
+    MacroData = <
+      item
+        Value = Null
+        Name = 'WHERE1'
+        DataType = mdIdentifier
+      end>
+    object sqlBankID_BANK: TFDAutoIncField
+      FieldName = 'ID_BANK'
+      Origin = 'ID_BANK'
+      ProviderFlags = [pfInWhere, pfInKey]
+      ReadOnly = True
+    end
+    object sqlBankID_COMPANY: TIntegerField
+      FieldName = 'ID_COMPANY'
+      Origin = 'ID_COMPANY'
+    end
+    object sqlBankACCOUNT: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'ACCOUNT'
+      Origin = 'ACCOUNT'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 146
+    end
+  end
+  object sqlStatement: TFDQuery
+    Connection = DBDados.FDConnection
+    SQL.Strings = (
+      'SELECT ID_BANKSTATEMENT, DESCRIPTION, DT_DEPOSIT, AMOUNT'
+      ' FROM  TBBANKSTATEMENT'
+      ' WHERE ID_BANK = :ID_BANK'
+      'and DT_DEPOSIT >= :DTSTART AND DT_DEPOSIT  <= :DTEND')
+    Left = 1077
+    Top = 292
+    ParamData = <
+      item
+        Name = 'ID_BANK'
+        DataType = ftInteger
+        ADDataType = dtUInt32
+        ParamType = ptInput
+      end
+      item
+        Name = 'DTSTART'
+        DataType = ftDateTime
+        ADDataType = dtDateTime
+        ParamType = ptInput
+      end
+      item
+        Name = 'DTEND'
+        DataType = ftDateTime
+        ADDataType = dtDateTime
+        ParamType = ptInput
+      end>
+    object sqlStatementID_BANKSTATEMENT: TFDAutoIncField
+      FieldName = 'ID_BANKSTATEMENT'
+      Origin = 'ID_BANKSTATEMENT'
+      ProviderFlags = [pfInWhere, pfInKey]
+      ReadOnly = True
+    end
+    object sqlStatementDESCRIPTION: TStringField
+      FieldName = 'DESCRIPTION'
+      Origin = 'DESCRIPTION'
+      Size = 100
+    end
+    object sqlStatementDT_DEPOSIT: TDateField
+      FieldName = 'DT_DEPOSIT'
+      Origin = 'DT_DEPOSIT'
+    end
+    object sqlStatementAMOUNT: TBCDField
+      FieldName = 'AMOUNT'
+      Origin = 'AMOUNT'
+      Precision = 15
+      Size = 2
+    end
+  end
+  object dsStatement: TDataSource
+    DataSet = sqlStatement
+    Left = 981
+    Top = 364
+  end
+  object cxStyleRepository1: TcxStyleRepository
+    Left = 168
+    Top = 152
+    PixelsPerInch = 96
+    object cxStylePending: TcxStyle
+      AssignedValues = [svColor, svFont, svTextColor]
+      Color = clInfoBk
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      TextColor = clRed
+    end
+    object cxStyleAprovado: TcxStyle
+      AssignedValues = [svColor, svFont, svTextColor]
+      Color = clInactiveBorder
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWhite
       Font.Height = -11
       Font.Name = 'Tahoma'
       Font.Style = []
       TextColor = clBlack
     end
-    object cxStyleSatisfatorio: TcxStyle
-      AssignedValues = [svColor, svTextColor]
-      Color = clLime
+    object cxStyleStatusPaid: TcxStyle
+      AssignedValues = [svColor, svFont, svTextColor]
+      Color = clTeal
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
       TextColor = clWhite
+    end
+    object cxStyleStatusPending: TcxStyle
+      AssignedValues = [svColor, svFont]
+      Color = clInfoBk
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+    end
+  end
+  object sqlTempo: TFDQuery
+    Connection = DBDados.FDConnection
+    SQL.Strings = (
+      
+        'SELECT ID_TIME, MES, ANO, (CONVERT(VARCHAR,ANO) + '#39' '#39' + EXTENSIO' +
+        'N) AS EXTENSION  FROM TBTIME')
+    Left = 1006
+    Top = 303
+    object sqlTempoID_TIME: TFDAutoIncField
+      FieldName = 'ID_TIME'
+      Origin = 'ID_TIME'
+      ProviderFlags = [pfInWhere, pfInKey]
+      ReadOnly = True
+    end
+    object sqlTempoMES: TIntegerField
+      FieldName = 'MES'
+      Origin = 'MES'
+    end
+    object sqlTempoANO: TIntegerField
+      FieldName = 'ANO'
+      Origin = 'ANO'
+    end
+    object sqlTempoEXTENSION: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'EXTENSION'
+      Origin = 'EXTENSION'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 46
     end
   end
 end

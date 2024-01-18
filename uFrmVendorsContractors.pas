@@ -27,7 +27,8 @@ uses
   FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
   FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.DataSet,
   FireDAC.Comp.Client, cxEditRepositoryItems, dxBarBuiltInMenu, cxButtonEdit,
-  cxPC, Vcl.Menus, Vcl.StdCtrls, cxButtons, EditBusca, Vcl.ExtCtrls;
+  cxPC, Vcl.Menus, Vcl.StdCtrls, cxButtons, EditBusca, Vcl.ExtCtrls,
+  cxImageComboBox;
 
 type
   TFrmVendorsContractors = class(TForm)
@@ -73,8 +74,6 @@ type
     dsSupplier: TDataSource;
     cxTableViewPositionPHONE: TcxGridDBColumn;
     cxTableViewPositionEMAIL: TcxGridDBColumn;
-    cxTableViewPositionDRIVER_LICENSE: TcxGridDBColumn;
-    cxTableViewPositionCOMISSION: TcxGridDBColumn;
     sqlGridID_CONTRACTORS: TIntegerField;
     sqlGridID_MAIN_USER: TIntegerField;
     sqlGridNAME: TStringField;
@@ -119,6 +118,8 @@ type
     sqlUserPHONE_NUMBER: TStringField;
     sqlUserEMAIL: TStringField;
     sqlUserID_COMPANY: TIntegerField;
+    sqlGridBUYER: TStringField;
+    cxTableViewPositionBUYER: TcxGridDBColumn;
     procedure FormShow(Sender: TObject);
     procedure sqlGridNewRecord(DataSet: TDataSet);
     procedure sqlGridAfterEdit(DataSet: TDataSet);

@@ -46,7 +46,9 @@ uses
   uFrmWorkOrder in 'uFrmWorkOrder.pas' {frmWorkOrder},
   ufrmGrossProfit in 'ufrmGrossProfit.pas' {frmGrossProfit},
   ufrmDashBoard in 'ufrmDashBoard.pas' {frmDashBoard},
-  ufrmRelDashBoard in 'ufrmRelDashBoard.pas' {frmRelDashBoard};
+  ufrmRelDashBoard in 'ufrmRelDashBoard.pas' {frmRelDashBoard},
+  uDMReport in 'uDMReport.pas' {DMReport: TDataModule},
+  ufrmDashSale in 'ufrmDashSale.pas' {frmDashSale};
 
 {$R *.res}
 
@@ -55,6 +57,7 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TDBDados, DBDados);
+  Application.CreateForm(TDMReport, DMReport);
   Application.CreateForm(TfrmMenuPrincipal, frmMenuPrincipal);
   Application.Run;
 end.

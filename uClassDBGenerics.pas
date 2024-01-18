@@ -23,6 +23,8 @@ Type
     Fadd_date    : TDateTime;
     Fid_user     : Integer;
     FGroup       : String;
+    Fid_expensecategory : Integer;
+
     procedure setFadd_date(const Value: TDateTime);
     procedure setFdate_due(const Value: TDateTime);
     procedure setFdescription(const Value: String);
@@ -33,6 +35,7 @@ Type
     procedure setFtablename(const Value: String);
     procedure setFvalue(const Value: Currency);
     procedure setFgroup(const Value: String);
+    procedure setFid_expensecategory(const Value: Integer);
 
    public
     property id_process  : integer   read Fid_process  write setFid_process;
@@ -45,6 +48,8 @@ Type
     property add_date    : TDateTime read Fadd_date    write setFadd_date;
     property id_user     : Integer   read Fid_user     write setFid_user;
     property group       : String    read Fgroup       write setFgroup;
+    property id_expensecategory : Integer read Fid_expensecategory write setFid_expensecategory;
+
     Constructor Create;
     procedure Save;
 
@@ -712,6 +717,7 @@ begin
     add_date    := 0;
     id_user     := 0;
     group       := '';
+    id_expensecategory := 0;
 end;
 
 procedure TTerms.Save;
@@ -736,6 +742,7 @@ begin
          sqlDados.SQL.Add(',GROUPX');
          sqlDados.SQL.Add(',DESCRIPTION');
          sqlDados.SQL.Add(',ADD_DATE');
+         sqlDados.SQL.Add(',ID_EXPENSECATEGORY');
          sqlDados.SQL.Add(',ID_USER)');
 
          sqlDados.SQL.Add('VALUES (');
@@ -748,6 +755,7 @@ begin
          sqlDados.SQL.Add(',:GROUPX');
          sqlDados.SQL.Add(',:DESCRIPTION');
          sqlDados.SQL.Add(',:ADD_DATE');
+         sqlDados.SQL.Add(',:ID_EXPENSECATEGORY');
          sqlDados.SQL.Add(',:ID_USER)');
 
          sqlDados.Params.ParamByName('TABLENAME').AsString   := tablename;
@@ -759,6 +767,7 @@ begin
          sqlDados.Params.ParamByName('GROUPX').AsString      := group;
          sqlDados.Params.ParamByName('DESCRIPTION').AsString := description;
          sqlDados.Params.ParamByName('ADD_DATE').AsString    := FormatDateTime('mm/dd/yyyy hh:mm:ss', add_date);
+         sqlDados.Params.ParamByName('ID_EXPENSECATEGORY').AsInteger := id_expensecategory;
          sqlDados.Params.ParamByName('ID_USER').AsInteger    := id_user;
 
          Try
@@ -800,6 +809,11 @@ end;
 procedure TTerms.setFgroup(const Value: String);
 begin
   FGroup := Value;
+end;
+
+procedure TTerms.setFid_expensecategory(const Value: Integer);
+begin
+  Fid_expensecategory := Value;
 end;
 
 procedure TTerms.setFid_process(const Value: integer);

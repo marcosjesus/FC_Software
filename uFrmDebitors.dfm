@@ -1,9 +1,10 @@
 object FrmDebitors: TFrmDebitors
   Left = 0
   Top = 0
+  BorderStyle = bsSingle
   Caption = 'Account Receivable'
-  ClientHeight = 519
-  ClientWidth = 1009
+  ClientHeight = 529
+  ClientWidth = 1019
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -20,8 +21,8 @@ object FrmDebitors: TFrmDebitors
   TextHeight = 13
   object Panel27: TPanel
     Left = 0
-    Top = 483
-    Width = 1009
+    Top = 493
+    Width = 1019
     Height = 36
     Align = alBottom
     BevelOuter = bvNone
@@ -544,8 +545,8 @@ object FrmDebitors: TFrmDebitors
   object cxPageControl: TcxPageControl
     Left = 0
     Top = 0
-    Width = 1009
-    Height = 483
+    Width = 1019
+    Height = 493
     Align = alClient
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -554,12 +555,13 @@ object FrmDebitors: TFrmDebitors
     Font.Style = []
     ParentFont = False
     TabOrder = 1
-    Properties.ActivePage = cxTabSheetForm
+    Properties.ActivePage = cxTabSheetList
     Properties.CustomButtons.Buttons = <>
-    ClientRectBottom = 479
+    Properties.HideTabs = True
+    ClientRectBottom = 489
     ClientRectLeft = 4
-    ClientRectRight = 1005
-    ClientRectTop = 24
+    ClientRectRight = 1015
+    ClientRectTop = 4
     object cxTabSheetList: TcxTabSheet
       Caption = 'Accounts Payable'
       Font.Charset = DEFAULT_CHARSET
@@ -572,8 +574,8 @@ object FrmDebitors: TFrmDebitors
       object cxGrid2: TcxGrid
         Left = 0
         Top = 0
-        Width = 1001
-        Height = 455
+        Width = 1011
+        Height = 485
         Align = alClient
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -583,6 +585,7 @@ object FrmDebitors: TFrmDebitors
         ParentFont = False
         TabOrder = 0
         object cxGrid2DBTableView1: TcxGridDBTableView
+          OnDblClick = cxGrid2DBTableView1DblClick
           Navigator.Buttons.CustomButtons = <>
           DataController.DataSource = dsGrid
           DataController.KeyFieldNames = 'ID_RECEIVABLE'
@@ -660,11 +663,12 @@ object FrmDebitors: TFrmDebitors
       Font.Style = []
       ImageIndex = 1
       ParentFont = False
+      TabVisible = False
       object Panel1: TPanel
         Tag = -2
         Left = 0
         Top = 0
-        Width = 1001
+        Width = 1011
         Height = 27
         Align = alTop
         Alignment = taLeftJustify
@@ -721,6 +725,19 @@ object FrmDebitors: TFrmDebitors
           Font.Style = [fsBold]
           ParentFont = False
         end
+        object Label14: TLabel
+          Left = 483
+          Top = 6
+          Width = 34
+          Height = 14
+          Caption = 'Credit'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
         object EdiCodigo: TrsSuperEdit
           Tag = -2
           Left = 444
@@ -757,7 +774,7 @@ object FrmDebitors: TFrmDebitors
         object edtCliente: TEditBusca
           Left = 128
           Top = 4
-          Width = 562
+          Width = 337
           Height = 22
           Font.Charset = ANSI_CHARSET
           Font.Color = clWindowText
@@ -782,6 +799,13 @@ object FrmDebitors: TFrmDebitors
           bs_HideTop = False
           bs_Top100 = False
           bs_Script = False
+        end
+        object edtCredit: TcxCurrencyEdit
+          Left = 545
+          Top = 4
+          Enabled = False
+          TabOrder = 2
+          Width = 145
         end
       end
       object pnl1: TPanel
@@ -1137,6 +1161,7 @@ object FrmDebitors: TFrmDebitors
           Left = 545
           Top = 4
           TabOrder = 2
+          OnExit = edtAmountPaidExit
           Width = 145
         end
       end
@@ -1304,7 +1329,7 @@ object FrmDebitors: TFrmDebitors
             Value = '1'
           end
           item
-            Caption = 'Paid'
+            Caption = 'Received'
             Value = '2'
           end
           item
@@ -1429,10 +1454,38 @@ object FrmDebitors: TFrmDebitors
         'SELECT ID_RECEIVABLE, ID_COMPANY, INVOICE_ID, INVOICE_DATE, ID_C' +
         'USTOMER, ID_EXPENSECATEGORY, PAYMENT_DESCRIPTION, ID_TERM, DATE_' +
         'DUE, PAYMENT_AMOUNT, PAYMENT_STATUS,  ADD_DATE, '
-      'UPD_DATE, ID_USER, ID_PAYMENT_METHOD, ID_BANK'
-      'FROM TBRECEIVABLE')
+      
+        'UPD_DATE, ID_USER, ISNULL(ID_PAYMENT_METHOD, -1) AS ID_PAYMENT_M' +
+        'ETHOD, ISNULL(ID_BANK, -1) AS ID_BANK'
+      'FROM TBRECEIVABLE'
+      'WHERE (1 = 1) '
+      '&WHERE1'
+      '&WHERE2'
+      '&WHERE3'
+      '&WHERE4')
     Left = 752
     Top = 64
+    MacroData = <
+      item
+        Value = Null
+        Name = 'WHERE1'
+        DataType = mdIdentifier
+      end
+      item
+        Value = Null
+        Name = 'WHERE2'
+        DataType = mdIdentifier
+      end
+      item
+        Value = Null
+        Name = 'WHERE3'
+        DataType = mdIdentifier
+      end
+      item
+        Value = Null
+        Name = 'WHERE4'
+        DataType = mdIdentifier
+      end>
     object sqlGridID_RECEIVABLE: TFDAutoIncField
       FieldName = 'ID_RECEIVABLE'
       Origin = 'ID_RECEIVABLE'

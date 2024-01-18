@@ -2,18 +2,23 @@ unit uDMConectDB;
 
 interface
 
-uses
+uses FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Error,
+  FireDAC.UI.Intf, FireDAC.Phys.Intf, FireDAC.Stan.Def, FireDAC.Phys,
+  FireDAC.VCLUI.Wait, FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf,
+  FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Stan.Pool, FireDAC.Stan.ExprFuncs,
+  RLPreviewForm, FireDAC.Phys.SQLite, Data.DB, FireDAC.Comp.Client,
+  FireDAC.Comp.DataSet, FireDAC.Phys.ODBCBase, FireDAC.Phys.MSSQL,
+  FireDAC.Comp.UI, System.Classes,
   Windows, MensFun, System.DateUtils, Data.SqlTimSt,  System.IOUtils,
-  System.SysUtils, System.Classes, FireDAC.Stan.Intf, FireDAC.Stan.Option,
-  FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf, FireDAC.Stan.Def,
-  FireDAC.Phys, FireDAC.VCLUI.Wait, FireDAC.Stan.Pool, FireDAC.Stan.Async,
-  Data.DB, FireDAC.Comp.Client, FireDAC.Phys.ODBCBase, FireDAC.Phys.MSSQL,
-  FireDAC.Comp.UI, FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf,
-  FireDAC.DApt, FireDAC.Comp.DataSet, FireDAC.Stan.ExprFuncs,
-  FireDAC.Phys.SQLite, IniFiles,  Vcl.Forms, Vcl.Dialogs, uFunctions,
+  System.SysUtils, IniFiles,  Vcl.Forms, Vcl.Dialogs, uFunctions,
   FireDAC.Moni.Base, FireDAC.Moni.FlatFile;
 
 type
+
+  TRoom = record
+    Description : String;
+  end;
+
   TDBDados = class(TDataModule)
     FDManager: TFDManager;
     FDGUIxWaitCursor: TFDGUIxWaitCursor;
@@ -25,21 +30,27 @@ type
     SqlAux: TFDQuery;
     sqlAux2: TFDQuery;
     sqlSaldo: TFDQuery;
+    sqlRoom: TFDQuery;
+    dsRoom: TDataSource;
+    sqlRoomID_MISCELLANEOUS: TFDAutoIncField;
+    sqlRoomDESCRIPTION: TStringField;
     procedure DataModuleCreate(Sender: TObject);
   private
     Arq : TIniFile;
     procedure AtualizaSaldo(idxBanco : Integer);
+    procedure LoadBuyer;
 
     { Private declarations }
   public
     { Public declarations }
-
-
+    RoomList     : Array of TRoom;
+    TPEMAIL      : String;
     varAction    : Array of String;
     varRegiao    : String;
     varID        : String;
     varBanco     : String;
     varUsuario   : String;
+    varUsuarioEmail : String;
     varUsuarioLastName : String;
     varIDSaldoAtual : Integer;
     varSaldoAtual   : Double;
@@ -77,6 +88,7 @@ type
     function NumberofCompanyByUser : Integer;
     function GetSpecialPermission(varAction : String) : Boolean;
     procedure SaveUserPerfil;
+    procedure LoadRoom;
 
   end;
 
@@ -85,7 +97,11 @@ type
 var
   DBDados: TDBDados;
 
-
+Const
+  WORK_EMAIL      = 'WORK';
+  SALES_EMAIL     = 'SALES';
+  REQUESTORDER_EMAIL   = 'REQUESTORDER';
+  PURCHASE_ORDER = 'PURCHASE_ORDER';
 
 implementation
 
@@ -151,6 +167,7 @@ function TDBDados.GetSpecialPermission(varAction: String): Boolean;
 var
   varRetorno : Boolean;
 begin
+  varRetorno := True;
   SqlAux.Close;
   SqlAux.SQL.Clear;
   SqlAux.SQL.Add('SELECT ACTIONS FROM TBUSER_SPECIAL_PER  S');
@@ -166,6 +183,23 @@ begin
 
   Result :=  varRetorno;
 
+end;
+
+procedure TDBDados.LoadRoom;
+var
+  I : Integer;
+begin
+    sqlRoom.Close;
+    sqlRoom.Open;
+    I := 0;
+    SetLength(RoomList, sqlRoom.RecordCount);
+    sqlRoom.First;
+    while not sqlRoom.Eof do
+    begin
+      RoomList[I].Description := sqlRoomDESCRIPTION.AsString;
+      Inc(I);
+      sqlRoom.Next;
+    end;
 end;
 
 function TDBDados.NumberofCompanyByUser: Integer;
@@ -301,7 +335,6 @@ begin
     varRetorno := Copy(varRetorno, 1, length(varRetorno)-1);
     varRetorno := varRetorno + ')';
   end;
-
   Result := varRetorno;
 
 end;
@@ -387,8 +420,22 @@ begin
    Arq.Free;
    varLogado := False;
    ConectarNoBanco;
+
+   LoadRoom;
+
+   LoadBuyer;
 end;
 
+procedure  TDBDados.LoadBuyer;
+begin
+  SqlAux.Close;
+  SqlAux.SQL.Clear;
+  SqlAux.SQL.Add('SELECT NAME, EMAIL FROM TBCONTRACTORS WHERE BUYER = ''Y'' ');
+  SqlAux.Open;
+  varGlobalCompradorNome  := SqlAux.FieldByName('NAME').AsString;
+  varGlobalCompradorEmail := SqlAux.FieldByName('EMAIL').AsString;
+
+end;
 procedure  TDBDados.SaveUserPerfil;
 var
   ini:TIniFile;

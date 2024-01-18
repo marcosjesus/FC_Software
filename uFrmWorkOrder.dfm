@@ -275,7 +275,7 @@ object frmWorkOrder: TfrmWorkOrder
         PropertiesClassName = 'TcxComboBoxProperties'
         Properties.Items.Strings = (
           'PENDING'
-          'DONE'
+          'COMPLETED'
           'CANCELED')
         Width = 100
       end
@@ -326,7 +326,7 @@ object frmWorkOrder: TfrmWorkOrder
         Value = '1'
       end
       item
-        Caption = 'Done'
+        Caption = 'Completed'
         Value = '2'
       end
       item
@@ -360,15 +360,27 @@ object frmWorkOrder: TfrmWorkOrder
         'D_PROCESS = A.ID_PROCESS'
       'INNER JOIN TBCONTRACTORS F ON F.ID_CONTRACTORS = E.ID_CONTRACTOR'
       'INNER JOIN TBSUPPLIER G ON G.ID_SUPPLIER = A.ID_SUPPLIER'
-      'WHERE  A.STATUS = :STATUS')
+      'WHERE (1 = 1 )'
+      '&WHERE1'
+      '&WHERE2'
+      '&WHERE3')
     Left = 416
     Top = 168
-    ParamData = <
+    MacroData = <
       item
-        Name = 'STATUS'
-        DataType = ftString
-        ADDataType = dtAnsiString
-        ParamType = ptInput
+        Value = Null
+        Name = 'WHERE1'
+        DataType = mdIdentifier
+      end
+      item
+        Value = Null
+        Name = 'WHERE2'
+        DataType = mdIdentifier
+      end
+      item
+        Value = Null
+        Name = 'WHERE3'
+        DataType = mdIdentifier
       end>
     object sqlGridID_SERVICE: TFDAutoIncField
       FieldName = 'ID_SERVICE'
