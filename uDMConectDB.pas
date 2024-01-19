@@ -373,18 +373,7 @@ begin
 
    if TFile.Exists( ExtractFilePath(Application.ExeName) + 'FloorDB.ini' ) then
      FDConnection.Params.LoadFromFile( ExtractFilePath(Application.ExeName) + '\' +  'FloorDB.ini' );
-   {
-    FDConnection.Params.Add('SERVER=mssql-155263-0.cloudclusters.net,19322');
-    FDConnection.Params.Add('User_Name=fcdata');
-    FDConnection.Params.Add('Password=Fcdata2023');
 
-
-    FDConnection.Params.Add('ApplicationName=FLOOROFCOLUMBUS');
-    FDConnection.Params.Add('DATABASE=FLOORDB');
-    FDConnection.Params.Add('MARS=yes');
-    FDConnection.Params.Add('DriverID=SQL13');
-    FDConnection.Params.Add('MonitorBy=FlatFile');
-    }
     Try
       FDConnection.Open;
       FDConnection.ConnectionIntf.Tracing := True;

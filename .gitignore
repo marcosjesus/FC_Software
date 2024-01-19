@@ -22,3 +22,7 @@
 # ignore all .ini files
 
 *.ini
+
+# ignore uDMConectDB
+
+uDMConectDB.dfm
