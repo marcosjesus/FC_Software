@@ -727,6 +727,7 @@ type
     RLDBText45: TRLDBText;
     RLDBText47: TRLDBText;
     RLDBText48: TRLDBText;
+    Timer: TTimer;
     PanelSQLSplashScreen: TPanel;
     ImageSQLSplashScreen: TImage;
     cxLabelMensagem: TcxLabel;
@@ -820,6 +821,7 @@ type
     procedure chkPurchaseClick(Sender: TObject);
     procedure ReportPurchaseBeforePrint(Sender: TObject;
       var PrintIt: Boolean);
+    procedure TimerTimer(Sender: TObject);
   private
     { Private declarations }
     FPrevHitTest: TcxCustomGridHitTest;
@@ -1224,6 +1226,8 @@ begin
    begin
       ReportSale.Preview;
    end;
+   Timer.Enabled := True;
+
 
 end;
 
@@ -4160,6 +4164,19 @@ end;
 procedure TfrmEstimate.sqlTermsAfterDelete(DataSet: TDataSet);
 begin
   DisabledTotalField;
+end;
+
+procedure TfrmEstimate.TimerTimer(Sender: TObject);
+begin
+
+    DBDados.LoadUserPerfil;
+
+    if DBDados.varMessage = 'ON' then
+    begin
+       Mensagem('Sending...');
+    end
+    else if DBDados.varMessage = 'OFF' then
+        Mensagem( EmptyStr );
 end;
 
 procedure TfrmEstimate.UpdatePurchaseOrder;

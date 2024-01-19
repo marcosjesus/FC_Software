@@ -24,6 +24,8 @@ type
     RLPreviewSetup1: TRLPreviewSetup;
     sqlAux: TFDQuery;
     procedure RLPreviewSetup1Send(Sender: TObject);
+    procedure RLPreviewSetup1BeforeSend(Sender: TObject);
+    procedure RLPreviewSetup1AfterSend(Sender: TObject);
   private
     { Private declarations }
   public
@@ -45,6 +47,18 @@ implementation
 uses uDMConectDB;
 
 {$R *.dfm}
+
+procedure TDMReport.RLPreviewSetup1AfterSend(Sender: TObject);
+begin
+   DBDados.varMessage := 'OFF';
+   DBDados.SaveUserPerfil;
+end;
+
+procedure TDMReport.RLPreviewSetup1BeforeSend(Sender: TObject);
+begin
+   DBDados.varMessage := 'ON';
+   DBDados.SaveUserPerfil;
+end;
 
 procedure TDMReport.RLPreviewSetup1Send(Sender: TObject);
 var

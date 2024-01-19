@@ -4,7 +4,9 @@ object DMReport: TDMReport
   Width = 620
   object RLPreviewSetup1: TRLPreviewSetup
     Tag = -1
+    BeforeSend = RLPreviewSetup1BeforeSend
     OnSend = RLPreviewSetup1Send
+    AfterSend = RLPreviewSetup1AfterSend
     Left = 250
     Top = 244
   end

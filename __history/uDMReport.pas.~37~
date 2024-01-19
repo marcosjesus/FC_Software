@@ -185,8 +185,6 @@ begin
     EnviarEmail(varGlobalEmailDestino, HTML.Text);
 
    Finally
-     DBDados.varMessage := 'OFF';
-     DBDados.SaveUserPerfil;
      FreeAndNil(HTML);
    End;
 

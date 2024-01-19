@@ -1,7 +1,7 @@
 object DMReport: TDMReport
   OldCreateOrder = False
-  Height = 422
-  Width = 620
+  Height = 370
+  Width = 596
   object RLPreviewSetup1: TRLPreviewSetup
     Tag = -1
     OnSend = RLPreviewSetup1Send

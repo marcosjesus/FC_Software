@@ -57,8 +57,6 @@ var
  I          : Integer;
  HTML       : TStringList;
 begin
-
-
    varLocal := ExtractFilePath(Application.ExeName);
    varTemp  := Folder_Documents;
    for i := 0 to Length(SendEmail)-1 do
@@ -185,8 +183,6 @@ begin
     EnviarEmail(varGlobalEmailDestino, HTML.Text);
 
    Finally
-     DBDados.varMessage := 'OFF';
-     DBDados.SaveUserPerfil;
      FreeAndNil(HTML);
    End;
 

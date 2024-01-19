@@ -14,3 +14,7 @@
 
 # ignore all .txt files
 *.txt
+
+# ignore sendgrid key fle
+
+*.email

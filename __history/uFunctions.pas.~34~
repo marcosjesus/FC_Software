@@ -264,8 +264,9 @@ begin
    emSMTP.Host      := 'smtp.sendgrid.net';
    emSMTP.Port      := 587;
    emSMTP.Username  := 'apikey';
-   emSMTP.Password  := LoadEmailAPIKEY;
+   emSMTP.Password  := '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';
 
+   //emSMTP.UseTLS    := utUseExplicitTLS;
 
    emSMTP.Connect;
    Try

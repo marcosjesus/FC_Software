@@ -14604,4 +14604,10 @@ object frmEstimate: TfrmEstimate
     Left = 723
     Top = 148
   end
+  object Timer: TTimer
+    Enabled = False
+    Interval = 300
+    Left = 188
+    Top = 88
+  end
 end

@@ -48,7 +48,6 @@ type
     varAction    : Array of String;
     varRegiao    : String;
     varID        : String;
-    varMessage   : String;
     varBanco     : String;
     varUsuario   : String;
     varUsuarioEmail : String;
@@ -89,7 +88,6 @@ type
     function NumberofCompanyByUser : Integer;
     function GetSpecialPermission(varAction : String) : Boolean;
     procedure SaveUserPerfil;
-    procedure LoadUserPerfil;
     procedure LoadRoom;
 
   end;
@@ -202,16 +200,6 @@ begin
       Inc(I);
       sqlRoom.Next;
     end;
-end;
-
-procedure TDBDados.LoadUserPerfil;
-begin
-   Arq       := TIniFile.Create(ExtractFilePath(Application.ExeName)+'conexao.ini');
-   varBanco  := Arq.ReadString('BANCO','VENDOR', '');
-   varRegiao := Arq.ReadString('REGIAO','FORMATDATE', '');
-   varID     := Arq.ReadString('ID','EMAIL', '');
-   varMessage := Arq.ReadString('MESSAGE','TURN', '');
-   Arq.Free;
 end;
 
 function TDBDados.NumberofCompanyByUser: Integer;
@@ -425,11 +413,12 @@ end;
 procedure TDBDados.DataModuleCreate(Sender: TObject);
 begin
    FDConnection.Connected := False;
-
-   LoadUserPerfil;
-
+   Arq       := TIniFile.Create(ExtractFilePath(Application.ExeName)+'conexao.ini');
+   varBanco  := Arq.ReadString('BANCO','VENDOR', '');
+   varRegiao := Arq.ReadString('REGIAO','FORMATDATE', '');
+   varID     := Arq.ReadString('ID','EMAIL', '');
+   Arq.Free;
    varLogado := False;
-
    ConectarNoBanco;
 
    LoadRoom;
@@ -455,7 +444,6 @@ begin
   ini.WriteString('BANCO', 'VENDOR', varBanco);
   ini.WriteString('REGIAO', 'FORMATDATE', varRegiao);
   ini.WriteString('ID', 'EMAIL', varID);
-  ini.WriteString('MESSAGE', 'TURN', varMessage);
   ini.Free;
 end;
 

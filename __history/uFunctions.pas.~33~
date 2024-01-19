@@ -70,8 +70,6 @@ uses
   function ZeroLeft(vZero: string; vQtd: integer): string;
   function DirExists( const Directory: string ): boolean;
   function Occurrences(const Substring, Text: string): integer;
-  function LoadEmailAPIKEY : String;
-
 
 implementation
 
@@ -79,7 +77,7 @@ function LoadEmailAPIKEY : String;
 var
   varResultado : String;
 begin
-   ArqEmail  := TIniFile.Create(ExtractFilePath(Application.ExeName)+'sendgrid.email');
+   ArqEmail  := TIniFile.Create(ExtractFilePath(Application.ExeName)+'sendgridkey.email');
    Try
      varResultado  := ArqEmail.ReadString('SENDGRID','KEY', '');
    Finally
@@ -264,8 +262,9 @@ begin
    emSMTP.Host      := 'smtp.sendgrid.net';
    emSMTP.Port      := 587;
    emSMTP.Username  := 'apikey';
-   emSMTP.Password  := LoadEmailAPIKEY;
+   emSMTP.Password  := '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';
 
+   //emSMTP.UseTLS    := utUseExplicitTLS;
 
    emSMTP.Connect;
    Try

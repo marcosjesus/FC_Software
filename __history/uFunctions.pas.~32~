@@ -3,7 +3,6 @@ unit uFunctions;
 interface
 
 uses
-  System.iniFiles,
   Vcl.Dialogs,
   Forms,
   System.IOUtils,
@@ -49,7 +48,7 @@ uses
     varGlobalCompradorNome : String;
     varGlobalCompradorEmail : String;
     varGlobalID_Process : Integer;
-    ArqEmail : TIniFile;
+
 
 
   function Str_Pal(cOrig: string; nPos: Word; cSep: ShortString): string;
@@ -70,23 +69,9 @@ uses
   function ZeroLeft(vZero: string; vQtd: integer): string;
   function DirExists( const Directory: string ): boolean;
   function Occurrences(const Substring, Text: string): integer;
-  function LoadEmailAPIKEY : String;
-
 
 implementation
 
-function LoadEmailAPIKEY : String;
-var
-  varResultado : String;
-begin
-   ArqEmail  := TIniFile.Create(ExtractFilePath(Application.ExeName)+'sendgrid.email');
-   Try
-     varResultado  := ArqEmail.ReadString('SENDGRID','KEY', '');
-   Finally
-     ArqEmail.Free;
-   End;
-   result := varResultado;
-end;
 
 
 function Occurrences(const Substring, Text: string): integer;
@@ -264,8 +249,9 @@ begin
    emSMTP.Host      := 'smtp.sendgrid.net';
    emSMTP.Port      := 587;
    emSMTP.Username  := 'apikey';
-   emSMTP.Password  := LoadEmailAPIKEY;
+   emSMTP.Password  := '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';
 
+   //emSMTP.UseTLS    := utUseExplicitTLS;
 
    emSMTP.Connect;
    Try

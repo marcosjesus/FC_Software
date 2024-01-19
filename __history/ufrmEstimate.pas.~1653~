@@ -727,6 +727,7 @@ type
     RLDBText45: TRLDBText;
     RLDBText47: TRLDBText;
     RLDBText48: TRLDBText;
+    Timer: TTimer;
     PanelSQLSplashScreen: TPanel;
     ImageSQLSplashScreen: TImage;
     cxLabelMensagem: TcxLabel;
@@ -1224,6 +1225,8 @@ begin
    begin
       ReportSale.Preview;
    end;
+   Timer.Enabled := True;
+
 
 end;
 

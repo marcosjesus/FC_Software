@@ -39,7 +39,7 @@ uses
   RLFilters, RLHTMLFilter, RLPreviewForm, cxCheckListBox, cxDBCheckListBox,
   Vcl.CheckLst, Vcl.Samples.Spin, Vcl.DBCtrls, Vcl.ExtDlgs, cxButtonEdit,
   Vcl.ImgList, cxEditRepositoryItems, cxSpinEdit, cxSplitter, dximctrl,
-  cxCheckBox, cxLabel, dxGDIPlusClasses;
+  cxCheckBox;
 
 
 
@@ -727,9 +727,6 @@ type
     RLDBText45: TRLDBText;
     RLDBText47: TRLDBText;
     RLDBText48: TRLDBText;
-    PanelSQLSplashScreen: TPanel;
-    ImageSQLSplashScreen: TImage;
-    cxLabelMensagem: TcxLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure spbCleanCustomerClick(Sender: TObject);
@@ -880,7 +877,7 @@ type
     procedure CalculaCrewSubTotal;
     function ValidToPrint: Boolean;
     procedure UnfrezzeScreen;
-    procedure Mensagem(pMensagem: String);
+
   public
     { Public declarations }
     varIDExterna  : Integer;
@@ -1225,6 +1222,7 @@ begin
       ReportSale.Preview;
    end;
 
+
 end;
 
 procedure TfrmEstimate.ButItensOnOff(S: String);
@@ -1359,15 +1357,6 @@ begin
     sqlService.Params.ParamByName('TABLENAME').AsString   := TBHeader;
 
     sqlService.Open;
-
-end;
-
-procedure TfrmEstimate.Mensagem(pMensagem: String);
-begin
-  cxLabelMensagem.Caption := pMensagem;
-  PanelSQLSplashScreen.Visible := not pMensagem.IsEmpty;
-  Update;
-  Application.ProcessMessages;
 
 end;
 
