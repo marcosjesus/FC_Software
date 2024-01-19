@@ -18,3 +18,7 @@
 # ignore sendgrid key fle
 
 *.email
+
+# ignore all .ini files
+
+*.ini

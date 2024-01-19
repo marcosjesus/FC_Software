@@ -38,6 +38,7 @@ type
   private
     Arq : TIniFile;
     procedure AtualizaSaldo(idxBanco : Integer);
+    procedure LoadBuyer;
 
     { Private declarations }
   public
@@ -47,6 +48,7 @@ type
     varAction    : Array of String;
     varRegiao    : String;
     varID        : String;
+    varMessage   : String;
     varBanco     : String;
     varUsuario   : String;
     varUsuarioEmail : String;
@@ -87,6 +89,7 @@ type
     function NumberofCompanyByUser : Integer;
     function GetSpecialPermission(varAction : String) : Boolean;
     procedure SaveUserPerfil;
+    procedure LoadUserPerfil;
     procedure LoadRoom;
 
   end;
@@ -100,6 +103,7 @@ Const
   WORK_EMAIL      = 'WORK';
   SALES_EMAIL     = 'SALES';
   REQUESTORDER_EMAIL   = 'REQUESTORDER';
+  PURCHASE_ORDER = 'PURCHASE_ORDER';
 
 implementation
 
@@ -165,6 +169,7 @@ function TDBDados.GetSpecialPermission(varAction: String): Boolean;
 var
   varRetorno : Boolean;
 begin
+  varRetorno := True;
   SqlAux.Close;
   SqlAux.SQL.Clear;
   SqlAux.SQL.Add('SELECT ACTIONS FROM TBUSER_SPECIAL_PER  S');
@@ -197,6 +202,16 @@ begin
       Inc(I);
       sqlRoom.Next;
     end;
+end;
+
+procedure TDBDados.LoadUserPerfil;
+begin
+   Arq       := TIniFile.Create(ExtractFilePath(Application.ExeName)+'conexao.ini');
+   varBanco  := Arq.ReadString('BANCO','VENDOR', '');
+   varRegiao := Arq.ReadString('REGIAO','FORMATDATE', '');
+   varID     := Arq.ReadString('ID','EMAIL', '');
+   varMessage := Arq.ReadString('MESSAGE','TURN', '');
+   Arq.Free;
 end;
 
 function TDBDados.NumberofCompanyByUser: Integer;
@@ -332,7 +347,6 @@ begin
     varRetorno := Copy(varRetorno, 1, length(varRetorno)-1);
     varRetorno := varRetorno + ')';
   end;
-
   Result := varRetorno;
 
 end;
@@ -411,18 +425,28 @@ end;
 procedure TDBDados.DataModuleCreate(Sender: TObject);
 begin
    FDConnection.Connected := False;
-   Arq       := TIniFile.Create(ExtractFilePath(Application.ExeName)+'conexao.ini');
-   varBanco  := Arq.ReadString('BANCO','VENDOR', '');
-   varRegiao := Arq.ReadString('REGIAO','FORMATDATE', '');
-   varID     := Arq.ReadString('ID','EMAIL', '');
-   Arq.Free;
+
+   LoadUserPerfil;
+
    varLogado := False;
+
    ConectarNoBanco;
 
    LoadRoom;
 
+   LoadBuyer;
 end;
 
+procedure  TDBDados.LoadBuyer;
+begin
+  SqlAux.Close;
+  SqlAux.SQL.Clear;
+  SqlAux.SQL.Add('SELECT NAME, EMAIL FROM TBCONTRACTORS WHERE BUYER = ''Y'' ');
+  SqlAux.Open;
+  varGlobalCompradorNome  := SqlAux.FieldByName('NAME').AsString;
+  varGlobalCompradorEmail := SqlAux.FieldByName('EMAIL').AsString;
+
+end;
 procedure  TDBDados.SaveUserPerfil;
 var
   ini:TIniFile;
@@ -431,6 +455,7 @@ begin
   ini.WriteString('BANCO', 'VENDOR', varBanco);
   ini.WriteString('REGIAO', 'FORMATDATE', varRegiao);
   ini.WriteString('ID', 'EMAIL', varID);
+  ini.WriteString('MESSAGE', 'TURN', varMessage);
   ini.Free;
 end;
 
