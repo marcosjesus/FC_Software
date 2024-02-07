@@ -3,6 +3,7 @@ unit uFunctions;
 interface
 
 uses
+  IdReplySMTP,
   System.iniFiles,
   Vcl.Dialogs,
   Forms,
@@ -51,7 +52,6 @@ uses
     varGlobalID_Process : Integer;
     ArqEmail : TIniFile;
 
-
   function Str_Pal(cOrig: string; nPos: Word; cSep: ShortString): string;
   function ComputerName : String;
   function WUserName: String;
@@ -71,9 +71,24 @@ uses
   function DirExists( const Directory: string ): boolean;
   function Occurrences(const Substring, Text: string): integer;
   function LoadEmailAPIKEY : String;
-
+  function Arredondar(Valor: Double; Dec: Integer): Double;
 
 implementation
+
+function Arredondar(Valor: Double; Dec: Integer): Double;
+var
+  Valor1,
+  Numero1,
+  Numero2,
+  Numero3: Double;
+begin
+  Valor1:=Exp(Ln(10) * (Dec + 1));
+  Numero1:=Int(Valor * Valor1);
+  Numero2:=(Numero1 / 10);
+  Numero3:=Round(Numero2);
+  Result:=(Numero3 / (Exp(Ln(10) * Dec)));
+end;
+
 
 function LoadEmailAPIKEY : String;
 var
@@ -244,8 +259,9 @@ var
   SSLHandler   : TIdSSLIOHandlerSocketOpenSSL;
   emMessage    : TIdMessage;
   emSMTP       : TIdSMTP;
-  bEnvio       : Boolean;
   Attachment   : TIdAttachment;
+  bEnvio       : Boolean;
+
 begin
   emSMTP     := TIdSMTP.Create;
   emMessage := TIdMessage.Create;
@@ -324,8 +340,17 @@ begin
          Attachment := TIdAttachmentFile.Create(emMessage.MessageParts, varGlobalArquivo);
 
          try
+
              emSMTP.Send(emMessage);
+
          except
+
+             on E : EIdSMTPReplyError do
+             begin
+               bEnvio := False;
+               exception.Create(E.ErrorCode.ToString + ' : ' + E.Message);
+            end;
+
              on E : Exception do
              begin
                 bEnvio := False;

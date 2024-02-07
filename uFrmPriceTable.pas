@@ -147,6 +147,8 @@ procedure TfrmPriceTable.cxEditRepository1ButtonItem1PropertiesButtonClick(
   Sender: TObject; AButtonIndex: Integer);
 begin
 
+  DBDados.UpdatePriceList(sqlGridID_PRICELIST.AsInteger, sqlGridDISCOUNT.AsFloat);
+{
   sqlAux.Close;
   sqlAux.SQL.Clear;
   sqlAux.SQL.Add('Delete From TBPRICEITEM Where ID_PRICELIST = :ID_PRICELIST');
@@ -179,6 +181,7 @@ begin
       on E: EDatabaseError do
         Mens_MensErro(E.ClassName+' error raised, with message : '+E.Message);
   end;
+ }
 
   cxPageControl1.ActivePage := cxTabSheetItem;
   sqlCompany.Locate('ID_COMPANY', sqlGridID_COMPANY.AsInteger, []);

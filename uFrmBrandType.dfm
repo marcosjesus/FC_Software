@@ -27,19 +27,21 @@ object FrmBrandType: TFrmBrandType
     Height = 675
     Align = alClient
     TabOrder = 0
-    ExplicitWidth = 974
-    ExplicitHeight = 665
     object Page: TcxPageControl
       Left = 1
       Top = 1
       Width = 982
       Height = 654
       Align = alClient
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
       TabOrder = 0
       Properties.ActivePage = TabMaterial
       Properties.CustomButtons.Buttons = <>
-      ExplicitWidth = 972
-      ExplicitHeight = 644
       ClientRectBottom = 650
       ClientRectLeft = 4
       ClientRectRight = 978
@@ -47,8 +49,6 @@ object FrmBrandType: TFrmBrandType
       object TabMaterial: TcxTabSheet
         Caption = 'Product Type'
         ImageIndex = 0
-        ExplicitWidth = 964
-        ExplicitHeight = 616
         object cxGridPriceType: TcxGrid
           Left = 0
           Top = 0
@@ -63,8 +63,6 @@ object FrmBrandType: TFrmBrandType
           ParentFont = False
           TabOrder = 0
           RootLevelOptions.DetailTabsPosition = dtpTop
-          ExplicitWidth = 964
-          ExplicitHeight = 616
           object cxGridDBTableViewType: TcxGridDBTableView
             Navigator.Buttons.ConfirmDelete = True
             Navigator.Buttons.CustomButtons = <>
@@ -144,8 +142,6 @@ object FrmBrandType: TFrmBrandType
         AlignWithMargins = True
         Caption = 'Product Style'
         ImageIndex = 1
-        ExplicitWidth = 958
-        ExplicitHeight = 610
         object cxGridBrand: TcxGrid
           Left = 0
           Top = 0
@@ -154,8 +150,6 @@ object FrmBrandType: TFrmBrandType
           Align = alClient
           TabOrder = 0
           RootLevelOptions.DetailTabsPosition = dtpTop
-          ExplicitWidth = 958
-          ExplicitHeight = 610
           object cxGridDBTableViewBrand: TcxGridDBTableView
             Navigator.Buttons.ConfirmDelete = True
             Navigator.Buttons.CustomButtons = <>
@@ -223,8 +217,6 @@ object FrmBrandType: TFrmBrandType
       object TabRoom: TcxTabSheet
         Caption = 'Room'
         ImageIndex = 2
-        ExplicitWidth = 964
-        ExplicitHeight = 616
         object cxGrid1: TcxGrid
           Left = 0
           Top = 0
@@ -233,8 +225,6 @@ object FrmBrandType: TFrmBrandType
           Align = alClient
           TabOrder = 0
           RootLevelOptions.DetailTabsPosition = dtpTop
-          ExplicitWidth = 964
-          ExplicitHeight = 616
           object cxGridDBTableView1: TcxGridDBTableView
             Navigator.Buttons.ConfirmDelete = True
             Navigator.Buttons.CustomButtons = <>
@@ -293,19 +283,28 @@ object FrmBrandType: TFrmBrandType
       end
       object TabDisplay: TcxTabSheet
         Caption = 'Sample Board'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = []
         ImageIndex = 3
-        ExplicitWidth = 964
-        ExplicitHeight = 616
+        ParentFont = False
         object cxGrid2: TcxGrid
           Left = 0
           Top = 0
           Width = 974
           Height = 626
           Align = alClient
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ParentFont = False
           TabOrder = 0
           RootLevelOptions.DetailTabsPosition = dtpTop
-          ExplicitWidth = 964
-          ExplicitHeight = 616
+          ExplicitTop = -2
           object cxGridDBTableView2: TcxGridDBTableView
             Navigator.Buttons.ConfirmDelete = True
             Navigator.Buttons.CustomButtons = <>
@@ -328,9 +327,9 @@ object FrmBrandType: TFrmBrandType
             Navigator.InfoPanel.DisplayMask = '[RecordIndex] de [RecordCount]'
             Navigator.InfoPanel.Visible = True
             Navigator.Visible = True
-            DataController.DataSource = dsGridBrand
+            DataController.DataSource = dsSample
             DataController.Filter.Active = True
-            DataController.KeyFieldNames = 'ID_TYPEBRAND'
+            DataController.KeyFieldNames = 'ID_SAMPLE'
             DataController.Summary.DefaultGroupSummaryItems = <>
             DataController.Summary.FooterSummaryItems = <>
             DataController.Summary.SummaryGroups = <>
@@ -350,6 +349,28 @@ object FrmBrandType: TFrmBrandType
             OptionsSelection.CellMultiSelect = True
             OptionsView.NoDataToDisplayInfoText = '<No Data>'
             OptionsView.Indicator = True
+            object cxGridDBTableView2ID_SUPPLIER: TcxGridDBColumn
+              Caption = 'Manufacturer'
+              DataBinding.FieldName = 'ID_SUPPLIER'
+              PropertiesClassName = 'TcxLookupComboBoxProperties'
+              Properties.KeyFieldNames = 'ID_SUPPLIER'
+              Properties.ListColumns = <
+                item
+                  FieldName = 'NAMEBUSINESS'
+                end>
+              Properties.ListSource = dsSupplier
+              Width = 200
+            end
+            object cxGridDBTableView2PRODUCT_NAME: TcxGridDBColumn
+              Caption = 'Sample'
+              DataBinding.FieldName = 'PRODUCT_NAME'
+              Width = 200
+            end
+            object cxGridDBTableView2PRODUCT_DESC: TcxGridDBColumn
+              Caption = 'Sample Description'
+              DataBinding.FieldName = 'PRODUCT_DESC'
+              Width = 200
+            end
           end
           object cxGridLevel2: TcxGridLevel
             Caption = 'Samples Board'
@@ -357,11 +378,15 @@ object FrmBrandType: TFrmBrandType
           end
         end
       end
-      object cxTabSheet1: TcxTabSheet
+      object TabService: TcxTabSheet
         Caption = 'Services'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = []
         ImageIndex = 4
-        ExplicitWidth = 964
-        ExplicitHeight = 616
+        ParentFont = False
         object cxGrid3: TcxGrid
           Left = 0
           Top = 0
@@ -376,8 +401,6 @@ object FrmBrandType: TFrmBrandType
           ParentFont = False
           TabOrder = 0
           RootLevelOptions.DetailTabsPosition = dtpTop
-          ExplicitWidth = 964
-          ExplicitHeight = 616
           object cxGridDBTableView3: TcxGridDBTableView
             Navigator.Buttons.ConfirmDelete = True
             Navigator.Buttons.CustomButtons = <>
@@ -434,6 +457,94 @@ object FrmBrandType: TFrmBrandType
           end
         end
       end
+      object TabInstallments: TcxTabSheet
+        Caption = 'Installments'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ImageIndex = 5
+        ParentFont = False
+        object cxGrid4: TcxGrid
+          Left = 0
+          Top = 0
+          Width = 974
+          Height = 626
+          Align = alClient
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 0
+          RootLevelOptions.DetailTabsPosition = dtpTop
+          object cxGridDBTableView4: TcxGridDBTableView
+            Navigator.Buttons.ConfirmDelete = True
+            Navigator.Buttons.CustomButtons = <>
+            Navigator.Buttons.First.Hint = 'Primeiro'
+            Navigator.Buttons.PriorPage.Visible = False
+            Navigator.Buttons.Prior.Hint = 'Anterior'
+            Navigator.Buttons.Next.Hint = 'Pr'#243'ximo'
+            Navigator.Buttons.NextPage.Visible = False
+            Navigator.Buttons.Last.Hint = #218'ltimo'
+            Navigator.Buttons.Insert.Hint = 'Inserir registro'
+            Navigator.Buttons.Append.Visible = False
+            Navigator.Buttons.Delete.Hint = 'Excluir'
+            Navigator.Buttons.Edit.Hint = 'Alterar'
+            Navigator.Buttons.Post.Hint = 'Salvar'
+            Navigator.Buttons.Cancel.Hint = 'Cancelar'
+            Navigator.Buttons.Refresh.Hint = 'Atualizar'
+            Navigator.Buttons.SaveBookmark.Visible = False
+            Navigator.Buttons.GotoBookmark.Visible = False
+            Navigator.Buttons.Filter.Hint = 'Filtro'
+            Navigator.InfoPanel.DisplayMask = '[RecordIndex] de [RecordCount]'
+            Navigator.InfoPanel.Visible = True
+            Navigator.Visible = True
+            DataController.DataSource = dsInstallments
+            DataController.Filter.Active = True
+            DataController.KeyFieldNames = 'ID_INSTALLMENTS'
+            DataController.Summary.DefaultGroupSummaryItems = <>
+            DataController.Summary.FooterSummaryItems = <>
+            DataController.Summary.SummaryGroups = <>
+            DateTimeHandling.IgnoreTimeForFiltering = True
+            DateTimeHandling.MonthFormat = 'mmm'
+            DateTimeHandling.YearFormat = 'yy'
+            DateTimeHandling.DateFormat = 'dd/mm/yyyy'
+            DateTimeHandling.HourFormat = 'hh:nn:ss'
+            FilterRow.InfoText = 'Filter here'
+            FilterRow.Visible = True
+            NewItemRow.InfoText = 'Add New Type'
+            NewItemRow.Visible = True
+            OptionsCustomize.ColumnsQuickCustomization = True
+            OptionsData.Appending = True
+            OptionsSelection.InvertSelect = False
+            OptionsSelection.MultiSelect = True
+            OptionsSelection.CellMultiSelect = True
+            OptionsView.NoDataToDisplayInfoText = '<No Data>'
+            OptionsView.Indicator = True
+            object cxGridDBTableView4DESCRIPTION: TcxGridDBColumn
+              Caption = 'Description'
+              DataBinding.FieldName = 'DESCRIPTION'
+            end
+            object cxGridDBTableView4INTERVAL: TcxGridDBColumn
+              Caption = '# Installments'
+              DataBinding.FieldName = 'INTERVAL'
+              Width = 139
+            end
+            object cxGridDBTableView4QTDEDAYS: TcxGridDBColumn
+              Caption = 'Interval'
+              DataBinding.FieldName = 'QTDEDAYS'
+              Width = 116
+            end
+          end
+          object cxGridLevel4: TcxGridLevel
+            Caption = 'Services'
+            GridView = cxGridDBTableView4
+          end
+        end
+      end
     end
     object StatusBar1: TStatusBar
       Left = 1
@@ -441,8 +552,6 @@ object FrmBrandType: TFrmBrandType
       Width = 982
       Height = 19
       Panels = <>
-      ExplicitTop = 645
-      ExplicitWidth = 972
     end
   end
   object sqlGridType: TFDQuery
@@ -591,8 +700,22 @@ object FrmBrandType: TFrmBrandType
   end
   object sqlSupplier: TFDQuery
     Connection = DBDados.FDConnection
+    SQL.Strings = (
+      'SELECT ID_SUPPLIER, NAMEBUSINESS FROM TBSUPPLIER'
+      'ORDER BY NAMEBUSINESS')
     Left = 405
     Top = 169
+    object sqlSupplierID_SUPPLIER: TIntegerField
+      FieldName = 'ID_SUPPLIER'
+      Origin = 'ID_SUPPLIER'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object sqlSupplierNAMEBUSINESS: TStringField
+      FieldName = 'NAMEBUSINESS'
+      Origin = 'NAMEBUSINESS'
+      Size = 100
+    end
   end
   object dsSupplier: TDataSource
     DataSet = sqlSupplier
@@ -625,5 +748,83 @@ object FrmBrandType: TFrmBrandType
     DataSet = sqlService
     Left = 245
     Top = 257
+  end
+  object sqlInstallments: TFDQuery
+    Connection = DBDados.FDConnection
+    SQL.Strings = (
+      'SELECT * FROM TBINSTALLMENTS')
+    Left = 285
+    Top = 145
+    object sqlInstallmentsID_INSTALLMENTS: TFDAutoIncField
+      FieldName = 'ID_INSTALLMENTS'
+      Origin = 'ID_INSTALLMENTS'
+      ProviderFlags = [pfInWhere, pfInKey]
+      ReadOnly = True
+    end
+    object sqlInstallmentsDESCRIPTION: TStringField
+      FieldName = 'DESCRIPTION'
+      Origin = 'DESCRIPTION'
+      Size = 50
+    end
+    object sqlInstallmentsINTERVAL: TIntegerField
+      FieldName = 'INTERVAL'
+      Origin = '[INTERVAL]'
+    end
+    object sqlInstallmentsQTDEDAYS: TIntegerField
+      FieldName = 'QTDEDAYS'
+      Origin = 'QTDEDAYS'
+    end
+  end
+  object dsInstallments: TDataSource
+    DataSet = sqlInstallments
+    Left = 309
+    Top = 233
+  end
+  object sqlSample: TFDQuery
+    Connection = DBDados.FDConnection
+    SQL.Strings = (
+      
+        'SELECT ID_SAMPLE, ID_SUPPLIER, PRODUCT_NAME, PRODUCT_DESC, ID_US' +
+        'ER, ADD_DATE, UPD_DATE FROM TBSAMPLE'
+      'ORDER BY ID_SUPPLIER')
+    Left = 189
+    Top = 329
+    object sqlSampleID_SAMPLE: TFDAutoIncField
+      FieldName = 'ID_SAMPLE'
+      Origin = 'ID_SAMPLE'
+      ProviderFlags = [pfInWhere, pfInKey]
+      ReadOnly = True
+    end
+    object sqlSampleID_SUPPLIER: TIntegerField
+      FieldName = 'ID_SUPPLIER'
+      Origin = 'ID_SUPPLIER'
+    end
+    object sqlSamplePRODUCT_NAME: TStringField
+      FieldName = 'PRODUCT_NAME'
+      Origin = 'PRODUCT_NAME'
+      Size = 30
+    end
+    object sqlSamplePRODUCT_DESC: TStringField
+      FieldName = 'PRODUCT_DESC'
+      Origin = 'PRODUCT_DESC'
+      Size = 60
+    end
+    object sqlSampleID_USER: TIntegerField
+      FieldName = 'ID_USER'
+      Origin = 'ID_USER'
+    end
+    object sqlSampleADD_DATE: TSQLTimeStampField
+      FieldName = 'ADD_DATE'
+      Origin = 'ADD_DATE'
+    end
+    object sqlSampleUPD_DATE: TSQLTimeStampField
+      FieldName = 'UPD_DATE'
+      Origin = 'UPD_DATE'
+    end
+  end
+  object dsSample: TDataSource
+    DataSet = sqlSample
+    Left = 205
+    Top = 401
   end
 end

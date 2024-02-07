@@ -121,7 +121,7 @@ object frmRequestOrder: TfrmRequestOrder
       ParentFont = False
       OnClick = ButSairClick
     end
-    object cxButton1: TcxButton
+    object btnPrint: TcxButton
       Left = 3
       Top = 2
       Width = 40
@@ -270,7 +270,7 @@ object frmRequestOrder: TfrmRequestOrder
       Font.Name = 'Tahoma'
       Font.Style = []
       ParentFont = False
-      OnClick = cxButton1Click
+      OnClick = btnPrintClick
     end
   end
   object cxPage: TcxPageControl
@@ -286,7 +286,7 @@ object frmRequestOrder: TfrmRequestOrder
     Font.Style = []
     ParentFont = False
     TabOrder = 2
-    Properties.ActivePage = cxTabSheetForm
+    Properties.ActivePage = cxTabSheetGrid
     Properties.CustomButtons.Buttons = <>
     ClientRectBottom = 459
     ClientRectLeft = 4
@@ -1151,7 +1151,7 @@ object frmRequestOrder: TfrmRequestOrder
       'K.ID_ORIGEN,'
       'CASE WHEN A.TABLENAME = '#39'TBORDER_ITEM'#39' THEN '#39'ORDER'#39' END SOURCE,'
       'A.EMAIL AS VENDOREMAIL'
-      'FROM [DBO].[TBREQUESTORDER] A'
+      'FROM TBREQUESTORDER A'
       'INNER JOIN TBCOMPANY B ON A.ID_COMPANY = B.ID_COMPANY'
       'INNER JOIN TBCONTRACTORS C ON C.ID_CONTRACTORS = A.ID_CONTRACTOR'
       

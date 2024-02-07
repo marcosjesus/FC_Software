@@ -136,6 +136,7 @@ Type
       FZipCode             : String;
       FID_User             : Integer;
       FCounty              : String;
+      FTypeAddress         : String;
     procedure setFId_Address(const Value: integer);
     procedure setFAddress(const Value: string);
     procedure setFCity(const Value: string);
@@ -148,6 +149,7 @@ Type
     procedure setFId_User(const Value: integer);
     procedure setFId_Supplier(const Value: integer);
     procedure setFCounty(const Value: String);
+    procedure setFTypeAddress(const Value: String);
     public
        property Id_Address: integer read FId_Address write setFId_Address;
        property add_date : string read Fadd_date write setFadd_date;
@@ -161,6 +163,7 @@ Type
        property ZipCode : string read FZipCode write setFZipCode;
        property ID_User : integer read FID_User write setFId_User;
        property County  : String  read FCounty write setFCounty;
+       property TypeAddress : String read FTypeAddress write setFTypeAddress;
 
        constructor Create;
        procedure Save;
@@ -388,6 +391,7 @@ begin
     Address := '';
     ZipCode := '';
     County := '';
+    TypeAddress := '';
 end;
 
 procedure TAddress.Save;
@@ -411,6 +415,7 @@ begin
         sqlDados.SQL.Add(',ADDRESS1');
         sqlDados.SQL.Add(',zipcode ');
         sqlDados.SQL.Add(',County ');
+        sqlDados.SQL.Add(',typeaddress ');
         sqlDados.SQL.Add(',id_user )');
         sqlDados.SQL.Add(' Values (');
 
@@ -423,6 +428,7 @@ begin
         sqlDados.SQL.Add( QuotedStr(ADDRESS) +  ',' );
         sqlDados.SQL.Add( QuotedStr(County) +  ',' );
         sqlDados.SQL.Add( QuotedStr(zipcode) +  ',' );
+        sqlDados.SQL.Add( QuotedStr(TypeAddress) +  ',' );
         sqlDados.SQL.Add( IntToStr(ID_USER) +  ')' );
 
         Try
@@ -451,7 +457,7 @@ begin
        Try
         sqlDados.Close;
         sqlDados.SQL.Clear;
-        sqlDados.SQL.Add('Select id_address, add_date, id_customer, id_supplier, country, statee, city, address1, zipcode, county From TBADDRESS Where id_address = :id_address');
+        sqlDados.SQL.Add('Select id_address, add_date, id_customer, id_supplier, country, statee, city, address1, zipcode, county, typeaddress From TBADDRESS Where id_address = :id_address');
         sqlDados.Params.ParamByName('id_address').AsInteger := varId_Address;
         sqlDados.Open;
         if not sqlDados.IsEmpty  then
@@ -466,6 +472,7 @@ begin
           Address            := sqlDados.FieldByName('ADDRESS1').ASString;
           ZipCode            := sqlDados.FieldByName('zipcode').ASString;
           County             := sqlDados.FieldByName('county').ASString;
+          TypeAddress        := sqlDados.FieldByName('typeaddress').ASString;
         end;
        Finally
          FreeAndNil(sqlDados);
@@ -488,7 +495,7 @@ begin
        Try
         sqlDados.Close;
         sqlDados.SQL.Clear;
-        sqlDados.SQL.Add('Select id_address, add_date, id_customer, id_supplier, country, statee, city, address1, zipcode, county From TBADDRESS Where Id_Customer = :varId_Customer');
+        sqlDados.SQL.Add('Select id_address, add_date, id_customer, id_supplier, country, statee, city, address1, zipcode, county, typeaddress From TBADDRESS Where Id_Customer = :varId_Customer');
         sqlDados.Params.ParamByName('varId_Customer').AsInteger := varId_Customer;
         sqlDados.Open;
         adrredress :=  TObjectList<TAddress>.Create;
@@ -506,6 +513,7 @@ begin
           adrredres.Address            := sqlDados.FieldByName('ADDRESS1').ASString;
           adrredres.ZipCode            := sqlDados.FieldByName('zipcode').ASString;
           adrredres.County             := sqlDados.FieldByName('county').ASString;
+          adrredres.TypeAddress        := sqlDados.FieldByName('typeaddress').ASString;
 
           adrredress.Add(adrredres);
 
@@ -567,6 +575,11 @@ end;
 procedure TAddress.setFST(const Value: string);
 begin
    FST := Value;
+end;
+
+procedure TAddress.setFTypeAddress(const Value: String);
+begin
+  FTypeAddress := Value;
 end;
 
 procedure TAddress.setFupd_date(const Value: string);

@@ -63,8 +63,8 @@ begin
    varTemp  := Folder_Documents;
    for i := 0 to Length(SendEmail)-1 do
    begin
-
-     varGlobalEmailDestino := SendEmail[i].CustomerEmail;
+   //  SendEmail[i].CustomerEmail;
+     varGlobalEmailDestino :=  SendEmail[i].CustomerEmail;
 
      if DBDados.TPEMAIL = SALES_EMAIL then
      begin
@@ -112,7 +112,7 @@ begin
 
      end
      else
-     if DBDados.TPEMAIL = REQUESTORDER_EMAIL then
+     if DBDados.TPEMAIL = REQUESTORDER_EMAIL then   //Manufacturer
      begin
 
         varGlobalSubject   := 'Request Order Nr ' +   IntToStr(SendEmail[i].ID_Process);
@@ -148,47 +148,76 @@ begin
           DeleteFile(varArquivo);
 
 
+     end
+     else if DBDados.TPEMAIL = SAMPLEBOARD_EMAIL then
+     begin
+        varGlobalSubject   := 'Sample Board Order Nr ' +   IntToStr(SendEmail[i].ID_Process);
+
+        varArquivo := varLocal +  SendEmail[i].Pasta + '\' + Folder_SampleBoard + '\SB_' + IntToStr(SendEmail[i].ID_Process)+ '.PDF';
+        if FileExists(varArquivo) Then
+          DeleteFile(varArquivo);
+     end
+
+     else if DBDados.TPEMAIL = PAYABLE_REPORT then
+     begin
+        varGlobalSubject   := 'Payable Report ' + FormatDateTime('mm/dd/yyyy', now);
+
+        varArquivo := varLocal +  SendEmail[i].Pasta + '\' + Folder_SampleBoard + '\PAY_' + IntToStr(SendEmail[i].ID_Process)+ '.PDF';
+        if FileExists(varArquivo) Then
+          DeleteFile(varArquivo);
+
+     end
+     else if DBDados.TPEMAIL = RECEIVABLE_REPORT then
+     begin
+        varGlobalSubject   := 'Receivable Report ' + FormatDateTime('mm/dd/yyyy', now);
+
+        varArquivo := varLocal +  SendEmail[i].Pasta + '\' + Folder_SampleBoard + '\REC_' + IntToStr(SendEmail[i].ID_Process)+ '.PDF';
+        if FileExists(varArquivo) Then
+          DeleteFile(varArquivo);
+
      end;
 
+     Prev := TRLPreviewForm(Sender).Preview;
+     Filt := TRLCustomSaveFilter(SelectedFilter);
+     Filt := SaveFilterByFileName(varArquivo);
+     Filt.FileName := varArquivo;
+     Filt.FilterPages(Prev.Pages, 1, Prev.Pages.PageCount,'',PrintOddAndEvenPages);
+
+     varGlobalFromEmail := DBDados.varUsuarioEmail;
+
+     Vendor := TVendor.Create;
+     Try
+        Vendor.Search(DBDados.varID_USER);
+        varGlobalFromName  := Vendor.nome;
+     Finally
+        FreeAndNil(Vendor);
+     End;
+
+     varGlobalArquivo   := varArquivo;
+
+     HTML := TStringList.Create;
+     Try
+      HTML.Clear;
+      HTML.Add('<html>');
+      HTML.Add('<head>');
+      HTML.Add('<title>');
+      HTML.Add('</title>');
+      HTML.Add('</head>');
+      HTML.Add('<body>');
+      HTML.Add('<h1> This is your Invoice! </h1>');
+      HTML.Add('</body>');
+      HTML.Add('</html>');
+
+      if EnviarEmail(varGlobalEmailDestino, HTML.Text) Then
+      begin
+        Mens_MensInf('The e-mail has been sent');
+      end;
+
+     Finally
+       DBDados.SaveUserPerfil;
+       FreeAndNil(HTML);
+     End;
    end;
-
-   Prev := TRLPreviewForm(Sender).Preview;
-   Filt := TRLCustomSaveFilter(SelectedFilter);
-   Filt := SaveFilterByFileName(varArquivo);
-   Filt.FileName := varArquivo;
-   Filt.FilterPages(Prev.Pages, 1, Prev.Pages.PageCount,'',PrintOddAndEvenPages);
-
-   varGlobalFromEmail := 'admin@floorsofcolumbusga.com';
-   Vendor := TVendor.Create;
-   Try
-      Vendor.Search(DBDados.varID_USER);
-      varGlobalFromName  := Vendor.nome;
-   Finally
-      FreeAndNil(Vendor);
-   End;
-
-   varGlobalArquivo   := varArquivo;
-
-   HTML := TStringList.Create;
-   Try
-    HTML.Clear;
-    HTML.Add('<html>');
-    HTML.Add('<head>');
-    HTML.Add('<title>');
-    HTML.Add('</title>');
-    HTML.Add('</head>');
-    HTML.Add('<body>');
-    HTML.Add('<h1> This is your Invoice! </h1>');
-    HTML.Add('</body>');
-    HTML.Add('</html>');
-
-    EnviarEmail(varGlobalEmailDestino, HTML.Text);
-
-   Finally
-     DBDados.varMessage := 'OFF';
-     DBDados.SaveUserPerfil;
-     FreeAndNil(HTML);
-   End;
 
 end;
 

@@ -63,6 +63,8 @@ type
     varView_All_Quotation               : Boolean;
     varView_All_Invoices                : Boolean;
     varView_All_Orders                  : Boolean;
+    varAccess_PayableEmail              : Boolean;
+    varAccess_ReceivableEmail           : Boolean;
 
 
 
@@ -92,6 +94,8 @@ type
     procedure LoadUserPerfil;
     procedure LoadRoom;
 
+    procedure UpdatePriceList(varID : Integer; varDiscount : Double);
+
   end;
 
 
@@ -100,10 +104,13 @@ var
   DBDados: TDBDados;
 
 Const
-  WORK_EMAIL      = 'WORK';
-  SALES_EMAIL     = 'SALES';
-  REQUESTORDER_EMAIL   = 'REQUESTORDER';
-  PURCHASE_ORDER = 'PURCHASE_ORDER';
+  WORK_EMAIL          = 'WORK';
+  SALES_EMAIL         = 'SALES';
+  REQUESTORDER_EMAIL  = 'REQUESTORDER';
+  PURCHASE_ORDER      = 'PURCHASE_ORDER';
+  SAMPLEBOARD_EMAIL   = 'SAMPLEBOARD';
+  PAYABLE_REPORT      = 'Access_PayAble_E-mails';
+  RECEIVABLE_REPORT   = 'Access_Receivable_E-mails';
 
 implementation
 
@@ -260,7 +267,7 @@ function TDBDados.CheckBank: Integer;
 begin
    sqlAux.Close;
    sqlAux.SQL.Clear;
-   SqlAux.SQL.Add('SELECT  COUNT(1) AS QUANTIDADE from TBUSERBANK WHERE ID_USER = :ID_USER');
+   SqlAux.SQL.Add('SELECT  COUNT(1) AS QUANTIDADE from TBBANK WHERE ID_USER = :ID_USER');
    SqlAux.Params.ParamByName('ID_USER').AsInteger := varID_USER;
    SqlAux.Open;
    Result := SqlAux.FieldByName('QUANTIDADE').AsInteger
@@ -273,7 +280,7 @@ begin
 
   sqlAux.Close;
   sqlAux.SQL.Clear;
-  sqlAux.SQL.Add('Select ID_BANK, PATH From TBUSERBANK Where ID_USER = :ID_USER');
+  sqlAux.SQL.Add('Select ID_BANK, PATH From TBBANK Where ID_USER = :ID_USER');
   sqlAux.Params.ParamByName('ID_USER').AsInteger :=  varID_User;
   sqlAux.Open;
   if not sqlAux.IsEmpty  then
@@ -298,7 +305,10 @@ function TDBDados.BuscaDados: Boolean;
 begin
   sqlAux.Close;
   sqlAux.SQL.Clear;
-  sqlAux.SQL.Add('Select ID  From TBTRANSACAO  WHERE ID_USER = :ID_USER limit  1 ');
+  if varBanco = '1' then
+    sqlAux.SQL.Add('Select top 1 ID  From TBTRANSACAO  WHERE ID_USER = :ID_USER  ')
+  else    sqlAux.SQL.Add('Select ID  From TBTRANSACAO  WHERE ID_USER = :ID_USER limit  1 ');
+
   sqlAux.Params.ParamByName('ID_USER').AsInteger :=  varID_USER;
   sqlAux.Open;
   Result := not sqlAux.IsEmpty;
@@ -312,7 +322,7 @@ begin
 
   sqlAux.Close;
   sqlAux.SQL.Clear;
-  sqlAux.SQL.Add('Select ID_Bank From TBUSERBANK Where ID_USERBANK = :ID_USERBANK');
+  sqlAux.SQL.Add('Select ID_Bank From TBBANK Where ID_BANK = :ID_USERBANK');
   sqlAux.Params.ParamByName('ID_USERBANK').AsInteger :=  ID_UserBank;
   sqlAux.Open;
   if not SqlAux.IsEmpty then
@@ -436,6 +446,7 @@ begin
   varGlobalCompradorEmail := SqlAux.FieldByName('EMAIL').AsString;
 
 end;
+
 procedure  TDBDados.SaveUserPerfil;
 var
   ini:TIniFile;
@@ -448,6 +459,42 @@ begin
   ini.Free;
 end;
 
+
+procedure TDBDados.UpdatePriceList(varID: Integer; varDiscount: Double);
+begin
+  sqlAux.Close;
+  sqlAux.SQL.Clear;
+  sqlAux.SQL.Add('Delete From TBPRICEITEM Where ID_PRICELIST = :ID_PRICELIST');
+  sqlAux.Params.ParamByName('ID_PRICELIST').AsInteger :=  varID;
+  Try
+
+    sqlAux.ExecSQL;
+
+  except
+      on E: EDatabaseError do
+        Mens_MensErro(E.ClassName+' error raised, with message : '+E.Message);
+  end;
+
+
+  sqlAux.Close;
+  sqlAux.SQL.Clear;
+  sqlAux.SQL.Add(' INSERT INTO TBPRICEITEM (ID_PRICELIST, ID_SUPPLIER, ID_PRODUCT, PRICE_MINIMUM, PRICE_FINAL, ADD_DATE, ID_USER ) ');
+  sqlAux.SQL.Add(' SELECT ' + IntToStr(varID) + ' AS ID_PRICELIST, S.ID_SUPPLIER, P.ID_PRODUCT, ');
+  sqlAux.SQL.Add(' P.COST_VALUE  + ((P.COST_VALUE /100) * PROFIT_MIN ) AS PROFIT_MINIMUN,  ');
+  sqlAux.SQL.Add(' P.COST_VALUE  + ((P.COST_VALUE /100) * (PROFIT_REGULAR - ' + FloatToStr(varDiscount) + ')) AS PRICE_FINAL, GETDATE() AS ADD_DATE , ' + IntToStr(varID_USER) + ' AS ID_USER  ');
+  sqlAux.SQL.Add(' FROM TBPRODUCT P  ');
+  sqlAux.SQL.Add(' INNER JOIN TBSUPPLIER S ON S.ID_SUPPLIER = P.ID_SUPPLIER ');
+  sqlAux.SQL.Add(' LEFT OUTER JOIN TBTYPEBRAND A ON  A.ID_TYPEBRAND = P.ID_TYPE    ');
+  sqlAux.SQL.Add(' WHERE P.ACTIVE = ''Y'' '); // ONLY PRODUCTS ACTIVE
+  Try
+
+    sqlAux.ExecSQL;
+
+  except
+      on E: EDatabaseError do
+        Mens_MensErro(E.ClassName+' error raised, with message : '+E.Message);
+  end;
+end;
 
 function TDBDados.Connection: TFDConnection;
 begin
@@ -526,7 +573,7 @@ begin
       sqlSaldo.MacroByName( 'WHERE2' ).AsRaw := ' AND  T.ID_USER = ' + IntToStr(DBDados.varID_USER);
 
       if ((idxBanco <> 0) and (idxBanco <> -1)) then
-        sqlSaldo.MacroByName( 'WHERE3' ).AsRaw := ' AND T.ID_USERBANK = ' + IntToStr(idxBanco);
+        sqlSaldo.MacroByName( 'WHERE3' ).AsRaw := ' AND T.ID_BANK = ' + IntToStr(idxBanco);
 
       sqlSaldo.Open;
       if sqlSaldo.IsEmpty then
@@ -597,10 +644,10 @@ procedure  TDBDados.AtualizaSaldo(idxBanco : Integer);
 begin
   SqlAux.Close;
   SqlAux.SQL.Clear;
-  SqlAux.SQL.Add('Update TBUSERBANK ');
-  SqlAux.SQL.Add('Set SALDO_INICIAL = :SALDO_INICIAL ');
+  SqlAux.SQL.Add('Update TBBANK ');
+  SqlAux.SQL.Add('Set BALANCE = :SALDO_INICIAL ');
   SqlAux.SQL.Add('Where ID_USER = :ID_USER ');
-  SqlAux.SQL.Add('and  ID_USERBANK = :ID_USERBANK ');
+  SqlAux.SQL.Add('and  ID_BANK = :ID_USERBANK ');
 
   SqlAux.Params.ParamByName('ID_USER').AsInteger     :=  DBDados.varID_USER;
   SqlAux.Params.ParamByName('ID_USERBANK').AsInteger :=  idxBanco;

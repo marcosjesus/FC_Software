@@ -1026,22 +1026,9 @@ object frmSupplierInvoice: TfrmSupplierInvoice
           Height = 177
           Align = alClient
           TabOrder = 1
-          object Label36: TLabel
-            Left = 23
-            Top = 30
-            Width = 64
-            Height = 13
-            Caption = 'Terms (Days)'
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -11
-            Font.Name = 'Tahoma'
-            Font.Style = []
-            ParentFont = False
-          end
           object Label17: TLabel
             Left = 6
-            Top = 2
+            Top = 3
             Width = 85
             Height = 13
             Caption = 'Terms Description'
@@ -1054,9 +1041,9 @@ object frmSupplierInvoice: TfrmSupplierInvoice
           end
           object cxGrid3: TcxGrid
             Left = 1
-            Top = 68
+            Top = 34
             Width = 414
-            Height = 108
+            Height = 142
             Align = alBottom
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
@@ -1082,7 +1069,6 @@ object frmSupplierInvoice: TfrmSupplierInvoice
               DataController.Summary.SummaryGroups = <>
               OptionsData.CancelOnExit = False
               OptionsData.DeletingConfirmation = False
-              OptionsData.Editing = False
               OptionsData.Inserting = False
               OptionsView.Footer = True
               OptionsView.GroupByBox = False
@@ -1106,8 +1092,8 @@ object frmSupplierInvoice: TfrmSupplierInvoice
             end
           end
           object btnTerms: TcxButton
-            Left = 193
-            Top = 26
+            Left = 353
+            Top = 0
             Width = 42
             Height = 33
             LookAndFeel.Kind = lfOffice11
@@ -1254,26 +1240,17 @@ object frmSupplierInvoice: TfrmSupplierInvoice
             ParentFont = False
             OnClick = btnTermsClick
           end
-          object edtDays: TEdit
-            Left = 97
-            Top = 30
-            Width = 89
-            Height = 21
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -11
-            Font.Name = 'Tahoma'
-            Font.Style = []
-            ParentFont = False
+          object cxLookupInstallments: TcxLookupComboBox
+            Left = 99
+            Top = 3
+            Properties.KeyFieldNames = 'ID_INSTALLMENTS'
+            Properties.ListColumns = <
+              item
+                FieldName = 'DESCRIPTION'
+              end>
+            Properties.ListSource = dsInstallments
             TabOrder = 2
-          end
-          object edtTermDescription: TcxTextEdit
-            Left = 97
-            Top = 2
-            Properties.CharCase = ecUpperCase
-            Properties.MaxLength = 30
-            TabOrder = 3
-            Width = 304
+            Width = 239
           end
         end
       end
@@ -1294,11 +1271,11 @@ object frmSupplierInvoice: TfrmSupplierInvoice
     ParentFont = False
     TabOrder = 1
     object Label18: TLabel
-      Left = 890
-      Top = 11
-      Width = 98
+      Left = 807
+      Top = 9
+      Width = 133
       Height = 13
-      Caption = 'Request Grouped ID'
+      Caption = 'Purchase Order Grouped ID'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
@@ -1307,7 +1284,7 @@ object frmSupplierInvoice: TfrmSupplierInvoice
       ParentFont = False
     end
     object Label19: TLabel
-      Left = 630
+      Left = 551
       Top = 11
       Width = 143
       Height = 13
@@ -1835,21 +1812,6 @@ object frmSupplierInvoice: TfrmSupplierInvoice
       TabOrder = 6
       OnClick = ButCancelarClick
     end
-    object edtLocator: TcxTextEdit
-      Left = 996
-      Top = 8
-      ParentFont = False
-      Properties.CharCase = ecUpperCase
-      Properties.MaxLength = 20
-      Style.Font.Charset = DEFAULT_CHARSET
-      Style.Font.Color = clWindowText
-      Style.Font.Height = -11
-      Style.Font.Name = 'Tahoma'
-      Style.Font.Style = []
-      Style.IsFontAssigned = True
-      TabOrder = 7
-      Width = 91
-    end
     object btnGetRequestOrder: TcxButton
       Left = 1093
       Top = 2
@@ -1991,7 +1953,7 @@ object frmSupplierInvoice: TfrmSupplierInvoice
         0001000000000000000000000000000000000000000000000000000000000000
         0000000000000000000000000000000000000000000000000000}
       OptionsImage.Margin = 5
-      TabOrder = 8
+      TabOrder = 7
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
@@ -2001,7 +1963,7 @@ object frmSupplierInvoice: TfrmSupplierInvoice
       OnClick = btnGetRequestOrderClick
     end
     object edtManufactInvoice: TcxTextEdit
-      Left = 782
+      Left = 703
       Top = 8
       ParentFont = False
       Properties.CharCase = ecUpperCase
@@ -2012,8 +1974,20 @@ object frmSupplierInvoice: TfrmSupplierInvoice
       Style.Font.Name = 'Tahoma'
       Style.Font.Style = []
       Style.IsFontAssigned = True
-      TabOrder = 9
+      TabOrder = 8
       Width = 91
+    end
+    object cxLookupComboBoxGroup: TcxLookupComboBox
+      Left = 946
+      Top = 6
+      Properties.KeyFieldNames = 'GROUPNUMBER'
+      Properties.ListColumns = <
+        item
+          FieldName = 'PURCHASE_ORDER'
+        end>
+      Properties.ListSource = dsGroup
+      TabOrder = 9
+      Width = 141
     end
   end
   object sqlGrid: TFDQuery
@@ -2480,5 +2454,66 @@ object frmSupplierInvoice: TfrmSupplierInvoice
     DataSet = sqlPaymentMethod
     Left = 732
     Top = 288
+  end
+  object sqlInstallments: TFDQuery
+    Connection = DBDados.FDConnection
+    SQL.Strings = (
+      'SELECT * FROM TBINSTALLMENTS')
+    Left = 925
+    Top = 249
+    object sqlInstallmentsID_INSTALLMENTS: TFDAutoIncField
+      FieldName = 'ID_INSTALLMENTS'
+      Origin = 'ID_INSTALLMENTS'
+      ProviderFlags = [pfInWhere, pfInKey]
+      ReadOnly = True
+    end
+    object sqlInstallmentsDESCRIPTION: TStringField
+      FieldName = 'DESCRIPTION'
+      Origin = 'DESCRIPTION'
+      Size = 50
+    end
+    object sqlInstallmentsINTERVAL: TIntegerField
+      FieldName = 'INTERVAL'
+      Origin = '[INTERVAL]'
+    end
+    object sqlInstallmentsQTDEDAYS: TIntegerField
+      FieldName = 'QTDEDAYS'
+      Origin = 'QTDEDAYS'
+    end
+  end
+  object dsInstallments: TDataSource
+    DataSet = sqlInstallments
+    Left = 949
+    Top = 337
+  end
+  object sqlGroup: TFDQuery
+    Connection = DBDados.FDConnection
+    SQL.Strings = (
+      
+        'SELECT A.GROUPNUMBER, (convert(varchar, A.GROUPNUMBER) + '#39' - '#39' +' +
+        ' B.NAMEBUSINESS) as PURCHASE_ORDER FROM TBREQUESTORDER A'
+      'INNER JOIN TBSUPPLIER B ON B.ID_SUPPLIER = A.ID_SUPPLIER'
+      
+        'WHERE A.GROUPNUMBER NOT IN (SELECT ID_REQUESTORDER FROM TBSUP_IN' +
+        'VOICE)')
+    Left = 1020
+    Top = 144
+    object sqlGroupGROUPNUMBER: TIntegerField
+      FieldName = 'GROUPNUMBER'
+      Origin = 'GROUPNUMBER'
+    end
+    object sqlGroupPURCHASE_ORDER: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'PURCHASE_ORDER'
+      Origin = 'PURCHASE_ORDER'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 133
+    end
+  end
+  object dsGroup: TDataSource
+    DataSet = sqlGroup
+    Left = 1028
+    Top = 224
   end
 end

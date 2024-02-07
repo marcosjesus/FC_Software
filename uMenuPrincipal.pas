@@ -89,6 +89,7 @@ type
     dxBarButton1: TdxBarButton;
     dxBarLargeButtonDashBoard: TdxBarLargeButton;
     dxBarLargeButtonEstimates: TdxBarLargeButton;
+    dxBarLargeButton1: TdxBarLargeButton;
     procedure dxBarLargeButtonSIOPRelatoriosFaturamentoPedidoClick(
       Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
@@ -128,6 +129,7 @@ type
     procedure dxBarLargeButtonWorkOrderClick(Sender: TObject);
     procedure dxBarLargeButtonDashBoardClick(Sender: TObject);
     procedure dxBarLargeButtonEstimatesClick(Sender: TObject);
+    procedure dxBarLargeButton1Click(Sender: TObject);
   private
     { Private declarations }
     procedure System_Acess;
@@ -150,7 +152,7 @@ uses AsyncCalls, uDMConectDB, uFrmLogin, MensFun, ufrmAccount, uFrmSupplier, uFr
   uFrmPriceTable, ufrmBrandType, ufrmEstimate, ufrmCreateAccount,
   ufrmAccessControl, ufrmInventory, ufrmCustomerLP, ufrmRequestOrder,
   ufrmSupplierInvoice, ufrmSampleCheckout, uFrmDebitors, uFrmWorkOrder,
-  ufrmDashBoard, ufrmDashSale;
+  ufrmDashBoard, ufrmDashSale, uFrmTransacao;
 
 procedure TfrmMenuPrincipal.dxBarLargeButtonCreditorsClick(Sender: TObject);
 
@@ -287,6 +289,20 @@ begin
 
 
 
+end;
+
+procedure TfrmMenuPrincipal.dxBarLargeButton1Click(Sender: TObject);
+begin
+  if DBDados.varLogado = False  then Exit;
+
+  if not Assigned(frmTransacao) then
+    frmTransacao := TfrmTransacao.Create(Self);
+    frmTransacao.Caption := 'Cash Flow';
+    frmTransacao.Show;
+
+    frmTransacao.Visible := True;
+    frmTransacao.BringToFront;
+    frmTransacao.Update;
 end;
 
 procedure TfrmMenuPrincipal.dxBarLargeButton5Click(Sender: TObject);
@@ -916,7 +932,8 @@ begin
       DBDados.varView_All_Quotation               := DBDados.GetSpecialPermission('View_All_Quotation');
       DBDados.varView_All_Invoices                := DBDados.GetSpecialPermission('View_All_Invoices');
       DBDados.varView_All_Orders                  := DBDados.GetSpecialPermission('View_All_Orders');
-
+      DBDados.varAccess_PayableEmail              := DBDados.GetSpecialPermission('Access_PayAble_E-mails');
+      DBDados.varAccess_ReceivableEmail           := DBDados.GetSpecialPermission('Access_Receivable_E-mails');
    Finally
        FDQueryTSIS_Menu.Close;
    End;

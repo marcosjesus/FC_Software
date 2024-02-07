@@ -28,7 +28,7 @@ object frmDashSale: TfrmDashSale
   TextHeight = 13
   object btnBusca: TSpeedButton
     Left = 730
-    Top = 6
+    Top = 8
     Width = 89
     Height = 25
     Glyph.Data = {

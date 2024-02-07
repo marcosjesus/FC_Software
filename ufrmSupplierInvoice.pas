@@ -171,7 +171,6 @@ type
     edtDyeLot: TcxTextEdit;
     Label12: TLabel;
     Label14: TLabel;
-    edtLocator: TcxTextEdit;
     btnGetRequestOrder: TcxButton;
     Label18: TLabel;
     Label19: TLabel;
@@ -212,10 +211,7 @@ type
     cxGrid3DBTableView1VALUE: TcxGridDBColumn;
     cxGrid3Level1: TcxGridLevel;
     btnTerms: TcxButton;
-    edtDays: TEdit;
-    Label36: TLabel;
     Label17: TLabel;
-    edtTermDescription: TcxTextEdit;
     sqlTermsDESCRIPTION: TStringField;
     cxGrid3DBTableView1DESCRIPTION: TcxGridDBColumn;
     lblReqOrder: TLabel;
@@ -224,6 +220,18 @@ type
     Label22: TLabel;
     lblqtyrequired: TLabel;
     sqlItemCOUNTNEEDED: TFloatField;
+    cxLookupInstallments: TcxLookupComboBox;
+    sqlInstallments: TFDQuery;
+    sqlInstallmentsID_INSTALLMENTS: TFDAutoIncField;
+    sqlInstallmentsDESCRIPTION: TStringField;
+    sqlInstallmentsINTERVAL: TIntegerField;
+    sqlInstallmentsQTDEDAYS: TIntegerField;
+    dsInstallments: TDataSource;
+    cxLookupComboBoxGroup: TcxLookupComboBox;
+    sqlGroup: TFDQuery;
+    dsGroup: TDataSource;
+    sqlGroupGROUPNUMBER: TIntegerField;
+    sqlGroupPURCHASE_ORDER: TStringField;
     procedure ButSairClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure ButNovoClick(Sender: TObject);
@@ -615,7 +623,6 @@ begin
  edtFreight.Text := '';
  edtTax.Text := '';
  edtTotal.Text := '';
- edtDays.Text := '';
 end;
 
 
@@ -651,7 +658,7 @@ begin
 
    if varOption = 'X' then
    begin
-     Mens_MensInf('The Estimate Form not in edit or insert mode.') ;
+     Mens_MensInf('The Manufacturer Invoice Form not in edit or insert mode.') ;
      Exit;
    end;
 
@@ -675,8 +682,6 @@ begin
    SaveHeader;
 
 
-
-
    lblReqOrder.Visible := False;
    edtReqOrder.Text := '';
    edtReqOrder.Visible := False;
@@ -684,13 +689,12 @@ begin
    pnlTop.Enabled := True;
    cxPageMaster.ActivePage := cxTabSheetList;
 
-
-
    AtualizaGrade;
 
    if Assigned(Invoice) then
        FreeAndNil(Invoice);
 end;
+
 
 procedure   TfrmSupplierInvoice.AtualizaPreco;
 var
@@ -701,7 +705,6 @@ begin
        ShowMessage(FloatToStr(Invoice.ItensNF[I].unitprice ));
 
    end;
-
 
 end;
 
@@ -852,7 +855,6 @@ begin
           bRetorno := False;
           Mens_MensInf('The Terms is incorrect.') ;
           edtTotal.EditValue := Invoice.total - sqlDados.FieldByName('Total').AsFloat;
-          edtDays.SetFocus;
        end;
      end;
    Finally
@@ -867,14 +869,11 @@ procedure TfrmSupplierInvoice.btnTermsClick(Sender: TObject);
 var
   sqlDados : TFDQuery;
   varDateDue : TDateTime;
+  I : Integer;
+  NParcelas : Integer;
+  VParcelas, TValor, lValDiff : Double;
+  Ano, Mes, Dia : Word;
 begin
-
-   if edtTermDescription.Text = '' then
-   begin
-    Mens_MensInf('The Description field is required.') ;
-    edtTermDescription.SetFocus;
-    Exit;
-   end;
 
    if sqlItem.IsEmpty then
    begin
@@ -882,10 +881,10 @@ begin
      exit;
    end;
 
-   if edtDays.Text = '' then
+   if cxLookupInstallments.EditValue = -1 then
    begin
-    Mens_MensInf('The Terms field is required.') ;
-    edtDays.SetFocus;
+    Mens_MensInf('The Terms Description not selected.') ;
+    cxLookupInstallments.SetFocus;
     Exit;
    end;
 
@@ -905,10 +904,46 @@ begin
    end;
 
 
-
+  {
    if ValidTotalTerm then
    begin
        varDateDue := cxDateProcess.Date + StrToInt(edtDays.Text);
+
+   }
+
+  sqlInstallments.Locate('ID_INSTALLMENTS', cxLookupInstallments.EditValue, []);
+  NParcelas := sqlInstallmentsINTERVAL.AsInteger;
+  VParcelas := 0;
+  lValDiff  := 0;
+  TValor    := edtTotal.EditValue;
+  varDateDue := cxDateProcess.Date;
+  for I := 0 to sqlInstallmentsINTERVAL.AsInteger -1 do
+  begin
+
+     varDateDue := varDateDue + sqlInstallmentsQTDEDAYS.AsInteger;
+
+     DecodeDate(varDateDue, Ano, Mes, Dia);
+
+     if (Mes = 2) and (Dia > 28) then
+       Dia := 28;
+
+     varDateDue := EncodeDate(Ano, Mes, Dia);
+
+
+     if ((I+1) = sqlInstallmentsINTERVAL.AsInteger) then
+     begin
+
+
+       VParcelas := (TValor / NParcelas);
+
+        lValDiff := (TValor - (VParcelas * (I+1)));
+
+        if lValDiff <> 0  then
+          VParcelas := VParcelas + lValDiff;
+
+     end
+     else
+       VParcelas := Arredondar( (TValor / NParcelas) ,2);
 
 
        sqlDados := TFDQuery.Create(Nil);
@@ -944,10 +979,10 @@ begin
          sqlDados.Params.ParamByName('TABLENAME').AsString   := SUP_INVOICE_HEADER;
          sqlDados.Params.ParamByName('ID_PROCESS').AsInteger := Invoice.id_sup_invoice;
          sqlDados.Params.ParamByName('DT_PROCESS').AsString  := FormatDateTime('mm/dd/yyyy hh:mm:ss', cxDateProcess.Date);
-         sqlDados.Params.ParamByName('DESCRIPTION').AsString := edtTermDescription.Text;
-         sqlDados.Params.ParamByName('NUM_DAYS').AsInteger   := StrToInt(edtDays.Text);
+         sqlDados.Params.ParamByName('DESCRIPTION').AsString := 'Installments : ' + IntToStr(I+1) + '/' + sqlInstallmentsINTERVAL.AsString;
+         sqlDados.Params.ParamByName('NUM_DAYS').AsInteger   := sqlInstallmentsQTDEDAYS.AsInteger;
          sqlDados.Params.ParamByName('DATE_DUE').AsString    := FormatDateTime('mm/dd/yyyy hh:mm:ss', varDateDue);
-         sqlDados.Params.ParamByName('VALUE').AsFloat        := edtTotal.EditValue;
+         sqlDados.Params.ParamByName('VALUE').AsFloat        := VParcelas; // edtTotal.EditValue;
          sqlDados.Params.ParamByName('ADD_DATE').AsString    := FormatDateTime('mm/dd/yyyy hh:mm:ss', now);
          sqlDados.Params.ParamByName('ID_EXPENSECATEGORY').AsInteger := 14;
          sqlDados.Params.ParamByName('ID_USER').AsInteger    := DBDados.varID_USER;
@@ -1206,6 +1241,8 @@ begin
   cxPageMaster.ActivePage := cxTabSheetList;
   SetParametros(edtManufactory, TipoSupplier);
   SetParametros(edtProduct, TipoProduct);
+  sqlInstallments.Close;
+  sqlInstallments.Open;
 
   if DBDados.varReturnCompanies <> 'Company not Found' then
   begin
@@ -1222,6 +1259,8 @@ begin
   TBCOMPANY.Open;
   varLocateRequest := False;
   varLocateID := -1;
+  sqlGroup.Close;
+  sqlGroup.Open;
 end;
 
 procedure TfrmSupplierInvoice.AtualizaGrade;
@@ -1265,7 +1304,6 @@ begin
           bRetorno := False;
           Mens_MensInf('The Terms definition is incomplete.') ;
           edtTotal.EditValue :=  Invoice.total  - sqlDados.FieldByName('Total').AsFloat;
-          edtDays.SetFocus;
        end;
      end;
 
@@ -1291,10 +1329,10 @@ begin
         exit;
     end;
 
-    if edtLocator.Text = '' then
+    if  cxLookupComboBoxGroup.EditValue = -1 then
     begin
-        Mens_MensInf('The Request Order Number is required.') ;
-        edtLocator.SetFocus;
+        Mens_MensInf('The Request Order Grouped ID is required.') ;
+        cxLookupComboBoxGroup.SetFocus;
         exit;
     end;
 
@@ -1312,7 +1350,7 @@ begin
       sqlAbre.SQL.Add(' WHERE A.GROUPNUMBER = :GROUPNUMBER ');
       sqlAbre.SQL.Add(' GROUP BY A.ID_COMPANY ,A.ID_SUPPLIER, A.ID_PRODUCT ');
 
-      sqlAbre.Params.ParamByName('GROUPNUMBER').AsInteger := edtLocator.EditValue;
+      sqlAbre.Params.ParamByName('GROUPNUMBER').AsInteger := cxLookupComboBoxGroup.EditValue;
       sqlAbre.Open;
       if not sqlAbre.IsEmpty then
       begin
@@ -1336,7 +1374,7 @@ begin
         sqlSave.Params.ParamByName('STATUS').AsString          := 'Pending';
         sqlSave.Params.ParamByName('ID_USER').AsInteger        := DBDados.varID_USER;
         sqlSave.Params.ParamByName('INVOICE_ID').AsString      := edtManufactInvoice.Text;
-        sqlSave.Params.ParamByName('ID_REQUESTORDER').AsString := edtLocator.EditValue;
+        sqlSave.Params.ParamByName('ID_REQUESTORDER').AsString := cxLookupComboBoxGroup.EditValue;
         sqlSave.Params.ParamByName('DATE_INVOICE').AsDate      := 0;
 
 
@@ -1396,7 +1434,7 @@ begin
     End;
 
     edtManufactInvoice.Text := '';
-    edtLocator.Text := '';
+    cxLookupComboBoxGroup.EditValue := -1;
     varLocateRequest := True;
     AtualizaGrade;
     varLocateRequest := False;

@@ -464,6 +464,7 @@ begin
   finally
     FreeAndNil(varNextKey);
   End;
+  cxLookupComboBoxVendor.Enabled := True;
   cxPageControl.ActivePage     := cxTabSheetForm;
   edtOrganization.SetFocus;
 
@@ -607,7 +608,7 @@ var
 
 begin
     Customer := TCustomer.Create;
-    Customer.Search(sqlGrid.FieldByName('ID_CUSTOMER').AsInteger);
+    Customer.Search(sqlGrid.FieldByName('ID_CUSTOMER').AsInteger, True, True);
     sqlAddress.Close;
     sqlAddress.Params.ParamByName('ID_CUSTOMER').AsInteger :=  sqlGrid.FieldByName('ID_CUSTOMER').AsInteger;
     sqlAddress.Open;
@@ -648,7 +649,8 @@ begin
     cxLookupComboBoxCompany.EditValue  := Customer.Company.id_company;
     memObservacao.Lines.Text     := Customer.AdditionInformation;
     cxLookupComboBoxVendor.EditValue := Customer.id_contractors;
-    cxLookupComboBoxVendor.Enabled     := Customer.id_contractors = DBDados.varID_USER;
+    if Customer.id_contractors <> 0 then
+      cxLookupComboBoxVendor.Enabled     := False;
     STPPRICELIST.Close;
     STPPRICELIST.Prepare;
     STPPRICELIST.ParamByName( '@ID_CONTRACTOR' ).AsInteger := Customer.id_contractors;

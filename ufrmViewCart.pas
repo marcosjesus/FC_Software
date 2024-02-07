@@ -65,6 +65,8 @@ type
     cxGrid1DBTableView1SUBTOTAL: TcxGridDBColumn;
     memCarrinhoQTD: TFloatField;
     cxGrid1DBTableView1QTD: TcxGridDBColumn;
+    ButImprimir: TcxButton;
+    ButSalvar: TcxButton;
     procedure FormShow(Sender: TObject);
     procedure ButCancelarClick(Sender: TObject);
     procedure ButExcluirClick(Sender: TObject);

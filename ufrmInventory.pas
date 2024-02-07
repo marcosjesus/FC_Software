@@ -544,6 +544,8 @@ begin
   begin
       try
          Application.CreateForm(TfrmViewCart,  frmViewCart);
+         frmViewCart.ClientHeight := 517;
+         frmViewCart.ClientWidth := 1053;
          LocalAsyncVclCall( @LoadCarrinho );
          frmViewCart.ShowModal;
       finally
@@ -840,6 +842,7 @@ begin
             end;
           end;
         end;
+
      end;
   end;
 end;

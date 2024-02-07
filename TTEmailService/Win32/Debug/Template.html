@@ -1,0 +1,198 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>A Simple Responsive HTML Email</title>
+    <style type="text/css">
+        body {
+            margin: 0;
+            padding: 0;
+            min-width: 100% !important;
+        }
+
+        .content {
+            width: 100%;
+            max-width: 600px;
+        }
+    </style>
+</head>
+
+<body style="background-color:grey">
+    <table align="center" border="0" cellpadding="0" cellspacing="0" width="550" bgcolor="white"
+        style="border:2px solid black">
+        <tbody>
+
+            <!---Title-->
+            <tr>
+                <td align="center">
+                    <table align="center" border="0" cellpadding="0" cellspacing="0" class="col-550" width="550">
+                        <tbody>
+                            <tr>
+                                <td align="center" style="background-color: blue; text-shadow: 2px 2px #000000;;
+                                           height: 50px;">
+
+                                    <a href="#" style="text-decoration: none;">
+                                        <p style="color:white;
+                                                  font-weight:bold;">
+                                            Tecnotitan
+                                        </p>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+
+            <!---Banner-->
+            <tr style="height: 300px;">
+                <td align="center" style="border: none;
+                           border-bottom: 2px solid blue; text-shadow: 2px 2px #000000;; 
+                           padding-right: 20px;padding-left:20px">
+
+                    <p style="font-weight: bolder;font-size: 42px;
+                              letter-spacing: 0.025em;
+                              color:black;">
+                       <a href="https://tecnotitan.herokuapp.com/"> <img src="tecnotitan-logo.png"></a>
+
+                        <br> Find your new home
+                    </p>
+                </td>
+            </tr>
+
+            <!---Lead-->
+            <tr>
+                <td style="height: 150px;
+                           padding: 20px;
+                           border: none; 
+                           border-bottom: 2px solid #361B0E;
+                           background-color: white;">
+
+                    <h2 style="text-align: left;
+                               align-items: center;
+                               color: blue; text-shadow: 2px 2px #000000;">
+                        Lead
+                    </h2>
+                    <p class="data" style="text-align: justify-all;
+                              align-items: center; 
+                              font-size: 15px;                           
+                              padding-bottom: 12px;">
+                              </p>
+                            
+                              <h1>Name</h1>    <h4>  %lead_name%  </h4>
+                             <h1>E-mail</h1>     <h4> %lead_email% </h4>
+                             <h1>Phone </h1>     <h4>%lead_phone% </h4>
+                             <h1>Message </h1>     <h4>%lead_message% </h4>
+                   
+                </td>
+            </tr>         
+    
+            <!---Unit-->
+            <tr>
+                <td style="height: 150px;
+                           padding: 20px;
+                           border: none; 
+                           border-bottom: 2px solid #361B0E;
+                           background-color: white;">
+
+                    <h2 style="text-align: left;
+                               align-items: center;
+                               color: blue; text-shadow: 2px 2px #000000;">
+                        Unit
+                    </h2>
+                    <p class="data" style="text-align: justify-all;
+                              align-items: center; 
+                              font-size: 15px;                           
+                              padding-bottom: 12px;">
+                              </p>
+                            
+                              <h1>Type</h1>    <h4>  %unit_type%  </h4>
+                             <h1>Available after</h1>  <h4> %unit_business_date% </h4>
+                             <h1>Price </h1>     <h4>%unit_price% </h4>
+                             <h1>Modal </h1>     <h4>%unit_modal% </h4>
+                             <h1>Bedroom </h1>     <h4>%unit_bedroom% </h4>
+                             <h1>Restroom </h1>     <h4>%unit_restroom% </h4>
+                             <h1>Pet Policy </h1>     <h4>%unit_petpolicy% </h4>
+                   
+                </td>
+            </tr> 
+            
+             <!---Location-->
+             <tr>
+                <td style="height: 150px;
+                           padding: 20px;
+                           border: none; 
+                           border-bottom: 2px solid #361B0E;
+                           background-color: white;">
+
+                    <h2 style="text-align: left;
+                               align-items: center;
+                               color: blue; text-shadow: 2px 2px #000000;">
+                        Location
+                    </h2>
+                    <p class="data" style="text-align: justify-all;
+                              align-items: center; 
+                              font-size: 15px;                           
+                              padding-bottom: 12px;">
+                              </p>
+                            
+                              <h1>Address</h1>    <h4>  %location_address%  </h4>
+                             <h1>Address 1</h1>  <h4> %location_address1% </h4>
+                             <h1>City </h1>     <h4>%location_city% </h4>
+                             <h1>County </h1>     <h4>%location_county% </h4>
+                             <h1>ST </h1>     <h4>%location_st% </h4>
+                             <h1>ZipCode </h1>     <h4>%location_zipcode% </h4>
+
+                   
+                </td>
+            </tr> 
+
+
+             <!---Owner-->
+             <tr>
+                <td style="height: 150px;
+                           padding: 20px;
+                           border: none; 
+                           border-bottom: 2px solid #361B0E;
+                           background-color: white;">
+
+                    <h2 style="text-align: left;
+                               align-items: center;
+                               color: blue; text-shadow: 2px 2px #000000;">
+                        Owner
+                    </h2>
+                    <p class="data" style="text-align: justify-all;
+                              align-items: center; 
+                              font-size: 15px;                           
+                              padding-bottom: 12px;">
+                              </p>
+                            
+                             <h1>Name</h1>  <h4>%owner_name%  </h4>
+                           <h1>E-mail</h1>    <h4> %owner_email% </h4>
+                             <h1>Phone </h1>    <h4>%owner_phone% </h4>
+                      
+                </td>
+            </tr> 
+
+
+        </tbody>
+    </table>
+</body>
+</html>
+
+<style>
+*{
+    font-family: cursive;
+}
+h1{
+    color: black;
+    font-weight: 900;
+}
+
+h4 {
+    color: gray
+}
+
+
+</style>

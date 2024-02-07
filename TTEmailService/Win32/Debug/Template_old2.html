@@ -1,0 +1,198 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>A Simple Responsive HTML Email</title>
+    <style type="text/css">
+        body {
+            margin: 0;
+            padding: 0;
+            min-width: 100% !important;
+        }
+
+        .content {
+            width: 100%;
+            max-width: 600px;
+        }
+    </style>
+</head>
+
+<body style="background-color:grey">
+    <table align="center" border="0" cellpadding="0" cellspacing="0" width="550" bgcolor="white"
+        style="border:2px solid black">
+        <tbody>
+
+            <!---Title-->
+            <tr>
+                <td align="center">
+                    <table align="center" border="0" cellpadding="0" cellspacing="0" class="col-550" width="550">
+                        <tbody>
+                            <tr>
+                                <td align="center" style="background-color: #006eb6;
+                                           height: 50px;">
+
+                                    <a href="#" style="text-decoration: none;">
+                                        <p style="color:white;
+                                                  font-weight:bold;">
+                                            Tecnotitan
+                                        </p>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+
+            <!---Banner-->
+            <tr style="height: 300px;">
+                <td align="center" style="border: none;
+                           border-bottom: 2px solid #006eb6; 
+                           padding-right: 20px;padding-left:20px">
+
+                    <p style="font-weight: bolder;font-size: 42px;
+                              letter-spacing: 0.025em;
+                              color:black;">
+                       <a href="https://tecnotitan.herokuapp.com/"> <img style="margin: auto; display: block;" src="tecnotitan-logo.jpg"></a>
+
+                        <br> Find your new home
+                    </p>
+                </td>
+            </tr>
+
+            <!---Lead-->
+            <tr>
+                <td style="height: 150px;
+                           padding: 20px;
+                           border: none; 
+                           border-bottom: 2px solid #361B0E;
+                           background-color: white;">
+
+                    <h2 style="text-align: left;
+                               align-items: center;
+                               color: #006eb6">
+                        Lead
+                    </h2>
+                    <p class="data" style="text-align: justify-all;
+                              align-items: center; 
+                              font-size: 15px;                           
+                              padding-bottom: 12px;">
+                              </p>
+                            
+                            <div style="display: flex; width: 100%;">  <h3>Name: </h3>    <h4>  %lead_name%  </h4></div>
+                            <div style="display: flex; width: 100%;"> <h3>E-mail: </h3>     <h4> %lead_email% </h4></div>
+                            <div style="display: flex; width: 100%;"> <h3>Phone: </h3>     <h4> %lead_phone% </h4></div>
+                            <div style="display: flex; width: 100%;"> <h3>Message: </h3>     <h4> %lead_message% </h4></div>
+                   
+                </td>
+            </tr>         
+    
+            <!---Unit-->
+            <tr>
+                <td style="height: 150px;
+                           padding: 20px;
+                           border: none; 
+                           border-bottom: 2px solid #361B0E;
+                           background-color: white;">
+
+                    <h2 style="text-align: left;
+                               align-items: center;
+                               color: #006eb6">
+                        Unit
+                    </h2>
+                    <p class="data" style="text-align: justify-all;
+                              align-items: center; 
+                              font-size: 15px;                           
+                              padding-bottom: 12px;">
+                              </p>
+                            
+                            <div style="display: flex; width: 100%;">  <h3>Type: </h3>    <h4>  %unit_type%  </h4></div>
+                            <div style="display: flex; width: 100%;"> <h3>Available after: </h3>  <h4> %unit_business_date% </h4></div>
+                            <div style="display: flex; width: 100%;"> <h3>Price: </h3>     <h4> %unit_price% </h4></div>
+                            <div style="display: flex; width: 100%;"> <h3>Modal: </h3>     <h4> %unit_modal% </h4></div>
+                            <div style="display: flex; width: 100%;"> <h3>Bedroom: </h3>     <h4> %unit_bedroom% </h4></div>
+                            <div style="display: flex; width: 100%;"> <h3>Restroom: </h3>     <h4> %unit_restroom% </h4></div>
+                            <div style="display: flex; width: 100%;"> <h3>Pet Policy: </h3>     <h4> %unit_petpolicy% </h4></div>
+                   
+                </td>
+            </tr> 
+            
+             <!---Location-->
+             <tr>
+                <td style="height: 150px;
+                           padding: 20px;
+                           border: none; 
+                           border-bottom: 2px solid #361B0E;
+                           background-color: white;">
+
+                    <h2 style="text-align: left;
+                               align-items: center;
+                               color: #006eb6">
+                        Location
+                    </h2>
+                    <p class="data" style="text-align: justify-all;
+                              align-items: center; 
+                              font-size: 15px;                           
+                              padding-bottom: 12px;">
+                              </p>
+                            
+                            <div style="display: flex; width: 100%;">  <h3>Address: </h3>    <h4>  %location_address%  </h4></div>
+                            <div style="display: flex; width: 100%;"> <h3>Address 1: </h3>  <h4> %location_address1% </h4></div>
+                            <div style="display: flex; width: 100%;"> <h3>City: </h3>     <h4> %location_city% </h4></div>
+                            <div style="display: flex; width: 100%;"> <h3>County: </h3>     <h4> %location_county% </h4></div>
+                            <div style="display: flex; width: 100%;"> <h3>ST: </h3>     <h4> %location_st% </h4></div>
+                            <div style="display: flex; width: 100%;"> <h3>ZipCode: </h3>     <h4> %location_zipcode% </h4></div>
+
+                   
+                </td>
+            </tr> 
+
+
+             <!---Owner-->
+             <tr>
+                <td style="height: 150px;
+                           padding: 20px;
+                           border: none; 
+                           border-bottom: 2px solid #361B0E;
+                           background-color: white;">
+
+                    <h2 style="text-align: left;
+                               align-items: center;
+                               color: #006eb6">
+                        Owner
+                    </h2>
+                    <p class="data" style="text-align: justify-all;
+                              align-items: center; 
+                              font-size: 15px;                           
+                              padding-bottom: 12px;">
+                              </p>
+                            
+                            <div style="display: flex; width: 100%;">  <h3>Name: </h3>    <h4>  %owner_name%  </h4></div>
+                            <div style="display: flex; width: 100%;"> <h3>E-mail: </h3>  <h4> %owner_email% </h4></div>
+                            <div style="display: flex; width: 100%;"> <h3>Phone: </h3>     <h4> %owner_phone% </h4></div>
+                      
+                </td>
+            </tr> 
+
+
+        </tbody>
+    </table>
+</body>
+</html>
+
+<style>
+*{
+    font-family: cursive;
+}
+h3, h4{
+    width: 50%;
+}
+h4{
+   width: auto;
+   margin: auto;
+}
+
+
+</style>

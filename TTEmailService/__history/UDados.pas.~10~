@@ -1,0 +1,97 @@
+unit UDados;
+
+interface
+
+uses
+  System.IOUtils,
+  Vcl.Forms,
+  System.SysUtils, System.Classes, FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf, FireDAC.Stan.Def,
+  FireDAC.Phys, FireDAC.VCLUI.Wait, FireDAC.Stan.Pool, FireDAC.Stan.Async,
+  FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf, FireDAC.DApt, Data.DB,
+  FireDAC.Comp.DataSet, FireDAC.Comp.Client, FireDAC.Comp.UI, FireDAC.Phys.PG,
+  FireDAC.Phys.ODBCBase, FireDAC.Phys.MSSQL;
+
+type
+  TFr_Dados = class(TDataModule)
+    FDManager1: TFDManager;
+    FDPhysPgDriverLink1: TFDPhysPgDriverLink;
+    FDGUIxWaitCursor1: TFDGUIxWaitCursor;
+    FDConnection: TFDConnection;
+    sqlAux: TFDQuery;
+    dsAux: TDataSource;
+    sqlAux2: TFDQuery;
+    FDPhysMSSQLDriverLink: TFDPhysMSSQLDriverLink;
+  private
+
+    { Private declarations }
+  public
+    { Public declarations }
+    procedure doSaveLog(lPath, Msg: String);
+    procedure ConectarNoBanco;
+  end;
+
+var
+  Fr_Dados: TFr_Dados;
+
+implementation
+
+{%CLASSGROUP 'System.Classes.TPersistent'}
+
+{$R *.dfm}
+
+{ TFr_Dados }
+
+
+procedure TFr_Dados.doSaveLog(lPath,  Msg: String);
+Var
+ loLista : TStringList;
+ varDataHora : String;
+ varArquivo  : String;
+begin
+ varDataHora           := FormatDateTime('ddmmyyyy',Now);
+ varArquivo            := '\log_' +  varDataHora  + '.log';
+ loLista := TStringList.Create;
+ try
+   try
+   if FileExists(lPath + varArquivo) Then
+     loLista.LoadFromFile(lPath + varArquivo);
+
+     loLista.Add(timetostr(now) + ';' + Msg);
+   except
+    on e: exception do
+      loLista.add(timetostr(now) + ': Erro ' + E.Message);
+   end;
+ Finally
+    loLista.SaveToFile(lPath + varArquivo);
+    loLista.Free;
+ end;
+
+end;
+
+
+
+procedure TFr_Dados.ConectarNoBanco;
+begin
+
+  if not FDConnection.Connected then
+  begin
+
+    FDConnection.Close;
+    FDConnection.Params.Clear;
+
+   if TFile.Exists( ExtractFilePath(Application.ExeName) + 'FloorDB.ini' ) then
+     FDConnection.Params.LoadFromFile( ExtractFilePath(Application.ExeName) + '\' +  'FloorDB.ini' );
+
+    Try
+      FDConnection.Open;
+      FDConnection.ConnectionIntf.Tracing := True;
+    except
+              on E : Exception do
+                Mens_MensErro(E.ClassName+' error raised, with message : '+E.Message);
+    end;
+end;
+
+end;
+
+end.

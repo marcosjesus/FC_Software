@@ -730,6 +730,8 @@ type
     PanelSQLSplashScreen: TPanel;
     ImageSQLSplashScreen: TImage;
     cxLabelMensagem: TcxLabel;
+    sqlParcelasID_EXPENSECATEGORY: TIntegerField;
+    sqlParcelasPAYMENT_STATUS: TStringField;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure spbCleanCustomerClick(Sender: TObject);
@@ -1207,7 +1209,9 @@ begin
       if Process.status = 'Accepted' Then
       begin
       if ValidToPrint then
+      begin
          ReportSale.Preview
+      end
       else
       begin
          Mens_MensInf('The Invoice Nº ' + IntToStr(Process.id_process) + ' still has Pending status. Contact to Financial Dept.');
@@ -1390,6 +1394,7 @@ begin
    sqlParcelas.Params.ParamByName('ID_PROCESS').AsInteger := sqlProcessID_PROCESS.AsInteger;
    sqlParcelas.Params.ParamByName('TABLENAME').AsString   := TBHeader;
    sqlParcelas.Open;
+
    varTotal := 0;
    rlMaterial.Caption := '0.00';
    rlLabor.Caption    := '0.00';
@@ -1397,6 +1402,7 @@ begin
    rlMaterialDesc.Caption := '';
    rlLaborDesc.Caption := '';
    sqlParcelas.First;
+
    while not sqlParcelas.Eof do
    begin
       varTotal := varTotal + sqlParcelasVALUE.AsFloat;
@@ -2099,7 +2105,7 @@ begin
    pnlBtnLateral.Enabled     := cmbStatus.ItemIndex = 0;
    pnlServiceTop.Enabled     := cmbStatus.ItemIndex = 0;
    cxGridTasks.Enabled       := cmbStatus.ItemIndex = 0;
-
+   frmEstimate.Caption := frmEstimate.Caption + ' - Edit';
 end;
 
 procedure TfrmEstimate.ButAlterarItemClick(Sender: TObject);
@@ -2216,6 +2222,7 @@ begin
   ButProcessOff('FFF');
   sqlTerms.Close;
   Initialize;
+  frmEstimate.Caption := frmEstimate.Caption + ' - Create';
   edtCliente.SetFocus;
 
 end;
@@ -2348,6 +2355,8 @@ begin
 
    if ((edtCliente.Text = '') or (edtCliente.bs_KeyValues.Count = 0)) then
    begin
+
+
        if edtCustomerName.Text = '' then
        begin
           varRetorno := False;
@@ -2418,12 +2427,31 @@ begin
            Exit;
         end;
 
-        if ((edtCliente.bs_KeyValues.Count > 0) and (edtCliente.Text <> '' )) then
-          GenerateFolder(Copy(cbxCustomerType.Text,4,2), edtCliente.bs_KeyValue);
-
    end;
 
   end;
+
+
+  if ((edtCliente.bs_KeyValues.Count > 0) and (edtCliente.Text <> '' )) then
+  begin
+        GenerateFolder(Copy(cbxCustomerType.Text,4,2), edtCliente.bs_KeyValue);
+        sqlAux.Close;
+        sqlAux.SQL.Clear;
+        sqlAux.SQL.Add('Update TBCustomer');
+        sqlAux.SQL.Add('Set EMAIL = :EMAIL');
+        sqlAux.SQL.Add(' Where ID_CUSTOMER = :ID_CUSTOMER');
+        sqlAux.Params.ParamByName('EMAIL').AsString := edtEmail.Text;
+        sqlAux.Params.ParamByName('ID_CUSTOMER').AsInteger := edtCliente.bs_KeyValue;
+        Try
+          sqlAux.ExecSQL;
+
+        except
+           on E: EDatabaseError do
+             Mens_MensErro(E.ClassName+' error raised, with message : '+E.Message);
+
+        end;
+  end;
+
   Result := varRetorno;
 end;
 
@@ -2516,13 +2544,13 @@ begin
 
               edtTotal.EditValue := sqlProcessTOTAL.AsFloat;
 
-             if ((TBHeader = ESTIMATE_HEADER) or (TBHeader = ORDER_HEADER )) then
+             if (TBHeader = ORDER_HEADER ) then
              begin
                if varGlobalID_Process <> 0 then
                begin
                    sqlPurchase.Close;
                    sqlPurchase.Params.ParamByName('id_process').AsInteger := varGlobalID_Process;
-                   sqlPurchase.Params.ParamByName('tablename').AsString   := 'TBORDER_ITEM';
+                   sqlPurchase.Params.ParamByName('tablename').AsString   := TBItem;
                    sqlPurchase.Open;
                    if not sqlPurchase.IsEmpty then
                    begin
@@ -2759,7 +2787,7 @@ begin
   begin
       if ((UpperCase(edtProduto.bs_KeyValues[1]) <> 'CARPET') AND  (UpperCase(edtProduto.bs_KeyValues[1]) <> 'VINYL')) then
       begin
-        if ((EdtQty.Text = '') or (EdtQty.Text = '0') or (StrToInt(edtQty.Text) < 0)) then
+        if ((EdtQty.Text = '') or (EdtQty.Text = '0') or (StrToFloat(edtQty.Text) < 0)) then
         begin
            Mens_MensInf('Qty field is required or Qty Field cannot be less than or equal 0') ;
            EdtQty.SetFocus;
@@ -3295,8 +3323,9 @@ begin
     GenerateFolder(Copy(cbxCustomerType.Text,4,2), edtCliente.bs_KeyValue);
     cxLookupComboBoxPrincing.Enabled := True;
 
-    if edtCliente.bs_KeyValues[16] <> '' then
+    if ((edtCliente.bs_KeyValues[16] <> '') and (edtCliente.bs_KeyValues[16] <> '0')) then
     begin
+
       cxLookupComboBoxPrincing.EditValue := edtCliente.bs_KeyValues[16];
       cxLookupComboBoxPrincing.Enabled := False;
     end;

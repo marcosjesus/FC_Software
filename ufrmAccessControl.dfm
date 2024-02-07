@@ -309,7 +309,9 @@ object frmAccessControl: TfrmAccessControl
   object sqlMenu: TFDQuery
     Connection = DBDados.FDConnection
     SQL.Strings = (
-      'select * from TBMENU order by  menus, Screens ')
+      
+        'select * from TBMENU  where actions is null order by  menus, Scr' +
+        'eens ')
     Left = 208
     Top = 147
     object sqlMenuID_MENU: TFDAutoIncField

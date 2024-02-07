@@ -509,38 +509,7 @@ procedure TSalesProcess.SaveSampleBoard;
   sqlDados : TFDQuery;
   Customer : TCustomer;
 begin
-  varNewCustomer := 0;
-  varNewAddress  := 0;
-  Customer := TCustomer.Create;
   Try
-  Try
-
-      varNextKey  := TDBNextKey.Create('TBCUSTOMER');
-      Try
-        varNewCustomer              := varNextKey.Key;
-        varNextKey.UpdateKey(varNewCustomer, 'TBCUSTOMER'); // atualiza a nova chave no banco
-      Finally
-        FreeAndNil(varNextKey);
-      End;
-
-      Customer.Id_customer := varNewCustomer;
-      // Saving Customer
-      Customer.Save;
-
-
-      varNextKey := TDBNextKey.Create('TBADDRESS');
-      Try
-          varNewAddress := varNextKey.Key;
-      Finally
-         varNextKey.UpdateKey(varNextKey.Key, 'TBADDRESS'); // atualiza a nova chave no banco
-         FreeAndNil(varNextKey);
-      End;
-
-      Customer.Address[0].Id_Address := varNewAddress;
-      Customer.Address[0].Id_Customer :=varNewCustomer;
-      // Saving Customer´s Address
-      Customer.Address[0].Save;
-
 
        with DBDados do
        begin
@@ -554,7 +523,7 @@ begin
             sqlDados.SQL.Add('Insert into TBSAMPLECHECKOUT (ID_SAMPLECHECKOUT, ID_CUSTOMER, DATE_CHECKOUT, DATE_RETURN, ABOUTUS, ID_USER)');
             sqlDados.SQL.Add(' Values (:ID_SAMPLECHECKOUT, :ID_CUSTOMER, :DATE_CHECKOUT, :DATE_RETURN, :ABOUTUS, :ID_USER) ');
             sqlDados.Params.ParamByName('ID_SAMPLECHECKOUT').AsInteger := id_process;
-            sqlDados.Params.ParamByName('ID_CUSTOMER').AsInteger       := Customer.id_customer;
+            sqlDados.Params.ParamByName('ID_CUSTOMER').AsInteger       := id_customer;
             sqlDados.Params.ParamByName('DATE_CHECKOUT').AsString      := FormatDateTime('mm/dd/yyyy hh:mm:ss', dt_process);
             sqlDados.Params.ParamByName('DATE_RETURN').AsString        := FormatDateTime('mm/dd/yyyy hh:mm:ss', dt_process_valid);
             sqlDados.Params.ParamByName('ABOUTUS').AsString            := comments;
@@ -576,10 +545,6 @@ begin
         Mens_MensErro(E.ClassName + ' error raised, with message : '+E.Message);
 
   end;
-  Finally
-    FreeAndNil(Customer);
-  End;
-
 end;
 
 procedure TSalesProcess.Search(varTableName : String; varID_Process: Integer);

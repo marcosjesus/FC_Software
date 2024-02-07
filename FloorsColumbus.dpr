@@ -48,7 +48,12 @@ uses
   ufrmDashBoard in 'ufrmDashBoard.pas' {frmDashBoard},
   ufrmRelDashBoard in 'ufrmRelDashBoard.pas' {frmRelDashBoard},
   uDMReport in 'uDMReport.pas' {DMReport: TDataModule},
-  ufrmDashSale in 'ufrmDashSale.pas' {frmDashSale};
+  ufrmDashSale in 'ufrmDashSale.pas' {frmDashSale},
+  uFrmTransacao in 'uFrmTransacao.pas' {frmTransacao},
+  uFrmVincularCentroCusto in 'uFrmVincularCentroCusto.pas' {frmVincularCentroCusto},
+  ufrmAddCostCenter in 'ufrmAddCostCenter.pas' {frmAddCostCenter},
+  uFrmAddTransacao in 'uFrmAddTransacao.pas' {frmAddTransacao},
+  ItemTransaction in 'ItemTransaction.pas';
 
 {$R *.res}
 

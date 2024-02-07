@@ -3,6 +3,8 @@ unit ufrmDashBoard;
 interface
 
 uses
+  uFunctions,
+  uSetupFolder,
   cxGridDBDataDefinitions,  cxCurrencyEdit,   uDMReport, MensFun,
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, cxGraphics, cxControls,
@@ -30,7 +32,7 @@ uses
   cxDataStorage, cxNavigator, cxGridCustomTableView, cxGridTableView,
   cxGridDBTableView, cxGridBandedTableView, cxGridDBBandedTableView,
   Vcl.CategoryButtons, Vcl.Mask, Vcl.DBCtrls, cxGroupBox, cxRadioGroup,
-  cxLookupEdit, cxDBLookupEdit, cxDBLookupComboBox;
+  cxLookupEdit, cxDBLookupEdit, cxDBLookupComboBox, RLFilters, RLPDFFilter;
 
 type
   TfrmDashBoard = class(TForm)
@@ -149,6 +151,7 @@ type
     cxStartFilterUser: TcxDateEdit;
     cxEndFilterUser: TcxDateEdit;
     btnFilterUser: TSpeedButton;
+    RLPDFFilter1: TRLPDFFilter;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormActivate(Sender: TObject);
     procedure cxComboBoxOptionClick(Sender: TObject);
@@ -489,6 +492,9 @@ procedure TfrmDashBoard.btnPrintClick(Sender: TObject);
 var
   myDate   : TDateTime;
   ano, mes, dia : word;
+  sqlDados : TFDQuery;
+  varID_MENU : Integer;
+  I : Integer;
 begin
 
  if sqlGrid.IsEmpty = True  then  Exit;
@@ -533,7 +539,7 @@ begin
              end
              else if varGlobalOption = 4 then // Received
              begin
-              sqlGrid.SQL.Add('WHERE R.PAYMENT_STATUS = ''PAID'' ');
+              sqlGrid.SQL.Add('WHERE R.PAYMENT_STATUS = ''RECEIVED'' ');
               sqlGrid.SQL.Add('AND R.DATE_DUE >= :DT_INI AND R.DATE_DUE <= :DT_FIM ');
               sqlGrid.ParamByName( 'DT_INI' ).AsDate := System.DateUtils.StartOfTheMonth(myDate);
               sqlGrid.ParamByName( 'DT_FIM' ).AsDate := System.DateUtils.EndOfTheMonth(myDate);
@@ -544,7 +550,9 @@ begin
               sqlGrid.ParamByName( 'DT_INI' ).AsDate := System.DateUtils.StartOfTheMonth(myDate);
               sqlGrid.ParamByName( 'DT_FIM' ).AsDate := System.DateUtils.EndOfTheMonth(myDate);
              end;
-
+             sqlGrid.SQL.Add(' &WHERE1 ');
+             sqlGrid.MacroByName( 'WHERE1' ).AsRaw := ' AND R.' + DBDados.varReturnCompanies;
+             DBDados.TPEMAIL := RECEIVABLE_REPORT;
            end
            else if cxComboBoxOption.ItemIndex = 1 then
            begin
@@ -586,9 +594,10 @@ begin
               sqlGrid.ParamByName( 'DT_FIM' ).AsDate := System.DateUtils.EndOfTheMonth(myDate);
              end;
 
+             sqlGrid.SQL.Add(' &WHERE1 ');
+             sqlGrid.MacroByName( 'WHERE1' ).AsRaw := ' AND P.' + DBDados.varReturnCompanies;
+             DBDados.TPEMAIL := PAYABLE_REPORT;
            end;
-           sqlGrid.SQL.Add(' &WHERE1 ');
-           sqlGrid.MacroByName( 'WHERE1' ).AsRaw := ' AND ' + DBDados.varReturnCompanies;
 
            sqlGrid.Open;
            if varFiltro <> '' then
@@ -602,6 +611,55 @@ begin
 
     frmRelDashBoard.varSubTitle := varSubTitle;
     frmRelDashBoard.varTitle := 'Account ' + cxComboBoxOption.Text;
+    varID_MENU := 0;
+    sqlDados := TFDQuery.Create(Nil);
+    Try
+      sqlDados.Connection := DBDados.Connection;
+      sqlDados.Close;
+      sqlDados.SQL.Clear;
+      sqlDados.SQL.Add('Select ISNULL(ID_MENU,0) as ID_MENU From TBMENU where Actions = :Actions');
+      sqlDados.Params.ParamByName('Actions').AsString := DBDados.TPEMAIL;
+      sqlDados.Open;
+      if not sqlDados.IsEmpty then
+          varID_MENU := sqlDados.FieldByName('ID_MENU').AsInteger;
+
+
+      if varID_MENU <> 0 then
+      begin
+          sqlDados.Close;
+          sqlDados.SQL.Clear;
+          sqlDados.SQL.Add('SELECT U.ID_USER, (U.FIRST_NAME + '' '' + U.LASTNAME) AS USUARIO, EMAIL  FROM ');
+          sqlDados.SQL.Add('TBUSER_SPECIAL_PER E ');
+          sqlDados.SQL.Add('INNER JOIN TBUSER U ON U.ID_USER = E.ID_USER ');
+          sqlDados.SQL.Add('WHERE E.ID_MENU = :ID_MENU ');
+          sqlDados.Params.ParamByName('ID_MENU').AsInteger := varID_MENU;
+          sqlDados.Open;
+          if not sqlDados.IsEmpty then
+          begin
+            SetLength(DMReport.SendEmail, sqlDados.RecordCount);
+            sqlDados.First;
+            I := 0;
+            while not sqlDados.eof do
+            begin
+               GenerateFolderSupplier('USER', sqlDados.FieldByName('ID_USER').AsString);
+
+
+               DMReport.SendEmail[I].ID_Process    := sqlDados.FieldByName('ID_USER').AsInteger;
+               DMReport.SendEmail[I].CustomerEmail := sqlDados.FieldByName('EMAIL').AsString;
+               DMReport.SendEmail[I].Pasta         := 'USER_' + ZeroLeft(sqlDados.FieldByName('ID_USER').AsString,7);
+               DMReport.SendEmail[I].ID_Customer   := sqlDados.FieldByName('ID_USER').AsInteger;
+               DMReport.SendEmail[I].TBHeader      := '';
+               Inc(I);
+               sqlDados.Next;
+            end;
+
+          end;
+
+      end;
+
+    Finally
+      FreeAndNil(sqlDados);
+    End;
 
     FrmRelDashBoard.ReportFinance.Preview;
  Finally

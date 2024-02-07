@@ -183,7 +183,7 @@ end;
 procedure TfrmCreateAccount.ButNovoClick(Sender: TObject);
 begin
    cxPageControl1.ActivePage := cxTabSheetForm;
-    varOperacao := 'I';
+   varOperacao := 'I';
 end;
 
 function TfrmCreateAccount.ValidMainCompany : Integer;
@@ -364,7 +364,7 @@ begin
         cmbCompany.SetFocus;
         Exit;
       end;
-      
+
   end;
 
 
@@ -464,6 +464,7 @@ begin
           end;
       end;
   end;
+
  {
       if DBDados.varBanco = '1' then
       begin

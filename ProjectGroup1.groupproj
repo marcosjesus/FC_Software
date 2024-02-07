@@ -9,6 +9,9 @@
         <Projects Include="C:\Componentes\edtbusca\EdtBusca.dproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="..\TTEmailService\TTEmailService.dproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -35,14 +38,23 @@
     <Target Name="EdtBusca:Make">
         <MSBuild Projects="C:\Componentes\edtbusca\EdtBusca.dproj" Targets="Make"/>
     </Target>
+    <Target Name="TTEmailService">
+        <MSBuild Projects="..\TTEmailService\TTEmailService.dproj"/>
+    </Target>
+    <Target Name="TTEmailService:Clean">
+        <MSBuild Projects="..\TTEmailService\TTEmailService.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="TTEmailService:Make">
+        <MSBuild Projects="..\TTEmailService\TTEmailService.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="FloorsColumbus;EdtBusca"/>
+        <CallTarget Targets="FloorsColumbus;EdtBusca;TTEmailService"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="FloorsColumbus:Clean;EdtBusca:Clean"/>
+        <CallTarget Targets="FloorsColumbus:Clean;EdtBusca:Clean;TTEmailService:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="FloorsColumbus:Make;EdtBusca:Make"/>
+        <CallTarget Targets="FloorsColumbus:Make;EdtBusca:Make;TTEmailService:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

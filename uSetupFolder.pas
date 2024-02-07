@@ -18,6 +18,7 @@ Const
    Folder_Service   : String = 'Service';
    Folder_RequestOrder : String = 'RequestOrder';
    Folder_PurchaseOrder : String = 'PurchaseOrder';
+   Folder_SampleBoard : String = 'SampleBoard';
 
 
   procedure GenerateFolder(varInitial, varID : String);
@@ -47,6 +48,9 @@ begin
       Folder.CreateSubPasta;
 
       Folder.subpasta      := Folder_PurchaseOrder;
+      Folder.CreateSubPasta;
+
+      Folder.subpasta := Folder_SampleBoard;
       Folder.CreateSubPasta;
 
   Finally

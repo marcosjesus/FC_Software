@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2021/07/21 09:56:49.000.186,=C:\Users\aluga.com\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2021/07/21 10:48:01.000.627,=C:\Users\aluga.com\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2022/06/08 10:00:36.000.717,=C:\Users\aluga.com\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2022/06/08 10:01:33.000.311,C:\Users\aluga.com\Documents\RAD Studio\Projects\Unit1.pas=C:\TTEmailService\uTTEmailService.pas</Transaction>
+    <Transaction>2022/06/08 10:01:33.000.311,C:\Users\aluga.com\Documents\RAD Studio\Projects\Unit1.dfm=C:\TTEmailService\uTTEmailService.dfm</Transaction>
+    <Transaction>2022/06/08 10:01:43.000.391,C:\Users\aluga.com\Documents\RAD Studio\Projects\Project1.dproj=C:\TTEmailService\TTEmailService.dproj</Transaction>
+    <Transaction>2022/06/08 10:02:14.000.035,C:\TTEmailService\uTTEmailService.dfm=C:\TTEmailService\UDados.dfm</Transaction>
+    <Transaction>2022/06/08 10:02:14.000.035,C:\TTEmailService\uTTEmailService.pas=C:\TTEmailService\UDados.pas</Transaction>
+    <Transaction>2024/02/05 14:52:32.000.545,C:\Users\aluga.com\Documents\RAD Studio\Projects\TTEmailService\UDados.pas=</Transaction>
+    <Transaction>2024/02/05 14:54:18.000.040,=C:\Users\aluga.com\Documents\RAD Studio\Projects\TTEmailService\UDados.pas</Transaction>
+  </Transactions>
+</BorlandProject>

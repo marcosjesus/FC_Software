@@ -185,9 +185,17 @@ begin
    sqlCustomer.Close;
    varUnique := True;
    SeekID;
-   LoadDash;
-   OpenCustomer;
-   CustomerCombo.Text := sqlCustomer.FieldByName('Name').AsString;
+   if varID_Customer <> 0 then
+   begin
+     LoadDash;
+     OpenCustomer;
+     CustomerCombo.Text := sqlCustomer.FieldByName('Name').AsString;
+   end
+   else
+   begin
+     Mens_MensInf('Record not Found.') ;
+     exit;
+   end;
   end
   else
   begin
@@ -468,7 +476,8 @@ begin
   if var_Operation = 'COUNT' then
   begin
     varSQL := 'SELECT ISNULL(COUNT(1),0) AS TOTAL FROM TBPAYABLE A ';
-    varSQL :=  varSQL + ' INNER JOIN TBPROCESS B ON B.ID_PROCESS = A.INVOICE_ID AND  B.TABLENAME = ''TBINVOICE'' ';
+    varSQL :=  varSQL + ' INNER JOIN TBPROCESS B ON B.ID_PROCESS = A.INVOICE_ID AND B.TABLENAME = ''TBINVOICE'' ';
+    varSQL :=  varSQL + ' LEFT OUTER JOIN TBSERVICE C ON C.ID_PROCESS = B.ID_PROCESS AND C.TABLENAME = B.TABLENAME ';
     varSQL :=  varSQL + ' WHERE A.PAYMENT_STATUS = :STATUS ' ;
     varSQL :=  varSQL + ' AND B.ID_CUSTOMER = :ID_CUSTOMER &WHERE1 ';
   end
@@ -476,7 +485,8 @@ begin
   if var_Operation = 'SUM' then
   begin
     varSQL := 'SELECT ISNULL(SUM(PAYMENT_AMOUNT),0)  AS TOTAL FROM TBPAYABLE A ';
-    varSQL :=  varSQL + ' INNER JOIN TBPROCESS B ON B.ID_PROCESS = A.INVOICE_ID AND  B.TABLENAME = ''TBINVOICE'' ';
+    varSQL :=  varSQL + ' INNER JOIN TBPROCESS B ON B.ID_PROCESS = A.INVOICE_ID AND B.TABLENAME = ''TBINVOICE'' ';
+    varSQL :=  varSQL + ' LEFT OUTER JOIN TBSERVICE C ON C.ID_PROCESS = B.ID_PROCESS AND C.TABLENAME = B.TABLENAME ';
     varSQL :=  varSQL + ' WHERE A.PAYMENT_STATUS = :STATUS ' ;
     varSQL :=  varSQL + ' AND B.ID_CUSTOMER = :ID_CUSTOMER &WHERE1 ';
   end;
@@ -588,18 +598,36 @@ begin
      varInvoice   := '';
      sqlAux.Close;
      sqlAux.SQL.Clear;
-     sqlAux.SQL.Add('Select ID_Process , ID_CUSTOMER FROM TBProcess where ID_Process = :ID_Process &WHERE0 &WHERE1 ');
+     sqlAux.SQL.Add('Select ID_Process , ID_CUSTOMER FROM TBProcess where ID_Process = :ID_Process &WHERE0 &WHERE1 &WHERE2 ');
      sqlAux.Params.ParamByName('ID_Process').AsInteger  := StrToInt(edtCampo.Text);
 
      if sqlCustomer.Active then
        sqlAux.MacroByName( 'WHERE0' ).AsRaw := ' AND ID_Customer  = ' + sqlCustomerID_CUSTOMER.AsString;
 
      if rgTable.ItemIndex = 0 then
-       sqlAux.MacroByName( 'WHERE1' ).AsRaw := ' AND TABLENAME  = ''TBESTIMATE'''
+     begin
+       sqlAux.MacroByName( 'WHERE1' ).AsRaw := ' AND TABLENAME  = ''TBESTIMATE''';
+       if DBDados.varView_All_Quotation = False then
+         sqlAux.MacroByName( 'WHERE2' ).AsRaw := ' AND ID_USER = ' + IntToStr(DBDados.varID_USER)
+       else  sqlAux.MacroByName( 'WHERE2' ).AsRaw := '';
+
+
+     end
      else if  rgTable.ItemIndex = 1 then
-       sqlAux.MacroByName( 'WHERE1' ).AsRaw := ' AND TABLENAME  = ''TBORDER'''
+     begin
+       sqlAux.MacroByName( 'WHERE1' ).AsRaw := ' AND TABLENAME  = ''TBORDER''';
+       if DBDados.varView_All_Orders = False then
+         sqlAux.MacroByName( 'WHERE2' ).AsRaw := ' AND ID_USER = ' + IntToStr(DBDados.varID_USER)
+       else sqlAux.MacroByName( 'WHERE2' ).AsRaw := '';
+
+     end
      else if  rgTable.ItemIndex = 2 then
+     begin
        sqlAux.MacroByName( 'WHERE1' ).AsRaw := ' AND TABLENAME  = ''TBINVOICE''';
+       if DBDados.varView_All_Invoices = False then
+         sqlAux.MacroByName( 'WHERE2' ).AsRaw := ' AND ID_USER = ' + IntToStr(DBDados.varID_USER)
+       else  sqlAux.MacroByName( 'WHERE2' ).AsRaw := '';
+     end;
 
      sqlAux.Open;
      if not sqlAux.IsEmpty then

@@ -28,7 +28,7 @@ object frmCompany: TfrmCompany
     Height = 509
     Align = alClient
     TabOrder = 0
-    Properties.ActivePage = cxTabSheetForm
+    Properties.ActivePage = cxTabSheetList
     Properties.CustomButtons.Buttons = <>
     OnChange = cxPageControlChange
     ClientRectBottom = 505
@@ -511,8 +511,9 @@ object frmCompany: TfrmCompany
                 Caption = 'Tax'
               end
               object edtEstimates: TcxMaskEdit
-                Left = 125
-                Top = 4
+                Left = 119
+                Top = 3
+                Properties.MaxLength = 3
                 TabOrder = 0
                 OnKeyPress = edtEstimatesKeyPress
                 Width = 121
@@ -528,6 +529,7 @@ object frmCompany: TfrmCompany
                 Font.Height = -11
                 Font.Name = 'Tahoma'
                 Font.Style = []
+                MaxLength = 2
                 ParentFont = False
                 TabOrder = 1
                 OnKeyPress = EdtTaxKeyPress
@@ -552,6 +554,10 @@ object frmCompany: TfrmCompany
           object cxTabSheet1: TcxTabSheet
             Caption = 'Bank Account'
             ImageIndex = 1
+            ExplicitLeft = 0
+            ExplicitTop = 0
+            ExplicitWidth = 0
+            ExplicitHeight = 0
             object cxGrid3: TcxGrid
               Left = 0
               Top = 0

@@ -1,0 +1,60 @@
+object Fr_Dados: TFr_Dados
+  OldCreateOrder = False
+  Height = 385
+  Width = 647
+  object FDManager1: TFDManager
+    FormatOptions.AssignedValues = [fvMapRules]
+    FormatOptions.OwnMapRules = True
+    FormatOptions.MapRules = <>
+    Active = True
+    Left = 40
+    Top = 8
+  end
+  object FDPhysPgDriverLink1: TFDPhysPgDriverLink
+    VendorHome = 'C:\Treinamento_Service\lib'
+    Left = 168
+    Top = 8
+  end
+  object FDGUIxWaitCursor1: TFDGUIxWaitCursor
+    Provider = 'Forms'
+    Left = 297
+    Top = 9
+  end
+  object FDConnection: TFDConnection
+    Params.Strings = (
+      'Server=ec2-54-175-147-69.compute-1.amazonaws.com'
+      'Database=d3bcgkuki08dsr'
+      'User_Name=tjwsirltxovtbw'
+      
+        'Password=ad1bd1363786c02a92a8fd2627f1e604a90d4220c5e4f120bc3bf62' +
+        'f09d70d6d'
+      'DriverID=PG')
+    LoginPrompt = False
+    Left = 40
+    Top = 80
+  end
+  object sqlAux: TFDQuery
+    Connection = FDConnection
+    SQL.Strings = (
+      
+        'SELECT table_name FROM information_schema.tables WHERE table_sch' +
+        'ema = '#39'public'#39';')
+    Left = 40
+    Top = 144
+    object sqlAuxtable_name: TWideStringField
+      FieldName = 'table_name'
+      Origin = 'table_name'
+      Size = 64
+    end
+  end
+  object dsAux: TDataSource
+    DataSet = sqlAux
+    Left = 40
+    Top = 224
+  end
+  object sqlAux2: TFDQuery
+    Connection = FDConnection
+    Left = 184
+    Top = 144
+  end
+end

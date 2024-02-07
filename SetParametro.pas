@@ -6,7 +6,7 @@ uses
   uDMConectDB, SysUtils, Classes, Forms, Windows, ExtCtrls, menus,  EditBusca, Graphics;
 
 type
-  TTipoConsulta = (TipoProduct, TipoVendorPricingTable, TipoCustomer, TipoCustomerCompany, TipoContractor, TipoPricingTable, TipoSupplier, TipoProduto, TipoProdutoVendas, TipoCliente, TipoFornecedorX, TipoItensFaturado, TipoProdutoFornecedor, TipoCompras,
+  TTipoConsulta = (TipoSample, TipoProduct, TipoVendorPricingTable, TipoCustomer, TipoCustomerCompany, TipoContractor, TipoPricingTable, TipoSupplier, TipoProduto, TipoProdutoVendas, TipoCliente, TipoFornecedorX, TipoItensFaturado, TipoProdutoFornecedor, TipoCompras,
                    TipoProdutoMateria, TipoHistoricoInteracao, TipoVendas, TipoCentroCusto, TipoTransportadora,
                    TipoVendedor, TipoHistoricoVendas, TipoProdutoEspecie, TipoComposicaoCPV, TipoBanco, TipoGrupo, TipoPlanoContas,
                    TipoMarca, TipoMarcaProduto, TipoCargo, TipoProfissao, TipoContatoFornecedor, TipoContatoCliente, TipoNatureza,
@@ -58,6 +58,23 @@ begin
   CaixaTexto.bs_SetColor  := False;
 
 
+  if TipoConsulta = TipoSample then
+  begin
+    CaixaTexto.bs_Caption := 'Sample Table';
+    CaixaTexto.bs_Table := 'TBSAMPLE S With (NOLOCK)';
+    CaixaTexto.bs_Fields.Add('S.ID_SAMPLE;ID;;' + inttostr(WIDTH_CODIGO));                           //0
+    CaixaTexto.bs_Fields.Add('F.NAMEBUSINESS;MANUFACTURER;;' + inttostr(WIDTH_DOCUMENTO));            //1
+    CaixaTexto.bs_Fields.Add('S.PRODUCT_NAME;PRODUCT NAME;;' + inttostr(WIDTH_DOCUMENTO));           //2
+    CaixaTexto.bs_Fields.Add('S.PRODUCT_DESC;DESCRIPTION;;' + inttostr(WIDTH_DOCUMENTO));                   //5
+
+    CaixaTexto.bs_Join :=  ' LEFT OUTER JOIN TBSUPPLIER F ON F.ID_SUPPLIER = S.ID_SUPPLIER';
+
+
+    CaixaTexto.bs_TextResult := 'PRODUCT_NAME';
+    CaixaTexto.bs_KeyField   := 'ID_SAMPLE';
+
+  end
+  else
   if TipoConsulta = TipoProduct then
   begin
     CaixaTexto.bs_Caption := 'Product Table';
@@ -1486,8 +1503,9 @@ begin
   else if Tabela = 'TBCUSTOMER' then
     SetParametros(EditBusca, TipoCustomerCompany )
   else if Tabela = 'TBPRODUCT' then
-    SetParametros(EditBusca, TipoProduct );
-
+    SetParametros(EditBusca, TipoProduct )
+  else if Tabela = 'TBSAMPLE' then
+    SetParametros(EditBusca, TipoSample );
 
 
 end;

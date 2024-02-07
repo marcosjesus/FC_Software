@@ -701,10 +701,12 @@ begin
        sqlAux.Close;
        sqlAux.SQL.Clear;
        sqlAux.SQL.Add('Update TBTERMS' );
-       sqlAux.SQL.Add(' SET DESCRIPTION = DESCRIPTION + '' PAID'' ');
+       sqlAux.SQL.Add(' SET DESCRIPTION = DESCRIPTION + '' PAID'', PAYMENT_STATUS = :PAYMENT_STATUS ');
        sqlAux.SQL.Add(' WHERE TABLENAME = ''TBINVOICE'' AND GROUPX = :GROUPX  AND ID_PROCESS = :ID_PROCESS');
        sqlAux.Params.ParamByName('ID_PROCESS').AsInteger := StrToInt(invoice_id);
        sqlAux.Params.ParamByName('GROUPX').AsString      := groupx;
+       sqlAux.Params.ParamByName('PAYMENT_STATUS').AsString  := payment_status;
+
        SqlAux.ExecSQL;
 
        if id_bankstatement = 0 then

@@ -87,7 +87,7 @@ type
     sqlGridBrandID_USER: TIntegerField;
     sqlGridBrandPROFIT_MIN: TFloatField;
     sqlGridBrandPROFIT_REGULAR: TFloatField;
-    cxTabSheet1: TcxTabSheet;
+    TabService: TcxTabSheet;
     cxGrid3: TcxGrid;
     cxGridDBTableView3: TcxGridDBTableView;
     cxGridLevel3: TcxGridLevel;
@@ -97,6 +97,33 @@ type
     sqlServiceID_LABOR: TFDAutoIncField;
     sqlServiceDESCRIPTION: TStringField;
     sqlServiceID_TYPEBRAND: TIntegerField;
+    TabInstallments: TcxTabSheet;
+    cxGrid4: TcxGrid;
+    cxGridDBTableView4: TcxGridDBTableView;
+    cxGridLevel4: TcxGridLevel;
+    sqlInstallments: TFDQuery;
+    dsInstallments: TDataSource;
+    sqlInstallmentsID_INSTALLMENTS: TFDAutoIncField;
+    sqlInstallmentsDESCRIPTION: TStringField;
+    sqlInstallmentsINTERVAL: TIntegerField;
+    sqlInstallmentsQTDEDAYS: TIntegerField;
+    cxGridDBTableView4DESCRIPTION: TcxGridDBColumn;
+    cxGridDBTableView4INTERVAL: TcxGridDBColumn;
+    cxGridDBTableView4QTDEDAYS: TcxGridDBColumn;
+    sqlSample: TFDQuery;
+    dsSample: TDataSource;
+    sqlSampleID_SAMPLE: TFDAutoIncField;
+    sqlSampleID_SUPPLIER: TIntegerField;
+    sqlSamplePRODUCT_NAME: TStringField;
+    sqlSamplePRODUCT_DESC: TStringField;
+    sqlSampleID_USER: TIntegerField;
+    sqlSampleADD_DATE: TSQLTimeStampField;
+    sqlSampleUPD_DATE: TSQLTimeStampField;
+    cxGridDBTableView2ID_SUPPLIER: TcxGridDBColumn;
+    cxGridDBTableView2PRODUCT_NAME: TcxGridDBColumn;
+    cxGridDBTableView2PRODUCT_DESC: TcxGridDBColumn;
+    sqlSupplierID_SUPPLIER: TIntegerField;
+    sqlSupplierNAMEBUSINESS: TStringField;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure sqlGridTypeAfterEdit(DataSet: TDataSet);
     procedure sqlGridTypeNewRecord(DataSet: TDataSet);
@@ -148,7 +175,13 @@ begin
   sqlGridBrand.Close;
   sqlGridRoom.Close;
   sqlService.Close;
+  sqlInstallments.Close;
+  sqlSupplier.Close;
+  sqlSample.Close;
 
+  sqlSample.Open;
+  sqlSupplier.Open;
+  sqlInstallments.Open;
   sqlGridType.Open;
   sqlGridBrand.Open;
   sqlGridRoom.Open;
@@ -160,6 +193,7 @@ begin
    Supplier := TSupplier.Create;
    varLista := TStringList.Create;
    varLista := Supplier.Lista(varLista);
+
 end;
 
 procedure TFrmBrandType.sqlGridBrandAfterEdit(DataSet: TDataSet);

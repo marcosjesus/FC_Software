@@ -227,6 +227,23 @@
             <Form>frmDashSale</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="uFrmTransacao.pas">
+            <Form>frmTransacao</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="uFrmVincularCentroCusto.pas">
+            <Form>frmVincularCentroCusto</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="ufrmAddCostCenter.pas">
+            <Form>frmAddCostCenter</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="uFrmAddTransacao.pas">
+            <Form>frmAddTransacao</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="ItemTransaction.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

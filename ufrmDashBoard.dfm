@@ -72,7 +72,7 @@ object frmDashBoard: TfrmDashBoard
         Font.Style = []
         ParentFont = False
         TabOrder = 0
-        Properties.ActivePage = cxTabSheetTopBoth
+        Properties.ActivePage = cxTabSheetTopUnique
         Properties.CustomButtons.Buttons = <>
         Properties.HideTabs = True
         ClientRectBottom = 119
@@ -241,10 +241,6 @@ object frmDashBoard: TfrmDashBoard
           ImageIndex = 1
           ParentFont = False
           TabVisible = False
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
           object btnuqvencidos: TSpeedButton
             Tag = 1
             Left = 174
@@ -781,7 +777,7 @@ object frmDashBoard: TfrmDashBoard
     Font.Style = []
     ParentFont = False
     TabOrder = 1
-    Properties.ActivePage = cxTabSheetDetail
+    Properties.ActivePage = cxTabSheetChart
     Properties.CustomButtons.Buttons = <>
     Properties.HideTabs = True
     ClientRectBottom = 375
@@ -797,10 +793,6 @@ object frmDashBoard: TfrmDashBoard
       Font.Style = []
       ImageIndex = 0
       ParentFont = False
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object Panel2: TPanel
         Left = 0
         Top = 0
@@ -1501,5 +1493,13 @@ object frmDashBoard: TfrmDashBoard
       ReadOnly = True
       Size = 46
     end
+  end
+  object RLPDFFilter1: TRLPDFFilter
+    DocumentInfo.Creator = 
+      'FortesReport Community Edition v4.0.0.1 \251 Copyright '#169' 1999-20' +
+      '21 Fortes Inform'#225'tica'
+    DisplayName = 'PDF Document'
+    Left = 544
+    Top = 272
   end
 end

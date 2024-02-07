@@ -126,7 +126,7 @@ type
     dxMemDataEmailPHONE1: TStringField;
     dxMemDataEmailPHONE2: TStringField;
     dxMemDataEmailTYPEOFADDRESS: TStringField;
-    cxButton1: TcxButton;
+    btnPrint: TcxButton;
     sqlGridADDRESS1: TStringField;
     sqlGridZIPCODE: TStringField;
     sqlGridCITY: TStringField;
@@ -182,7 +182,7 @@ type
     sqlEmailID_CONTACT: TIntegerField;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure ButSairClick(Sender: TObject);
-    procedure cxButton1Click(Sender: TObject);
+    procedure btnPrintClick(Sender: TObject);
     procedure sqlGridAfterPost(DataSet: TDataSet);
     procedure cxGridDBTableView1CellClick(Sender: TcxCustomGridTableView;
       ACellViewInfo: TcxGridTableDataCellViewInfo; AButton: TMouseButton;
@@ -222,7 +222,7 @@ begin
   Close;
 end;
 
-procedure TfrmRequestOrder.cxButton1Click(Sender: TObject);
+procedure TfrmRequestOrder.btnPrintClick(Sender: TObject);
 var
  I : Integer;
 begin
@@ -258,6 +258,10 @@ begin
 
    DMReport.SendEmail[i].Pasta           := sqlGridFOLDER.AsString;
    ReportSale.Preview;
+
+   sqlGrid.Close;
+   sqlGrid.Open;
+
 end;
 
 procedure TfrmRequestOrder.cxGridDBTableView1CellClick(

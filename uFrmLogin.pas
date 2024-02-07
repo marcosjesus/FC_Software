@@ -3,7 +3,7 @@ unit uFrmLogin;
 interface
 
 uses
-
+  uSetupFolder,
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, cxGraphics, cxControls,
   cxLookAndFeels, cxLookAndFeelPainters, cxContainer, cxEdit, dxSkinsCore,
@@ -113,13 +113,16 @@ begin
     end
     else
     begin
-        DBDados.varID          := EdiUsuario.Text;
+        DBDados.varID           := EdiUsuario.Text;
         varComputerName         := sqlAux.FieldByName('COMPUTERNAME').AsString;
         DBDados.varUsuario      := sqlAux.FieldByName('FIRST_NAME').AsString;
         DBDados.varID_USER      := sqlAux.FieldByName('ID_User').AsInteger;
         DBDados.varIDMAIN_COMPANY :=  sqlAux.FieldByName('ID_COMPANY').AsInteger;
         DBDados.varID_POSITION  := sqlAux.FieldByName('ID_POSITION').AsInteger;
         DBDados.varUsuarioEmail := sqlAux.FieldByName('EMAIL').AsString;
+        DBDados.varID_Language  := 1;
+        GenerateFolderSupplier('USER',  IntToStr(DBDados.varID_USER));
+
 
      //   Dados.varID_Language  := sqlAux.FieldByName('ID_LANGUAGE').AsInteger;
         if varComputerName = '' then
@@ -150,6 +153,8 @@ begin
         end;
         }
     end;
+
+
   end;
 
   if varModalResult = 2 then

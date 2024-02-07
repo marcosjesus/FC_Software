@@ -34,7 +34,7 @@ object frmCustomerLP: TfrmCustomerLP
     Font.Style = []
     ParentFont = False
     TabOrder = 0
-    Properties.ActivePage = cxTabSheetForm
+    Properties.ActivePage = cxTabSheetList
     Properties.CustomButtons.Buttons = <>
     ClientRectBottom = 457
     ClientRectLeft = 4
